@@ -1,0 +1,430 @@
+{
+ "recordedAt": "2026-10-09T07:19:36.131Z",
+ "responses": [
+  {
+   "key": "GET /repos/vercel/next.js/releases?per_page=10",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8",
+    "link": "<https://api.github.com/repositories/70107786/releases?per_page=10&page=2>; rel=\"next\", <https://api.github.com/repositories/70107786/releases?per_page=10&page=390>; rel=\"last\"",
+    "x-ratelimit-limit": "5000",
+    "x-ratelimit-remaining": "4982",
+    "x-ratelimit-reset": "1791533356",
+    "x-ratelimit-resource": "core"
+   },
+   "body": [
+    {
+     "name": "v16.5.0-canary.5",
+     "tag_name": "v16.5.0-canary.5",
+     "published_at": "2026-10-08T23:55:20Z",
+     "created_at": "2026-10-08T23:25:50Z",
+     "prerelease": true,
+     "body": "### Misc Changes\n\n- Update error strings for a few deployment tests: #99886\n- Increase timeout on module-scope deployment test: #99891\n- Fix google tag manager e2e test, assume GTM 200s instead of 404ing: #99896\n\n### Credits \n\nHuge thanks to @bgw for helping!"
+    },
+    {
+     "name": "v16.5.0-canary.4",
+     "tag_name": "v16.5.0-canary.4",
+     "published_at": "2026-10-08T16:11:37Z",
+     "created_at": "2026-10-08T15:47:22Z",
+     "prerelease": true,
+     "body": "### Misc Changes\n\n- docs: align function sidebar titles: #99858\n- Fix telemetry delivery on Node.js 24: #99842\n- [test] Authenticate deploy tests via VERCEL_TOKEN instead of shared auth.json: #99846\n- Replace deprecated React.FormEvent with SubmitEvent: #99821\n- turbo-tasks-fs: Don't print NotFound "
+    },
+    {
+     "name": "v16.5.0-canary.3",
+     "tag_name": "v16.5.0-canary.3",
+     "published_at": "2026-10-07T23:50:30Z",
+     "created_at": "2026-10-07T23:24:04Z",
+     "prerelease": true,
+     "body": "### Misc Changes\n\n- Document `next analyze export` and skill are added in 16.4: #99738\n- create-next-app: write agent feedback block to AGENTS.md when enabled: #99813\n- [turbopack] fix some unused dependencies: #99825\n- Fix next-bundle-optimizer skill handoffs: #99818\n- [ci] Increase deploy test con"
+    },
+    {
+     "name": "v16.5.0-canary.2",
+     "tag_name": "v16.5.0-canary.2",
+     "published_at": "2026-10-07T07:40:30Z",
+     "created_at": "2026-10-07T07:18:25Z",
+     "prerelease": true,
+     "body": "### Misc Changes\n\n- [cd] Use pnpm to manage the version: #99041\n- fix: Bump vendored @mswjs/interceptors from 0.42.5 to 0.42.6: #99485\n- Turbopack: Minor cleanup from review of #99711: #99748\n- Exclude blocking spans from trace work accounting: #99685\n- Sample global trace concurrency across span ra"
+    },
+    {
+     "name": "v16.5.0-canary.1",
+     "tag_name": "v16.5.0-canary.1",
+     "published_at": "2026-10-06T23:52:54Z",
+     "created_at": "2026-10-06T23:26:09Z",
+     "prerelease": true,
+     "body": "### Misc Changes\n\n- [turbo-tasks] Experiment: capture snapshot pending bits under exclusion: #99747\n- Keep custom-route metadata outside configuration: #99508\n- turbo-tasks: copy tasks on their first modification during a snapshot: #99649\n- turbo-tasks: disable persisting after a failed snapshot: #9"
+    },
+    {
+     "name": "v16.5.0-canary.0",
+     "tag_name": "v16.5.0-canary.0",
+     "published_at": "2026-10-06T18:52:27Z",
+     "created_at": "2026-10-06T18:25:44Z",
+     "prerelease": true,
+     "body": "Initial release"
+    },
+    {
+     "name": "",
+     "tag_name": "v16.4.0",
+     "published_at": "2026-10-07T10:03:29Z",
+     "created_at": "2026-10-06T17:57:47Z",
+     "prerelease": false,
+     "body": "Check out the [16.4 announcement post](https://nextjs.org/blog/next-16-4) to get an overview of the changes.\r\n\r\n### Core Changes\r\n\r\n- Show compiler plugin warning in more situations: #75682\r\n- fix(scripts): correct typo in rm.mjs error message: #87015\r\n- docs: improve clarity and punctuation in READ"
+    },
+    {
+     "name": "v16.4.0-canary.63",
+     "tag_name": "v16.4.0-canary.63",
+     "published_at": "2026-10-06T17:29:39Z",
+     "created_at": "2026-10-06T17:05:42Z",
+     "prerelease": true,
+     "body": "### Misc Changes\n\n- Document next analyze export in the package bundling guide: #99735\n- Revert stabilization of `forbidden()` and `unauthorized()`: #99734\n- Preserve configured output directories during static export: #99507\n- Rename skill to next-bundle-optimizer and document its usage: #99731\n- ["
+    },
+    {
+     "name": "v16.4.0-canary.62",
+     "tag_name": "v16.4.0-canary.62",
+     "published_at": "2026-10-06T15:22:43Z",
+     "created_at": "2026-10-06T14:58:09Z",
+     "prerelease": true,
+     "body": "### Misc Changes\n\n- Improve static route error guidance: #99724\n- docs: add Turbopack experimental config references: #99723\n- Show choices for agent upgrade prompt: #99727\n- docs: add Keeping pages static guide and align the navigation stage docs: #99493\n- Turbopack: Check the invalidator map befor"
+    },
+    {
+     "name": "v16.4.0-canary.61",
+     "tag_name": "v16.4.0-canary.61",
+     "published_at": "2026-10-05T23:47:21Z",
+     "created_at": "2026-10-05T23:24:17Z",
+     "prerelease": true,
+     "body": "### Misc Changes\n\n- Turbopack: Cache canonicalized paths without turbo-tasks, try to find the longest cached prefix first: #99270\n- Record parameter matching usage in build metadata: #99594\n- Bundle Analyzer Agent Skill: Stream versioned analyzer graph as JSON Lines: #99387\n-  Revert \"Optimize esm e"
+    }
+   ]
+  },
+  {
+   "key": "GET /repos/vercel/next.js/tags?per_page=10",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8",
+    "link": "<https://api.github.com/repositories/70107786/tags?per_page=10&page=2>; rel=\"next\", <https://api.github.com/repositories/70107786/tags?per_page=10&page=410>; rel=\"last\"",
+    "x-ratelimit-limit": "5000",
+    "x-ratelimit-remaining": "4981",
+    "x-ratelimit-reset": "1791533356",
+    "x-ratelimit-resource": "core"
+   },
+   "body": [
+    {
+     "name": "@vercel/devlow-bench@0.3.4",
+     "commit": {
+      "sha": "8e19bb0e89e8ad3d915be9789e1b753cf715d04f"
+     }
+    },
+    {
+     "name": "@vercel/devlow-bench@0.3.3",
+     "commit": {
+      "sha": "1a144a571ea21622ab474ba5de983fd1af392eff"
+     }
+    },
+    {
+     "name": "v16.5.0-canary.5",
+     "commit": {
+      "sha": "6469906e7909c824f22a165ce858f7f42c978bdd"
+     }
+    },
+    {
+     "name": "v16.5.0-canary.4",
+     "commit": {
+      "sha": "7549879a48899af2a54e77c316d174fb6cde111e"
+     }
+    },
+    {
+     "name": "v16.5.0-canary.3",
+     "commit": {
+      "sha": "eeb353be511a223f41a9d8b517f685b14cfc4bb0"
+     }
+    },
+    {
+     "name": "v16.5.0-canary.2",
+     "commit": {
+      "sha": "ae745ba76ec38dc9ef6f1f6b202d8fcbea649aa5"
+     }
+    },
+    {
+     "name": "v16.5.0-canary.1",
+     "commit": {
+      "sha": "eaa7f65aede4dd9675545ed9b6aa6df675d63e83"
+     }
+    },
+    {
+     "name": "v16.5.0-canary.0",
+     "commit": {
+      "sha": "d43f2e6f0594e832532d5aade11199a67b08a31e"
+     }
+    },
+    {
+     "name": "v16.4.0",
+     "commit": {
+      "sha": "e273d5b2e869d0be06c0e86f788e1594f9dd40cf"
+     }
+    },
+    {
+     "name": "v16.4.0-canary.63",
+     "commit": {
+      "sha": "c3e76ad9e49ac21d1667e4b8b2b6b3a3348d2975"
+     }
+    }
+   ]
+  },
+  {
+   "key": "GET /repos/vercel/next.js/compare/v16.5.0-canary.4...v16.5.0-canary.5",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8",
+    "x-ratelimit-limit": "5000",
+    "x-ratelimit-remaining": "4980",
+    "x-ratelimit-reset": "1791533356",
+    "x-ratelimit-resource": "core"
+   },
+   "body": {
+    "ahead_by": 4,
+    "commits": [
+     {
+      "sha": "619d36f519f50d499df099c0a6c86a3bd586b742",
+      "author": {
+       "login": "bgw",
+       "type": "User"
+      },
+      "commit": {
+       "message": "Fix google tag manager e2e test, assume GTM 200s instead of 404ing (#99896)\n\nIt sounds like the script tag for GTM 404ed in the past if given a bad\ntag id, and now it 200s. We need to only check for the events we care\nabout instead of asserting exact sets of events.",
+       "author": {
+        "date": "2026-10-08T21:32:29Z"
+       },
+       "committer": {
+        "date": "2026-10-08T21:32:29Z"
+       }
+      }
+     },
+     {
+      "sha": "48723badb60d9507c7ebb71fc83e64167194dc33",
+      "author": {
+       "login": "bgw",
+       "type": "User"
+      },
+      "commit": {
+       "message": "Increase timeout on module-scope deployment test (#99891)\n\nMost of the time the `next.start()` call happens as part of\n`nextTestSetup`, but here it happens inside of the `it` block, so extend\nthe timeout.\n\nIt looks like this started timing out because of\nhttps://github.com/vercel/next.js/pull/98776 ",
+       "author": {
+        "date": "2026-10-08T22:12:29Z"
+       },
+       "committer": {
+        "date": "2026-10-08T22:12:29Z"
+       }
+      }
+     },
+     {
+      "sha": "f55fdb55b0d0f956c0d74b3c4a70b9a611c6d703",
+      "author": {
+       "login": "bgw",
+       "type": "User"
+      },
+      "commit": {
+       "message": "Update error strings for a few deployment tests (#99886)\n\nExample failure:\nhttps://github.com/vercel/next.js/actions/runs/37806862569/job/113451942869#step:35:458\n\nCaused by: https://github.com/vercel/vercel-internal/pull/1050",
+       "author": {
+        "date": "2026-10-08T22:32:42Z"
+       },
+       "committer": {
+        "date": "2026-10-08T22:32:42Z"
+       }
+      }
+     },
+     {
+      "sha": "6469906e7909c824f22a165ce858f7f42c978bdd",
+      "author": {
+       "login": "next-js-bot[bot]",
+       "type": "Bot"
+      },
+      "commit": {
+       "message": "v16.5.0-canary.5",
+       "author": {
+        "date": "2026-10-08T23:25:50Z"
+       },
+       "committer": {
+        "date": "2026-10-08T23:25:50Z"
+       }
+      }
+     }
+    ],
+    "files": [
+     {
+      "filename": "packages/create-next-app/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"create-next-app\",\n-  \"version\": \"16.5.0-canary.4\",\n+  \"version\": \"16.5.0-canary.5\",\n   \"keywords\": [\n     \"react\",\n     \"next\","
+     },
+     {
+      "filename": "packages/devlow-bench/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"@vercel/devlow-bench\",\n-  \"version\": \"16.5.0-canary.4\",\n+  \"version\": \"16.5.0-canary.5\",\n   \"description\": \"Benchmarking tool for the developer workflow\",\n   \"repository"
+     },
+     {
+      "filename": "packages/eslint-config-next/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"eslint-config-next\",\n-  \"version\": \"16.5.0-canary.4\",\n+  \"version\": \"16.5.0-canary.5\",\n   \"description\": \"ESLint configuration used by Next.js.\",\n   \"license\": \"MIT\",\n  "
+     },
+     {
+      "filename": "packages/eslint-plugin-internal/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "patch": "@@ -1,7 +1,7 @@\n {\n   \"name\": \"@next/eslint-plugin-internal\",\n   \"private\": true,\n-  \"version\": \"16.5.0-canary.4\",\n+  \"version\": \"16.5.0-canary.5\",\n   \"description\": \"ESLint plugin for working on Next"
+     },
+     {
+      "filename": "packages/eslint-plugin-next/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"@next/eslint-plugin-next\",\n-  \"version\": \"16.5.0-canary.4\",\n+  \"version\": \"16.5.0-canary.5\",\n   \"description\": \"ESLint plugin for Next.js.\",\n   \"main\": \"dist/index.js\",\n"
+     },
+     {
+      "filename": "packages/font/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "patch": "@@ -1,7 +1,7 @@\n {\n   \"name\": \"@next/font\",\n   \"private\": true,\n-  \"version\": \"16.5.0-canary.4\",\n+  \"version\": \"16.5.0-canary.5\",\n   \"repository\": {\n     \"url\": \"vercel/next.js\",\n     \"directory\": \"pa"
+     },
+     {
+      "filename": "packages/next-bundle-analyzer/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"@next/bundle-analyzer\",\n-  \"version\": \"16.5.0-canary.4\",\n+  \"version\": \"16.5.0-canary.5\",\n   \"main\": \"index.js\",\n   \"types\": \"index.d.ts\",\n   \"license\": \"MIT\","
+     },
+     {
+      "filename": "packages/next-codemod/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"@next/codemod\",\n-  \"version\": \"16.5.0-canary.4\",\n+  \"version\": \"16.5.0-canary.5\",\n   \"license\": \"MIT\",\n   \"repository\": {\n     \"type\": \"git\","
+     },
+     {
+      "filename": "packages/next-env/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"@next/env\",\n-  \"version\": \"16.5.0-canary.4\",\n+  \"version\": \"16.5.0-canary.5\",\n   \"keywords\": [\n     \"react\",\n     \"next\","
+     },
+     {
+      "filename": "packages/next-mdx/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"@next/mdx\",\n-  \"version\": \"16.5.0-canary.4\",\n+  \"version\": \"16.5.0-canary.5\",\n   \"main\": \"index.js\",\n   \"license\": \"MIT\",\n   \"repository\": {"
+     },
+     {
+      "filename": "packages/next-playwright/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"@next/playwright\",\n-  \"version\": \"16.5.0-canary.4\",\n+  \"version\": \"16.5.0-canary.5\",\n   \"repository\": {\n     \"url\": \"vercel/next.js\",\n     \"directory\": \"packages/next-pl"
+     },
+     {
+      "filename": "packages/next-plugin-storybook/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"@next/plugin-storybook\",\n-  \"version\": \"16.5.0-canary.4\",\n+  \"version\": \"16.5.0-canary.5\",\n   \"repository\": {\n     \"url\": \"vercel/next.js\",\n     \"directory\": \"packages/n"
+     },
+     {
+      "filename": "packages/next-polyfill-module/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"@next/polyfill-module\",\n-  \"version\": \"16.5.0-canary.4\",\n+  \"version\": \"16.5.0-canary.5\",\n   \"description\": \"A standard library polyfill for ES Modules supporting browse"
+     },
+     {
+      "filename": "packages/next-polyfill-nomodule/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"@next/polyfill-nomodule\",\n-  \"version\": \"16.5.0-canary.4\",\n+  \"version\": \"16.5.0-canary.5\",\n   \"description\": \"A polyfill for non-dead, nomodule browsers.\",\n   \"main\": \""
+     },
+     {
+      "filename": "packages/next-routing/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"@next/routing\",\n-  \"version\": \"16.5.0-canary.4\",\n+  \"version\": \"16.5.0-canary.5\",\n   \"keywords\": [\n     \"react\",\n     \"next\","
+     },
+     {
+      "filename": "packages/next-rspack/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"next-rspack\",\n-  \"version\": \"16.5.0-canary.4\",\n+  \"version\": \"16.5.0-canary.5\",\n   \"repository\": {\n     \"url\": \"vercel/next.js\",\n     \"directory\": \"packages/next-rspack\""
+     },
+     {
+      "filename": "packages/next-swc/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"@next/swc\",\n-  \"version\": \"16.5.0-canary.4\",\n+  \"version\": \"16.5.0-canary.5\",\n   \"private\": true,\n   \"files\": [\n     \"native/\""
+     },
+     {
+      "filename": "packages/next/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"next\",\n-  \"version\": \"16.5.0-canary.4\",\n+  \"version\": \"16.5.0-canary.5\",\n   \"description\": \"The React Framework\",\n   \"main\": \"./dist/server/next.js\",\n   \"license\": \"MIT\""
+     },
+     {
+      "filename": "packages/react-refresh-utils/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"@next/react-refresh-utils\",\n-  \"version\": \"16.5.0-canary.4\",\n+  \"version\": \"16.5.0-canary.5\",\n   \"description\": \"An experimental package providing utilities for React Re"
+     },
+     {
+      "filename": "packages/third-parties/package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"@next/third-parties\",\n-  \"version\": \"16.5.0-canary.4\",\n+  \"version\": \"16.5.0-canary.5\",\n   \"repository\": {\n     \"url\": \"vercel/next.js\",\n     \"directory\": \"packages/thir"
+     },
+     {
+      "filename": "test/e2e/app-dir/cache-components-errors/module-scope.test.ts",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "patch": "@@ -38,5 +38,5 @@ describe('Lazy Module Init', () => {\n \n     $ = await next.render$('/serial-client-sync-io')\n     expect($('#id').text().length).toBeGreaterThan(0)\n-  })\n+  }, 120_000) // Remote bui"
+     },
+     {
+      "filename": "test/e2e/app-dir/proxy-runtime/proxy-runtime.test.ts",
+      "status": "modified",
+      "additions": 7,
+      "deletions": 1,
+      "patch": "@@ -58,7 +58,13 @@ function getBuildError(cliOutput: string): string {\n       .trim()\n \n     // The command exit status is not compiler output.\n-    if (/^Error: Command .* exited with \\d+$/.test(line"
+     },
+     {
+      "filename": "test/e2e/app-dir/third-parties/basic.test.ts",
+      "status": "modified",
+      "additions": 31,
+      "deletions": 4,
+      "patch": "@@ -1,4 +1,5 @@\n import { nextTestSetup } from 'e2e-utils'\n+import { retry } from 'next-test-utils'\n \n describe('@next/third-parties basic usage', () => {\n   const { next } = nextTestSetup({\n@@ -37,14"
+     },
+     {
+      "filename": "test/e2e/app-dir/use-cache-segment-configs/use-cache-segment-configs.test.ts",
+      "status": "modified",
+      "additions": 8,
+      "deletions": 1,
+      "patch": "@@ -182,7 +182,14 @@ function getBuildOutput(cliOutput: string, isNextDeploy: boolean): string {\n \n   for (const line of cliOutput.split('\\n')) {\n     // The command exit status and inspect metadata a"
+     },
+     {
+      "filename": "test/e2e/third-parties/index.test.ts",
+      "status": "modified",
+      "additions": 31,
+      "deletions": 7,
+      "patch": "@@ -1,5 +1,5 @@\n import { nextTestSetup } from 'e2e-utils'\n-import { waitFor } from 'next-test-utils'\n+import { retry } from 'next-test-utils'\n \n // TODO(deploy-test-completion): Remove this suite fro"
+     }
+    ]
+   }
+  }
+ ]
+}

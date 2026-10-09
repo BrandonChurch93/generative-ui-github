@@ -1,0 +1,52 @@
+{
+ "recordedAt": "2026-10-09T07:19:35.169Z",
+ "responses": [
+  {
+   "key": "GET /repos/vercel/next.js/community/profile",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8",
+    "x-ratelimit-limit": "5000",
+    "x-ratelimit-remaining": "4983",
+    "x-ratelimit-reset": "1791533356",
+    "x-ratelimit-resource": "core"
+   },
+   "body": {
+    "health_percentage": 87,
+    "files": {
+     "code_of_conduct": {
+      "key": "other",
+      "name": "Other",
+      "html_url": "https://github.com/vercel/next.js/blob/canary/CODE_OF_CONDUCT.md",
+      "url": "https://api.github.com/repos/vercel/next.js/community/code_of_conduct"
+     },
+     "code_of_conduct_file": {
+      "url": "https://api.github.com/repos/vercel/next.js/contents/CODE_OF_CONDUCT.md",
+      "html_url": "https://github.com/vercel/next.js/blob/canary/CODE_OF_CONDUCT.md"
+     },
+     "contributing": {
+      "url": "https://api.github.com/repos/vercel/next.js/contents/contributing.md",
+      "html_url": "https://github.com/vercel/next.js/blob/canary/contributing.md"
+     },
+     "issue_template": null,
+     "pull_request_template": {
+      "url": "https://api.github.com/repos/vercel/next.js/contents/.github/pull_request_template.md",
+      "html_url": "https://github.com/vercel/next.js/blob/canary/.github/pull_request_template.md"
+     },
+     "license": {
+      "key": "mit",
+      "name": "MIT License",
+      "spdx_id": "MIT",
+      "url": "https://api.github.com/licenses/mit",
+      "node_id": "MDc6TGljZW5zZTEz",
+      "html_url": "https://github.com/vercel/next.js/blob/canary/license.md"
+     },
+     "readme": {
+      "url": "https://api.github.com/repos/vercel/next.js/contents/readme.md",
+      "html_url": "https://github.com/vercel/next.js/blob/canary/readme.md"
+     }
+    }
+   }
+  }
+ ]
+}

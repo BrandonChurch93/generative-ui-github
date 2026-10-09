@@ -1,2 +1,6 @@
 export * from './measures'
 export * from './shapes'
+export * from './chaoss'
+export * from './derived'
+export * from './compute'
+export { CHECK_SCHEDULE } from './fetchers/stats/schedule'

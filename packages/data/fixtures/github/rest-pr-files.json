@@ -1,0 +1,231 @@
+{
+ "recordedAt": "2026-10-09T07:19:36.769Z",
+ "responses": [
+  {
+   "key": "GET /repos/vercel/next.js/pulls/99900",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8",
+    "x-ratelimit-limit": "5000",
+    "x-ratelimit-remaining": "4979",
+    "x-ratelimit-reset": "1791533356",
+    "x-ratelimit-resource": "core"
+   },
+   "body": {
+    "changed_files": 28
+   }
+  },
+  {
+   "key": "GET /repos/vercel/next.js/pulls/99900/files?per_page=100&page=1",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8",
+    "x-ratelimit-limit": "5000",
+    "x-ratelimit-remaining": "4978",
+    "x-ratelimit-reset": "1791533356",
+    "x-ratelimit-resource": "core"
+   },
+   "body": [
+    {
+     "filename": "test/production/app-dir/use-cache-cross-deployment/app/(site)/cached-action/action.ts",
+     "status": "added",
+     "additions": 7,
+     "deletions": 0,
+     "patch": "@@ -0,0 +1,7 @@\n+'use server'\n+\n+import { getGeneratorValue } from '../../generator-value'\n+\n+export async function readCachedValue() {\n+  return getGeneratorValue('action')\n+}"
+    },
+    {
+     "filename": "test/production/app-dir/use-cache-cross-deployment/app/(site)/cached-action/client.tsx",
+     "status": "added",
+     "additions": 19,
+     "deletions": 0,
+     "patch": "@@ -0,0 +1,19 @@\n+'use client'\n+\n+import { useState } from 'react'\n+import { readCachedValue } from './action'\n+\n+export default function Client() {\n+  const [value, setValue] = useState('')\n+  return"
+    },
+    {
+     "filename": "test/production/app-dir/use-cache-cross-deployment/app/(site)/cached-action/page.tsx",
+     "status": "added",
+     "additions": 5,
+     "deletions": 0,
+     "patch": "@@ -0,0 +1,5 @@\n+import Client from './client'\n+\n+export default function Page() {\n+  return <Client />\n+}"
+    },
+    {
+     "filename": "test/production/app-dir/use-cache-cross-deployment/app/(site)/intercept/@modal/(.)photo/page.tsx",
+     "status": "added",
+     "additions": 7,
+     "deletions": 0,
+     "patch": "@@ -0,0 +1,7 @@\n+import { connection } from 'next/server'\n+import { getGeneratorValue } from '../../../../generator-value'\n+\n+export default async function Page() {\n+  await connection()\n+  return <p "
+    },
+    {
+     "filename": "test/production/app-dir/use-cache-cross-deployment/app/(site)/intercept/@modal/default.tsx",
+     "status": "added",
+     "additions": 3,
+     "deletions": 0,
+     "patch": "@@ -0,0 +1,3 @@\n+export default function Default() {\n+  return null\n+}"
+    },
+    {
+     "filename": "test/production/app-dir/use-cache-cross-deployment/app/(site)/intercept/layout.tsx",
+     "status": "added",
+     "additions": 14,
+     "deletions": 0,
+     "patch": "@@ -0,0 +1,14 @@\n+export default function Layout({\n+  children,\n+  modal,\n+}: {\n+  children: React.ReactNode\n+  modal: React.ReactNode\n+}) {\n+  return (\n+    <>\n+      {children}\n+      {modal}\n+    <"
+    },
+    {
+     "filename": "test/production/app-dir/use-cache-cross-deployment/app/(site)/intercept/page.tsx",
+     "status": "added",
+     "additions": 9,
+     "deletions": 0,
+     "patch": "@@ -0,0 +1,9 @@\n+import Link from 'next/link'\n+\n+export default function Page() {\n+  return (\n+    <Link id=\"open-modal\" href=\"/intercept/photo\" prefetch={false}>\n+      Open intercepted route\n+    </"
+    },
+    {
+     "filename": "test/production/app-dir/use-cache-cross-deployment/app/(site)/intercept/photo/page.tsx",
+     "status": "added",
+     "additions": 3,
+     "deletions": 0,
+     "patch": "@@ -0,0 +1,3 @@\n+export default function Page() {\n+  return <p>Non-intercepted photo</p>\n+}"
+    },
+    {
+     "filename": "test/production/app-dir/use-cache-cross-deployment/app/(site)/metadata/page.tsx",
+     "status": "added",
+     "additions": 16,
+     "deletions": 0,
+     "patch": "@@ -0,0 +1,16 @@\n+import { connection } from 'next/server'\n+import { getGeneratorValue } from '../../generator-value'\n+\n+export async function generateMetadata() {\n+  await connection()\n+  return { ti"
+    },
+    {
+     "filename": "test/production/app-dir/use-cache-cross-deployment/app/(site)/page-api/api/route.ts",
+     "status": "added",
+     "additions": 7,
+     "deletions": 0,
+     "patch": "@@ -0,0 +1,7 @@\n+import { connection } from 'next/server'\n+import { getGeneratorValue } from '../../../generator-value'\n+\n+export async function GET() {\n+  await connection()\n+  return new Response(aw"
+    },
+    {
+     "filename": "test/production/app-dir/use-cache-cross-deployment/app/(site)/page-api/page.tsx",
+     "status": "added",
+     "additions": 7,
+     "deletions": 0,
+     "patch": "@@ -0,0 +1,7 @@\n+import { connection } from 'next/server'\n+import { getGeneratorValue } from '../../generator-value'\n+\n+export default async function Page() {\n+  await connection()\n+  return <p id=\"pa"
+    },
+    {
+     "filename": "test/production/app-dir/use-cache-cross-deployment/app/(site)/page.tsx",
+     "status": "renamed",
+     "additions": 1,
+     "deletions": 1,
+     "patch": "@@ -1,6 +1,6 @@\n import { Suspense } from 'react'\n import { connection } from 'next/server'\n-import { getDate } from './logic'\n+import { getDate } from '../logic'\n \n async function getData() {\n   'use",
+     "previous_filename": "test/production/app-dir/use-cache-cross-deployment/app/page.tsx"
+    },
+    {
+     "filename": "test/production/app-dir/use-cache-cross-deployment/app/(site)/parallel/@sidebar/page.tsx",
+     "status": "added",
+     "additions": 7,
+     "deletions": 0,
+     "patch": "@@ -0,0 +1,7 @@\n+import { connection } from 'next/server'\n+import { getGeneratorValue } from '../../../generator-value'\n+\n+export default async function Page() {\n+  await connection()\n+  return <p id="
+    },
+    {
+     "filename": "test/production/app-dir/use-cache-cross-deployment/app/(site)/parallel/layout.tsx",
+     "status": "added",
+     "additions": 14,
+     "deletions": 0,
+     "patch": "@@ -0,0 +1,14 @@\n+export default function Layout({\n+  children,\n+  sidebar,\n+}: {\n+  children: React.ReactNode\n+  sidebar: React.ReactNode\n+}) {\n+  return (\n+    <>\n+      {children}\n+      {sidebar}\n"
+    },
+    {
+     "filename": "test/production/app-dir/use-cache-cross-deployment/app/(site)/parallel/page.tsx",
+     "status": "added",
+     "additions": 3,
+     "deletions": 0,
+     "patch": "@@ -0,0 +1,3 @@\n+export default function Page() {\n+  return <p>Parallel route</p>\n+}"
+    },
+    {
+     "filename": "test/production/app-dir/use-cache-cross-deployment/app/(site)/prerender/page.tsx",
+     "status": "renamed",
+     "additions": 1,
+     "deletions": 1,
+     "patch": "@@ -1,6 +1,6 @@\n import { Suspense } from 'react'\n import { cacheLife } from 'next/cache'\n-import { getDate } from '../logic'\n+import { getDate } from '../../logic'\n \n async function DynamicCache({ id",
+     "previous_filename": "test/production/app-dir/use-cache-cross-deployment/app/prerender/page.tsx"
+    },
+    {
+     "filename": "test/production/app-dir/use-cache-cross-deployment/app/(site)/route/route.ts",
+     "status": "renamed",
+     "additions": 1,
+     "deletions": 1,
+     "patch": "@@ -1,5 +1,5 @@\n import { connection } from 'next/server'\n-import { getDate } from '../logic'\n+import { getDate } from '../../logic'\n \n async function getData() {\n   'use cache: remote'",
+     "previous_filename": "test/production/app-dir/use-cache-cross-deployment/app/route/route.ts"
+    },
+    {
+     "filename": "test/production/app-dir/use-cache-cross-deployment/app/generator-image/(site)/opengraph-image.tsx",
+     "status": "added",
+     "additions": 11,
+     "deletions": 0,
+     "patch": "@@ -0,0 +1,11 @@\n+import { getGeneratorValue } from '../../generator-value'\n+\n+export async function generateImageMetadata() {\n+  return [{ id: await getGeneratorValue('image'), contentType: 'image/pn"
+    },
+    {
+     "filename": "test/production/app-dir/use-cache-cross-deployment/app/generator-image/(site)/page.tsx",
+     "status": "added",
+     "additions": 3,
+     "deletions": 0,
+     "patch": "@@ -0,0 +1,3 @@\n+export default function Page() {\n+  return <p>Generated image metadata</p>\n+}"
+    },
+    {
+     "filename": "test/production/app-dir/use-cache-cross-deployment/app/generator-layout/(site)/[parent]/[child]/page.tsx",
+     "status": "added",
+     "additions": 23,
+     "deletions": 0,
+     "patch": "@@ -0,0 +1,23 @@\n+import { getGeneratorValue } from '../../../../generator-value'\n+\n+export const unstable_paramMatching = {\n+  parent: 'not-found',\n+  child: 'not-found',\n+} as const\n+\n+export async "
+    },
+    {
+     "filename": "test/production/app-dir/use-cache-cross-deployment/app/generator-layout/(site)/[parent]/layout.tsx",
+     "status": "added",
+     "additions": 9,
+     "deletions": 0,
+     "patch": "@@ -0,0 +1,9 @@\n+import { getGeneratorValue } from '../../../generator-value'\n+\n+export async function generateStaticParams() {\n+  return [{ parent: await getGeneratorValue('layout') }]\n+}\n+\n+export d"
+    },
+    {
+     "filename": "test/production/app-dir/use-cache-cross-deployment/app/generator-route/(site)/[slug]/route.ts",
+     "status": "added",
+     "additions": 13,
+     "deletions": 0,
+     "patch": "@@ -0,0 +1,13 @@\n+import { getGeneratorValue } from '../../../generator-value'\n+\n+export async function generateStaticParams() {\n+  return [{ slug: await getGeneratorValue('route') }]\n+}\n+\n+export asy"
+    },
+    {
+     "filename": "test/production/app-dir/use-cache-cross-deployment/app/generator-sitemap/(site)/sitemap.ts",
+     "status": "added",
+     "additions": 9,
+     "deletions": 0,
+     "patch": "@@ -0,0 +1,9 @@\n+import { getGeneratorValue } from '../../generator-value'\n+\n+export async function generateSitemaps() {\n+  return [{ id: await getGeneratorValue('sitemap') }]\n+}\n+\n+export default asy"
+    },
+    {
+     "filename": "test/production/app-dir/use-cache-cross-deployment/app/generator-value.ts",
+     "status": "added",
+     "additions": 9,
+     "deletions": 0,
+     "patch": "@@ -0,0 +1,9 @@\n+import { cacheLife } from 'next/cache'\n+import { randomUUID } from 'node:crypto'\n+\n+export async function getGeneratorValue(kind: string) {\n+  'use cache: remote'\n+  cacheLife('days')"
+    },
+    {
+     "filename": "test/production/app-dir/use-cache-cross-deployment/app/static-params/(site)/(blog)/[slug]/get-static-params.ts",
+     "status": "added",
+     "additions": 5,
+     "deletions": 0,
+     "patch": "@@ -0,0 +1,5 @@\n+import { getGeneratorValue } from '../../../../generator-value'\n+\n+export async function getStaticParams() {\n+  return [{ slug: await getGeneratorValue('page') }]\n+}"
+    },
+    {
+     "filename": "test/production/app-dir/use-cache-cross-deployment/app/static-params/(site)/(blog)/[slug]/page.tsx",
+     "status": "added",
+     "additions": 16,
+     "deletions": 0,
+     "patch": "@@ -0,0 +1,16 @@\n+import { getStaticParams } from './get-static-params'\n+\n+export const unstable_paramMatching = { slug: 'not-found' } as const\n+\n+export async function generateStaticParams() {\n+  ret"
+    },
+    {
+     "filename": "test/production/app-dir/use-cache-cross-deployment/next.config.js",
+     "status": "modified",
+     "additions": 2,
+     "deletions": 0,
+     "patch": "@@ -13,6 +13,8 @@ const nextConfig = {\n       }\n     : undefined,\n   experimental: {\n+    // The file-backed remote handler does not support concurrent writers.\n+    cpus: 1,\n     durableUseCacheEntri"
+    },
+    {
+     "filename": "test/production/app-dir/use-cache-cross-deployment/use-cache-cross-deployment.test.ts",
+     "status": "modified",
+     "additions": 203,
+     "deletions": 32,
+     "patch": "@@ -1,6 +1,12 @@\n import { type NextInstance, nextTestSetup } from 'e2e-utils'\n-\n-async function execute(next: NextInstance, envKey: string, id: string) {\n+import { retry } from 'next-test-utils'\n+\n+a"
+    }
+   ]
+  }
+ ]
+}

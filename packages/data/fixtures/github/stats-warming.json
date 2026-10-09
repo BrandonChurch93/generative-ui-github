@@ -1,0 +1,116 @@
+{
+ "recordedAt": "2026-10-09T08:00:00.000Z",
+ "responses": [
+  {
+   "key": "GET /repos/genui-github-fixtures/warming/stats/commit_activity",
+   "status": 202,
+   "headers": {},
+   "body": {}
+  },
+  {
+   "key": "GET /repos/genui-github-fixtures/warming/stats/commit_activity",
+   "status": 202,
+   "headers": {},
+   "body": {}
+  },
+  {
+   "key": "GET /repos/genui-github-fixtures/warming/stats/commit_activity",
+   "status": 200,
+   "headers": {},
+   "body": [
+    {
+     "total": 3,
+     "week": 1790467200,
+     "days": [
+      0,
+      1,
+      2,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "total": 5,
+     "week": 1791072000,
+     "days": [
+      1,
+      0,
+      0,
+      4,
+      0,
+      0,
+      0
+     ]
+    }
+   ]
+  },
+  {
+   "key": "GET /repos/genui-github-fixtures/slow/stats/commit_activity",
+   "status": 202,
+   "headers": {},
+   "body": {}
+  },
+  {
+   "key": "GET /repos/genui-github-fixtures/slow/stats/commit_activity",
+   "status": 202,
+   "headers": {},
+   "body": {}
+  },
+  {
+   "key": "GET /repos/genui-github-fixtures/slow/stats/commit_activity",
+   "status": 200,
+   "headers": {},
+   "body": [
+    {
+     "total": 3,
+     "week": 1790467200,
+     "days": [
+      0,
+      1,
+      2,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "total": 5,
+     "week": 1791072000,
+     "days": [
+      1,
+      0,
+      0,
+      4,
+      0,
+      0,
+      0
+     ]
+    }
+   ]
+  },
+  {
+   "key": "GET /repos/genui-github-fixtures/slow/stats/participation",
+   "status": 202,
+   "headers": {},
+   "body": {}
+  },
+  {
+   "key": "GET /repos/genui-github-fixtures/slow/stats/punch_card",
+   "status": 202,
+   "headers": {},
+   "body": {}
+  },
+  {
+   "key": "GET /repos/genui-github-fixtures/slow/stats/code_frequency",
+   "status": 422,
+   "headers": {},
+   "body": {
+    "message": "repository must have fewer than 10000 commits",
+    "status": "422"
+   }
+  }
+ ]
+}

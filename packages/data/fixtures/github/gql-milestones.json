@@ -1,0 +1,47 @@
+{
+ "recordedAt": "2026-10-09T07:18:25.819Z",
+ "responses": [
+  {
+   "key": "POST /graphql bc3d0871654a15bf",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8",
+    "x-ratelimit-limit": "5000",
+    "x-ratelimit-remaining": "4995",
+    "x-ratelimit-reset": "1791533242",
+    "x-ratelimit-resource": "graphql"
+   },
+   "body": {
+    "data": {
+     "repository": {
+      "milestones": {
+       "nodes": [
+        {
+         "number": 17,
+         "title": "backlog",
+         "dueOn": null,
+         "openIssues": {
+          "totalCount": 7
+         },
+         "closedIssues": {
+          "totalCount": 216
+         },
+         "openPulls": {
+          "totalCount": 0
+         },
+         "closedPulls": {
+          "totalCount": 0
+         }
+        }
+       ]
+      }
+     },
+     "rateLimit": {
+      "cost": 1,
+      "remaining": 4995
+     }
+    }
+   }
+  }
+ ]
+}

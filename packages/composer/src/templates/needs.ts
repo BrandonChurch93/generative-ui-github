@@ -1,4 +1,4 @@
-import type { MeasureId, ShapeName } from '@genui-github/data'
+import type { MeasureId, MeasureScope, ShapeName } from '@genui-github/data'
 
 // What each template reads, from docs/golden-questions.md. No compose logic: the data context builder
 // fetches exactly these shapes and computes exactly these measures, and nothing else.
@@ -28,6 +28,8 @@ export interface TemplateNeeds {
   kind: 'golden' | 'follow-up'
   shapes: ShapeName[]
   measures: MeasureId[]
+  /** What the measures are about, when it is narrower than the whole repo. */
+  scope?: keyof MeasureScope
 }
 
 export const TEMPLATE_NEEDS: Record<TemplateId, TemplateNeeds> = {
@@ -58,13 +60,13 @@ export const TEMPLATE_NEEDS: Record<TemplateId, TemplateNeeds> = {
   'merged-recent': {
     question: "What's been merged this week?",
     kind: 'golden',
-    shapes: ['repo', 'pulls', 'mergedByDay'],
+    shapes: ['repo', 'pulls', 'mergedByDay', 'stats.contributors'],
     measures: ['prs-merged', 'contributors'],
   },
   'stale-issues': {
     question: 'Which issues have gone stale?',
     kind: 'golden',
-    shapes: ['repo', 'issues', 'staleIssues'],
+    shapes: ['repo', 'pulls', 'issues', 'staleIssues'],
     measures: ['stale-issues', 'time-to-close-median'],
   },
   'biggest-pr': {
@@ -76,13 +78,13 @@ export const TEMPLATE_NEEDS: Record<TemplateId, TemplateNeeds> = {
   'new-contributor': {
     question: 'Where would a new contributor start?',
     kind: 'golden',
-    shapes: ['repo', 'readme', 'community', 'issues', 'goodFirstIssues', 'pulls'],
+    shapes: ['repo', 'readme', 'community', 'issues', 'goodFirstIssues', 'pulls', 'stats.contributors'],
     measures: ['good-first-issues', 'review-wait-median', 'first-time-contributors'],
   },
   responsiveness: {
     question: 'How responsive are the maintainers?',
     kind: 'golden',
-    shapes: ['repo', 'pulls', 'issues', 'contributorShare'],
+    shapes: ['repo', 'pulls', 'issues', 'activity', 'contributorShare'],
     measures: ['review-wait-median', 'review-wait-p90', 'closure-ratio', 'time-to-close-median'],
   },
   'month-compare': {
@@ -94,7 +96,7 @@ export const TEMPLATE_NEEDS: Record<TemplateId, TemplateNeeds> = {
   'punch-card': {
     question: 'When does this project get worked on?',
     kind: 'golden',
-    shapes: ['repo', 'commits', 'stats.punchCard', 'busiestHour', 'quietestDay'],
+    shapes: ['repo', 'stats.commitActivity', 'stats.punchCard', 'busiestHour', 'quietestDay'],
     measures: ['busiest-hour', 'quietest-day', 'commits'],
   },
   'release-diff': {
@@ -102,6 +104,7 @@ export const TEMPLATE_NEEDS: Record<TemplateId, TemplateNeeds> = {
     kind: 'golden',
     shapes: ['repo', 'releases', 'compare', 'commitsBetweenTags'],
     measures: ['commits', 'contributors', 'files-changed'],
+    scope: 'release',
   },
   'check-failures': {
     question: 'Which checks are failing on <branch>?',
@@ -114,11 +117,13 @@ export const TEMPLATE_NEEDS: Record<TemplateId, TemplateNeeds> = {
     kind: 'follow-up',
     shapes: ['repo', 'pulls', 'prFiles', 'checks'],
     measures: ['pr-size', 'files-changed', 'review-wait-median'],
+    scope: 'pr',
   },
   person: {
     question: 'What has <handle> been working on?',
     kind: 'follow-up',
     shapes: ['repo', 'pulls', 'commits'],
     measures: ['prs-merged', 'commits', 'open-prs'],
+    scope: 'author',
   },
 }

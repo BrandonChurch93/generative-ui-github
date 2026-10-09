@@ -111,11 +111,11 @@ Prompt: `prompts/04-data.md`. Spec: `docs/data-layer.md`.
 - [x] 4.0 `packages/composer/src/templates/needs.ts`: the 15 template ids with the data shapes and measures each needs (no compose logic). Done when a test lists all 15 and every shape and measure name resolves in `packages/data/src/shapes.ts` and `measures.ts` from 1.11.
 - [x] 4.1 Octokit client with the server-side token, rate-limit header logging, `GitHubError` (status, endpoint, resetAt, retryAfter). Done when a test mocks a 403 and the error carries all fields.
 - [x] 4.2 Repo resolver. Done when the ten cases in `docs/data-layer.md` pass.
-- [ ] 4.3a GraphQL entity fetchers: repo, pulls, issues, milestones, with recorded fixtures. Done when each has a fixture test.
-- [ ] 4.3b REST fetchers: releases and tags, community, commits, workflow runs, run timing, checks, compare, PR files, tree, readme, with recorded fixtures. Done when each has a fixture test.
-- [ ] 4.4 Stats fetchers with 202 handling and the backoff, returning `WarmingStatus`. Done when a test with a 202, 202, 200 sequence yields warming twice then data, with the right `nextCheckMs` each time.
+- [x] 4.3a GraphQL entity fetchers: repo, pulls, issues, milestones, with recorded fixtures. Done when each has a fixture test.
+- [x] 4.3b REST fetchers: releases and tags, community, commits, workflow runs, run timing, checks, compare, PR files, tree, readme, with recorded fixtures. Done when each has a fixture test.
+- [x] 4.4 Stats fetchers with 202 handling and the backoff, returning `WarmingStatus`. Done when a test with a 202, 202, 200 sequence yields warming twice then data, with the right `nextCheckMs` each time.
 - [ ] 4.5 Verify the five unverified facts with one real call each; record answers and dates in `docs/data-layer.md`; adjust fetchers if a fact is wrong and note it in `docs/decisions.md`. Done when the doc has five dated answers.
-- [ ] 4.6 CHAOSS module. Done when unit tests on a fixture match hand-computed values for all five metrics.
+- [x] 4.6 CHAOSS module. Done when unit tests on a fixture match hand-computed values for all five metrics.
 - [ ] 4.7 Measures implemented: every id in `measures.ts` computes from the shapes for a repo and window. Done when a fixture test computes every measure on the next.js fixture and the values are sane (non-negative, units right).
 - [ ] 4.8 Derived shapes per `docs/data-layer.md`. Done when each has a fixture test.
 - [x] 4.9 Cache behind one interface, memory and KV backends, keys and TTLs per the spec. Done when a test shows a second fetch inside 15 minutes hits the cache and a stats key changes when the SHA changes.

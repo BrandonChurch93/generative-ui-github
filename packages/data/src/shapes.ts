@@ -40,17 +40,23 @@ export interface Review {
   submittedAt: ISODate
 }
 
+/** GitHub's word for how an author relates to the repo. OWNER, MEMBER and COLLABORATOR are the core team. */
+export type AuthorAssociation = 'OWNER' | 'MEMBER' | 'COLLABORATOR' | 'CONTRIBUTOR' | 'FIRST_TIME_CONTRIBUTOR' | 'FIRST_TIMER' | 'MANNEQUIN' | 'NONE'
+
 export interface Pull {
   number: number
   title: string
   url: string
   author: Person
+  authorAssociation: AuthorAssociation
   draft: boolean
   labels: string[]
   reviewDecision: 'APPROVED' | 'CHANGES_REQUESTED' | 'REVIEW_REQUIRED' | null
   reviews: Review[]
   /** The first review by a human other than the author; bots excluded. */
   firstHumanReviewAt: ISODate | null
+  /** The first comment by a human other than the author; bots excluded. */
+  firstHumanCommentAt: ISODate | null
   createdAt: ISODate
   updatedAt: ISODate
   mergedAt: ISODate | null
@@ -78,11 +84,21 @@ export interface Issue {
   reactions: number
   createdAt: ISODate
   updatedAt: ISODate
+  closedAt: ISODate | null
   milestone: string | null
+  /** The first comment by a human other than the author; bots excluded. */
+  firstHumanCommentAt: ISODate | null
 }
 
 export interface IssuesShape {
   open: Issue[]
+  /** The 50 most recently closed, for time to close. */
+  closed: Issue[]
+}
+
+/** Opened and closed counts per week for 12 weeks, oldest first, weeks starting Monday UTC: the closure ratio's inputs. */
+export interface ActivityShape {
+  weeks: { weekStart: ISODate; issuesOpened: number; issuesClosed: number; pullsOpened: number; pullsClosed: number }[]
 }
 
 export interface Milestone {
@@ -124,6 +140,8 @@ export interface Commit {
 export interface CommitsShape {
   since: ISODate
   commits: Commit[]
+  /** A full page came back, so there are more commits since `since` than listed. */
+  truncated: boolean
 }
 
 export interface WorkflowRun {
@@ -161,6 +179,8 @@ export interface CheckRun {
 export interface ChecksShape {
   ref: string
   runs: CheckRun[]
+  /** More check runs than the pages read; the counts cover only what was listed. */
+  truncated: boolean
 }
 
 export interface CompareShape {
@@ -211,6 +231,7 @@ export interface PunchCardShape {
   cells: { day: number; hour: number; commits: number }[]
 }
 
+/** GitHub's top 100 authors. `total` is all-time; `weeks` holds the last 52 only. */
 export interface ContributorsStatShape {
   authors: {
     author: Person
@@ -222,6 +243,8 @@ export interface ContributorsStatShape {
 // Derived shapes the templates need.
 
 export interface CiDurationByWeekShape {
+  /** The workflow the trend follows: the one with the most push runs on the default branch. */
+  workflow: string | null
   weeks: { weekStart: ISODate; p50Ms: number; p90Ms: number; count: number; failures: number }[]
 }
 
@@ -296,6 +319,7 @@ export interface ShapeMap {
   repo: RepoShape
   pulls: PullsShape
   issues: IssuesShape
+  activity: ActivityShape
   milestones: MilestonesShape
   releases: ReleasesShape
   community: CommunityShape
@@ -336,6 +360,7 @@ const shapeNames = {
   repo: 'fetched',
   pulls: 'fetched',
   issues: 'fetched',
+  activity: 'fetched',
   milestones: 'fetched',
   releases: 'fetched',
   community: 'fetched',

@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import type { WarmingStatus } from '@genui-github/data'
 import type { ComponentSpec } from '../../registry'
+import { CHECK_SCHEDULE } from '@genui-github/data'
 
 export const STAT_IDS = ['contributors', 'participation', 'commit_activity', 'punch_card', 'code_frequency'] as const
 export type StatId = (typeof STAT_IDS)[number]
@@ -9,7 +10,8 @@ export const STAT_STATES = ['counting', 'ready', 'cached', 'missing'] as const
 export type StatState = (typeof STAT_STATES)[number]
 
 /** Seconds after the first request at which every counting statistic is checked again (docs/data-layer.md). */
-export const CHECK_SCHEDULE = [0, 4, 10, 18, 28, 40, 54, 70, 90, 120] as const
+// The data layer owns the schedule: it is when GitHub is asked again, and the lanes draw those same moments.
+export { CHECK_SCHEDULE }
 
 const isoDate = z.iso.datetime({ offset: true })
 

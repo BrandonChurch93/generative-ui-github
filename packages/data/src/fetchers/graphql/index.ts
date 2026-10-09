@@ -1,0 +1,5 @@
+export { fetchActivity } from './activity'
+export { fetchIssues } from './issues'
+export { fetchMilestones } from './milestones'
+export { fetchPulls } from './pulls'
+export { fetchRepo } from './repo'

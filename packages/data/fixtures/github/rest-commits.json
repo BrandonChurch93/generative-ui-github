@@ -1,0 +1,1506 @@
+{
+ "recordedAt": "2026-10-09T07:19:34.771Z",
+ "responses": [
+  {
+   "key": "GET /repos/vercel/next.js/commits?per_page=100&since=2026-10-05T00%3A00%3A00Z",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8",
+    "x-ratelimit-limit": "5000",
+    "x-ratelimit-remaining": "4984",
+    "x-ratelimit-reset": "1791533356",
+    "x-ratelimit-resource": "core"
+   },
+   "body": [
+    {
+     "sha": "6469906e7909c824f22a165ce858f7f42c978bdd",
+     "author": {
+      "login": "next-js-bot[bot]",
+      "type": "Bot"
+     },
+     "commit": {
+      "message": "v16.5.0-canary.5",
+      "author": {
+       "date": "2026-10-08T23:25:50Z"
+      },
+      "committer": {
+       "date": "2026-10-08T23:25:50Z"
+      }
+     }
+    },
+    {
+     "sha": "f55fdb55b0d0f956c0d74b3c4a70b9a611c6d703",
+     "author": {
+      "login": "bgw",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Update error strings for a few deployment tests (#99886)\n\nExample failure:\nhttps://github.com/vercel/next.js/actions/runs/37806862569/job/113451942869#step:35:458\n\nCaused by: https://github.com/vercel/vercel-internal/pull/1050",
+      "author": {
+       "date": "2026-10-08T22:32:42Z"
+      },
+      "committer": {
+       "date": "2026-10-08T22:32:42Z"
+      }
+     }
+    },
+    {
+     "sha": "48723badb60d9507c7ebb71fc83e64167194dc33",
+     "author": {
+      "login": "bgw",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Increase timeout on module-scope deployment test (#99891)\n\nMost of the time the `next.start()` call happens as part of\n`nextTestSetup`, but here it happens inside of the `it` block, so extend\nthe timeout.\n\nIt looks like this started timing out because of\nhttps://github.com/vercel/next.js/pull/98776 ",
+      "author": {
+       "date": "2026-10-08T22:12:29Z"
+      },
+      "committer": {
+       "date": "2026-10-08T22:12:29Z"
+      }
+     }
+    },
+    {
+     "sha": "619d36f519f50d499df099c0a6c86a3bd586b742",
+     "author": {
+      "login": "bgw",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Fix google tag manager e2e test, assume GTM 200s instead of 404ing (#99896)\n\nIt sounds like the script tag for GTM 404ed in the past if given a bad\ntag id, and now it 200s. We need to only check for the events we care\nabout instead of asserting exact sets of events.",
+      "author": {
+       "date": "2026-10-08T21:32:29Z"
+      },
+      "committer": {
+       "date": "2026-10-08T21:32:29Z"
+      }
+     }
+    },
+    {
+     "sha": "7549879a48899af2a54e77c316d174fb6cde111e",
+     "author": {
+      "login": "next-js-bot[bot]",
+      "type": "Bot"
+     },
+     "commit": {
+      "message": "v16.5.0-canary.4",
+      "author": {
+       "date": "2026-10-08T15:47:22Z"
+      },
+      "committer": {
+       "date": "2026-10-08T15:47:22Z"
+      }
+     }
+    },
+    {
+     "sha": "ea119d2702ba9252233c678ca74b4a310b5eedd0",
+     "author": {
+      "login": "aurorascharff",
+      "type": "User"
+     },
+     "commit": {
+      "message": "docs: align function sidebar titles (#99858)\n\n## Summary\n\nRemove parentheses from the `navigation` and `prefetch` sidebar labels\nso they match the other function API references.\n\n## Verification\n\n- `pnpm prettier --with-node-modules --ignore-path .prettierignore\n--check docs/01-app/03-api-reference/",
+      "author": {
+       "date": "2026-10-08T12:05:50Z"
+      },
+      "committer": {
+       "date": "2026-10-08T12:05:50Z"
+      }
+     }
+    },
+    {
+     "sha": "25cfbd6ac1caf1e68f8752182815a663f7a57ae3",
+     "author": {
+      "login": "devjiwonchoi",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Fix telemetry delivery on Node.js 24 (#99842)\n\n### Why?\n\nTelemetry fails on Node.js 24 with this error before any HTTP request is\nsent:\n\n```text\nTypeError: RequestInit: Expected signal (\"AbortSignal {}\") to be an instance of AbortSignal.\n```\n\nNative `fetch` checks that `RequestInit.signal` is an ins",
+      "author": {
+       "date": "2026-10-08T08:29:16Z"
+      },
+      "committer": {
+       "date": "2026-10-08T08:29:16Z"
+      }
+     }
+    },
+    {
+     "sha": "4141a0a5088f501e427950f0db78954e0a3ee18d",
+     "author": {
+      "login": "eps1lon",
+      "type": "User"
+     },
+     "commit": {
+      "message": "[test] Authenticate deploy tests via VERCEL_TOKEN instead of shared auth.json (#99846)\n\nDeploy tests now authenticate the Vercel CLI via the `VERCEL_TOKEN` env\nvar instead of writing a shared `$HOME/.vercel/auth.json` and passing\n`--global-config` to every CLI invocation.\n\nThis reduces the chance of",
+      "author": {
+       "date": "2026-10-08T08:18:47Z"
+      },
+      "committer": {
+       "date": "2026-10-08T08:18:47Z"
+      }
+     }
+    },
+    {
+     "sha": "b24905530cf93abd11067aa3fccfe4f10d89f083",
+     "author": {
+      "login": "kassens",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Replace deprecated React.FormEvent with SubmitEvent (#99821)\n\n## Summary\n\n`@types/react` 19.2.10 deprecates `FormEvent`/`FormEventHandler` (they\ndon't correspond to a real DOM event). This switches `onSubmit` handlers\nto `SubmitEvent<HTMLFormElement>` in test fixtures, the docs\n(`authentication.mdx`",
+      "author": {
+       "date": "2026-10-08T07:10:27Z"
+      },
+      "committer": {
+       "date": "2026-10-08T07:10:27Z"
+      }
+     }
+    },
+    {
+     "sha": "1dd198b6cfb5d0919b8e75891aca2a6514b4a95e",
+     "author": {
+      "login": "sokra",
+      "type": "User"
+     },
+     "commit": {
+      "message": "turbo-tasks-fs: Don't print NotFound watcher errors (#99794)\n\n### What?\n\nStop the Turbopack disk watcher from printing `watch error … NotFound`\nfor paths that vanish while notify is scanning them, and send the\nremaining watcher errors to stderr instead of stdout.\n\n### Why?\n\nIn polling mode, notify's",
+      "author": {
+       "date": "2026-10-08T07:00:38Z"
+      },
+      "committer": {
+       "date": "2026-10-08T07:00:38Z"
+      }
+     }
+    },
+    {
+     "sha": "a32ddfdfd2f59e6899afc637132295fb188d9948",
+     "author": {
+      "login": "bgw",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Revert \"[ci] Increase deploy test concurrency to 8\" (#99840)\n\nReverts vercel/next.js#99770\n\nWe're seeing a lot of deployment test failures due to rate limits. We\ncan try bumping the rate limits and trying again, but reverting for\nright now to unblock deployment tests.",
+      "author": {
+       "date": "2026-10-08T03:22:11Z"
+      },
+      "committer": {
+       "date": "2026-10-08T03:22:11Z"
+      }
+     }
+    },
+    {
+     "sha": "c692e952dc9d5297bf790398fa160a5e0f37a19d",
+     "author": {
+      "login": "lukesandberg",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Bump next in upgrade eval fixtures for CVE-2026-94483 (#99838)\n\n## Summary\n\nBumps `next` in three upgrade eval fixtures that were pinned to versions\naffected by CVE-2026-94483 (Image Optimization SSRF via allow-listed\nremote patterns; fixed in 16.3.8):\n\n- `future-cache-components-nudge`: 16.3.5 → 16",
+      "author": {
+       "date": "2026-10-08T02:16:16Z"
+      },
+      "committer": {
+       "date": "2026-10-08T02:16:16Z"
+      }
+     }
+    },
+    {
+     "sha": "fce9c2fec08a5145319958d7cf6d4ed070221c32",
+     "author": {
+      "login": "lukesandberg",
+      "type": "User"
+     },
+     "commit": {
+      "message": "turbopack: report the cause when saving the filesystem cache fails (#99823)\n\n## What\n\nBuilds with the Turbopack filesystem cache didn't give useful output\nwhen the cache couldn't be written during shutdown, for example because\nof a read-only directory or a full disk. The build succeeded, but it\nprin",
+      "author": {
+       "date": "2026-10-08T00:22:57Z"
+      },
+      "committer": {
+       "date": "2026-10-08T00:22:57Z"
+      }
+     }
+    },
+    {
+     "sha": "eeb353be511a223f41a9d8b517f685b14cfc4bb0",
+     "author": {
+      "login": "next-js-bot[bot]",
+      "type": "Bot"
+     },
+     "commit": {
+      "message": "v16.5.0-canary.3",
+      "author": {
+       "date": "2026-10-07T23:24:04Z"
+      },
+      "committer": {
+       "date": "2026-10-07T23:24:04Z"
+      }
+     }
+    },
+    {
+     "sha": "eda426e158103fdbaf4ecdeadeb62da8724d632d",
+     "author": {
+      "login": "wbinnssmith",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Document `next analyze export` and skill are added in 16.4 (#99738)\n\n## Summary\n\nMark `next analyze export` and `next-bundle-optimizer` as added in\nv16.4. Add version history entries to the AI agents guide, package\nbundling guide, and CLI reference.\n\n## Verification\n\n- Prettier and ESLint passed.\n- ",
+      "author": {
+       "date": "2026-10-07T22:32:13Z"
+      },
+      "committer": {
+       "date": "2026-10-07T22:32:13Z"
+      }
+     }
+    },
+    {
+     "sha": "c6c7eae009a99ed559ec87dfcbc62168ea387d25",
+     "author": {
+      "login": "aurorascharff",
+      "type": "User"
+     },
+     "commit": {
+      "message": "create-next-app: write agent feedback block to AGENTS.md when enabled (#99813)\n\n### What\n\nWhen `experimental.agentFeedback` is enabled, create-next-app now writes\nthe `nextjs-agent-feedback` block into `AGENTS.md` along with the\n`nextjs-agent-rules` block.\n\n### Why\n\nBefore this change, create-next-a",
+      "author": {
+       "date": "2026-10-07T19:42:50Z"
+      },
+      "committer": {
+       "date": "2026-10-07T19:42:50Z"
+      }
+     }
+    },
+    {
+     "sha": "0556f070a950fc06952f95da3eb286a60baf9aad",
+     "author": {
+      "login": "kassens",
+      "type": "User"
+     },
+     "commit": {
+      "message": "[turbopack] fix some unused dependencies (#99825)\n\nThese were breaking some GitHub builds for me for some reason.\n\n## Test Plan\nGitHub CI + local cargo check validation",
+      "author": {
+       "date": "2026-10-07T19:35:00Z"
+      },
+      "committer": {
+       "date": "2026-10-07T19:35:00Z"
+      }
+     }
+    },
+    {
+     "sha": "5f0b8deb3d416c5480ac86de8adc45ba8e22c870",
+     "author": {
+      "login": "aurorascharff",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Fix next-bundle-optimizer skill handoffs (#99818)\n\n## Summary\n\nMake each skill named by `next-bundle-optimizer` directly installable\nwhen it is unavailable, matching the inline handoff pattern used by the\nother Next.js skills.\n\n## Verification\n\n- `pnpm prettier --with-node-modules --ignore-path .pre",
+      "author": {
+       "date": "2026-10-07T18:57:19Z"
+      },
+      "committer": {
+       "date": "2026-10-07T18:57:19Z"
+      }
+     }
+    },
+    {
+     "sha": "1aec1b2fbddfd789cc355db0a260ddc63592d16b",
+     "author": {
+      "login": "eps1lon",
+      "type": "User"
+     },
+     "commit": {
+      "message": "[ci] Increase deploy test concurrency to 8 (#99770)\n\nIncreases test concurrency for the deploy test jobs to 8 (prev: 2 in the\nfull suite, 1 in new build-and-test jobs).\n\nFor deploy tests, the CPU-intensive work that should be as stable as\npossible (the Next.js build and server) does not happen on th",
+      "author": {
+       "date": "2026-10-07T18:45:11Z"
+      },
+      "committer": {
+       "date": "2026-10-07T18:45:11Z"
+      }
+     }
+    },
+    {
+     "sha": "c6f8ac72f4ab338fe9b7d42e631bbe5bac83b95a",
+     "author": {
+      "login": "next-js-bot[bot]",
+      "type": "Bot"
+     },
+     "commit": {
+      "message": "Upgrade React from `278794d7-20261002` to `d75b0697-20261006` (#99819)",
+      "author": {
+       "date": "2026-10-07T18:14:09Z"
+      },
+      "committer": {
+       "date": "2026-10-07T18:14:09Z"
+      }
+     }
+    },
+    {
+     "sha": "6ebc729c8012aa7e8bf84c1d651c08d9ddc5e4b7",
+     "author": {
+      "login": "sokra",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Turbopack: fix turbo-trace-size test after MemorySample gained active_worker_threads (#99824)\n\n### What?\n\nFixes the `rust check` (clippy) and `test cargo unit` jobs on canary,\nwhich fail with:\n\n```\nerror[E0063]: missing field `active_worker_threads` in initializer of `TraceRow<'_>`\n   --> turbopack/",
+      "author": {
+       "date": "2026-10-07T17:47:40Z"
+      },
+      "committer": {
+       "date": "2026-10-07T17:47:40Z"
+      }
+     }
+    },
+    {
+     "sha": "db03f83f6ac3db99e28cf60d4247103277e3b201",
+     "author": {
+      "login": "mischnic",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Turbopack: batch EsmBinding codegen (#99722)\n\n**View diff without whitespace**\n\nCall these just once (per module), not once per referenced import\n- `unused_references()`\n- `reference.get_referenced_asset()`\n- `imported_module.get_ident(export)`",
+      "author": {
+       "date": "2026-10-07T16:15:45Z"
+      },
+      "committer": {
+       "date": "2026-10-07T16:15:45Z"
+      }
+     }
+    },
+    {
+     "sha": "a10d278e128efba3114556e764e2d2aea9484bad",
+     "author": {
+      "login": "sokra",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Turbopack: add no-memory flag to NEXT_TURBOPACK_TRACING (#99777)\n\n## Summary\n\nAdds a `no-memory` flag to `NEXT_TURBOPACK_TRACING`, next to\n`gz`/`gz-best` (e.g. `NEXT_TURBOPACK_TRACING=1,no-memory`).\n\nWith the flag, `RawTraceLayer` writes no allocation counters for span\nenters/exits and no `MemorySam",
+      "author": {
+       "date": "2026-10-07T16:15:01Z"
+      },
+      "committer": {
+       "date": "2026-10-07T16:15:01Z"
+      }
+     }
+    },
+    {
+     "sha": "0b9fffb187e26102a983fb57f152c8311e47b0a1",
+     "author": {
+      "login": "sokra",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Turbopack: add turbo-trace-size CLI to inspect trace file size (#99765)\n\n### What?\n\nAdds `turbopack/crates/turbopack-trace-size`, a CLI (`turbo-trace-size`)\nthat shows where the bytes in a Turbopack trace file\n(`.next-profiles/trace-turbopack.bin`) go. It decodes the postcard\n`TraceRow` stream (raw,",
+      "author": {
+       "date": "2026-10-07T16:15:00Z"
+      },
+      "committer": {
+       "date": "2026-10-07T16:15:00Z"
+      }
+     }
+    },
+    {
+     "sha": "aaf0a16f530f097548a9256133f5bad0e9098794",
+     "author": {
+      "login": "devjiwonchoi",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Use ESLint 10 in new create-next-app projects (#99814)\n\n## Summary\n\nUse ESLint `^10` in create-next-app projects so fresh apps no longer\ninstall deprecated ESLint 9. Update the existing TypeScript and\nJavaScript configuration tests to assert the exact dependency range.\n\nSome ESLint plugins still dec",
+      "author": {
+       "date": "2026-10-07T15:39:40Z"
+      },
+      "committer": {
+       "date": "2026-10-07T15:39:40Z"
+      }
+     }
+    },
+    {
+     "sha": "876613298863d226aadd466cee863c16fa93b02a",
+     "author": {
+      "login": "aurorascharff",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Fix instant codemod matching colocated test files (#99795)\n\n## Summary\n\n- prevent `cache-components-instant-false` from adding route config to\ncolocated test, spec, and story files\n- keep compound page extensions eligible while filtering common\nnon-route suffixes\n- cover POSIX and Windows paths in t",
+      "author": {
+       "date": "2026-10-07T13:00:18Z"
+      },
+      "committer": {
+       "date": "2026-10-07T13:00:18Z"
+      }
+     }
+    },
+    {
+     "sha": "deb98d7e2d95013c8917419e9f2ea79b8810f7ab",
+     "author": {
+      "login": "sokra",
+      "type": "User"
+     },
+     "commit": {
+      "message": "turbo-trace-server: speed up loading compressed traces (#99775)\n\n### What?\n\nMakes loading compressed (`.zst` / `.gz`) traces in `turbo-trace-server`\nmuch faster. On a large trace, compressed loads now beat raw loads from\nbefore this change. Raw loads get faster too.\n\n| 12M-span synthetic trace (warm",
+      "author": {
+       "date": "2026-10-07T10:02:57Z"
+      },
+      "committer": {
+       "date": "2026-10-07T10:02:57Z"
+      }
+     }
+    },
+    {
+     "sha": "3439bde95975e4e755e3286ce36d8f667e6e1a25",
+     "author": {
+      "login": "mischnic",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Upgrade rustc to nightly-2026-10-04 (#99682)\n\n- ~~Blocked by https://github.com/swc-project/plugins/pull/662 because\nbox_patterns was removed~~\n- ~~Blocked on\nhttps://github.com/rust-lang/miri/commit/87c4b123697e210ba99c5fc004049bb59acb2df0\nso that Miri just works again~~\n- Upgrade napi-build for ht",
+      "author": {
+       "date": "2026-10-07T07:46:39Z"
+      },
+      "committer": {
+       "date": "2026-10-07T07:46:39Z"
+      }
+     }
+    },
+    {
+     "sha": "2b87c1306e8b275e20b2325361c85e266a23c5a4",
+     "author": {
+      "login": "mischnic",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Bump to swc v81 (#99720)\n\nThis removes the last cases of box_patterns from our build",
+      "author": {
+       "date": "2026-10-07T07:46:38Z"
+      },
+      "committer": {
+       "date": "2026-10-07T07:46:38Z"
+      }
+     }
+    },
+    {
+     "sha": "ae745ba76ec38dc9ef6f1f6b202d8fcbea649aa5",
+     "author": {
+      "login": "next-js-bot[bot]",
+      "type": "Bot"
+     },
+     "commit": {
+      "message": "v16.5.0-canary.2",
+      "author": {
+       "date": "2026-10-07T07:18:25Z"
+      },
+      "committer": {
+       "date": "2026-10-07T07:18:25Z"
+      }
+     }
+    },
+    {
+     "sha": "d111e2581b44657962a930addf1c08a7b7302ed6",
+     "author": {
+      "login": "eps1lon",
+      "type": "User"
+     },
+     "commit": {
+      "message": "[cd] Use pnpm to manage the version (#99041)\n\nlerna's last job was bumping the version, and it needed a dependency\ngraph of exact pins to do it. Internal dependencies now use the\n`workspace:*` protocol instead, which pnpm substitutes for the concrete\nversion when packing, so published manifests are ",
+      "author": {
+       "date": "2026-10-07T07:17:09Z"
+      },
+      "committer": {
+       "date": "2026-10-07T07:17:09Z"
+      }
+     }
+    },
+    {
+     "sha": "201922375b35ad38d8a75e90ddd24d6bebfd71be",
+     "author": {
+      "login": "blz-ea",
+      "type": "User"
+     },
+     "commit": {
+      "message": "fix: Bump vendored @mswjs/interceptors from 0.42.5 to 0.42.6 (#99485)",
+      "author": {
+       "date": "2026-10-07T06:59:05Z"
+      },
+      "committer": {
+       "date": "2026-10-07T06:59:05Z"
+      }
+     }
+    },
+    {
+     "sha": "aa28d0e47a041c05fb6f70d24d83f77370cb9853",
+     "author": {
+      "login": "bgw",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Turbopack: Minor cleanup from review of #99711 (#99748)\n\nMinor cleanup opportunities I noticed after reviewing\nhttps://fleet-review.vercel.tools/vercel/next.js/pull/99711/changes/ba6208431008d331bb3c738cd32643c61c04f411..18e7c6dee5d4f85aa1c9a9a68a50830fc73b52f8",
+      "author": {
+       "date": "2026-10-07T06:44:24Z"
+      },
+      "committer": {
+       "date": "2026-10-07T06:44:24Z"
+      }
+     }
+    },
+    {
+     "sha": "cbc5ea55ecdc780ddddfb9bb70722d25ef3aebe5",
+     "author": {
+      "login": "sokra",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Exclude blocking spans from trace work accounting (#99685)\n\n## Summary\n\nStacked above #99254. Allow `blocking = true` on elapsed-duration events\nand entered tracing spans, using the same ignore-self-time accounting as\nexisting `blocking` spans.\n\nWaiting durations otherwise inflate concurrency and CP",
+      "author": {
+       "date": "2026-10-07T06:41:33Z"
+      },
+      "committer": {
+       "date": "2026-10-07T06:41:33Z"
+      }
+     }
+    },
+    {
+     "sha": "e51db39301383b5f08af03996bf3d90208e3a8bc",
+     "author": {
+      "login": "sokra",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Sample global trace concurrency across span ranges (#99254)\n\n## Summary\n\nShow how much traced work was happening concurrently throughout a\nselected span. The trace server divides its range into up to 200\nequal-duration segments and returns the time-weighted average number of\nactive global self-time ",
+      "author": {
+       "date": "2026-10-07T06:41:33Z"
+      },
+      "committer": {
+       "date": "2026-10-07T06:41:33Z"
+      }
+     }
+    },
+    {
+     "sha": "202bba5998789d038a007f1fc67b1d90ee89602e",
+     "author": {
+      "login": "sokra",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Trace active Tokio worker threads with memory samples (#99233)\n\n## What?\n\nRecord the number of non-idle Tokio scheduler worker threads alongside\nTurbopack's existing process-memory samples. The span-query API and MCP\noutput expose it as the fourth value in each memory sample. The\nWebSocket query res",
+      "author": {
+       "date": "2026-10-07T06:41:32Z"
+      },
+      "committer": {
+       "date": "2026-10-07T06:41:32Z"
+      }
+     }
+    },
+    {
+     "sha": "fa8dcf34f1629dacc62f1952ee8a66a2439781a5",
+     "author": {
+      "login": "abhayymishraa",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Turbopack: report next/font/google font file fetch failures instead of Module not found (#99574)\n\nFixes #97378\n\n### What?\n\nTurbopack turns a failed `next/font/google` font file download into an\nunresolvable request. Build then dies with:\n\n```\nModule not found: Can't resolve '@vercel/turbopack-next/i",
+      "author": {
+       "date": "2026-10-06T23:46:45Z"
+      },
+      "committer": {
+       "date": "2026-10-06T23:46:45Z"
+      }
+     }
+    },
+    {
+     "sha": "21d3ab3491a0fd13e9c1e4e36f185186d16b23ad",
+     "author": {
+      "login": "wbinnssmith",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Update font data and fix no-subsets font fixture (#99753)",
+      "author": {
+       "date": "2026-10-06T23:27:25Z"
+      },
+      "committer": {
+       "date": "2026-10-06T23:27:25Z"
+      }
+     }
+    },
+    {
+     "sha": "eaa7f65aede4dd9675545ed9b6aa6df675d63e83",
+     "author": {
+      "login": "next-js-bot[bot]",
+      "type": "Bot"
+     },
+     "commit": {
+      "message": "v16.5.0-canary.1",
+      "author": {
+       "date": "2026-10-06T23:26:09Z"
+      },
+      "committer": {
+       "date": "2026-10-06T23:26:09Z"
+      }
+     }
+    },
+    {
+     "sha": "8d8c0cd51804d326083dc621f9a9f13124549d5f",
+     "author": {
+      "login": "lukesandberg",
+      "type": "User"
+     },
+     "commit": {
+      "message": "[turbo-tasks] Experiment: capture snapshot pending bits under exclusion (#99747)\n\n## Summary\n\nThis experiment builds on the copy-on-write snapshot design from #99649,\nwhich is now on canary. It holds the operation exclusion while\n`take_snapshot` runs, so the scan can move modified bits into new\n`met",
+      "author": {
+       "date": "2026-10-06T22:52:15Z"
+      },
+      "committer": {
+       "date": "2026-10-06T22:52:15Z"
+      }
+     }
+    },
+    {
+     "sha": "0e912cb9010def935bfbd07611c84c733738b733",
+     "author": {
+      "login": "gnoff",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Keep custom-route metadata outside configuration (#99508)\n\n## Summary\n\nLoading custom routes currently writes original redirects and rewrites\nonto resolved configuration. Return the redirect metadata with the\nloaded routes for client-router filtering, and remove the unused rewrite\nsnapshots and obso",
+      "author": {
+       "date": "2026-10-06T19:55:11Z"
+      },
+      "committer": {
+       "date": "2026-10-06T19:55:11Z"
+      }
+     }
+    },
+    {
+     "sha": "a7d6871860575bdebe779f5f7783a58c9cac5eaa",
+     "author": {
+      "login": "lukesandberg",
+      "type": "User"
+     },
+     "commit": {
+      "message": "turbo-tasks: copy tasks on their first modification during a snapshot (#99649)\n\n### What?\n\nDuring a snapshot, a task's first modification now copies the task's\npre-mutation state whenever any of its categories is part of the\nsnapshot, whichever category the modification touches. A `None` marker\nis i",
+      "author": {
+       "date": "2026-10-06T18:46:15Z"
+      },
+      "committer": {
+       "date": "2026-10-06T18:46:15Z"
+      }
+     }
+    },
+    {
+     "sha": "0c729c5187dc135e926e06972dc90a58b33b3f81",
+     "author": {
+      "login": "sokra",
+      "type": "User"
+     },
+     "commit": {
+      "message": "turbo-tasks: disable persisting after a failed snapshot (#99732)\n\n### What?\n\nA failed persist (the snapshot cycle returning an error or panicking)\ndisables persisting for the rest of the session. Later persistence\ncycles, including the one at shutdown, are skipped:\n`snapshot_and_persist` returns `Ok",
+      "author": {
+       "date": "2026-10-06T18:46:14Z"
+      },
+      "committer": {
+       "date": "2026-10-06T18:46:14Z"
+      }
+     }
+    },
+    {
+     "sha": "a572b53ce2442a5cb3161edcc739b491f3fda6ae",
+     "author": {
+      "login": "lukesandberg",
+      "type": "User"
+     },
+     "commit": {
+      "message": "turbo-tasks: bincode-encode copy-on-write snapshots instead of cloning (#99644)\n\n### What?\n\nWhen a task that is already part of an in-progress persistence snapshot\nis modified again, `track_modification_internal` now bincode-encodes the\ntask's pre-mutation state into the `SnapshotItem` that persiste",
+      "author": {
+       "date": "2026-10-06T18:46:14Z"
+      },
+      "committer": {
+       "date": "2026-10-06T18:46:14Z"
+      }
+     }
+    },
+    {
+     "sha": "d43f2e6f0594e832532d5aade11199a67b08a31e",
+     "author": {
+      "login": "next-js-bot[bot]",
+      "type": "Bot"
+     },
+     "commit": {
+      "message": "v16.5.0-canary.0",
+      "author": {
+       "date": "2026-10-06T18:25:44Z"
+      },
+      "committer": {
+       "date": "2026-10-06T18:25:44Z"
+      }
+     }
+    },
+    {
+     "sha": "e273d5b2e869d0be06c0e86f788e1594f9dd40cf",
+     "author": {
+      "login": "next-js-bot[bot]",
+      "type": "Bot"
+     },
+     "commit": {
+      "message": "v16.4.0",
+      "author": {
+       "date": "2026-10-06T17:57:47Z"
+      },
+      "committer": {
+       "date": "2026-10-06T17:57:47Z"
+      }
+     }
+    },
+    {
+     "sha": "fdf41d6f6315ebff3a7056d7e7f002b8e78749d4",
+     "author": {
+      "login": "kassens",
+      "type": "User"
+     },
+     "commit": {
+      "message": "[ai-upgrade] discover upgrade models and reasoning efforts from agent CLIs (#99736)\n\nThe world of AI is moving fast. Instead of hardcoding the available\nmodels, discover them from the CLIs. This is a bit hacky, but probably\nmore reliable than hardcoding a list that will become outdated fast. The\nava",
+      "author": {
+       "date": "2026-10-06T17:28:14Z"
+      },
+      "committer": {
+       "date": "2026-10-06T17:28:14Z"
+      }
+     }
+    },
+    {
+     "sha": "c3e76ad9e49ac21d1667e4b8b2b6b3a3348d2975",
+     "author": {
+      "login": "next-js-bot[bot]",
+      "type": "Bot"
+     },
+     "commit": {
+      "message": "v16.4.0-canary.63",
+      "author": {
+       "date": "2026-10-06T17:05:42Z"
+      },
+      "committer": {
+       "date": "2026-10-06T17:05:42Z"
+      }
+     }
+    },
+    {
+     "sha": "47c6cc8da0a35432bc964548ecfb5e1ba160b69c",
+     "author": {
+      "login": "wbinnssmith",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Document next analyze export in the package bundling guide (#99735)\n\n## Summary\n\nDocument `next analyze export` with a snapshot capture/export example\nand a link to its CLI options.\n\n## Verification\n\n- Prettier and ESLint passed.\n- Runtime tests not run (docs only).\n\n<!-- NEXT_JS_LLM -->",
+      "author": {
+       "date": "2026-10-06T16:50:58Z"
+      },
+      "committer": {
+       "date": "2026-10-06T16:50:58Z"
+      }
+     }
+    },
+    {
+     "sha": "5b10604925853d8cd0bee61eb49d4894707cf7ac",
+     "author": {
+      "login": "acdlite",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Revert stabilization of `forbidden()` and `unauthorized()` (#99734)\n\nStabilizing `forbidden()` and `unauthorized()` means the built-in 403\nand 401 fallbacks are rendered into every page's payload, even for apps\nthat don't define `forbidden.tsx` or `unauthorized.tsx`. On a fresh\ncreate-next-app that'",
+      "author": {
+       "date": "2026-10-06T16:38:01Z"
+      },
+      "committer": {
+       "date": "2026-10-06T16:38:01Z"
+      }
+     }
+    },
+    {
+     "sha": "f3a6f976de26c40e7a6543a3175666906e84e050",
+     "author": {
+      "login": "gnoff",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Preserve configured output directories during static export (#99507)\n\n## Summary\n\nStatic export with a custom `distDir` currently overwrites that option\nwith `.next` during the build. Keep the configured export destination\nintact and derive the intermediate build directory separately, so\nadapters re",
+      "author": {
+       "date": "2026-10-06T16:27:19Z"
+      },
+      "committer": {
+       "date": "2026-10-06T16:27:19Z"
+      }
+     }
+    },
+    {
+     "sha": "b22e5a299cb58577ce86f21b6a0f7bb31a6168f2",
+     "author": {
+      "login": "wbinnssmith",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Rename skill to next-bundle-optimizer and document its usage (#99731)\n\n## Summary\n\nRename `next-browser-initial-load-optimizer` to `next-bundle-optimizer`\nand update the skill directory, metadata, links, and install commands.\n\nDocument how to use the skill with Turbopack's bundle analyzer, with\nprom",
+      "author": {
+       "date": "2026-10-06T15:52:23Z"
+      },
+      "committer": {
+       "date": "2026-10-06T15:52:23Z"
+      }
+     }
+    },
+    {
+     "sha": "74dc549ca01d7c1adada50576b2b204a4ad32df6",
+     "author": {
+      "login": "sokra",
+      "type": "User"
+     },
+     "commit": {
+      "message": "[turbo-tasks-backend] Clean up task state before publishing execution completion (#99729)\n\n## What?\n\nTask completion now cleans up the task's per-execution state (removing\ncells that no longer exist, `cleanup_after_execution`) under the same\ntask lock that finishes the execution, before the completi",
+      "author": {
+       "date": "2026-10-06T15:37:20Z"
+      },
+      "committer": {
+       "date": "2026-10-06T15:37:20Z"
+      }
+     }
+    },
+    {
+     "sha": "ccf8c15a42d1a7140cf569ac15bec3ccb0187e8f",
+     "author": {
+      "login": "next-js-bot[bot]",
+      "type": "Bot"
+     },
+     "commit": {
+      "message": "v16.4.0-canary.62",
+      "author": {
+       "date": "2026-10-06T14:58:09Z"
+      },
+      "committer": {
+       "date": "2026-10-06T14:58:09Z"
+      }
+     }
+    },
+    {
+     "sha": "b8c7c7f2f3222d133f2a64d9bb77cc83d68f8172",
+     "author": {
+      "login": "aurorascharff",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Improve static route error guidance (#99724)\n\n## Summary\n\n- explain that request-time work conflicts with the route's static\nrequirement without repeating “fully static”\n- align the overlay explanations, build messages, and error pages for\nroute body, `generateMetadata()`, and `generateViewport()` e",
+      "author": {
+       "date": "2026-10-06T14:42:16Z"
+      },
+      "committer": {
+       "date": "2026-10-06T14:42:16Z"
+      }
+     }
+    },
+    {
+     "sha": "81bdd9cb6e459fef16f30aba66bbc35c1e07384c",
+     "author": {
+      "login": "aurorascharff",
+      "type": "User"
+     },
+     "commit": {
+      "message": "docs: add Turbopack experimental config references (#99723)\n\n## Summary\n\n- add API references for `turbopackGc`, `turbopackLazyDynamicImports`,\n`turbopackLazyDynamicImportsSSR`, and `turbopackPluginRuntimeStrategy`\n- document each option’s defaults, supported values, runtime behavior,\nand relevant l",
+      "author": {
+       "date": "2026-10-06T14:24:28Z"
+      },
+      "committer": {
+       "date": "2026-10-06T14:24:28Z"
+      }
+     }
+    },
+    {
+     "sha": "fd9c5e9393e8ac05510251a55703f402b525b4d6",
+     "author": {
+      "login": "devjiwonchoi",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Show choices for agent upgrade prompt (#99727)\n\nshow choice for upgrade prompt\n\n| Before | After |\n| --- | --- |\n| <img\nsrc=\"https://github.com/devjiwonchoi/next.js/raw/604a56efdcbf2ead22d16c3098ae695eaff7558b/before.png\"\nalt=\"Upgrade prompts before: answered prompts show only the question,\nhint and",
+      "author": {
+       "date": "2026-10-06T13:51:22Z"
+      },
+      "committer": {
+       "date": "2026-10-06T13:51:22Z"
+      }
+     }
+    },
+    {
+     "sha": "3fff1aef1c8cd225252ffc2bfb1bd2b4ea53e431",
+     "author": {
+      "login": "aurorascharff",
+      "type": "User"
+     },
+     "commit": {
+      "message": "docs: add Keeping pages static guide and align the navigation stage docs (#99493)\n\n## Summary\n\n- add a **Keeping pages static** guide that applies `ensureStatic =\n'shell'`, `'prefetch'`, and `'navigation'` to a store, then works\nthrough the validation errors and fixes in development\n- expand **Optim",
+      "author": {
+       "date": "2026-10-06T13:46:07Z"
+      },
+      "committer": {
+       "date": "2026-10-06T13:46:07Z"
+      }
+     }
+    },
+    {
+     "sha": "6bcde44e1cac8f74946fddf95079bb0b91e4dbd5",
+     "author": {
+      "login": "bgw",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Turbopack: Check the invalidator map before adding a path to a batch (#99711)\n\nWe don't need to add a file path to a batch and extend the batch\ndeadline if the path isn't contained in the invalidator map.\n\nPrevents us from getting logspam like this:\n\n```\nTurbopack has seen frequent file updates and ",
+      "author": {
+       "date": "2026-10-06T13:17:48Z"
+      },
+      "committer": {
+       "date": "2026-10-06T13:17:48Z"
+      }
+     }
+    },
+    {
+     "sha": "7c16cc9f55aabd9a2462d26604a5a4f2ff5231cf",
+     "author": {
+      "login": "aurorascharff",
+      "type": "User"
+     },
+     "commit": {
+      "message": "docs: add guide for optimizing the static shell (#97737)\n\n## What?\n\nAdds an **Optimizing the static shell** guide that follows one team\nsettings route through focused Suspense boundaries, deferred\nauthentication, cache-versus-stream decisions, loading-state reuse,\nshared layouts, and parallel routes",
+      "author": {
+       "date": "2026-10-06T11:54:10Z"
+      },
+      "committer": {
+       "date": "2026-10-06T11:54:10Z"
+      }
+     }
+    },
+    {
+     "sha": "22f8122ad3b1cd3635edc077d6dbf02c59874a03",
+     "author": {
+      "login": "devjiwonchoi",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Keep dev and build running during upgrade prompts (#99702)",
+      "author": {
+       "date": "2026-10-06T10:39:28Z"
+      },
+      "committer": {
+       "date": "2026-10-06T10:39:28Z"
+      }
+     }
+    },
+    {
+     "sha": "b4a4c055ad9ce0537ce9cfa4cf3c2000ad94785c",
+     "author": {
+      "login": "aurorascharff",
+      "type": "User"
+     },
+     "commit": {
+      "message": "docs: use auth interruption APIs in examples (#99698)\n\n## Summary\n\n- Replace generic `Unauthorized` and `Forbidden` errors with the stable\n`unauthorized()` and `forbidden()` APIs across the mutating data, forms,\nServer Actions, data security, and `use server` documentation.\n- Distinguish unauthentic",
+      "author": {
+       "date": "2026-10-06T10:19:57Z"
+      },
+      "committer": {
+       "date": "2026-10-06T10:19:57Z"
+      }
+     }
+    },
+    {
+     "sha": "8051552d49b613c99b4175777b3fecf64daf13a7",
+     "author": {
+      "login": "aurorascharff",
+      "type": "User"
+     },
+     "commit": {
+      "message": "docs: recommend auth interruption APIs in error handling (#99696)\n\n## Summary\n\n- Recommend `unauthorized()` for unauthenticated requests and\n`forbidden()` for authenticated users without access.\n- Add `Suspense` boundaries around the request-time reads in the\nexisting `notFound()` example and the ne",
+      "author": {
+       "date": "2026-10-06T10:19:56Z"
+      },
+      "committer": {
+       "date": "2026-10-06T10:19:56Z"
+      }
+     }
+    },
+    {
+     "sha": "1c821e2d80e3c1743a826be6a4dc572f6a13a7c8",
+     "author": {
+      "login": "bgw",
+      "type": "User"
+     },
+     "commit": {
+      "message": "[test] Update snapshots (#99713)\n\nCaused by: https://github.com/vercel/next.js/pull/99406\nFailure:\nhttps://github.com/vercel/next.js/actions/runs/37390479841/attempts/2\nRe-running with this PR here:\nhttps://github.com/vercel/next.js/actions/runs/37404978916",
+      "author": {
+       "date": "2026-10-06T08:28:28Z"
+      },
+      "committer": {
+       "date": "2026-10-06T08:28:28Z"
+      }
+     }
+    },
+    {
+     "sha": "8619c015f8cc9b26fbe10c5e97b0f8cb9ed5cb92",
+     "author": {
+      "login": "wbinnssmith",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Bundle Analyzer Agent Skill: Trace conditional async and worker chunk loading (#99174)\n\n## Summary\n\nMake the bundle analyzer explain how emitted chunks can load other\nchunks. This gives the initial-load optimizer skill the relationships it\nneeds to distinguish startup code from conditionally loaded ",
+      "author": {
+       "date": "2026-10-06T04:45:14Z"
+      },
+      "committer": {
+       "date": "2026-10-06T04:45:14Z"
+      }
+     }
+    },
+    {
+     "sha": "d6d83cfd62d2f1ff1415b3efcbff29f26e5dfc13",
+     "author": {
+      "login": "wbinnssmith",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Bundle Analyzer Agent Skill: Show route chunk groups (#99170)\n\n## Summary\n\nThis PR exposes **chunk groups**: sets of generated client files that\nthe build associates with a route's client entry or with client\ncomponents and layouts used by that route. They show how files relate to\nroute code, beyond",
+      "author": {
+       "date": "2026-10-06T04:45:14Z"
+      },
+      "committer": {
+       "date": "2026-10-06T04:45:14Z"
+      }
+     }
+    },
+    {
+     "sha": "8eabe35efc859fa2505e8a1068fc03917b78c406",
+     "author": {
+      "login": "wbinnssmith",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Bundle Analyzer Agent Skill: Show modules in generated JS/CSS files (#99173)\n\n## Summary\n\nBefore this PR, an agent could see a route's generated files and follow\nimports to find modules relevant to that route. It could not reliably\ntell **which exact modules landed in a particular JavaScript or CSS\n",
+      "author": {
+       "date": "2026-10-06T04:45:14Z"
+      },
+      "committer": {
+       "date": "2026-10-06T04:45:14Z"
+      }
+     }
+    },
+    {
+     "sha": "8d3606c1eec6ae6f91cd2a77ac3ff4d17f38f59a",
+     "author": {
+      "login": "wbinnssmith",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Bundle Analyzer Agent Skill: Expose more route details in analyze data (#99172)\n\n## Summary\n\nExport typed App, Pages and API endpoint roots and nested client\nreferences from analyzer route provenance into JSON Lines\n`route.entries`. Keep server/shared roles separate from verified client\nbootstrap id",
+      "author": {
+       "date": "2026-10-06T04:45:13Z"
+      },
+      "committer": {
+       "date": "2026-10-06T04:45:13Z"
+      }
+     }
+    },
+    {
+     "sha": "1119ce6becb37e9272ef7ef7ff9308b038bdcd55",
+     "author": {
+      "login": "lukesandberg",
+      "type": "User"
+     },
+     "commit": {
+      "message": "turbo-tasks-backend: stop dirtying dependents of GC-collected tasks (#99647)\n\n### What?\n\nWhen GC collects a task, it removes each dependent's forward edge to it,\nas before, but no longer marks the dependent dirty.\n\n### Why?\n\nThe dirty never helps, the dependent task's previous execution is still\nval",
+      "author": {
+       "date": "2026-10-05T23:48:28Z"
+      },
+      "committer": {
+       "date": "2026-10-05T23:48:28Z"
+      }
+     }
+    },
+    {
+     "sha": "ef6a1004b30e7d73beeed8ebf5fdc6d61b080068",
+     "author": {
+      "login": "lukesandberg",
+      "type": "User"
+     },
+     "commit": {
+      "message": "turbo-tasks-backend: treat reads and connects of collected tasks as errors (#99646)\n\n### What?\n\n- Reading a cell or output of a task that no longer exists returns an\nordinary error instead of panicking. That covers a task collected by GC,\nwhether still soft-deleted in memory or already evicted.\n`loc",
+      "author": {
+       "date": "2026-10-05T23:48:28Z"
+      },
+      "committer": {
+       "date": "2026-10-05T23:48:28Z"
+      }
+     }
+    },
+    {
+     "sha": "deaef3cbfa504ad58f3ba65b4e07acf4d017d6ed",
+     "author": {
+      "login": "lukesandberg",
+      "type": "User"
+     },
+     "commit": {
+      "message": "turbo-tasks-backend: stop pinning tasks during restores and always discard missing tasks (#99645)\n\n### What?\n\nWhen `task_pair` or `prepare_tasks` opens a task that is missing from\ndisk (`MustExist`), or a restore hits an I/O error, it panics. They had\nalready pinned the tasks involved (`transient_re",
+      "author": {
+       "date": "2026-10-05T23:48:27Z"
+      },
+      "committer": {
+       "date": "2026-10-05T23:48:27Z"
+      }
+     }
+    },
+    {
+     "sha": "83576151e6e0b80e007ef9cb0597cd680561bdf6",
+     "author": {
+      "login": "wbinnssmith",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Bundle Analyzer Agent Skill: Add analyzer skill (#99169)\n\n## Summary\n\nAdd a model-discoverable browser initial-load optimizer for slow route\nstartup, oversized client bundles, duplicate browser dependencies and\ninteraction-gated features. The skill follows six ordered steps with\nobservable completio",
+      "author": {
+       "date": "2026-10-05T23:34:10Z"
+      },
+      "committer": {
+       "date": "2026-10-05T23:34:10Z"
+      }
+     }
+    },
+    {
+     "sha": "27ee7212f72fdbf8aab13e2263d21110108a2e76",
+     "author": {
+      "login": "next-js-bot[bot]",
+      "type": "Bot"
+     },
+     "commit": {
+      "message": "v16.4.0-canary.61",
+      "author": {
+       "date": "2026-10-05T23:24:17Z"
+      },
+      "committer": {
+       "date": "2026-10-05T23:24:17Z"
+      }
+     }
+    },
+    {
+     "sha": "7830cfc3395ac07443f4932af5248f6c7989a776",
+     "author": {
+      "login": "bgw",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Turbopack: Cache canonicalized paths without turbo-tasks, try to find the longest cached prefix first (#99270)\n\nWhen converting from an absolute system path to a filesystem-relative\npath, we'd first try to lexically `strip_prefix`, but if that failed,\nwe'd fall back to trying to canonicalize the roo",
+      "author": {
+       "date": "2026-10-05T23:19:05Z"
+      },
+      "committer": {
+       "date": "2026-10-05T23:19:05Z"
+      }
+     }
+    },
+    {
+     "sha": "e4801332c582dcffdf234857786d63edaa815d19",
+     "author": {
+      "login": "gnoff",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Record parameter matching usage in build metadata (#99594)\n\n## Summary\n\nThe experimental parameter matching APIs may not yet be supported by\nsome hosts that package Next.js builds without adapters. Add an optional\n`__private_unstable_hasParamMatching: true` field to\n`prerender-manifest.json` so thos",
+      "author": {
+       "date": "2026-10-05T23:15:24Z"
+      },
+      "committer": {
+       "date": "2026-10-05T23:15:24Z"
+      }
+     }
+    },
+    {
+     "sha": "9997c1c07382b88afc48c14043c4dd1b1837568e",
+     "author": {
+      "login": "wbinnssmith",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Bundle Analyzer Agent Skill: Stream versioned analyzer graph as JSON Lines (#99387)\n\n## Summary\n\nSeparate analyzer capture from versioned JSON Lines graph replay. `next\nanalyze` builds the analyzer data and serves its UI; `next analyze\n--output --snapshot-name <name>` saves the usual binary snapshot",
+      "author": {
+       "date": "2026-10-05T23:08:12Z"
+      },
+      "committer": {
+       "date": "2026-10-05T23:08:12Z"
+      }
+     }
+    },
+    {
+     "sha": "263f6820b21d451101dacb55c1299da441da168f",
+     "author": {
+      "login": "bgw",
+      "type": "User"
+     },
+     "commit": {
+      "message": " Revert \"Optimize esm exports by shifting the protocol burden to getters (#98932)\" (#99704)\n\nAlso reverts https://github.com/vercel/next.js/pull/99621\n\nDiscussion:\nhttps://vercel.slack.com/archives/C04KC8A53T7/p1791231703532919?thread_ts=1791230213.615279&cid=C04KC8A53T7\n\nThis code depends on the ex",
+      "author": {
+       "date": "2026-10-05T22:34:19Z"
+      },
+      "committer": {
+       "date": "2026-10-05T22:34:19Z"
+      }
+     }
+    },
+    {
+     "sha": "0d5f6a7ea54ce88c859fe93791eaca885ab4bd48",
+     "author": {
+      "login": "lubieowoce",
+      "type": "User"
+     },
+     "commit": {
+      "message": "[PPF] Log Sync IO errors in runtime prerenders (#99688)\n\nCloses NAR-959\n\nSync IO can deopt the result of a runtime prerender, both in a runtime\nrequest and in the embedded runtime prefetch stream.\n\nLong ago, we decided to not log these errors, with the motivation that:\n1. The user didn't opt into th",
+      "author": {
+       "date": "2026-10-05T21:40:50Z"
+      },
+      "committer": {
+       "date": "2026-10-05T21:40:50Z"
+      }
+     }
+    },
+    {
+     "sha": "5dc4b954060e36c9428b50de2501519b6a399875",
+     "author": {
+      "login": "kassens",
+      "type": "User"
+     },
+     "commit": {
+      "message": "docs: clarify use client directive as a file level directive (#99703)\n\nClarifies that `\"use client\"` is a file level directive and cannot be\nplaced inside components. Some of the wording suggested to me that it\ncould work inside of components similar to `\"use server\"` which is\nallowed inside functio",
+      "author": {
+       "date": "2026-10-05T20:28:29Z"
+      },
+      "committer": {
+       "date": "2026-10-05T20:28:29Z"
+      }
+     }
+    },
+    {
+     "sha": "6194d642b6fd743437da21dac3c720a587e6b9b2",
+     "author": {
+      "login": "acdlite",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Stabilize `forbidden()` and `unauthorized()` (#99689)\n\nMoves the `forbidden()` and `unauthorized()` out of experimental and\ndeprecate the feature flag (`authInterrupts`) that they were gated\nbehind.\n\nOne caveat with these APIs is that the `forbidden.ts`/`unauthorized.ts`\nboundaries are sent down eag",
+      "author": {
+       "date": "2026-10-05T19:06:43Z"
+      },
+      "committer": {
+       "date": "2026-10-05T19:06:43Z"
+      }
+     }
+    },
+    {
+     "sha": "6fa344b83b124dccd8ef7a988d048b7c19ada690",
+     "author": {
+      "login": "lukesandberg",
+      "type": "User"
+     },
+     "commit": {
+      "message": "turbopack-ecmascript-runtime: type-check every runtime file (#99670)\n\n## Summary\n\nMost of the Turbopack runtime in `turbopack-ecmascript-runtime/js/src`\nwas never type-checked, and editors showed hundreds of bogus \"Cannot\nfind name\" errors in it.\n\n- `src/nodejs/tsconfig.json` had `\"include\": [\"*.ts\"",
+      "author": {
+       "date": "2026-10-05T19:02:36Z"
+      },
+      "committer": {
+       "date": "2026-10-05T19:02:36Z"
+      }
+     }
+    },
+    {
+     "sha": "bc335b8862f9cf165e526d0214ba4adbdc437639",
+     "author": {
+      "login": "lubieowoce",
+      "type": "User"
+     },
+     "commit": {
+      "message": "test: unflake use-cache-search-params (#99691)\n\nReworks `use-cache-search-params` to fix flakiness. The\n\"/search-params-caught\" test [occasionally fails like\nthis](https://github.com/vercel/next.js/actions/runs/37332777301/job/111840698762#step:35:9635).\ni'm not sure what this is exactly (the preren",
+      "author": {
+       "date": "2026-10-05T18:20:57Z"
+      },
+      "committer": {
+       "date": "2026-10-05T18:20:57Z"
+      }
+     }
+    },
+    {
+     "sha": "a2b3c15ee1086acab983bc1257ae5e7f3510af3a",
+     "author": {
+      "login": "gnoff",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Avoid mutating config for default export paths (#99496)\n\n## Summary\n\nStatic export currently installs an identity `exportPathMap` callback on\nthe resolved config when no callback is configured. Use the default path\nmap directly while preserving configured callbacks. This removes another\nconfig mutat",
+      "author": {
+       "date": "2026-10-05T17:40:16Z"
+      },
+      "committer": {
+       "date": "2026-10-05T17:40:16Z"
+      }
+     }
+    },
+    {
+     "sha": "898164497098037668992ed9de1e2156ad208560",
+     "author": {
+      "login": "gnoff",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Keep compile-mode metadata outside configuration (#99491)\n\n## Summary\n\nPass the build manifest's compile-mode marker separately to server\nrendering, leaving the loaded configuration unchanged. This supports\nimmutable Next.js configuration for adapters without introducing another\nmutable config repre",
+      "author": {
+       "date": "2026-10-05T17:40:15Z"
+      },
+      "committer": {
+       "date": "2026-10-05T17:40:15Z"
+      }
+     }
+    },
+    {
+     "sha": "f17e61cb1f430177bf1f062706e09ea630268267",
+     "author": {
+      "login": "gnoff",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Keep dynamic asset prefixes outside configuration (#99490)\n\n## Summary\n\nKeep custom-server asset prefix changes in server render state, with\nrendering and routing reading the same runtime value. Setting and\nresetting the prefix continues to work without modifying or copying the\nloaded config. This s",
+      "author": {
+       "date": "2026-10-05T17:40:15Z"
+      },
+      "committer": {
+       "date": "2026-10-05T17:40:15Z"
+      }
+     }
+    },
+    {
+     "sha": "907721a66e8b4174515445c27068d9835bd424d8",
+     "author": {
+      "login": "jamiboym",
+      "type": "User"
+     },
+     "commit": {
+      "message": "eslint-config-next: support ESLint 10 (#99628)\n\n## Summary\n\n`eslint-config-next` crashes under ESLint 10. This makes it work with\nboth ESLint 9 and 10 without raising Next.js's Node.js minimum\n(`>=20.9.0`). ESLint 10 itself requires Node.js `^20.19.0 || ^22.13.0 ||\n>=24`, so users on older Node.js 2",
+      "author": {
+       "date": "2026-10-05T16:44:34Z"
+      },
+      "committer": {
+       "date": "2026-10-05T16:44:34Z"
+      }
+     }
+    },
+    {
+     "sha": "41215d77762375b4b5154b12cfbb4372a835f8a0",
+     "author": {
+      "login": "aurorascharff",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Add Instant Insights for prefetch() and navigation() (#97801)\n\nCloses NAR-929\n\n## Summary\n\n- add render stages in validation so Instant Navigation validation can\ndistinguish `prefetch()` from URL data\n- report `prefetch()` and `navigation()` consistently across route\nbodies, metadata, and viewport\n-",
+      "author": {
+       "date": "2026-10-05T14:37:43Z"
+      },
+      "committer": {
+       "date": "2026-10-05T14:37:43Z"
+      }
+     }
+    },
+    {
+     "sha": "4103f83756602f48c9a6fc05905249b7d3d2a835",
+     "author": {
+      "login": "lubieowoce",
+      "type": "User"
+     },
+     "commit": {
+      "message": "rename `RenderStage.Runtime` to `PrefetchRuntime` (#99679)\n\nAligns runtime stage naming with the static stages. We used to call this\nthe `Runtime` stage, but now we have the concept of navigation stages\n(\"shell\"/\"prefetch\"/\"navigation\") and we want to align the render stage\nnames with the navigation",
+      "author": {
+       "date": "2026-10-05T13:40:50Z"
+      },
+      "committer": {
+       "date": "2026-10-05T13:40:50Z"
+      }
+     }
+    },
+    {
+     "sha": "1fffea65b678744091a6dc13996339dcf8dcfe4e",
+     "author": {
+      "login": "unstubbable",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Collect root param dependencies for `'use cache'` at build time (#99274)",
+      "author": {
+       "date": "2026-10-05T11:57:08Z"
+      },
+      "committer": {
+       "date": "2026-10-05T11:57:08Z"
+      }
+     }
+    },
+    {
+     "sha": "c4608008ea9ffbcacea5e21e33f40481a7a2ef49",
+     "author": {
+      "login": "aurorascharff",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Add client fixes for fully static route errors (#99659)\n\n## Summary\n\n- add a Client fix to both runtime-data and uncached-data errors on\nfully static routes\n- document client URL hooks, browser APIs such as non-`HttpOnly`\ncookies, and client-side fetching as distinct patterns\n- keep the combined run",
+      "author": {
+       "date": "2026-10-05T10:47:15Z"
+      },
+      "committer": {
+       "date": "2026-10-05T10:47:15Z"
+      }
+     }
+    },
+    {
+     "sha": "7bb6730b264bb53ffce8651eb3bbaf42e86b85e4",
+     "author": {
+      "login": "aurorascharff",
+      "type": "User"
+     },
+     "commit": {
+      "message": "docs: clarify hover prefetching with Partial Prefetching (#99665)\n\n## Summary\n\n- Link to the Partial Prefetching adoption guide and clarify how the\nexisting hover-triggered `<Link>` example changes\n- Use `auto` before intent to preserve the shared App Shell prefetch,\nthen use `true` to resolve cache",
+      "author": {
+       "date": "2026-10-05T10:46:19Z"
+      },
+      "committer": {
+       "date": "2026-10-05T10:46:19Z"
+      }
+     }
+    },
+    {
+     "sha": "035c4da5e0bf2d39d4a074ddaebc0beee6480c92",
+     "author": {
+      "login": "mischnic",
+      "type": "User"
+     },
+     "commit": {
+      "message": "Durable use cache entries: sort env var list (#99657)\n\nSort the collected env vars before returning. They were already\ndeterministic, but this normalizes the return value more (previously\nchanging the module graph might have changed the order of these lists)",
+      "author": {
+       "date": "2026-10-05T09:13:41Z"
+      },
+      "committer": {
+       "date": "2026-10-05T09:13:41Z"
+      }
+     }
+    },
+    {
+     "sha": "e95129b5536bb17f7bf117d240ac03fd2de4d495",
+     "author": {
+      "login": "lukesandberg",
+      "type": "User"
+     },
+     "commit": {
+      "message": "next-swc: rebuild native when embedded js/src files change (#99669)\n\n## Summary\n\n`pnpm build-all` decides whether to build the native binary with\n`packages/next-swc/maybe-build-native.mjs`. That script `git diff`s\nagainst the last version-bump commit, and only builds when `.rs`,\n`.toml`, `.cargo/**`",
+      "author": {
+       "date": "2026-10-05T07:05:20Z"
+      },
+      "committer": {
+       "date": "2026-10-05T07:05:20Z"
+      }
+     }
+    }
+   ]
+  }
+ ]
+}

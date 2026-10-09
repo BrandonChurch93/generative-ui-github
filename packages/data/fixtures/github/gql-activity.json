@@ -1,0 +1,168 @@
+{
+ "recordedAt": "2026-10-09T07:18:23.513Z",
+ "responses": [
+  {
+   "key": "POST /graphql 6f3e4ec4a3fe6641",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8",
+    "x-ratelimit-limit": "5000",
+    "x-ratelimit-remaining": "4996",
+    "x-ratelimit-reset": "1791533242",
+    "x-ratelimit-resource": "graphql"
+   },
+   "body": {
+    "data": {
+     "w0_issuesOpened": {
+      "issueCount": 49
+     },
+     "w0_issuesClosed": {
+      "issueCount": 35
+     },
+     "w0_pullsOpened": {
+      "issueCount": 209
+     },
+     "w0_pullsClosed": {
+      "issueCount": 143
+     },
+     "w1_issuesOpened": {
+      "issueCount": 45
+     },
+     "w1_issuesClosed": {
+      "issueCount": 38
+     },
+     "w1_pullsOpened": {
+      "issueCount": 169
+     },
+     "w1_pullsClosed": {
+      "issueCount": 125
+     },
+     "w2_issuesOpened": {
+      "issueCount": 99
+     },
+     "w2_issuesClosed": {
+      "issueCount": 74
+     },
+     "w2_pullsOpened": {
+      "issueCount": 325
+     },
+     "w2_pullsClosed": {
+      "issueCount": 146
+     },
+     "w3_issuesOpened": {
+      "issueCount": 72
+     },
+     "w3_issuesClosed": {
+      "issueCount": 292
+     },
+     "w3_pullsOpened": {
+      "issueCount": 238
+     },
+     "w3_pullsClosed": {
+      "issueCount": 152
+     },
+     "w4_issuesOpened": {
+      "issueCount": 46
+     },
+     "w4_issuesClosed": {
+      "issueCount": 328
+     },
+     "w4_pullsOpened": {
+      "issueCount": 217
+     },
+     "w4_pullsClosed": {
+      "issueCount": 128
+     },
+     "w5_issuesOpened": {
+      "issueCount": 67
+     },
+     "w5_issuesClosed": {
+      "issueCount": 388
+     },
+     "w5_pullsOpened": {
+      "issueCount": 229
+     },
+     "w5_pullsClosed": {
+      "issueCount": 164
+     },
+     "w6_issuesOpened": {
+      "issueCount": 41
+     },
+     "w6_issuesClosed": {
+      "issueCount": 456
+     },
+     "w6_pullsOpened": {
+      "issueCount": 149
+     },
+     "w6_pullsClosed": {
+      "issueCount": 71
+     },
+     "w7_issuesOpened": {
+      "issueCount": 41
+     },
+     "w7_issuesClosed": {
+      "issueCount": 26
+     },
+     "w7_pullsOpened": {
+      "issueCount": 212
+     },
+     "w7_pullsClosed": {
+      "issueCount": 116
+     },
+     "w8_issuesOpened": {
+      "issueCount": 39
+     },
+     "w8_issuesClosed": {
+      "issueCount": 43
+     },
+     "w8_pullsOpened": {
+      "issueCount": 241
+     },
+     "w8_pullsClosed": {
+      "issueCount": 105
+     },
+     "w9_issuesOpened": {
+      "issueCount": 52
+     },
+     "w9_issuesClosed": {
+      "issueCount": 30
+     },
+     "w9_pullsOpened": {
+      "issueCount": 260
+     },
+     "w9_pullsClosed": {
+      "issueCount": 172
+     },
+     "w10_issuesOpened": {
+      "issueCount": 56
+     },
+     "w10_issuesClosed": {
+      "issueCount": 31
+     },
+     "w10_pullsOpened": {
+      "issueCount": 210
+     },
+     "w10_pullsClosed": {
+      "issueCount": 167
+     },
+     "w11_issuesOpened": {
+      "issueCount": 40
+     },
+     "w11_issuesClosed": {
+      "issueCount": 13
+     },
+     "w11_pullsOpened": {
+      "issueCount": 169
+     },
+     "w11_pullsClosed": {
+      "issueCount": 107
+     },
+     "rateLimit": {
+      "cost": 1,
+      "remaining": 4996
+     }
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,222 @@
+{
+ "recordedAt": "2026-10-09T07:18:26.393Z",
+ "responses": [
+  {
+   "key": "POST /graphql 66177006de2a2e2c",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8",
+    "x-ratelimit-limit": "5000",
+    "x-ratelimit-remaining": "4994",
+    "x-ratelimit-reset": "1791533242",
+    "x-ratelimit-resource": "graphql"
+   },
+   "body": {
+    "data": {
+     "repository": {
+      "owner": {
+       "login": "vercel"
+      },
+      "name": "next.js",
+      "description": "The React Framework",
+      "repositoryTopics": {
+       "nodes": [
+        {
+         "topic": {
+          "name": "react"
+         }
+        },
+        {
+         "topic": {
+          "name": "server-rendering"
+         }
+        },
+        {
+         "topic": {
+          "name": "universal"
+         }
+        },
+        {
+         "topic": {
+          "name": "node"
+         }
+        },
+        {
+         "topic": {
+          "name": "components"
+         }
+        },
+        {
+         "topic": {
+          "name": "browser"
+         }
+        },
+        {
+         "topic": {
+          "name": "nextjs"
+         }
+        },
+        {
+         "topic": {
+          "name": "vercel"
+         }
+        },
+        {
+         "topic": {
+          "name": "static-site-generator"
+         }
+        },
+        {
+         "topic": {
+          "name": "hybrid"
+         }
+        },
+        {
+         "topic": {
+          "name": "ssg"
+         }
+        },
+        {
+         "topic": {
+          "name": "static"
+         }
+        },
+        {
+         "topic": {
+          "name": "blog"
+         }
+        },
+        {
+         "topic": {
+          "name": "compiler"
+         }
+        }
+       ]
+      },
+      "licenseInfo": {
+       "spdxId": "MIT",
+       "name": "MIT License"
+      },
+      "defaultBranchRef": {
+       "name": "canary",
+       "target": {
+        "oid": "6469906e7909c824f22a165ce858f7f42c978bdd"
+       }
+      },
+      "stargazerCount": 143039,
+      "forkCount": 34243,
+      "watchers": {
+       "totalCount": 1632
+      },
+      "issues": {
+       "totalCount": 1085
+      },
+      "createdAt": "2016-10-05T23:32:51Z",
+      "pushedAt": "2026-10-09T05:30:10Z",
+      "primaryLanguage": {
+       "name": "JavaScript"
+      },
+      "languages": {
+       "edges": [
+        {
+         "size": 39593491,
+         "node": {
+          "name": "JavaScript"
+         }
+        },
+        {
+         "size": 27734070,
+         "node": {
+          "name": "TypeScript"
+         }
+        },
+        {
+         "size": 11819218,
+         "node": {
+          "name": "Rust"
+         }
+        },
+        {
+         "size": 652625,
+         "node": {
+          "name": "MDX"
+         }
+        },
+        {
+         "size": 577901,
+         "node": {
+          "name": "CSS"
+         }
+        },
+        {
+         "size": 42931,
+         "node": {
+          "name": "Shell"
+         }
+        },
+        {
+         "size": 11530,
+         "node": {
+          "name": "Python"
+         }
+        },
+        {
+         "size": 8421,
+         "node": {
+          "name": "SCSS"
+         }
+        },
+        {
+         "size": 7240,
+         "node": {
+          "name": "Dockerfile"
+         }
+        },
+        {
+         "size": 3164,
+         "node": {
+          "name": "C++"
+         }
+        },
+        {
+         "size": 2594,
+         "node": {
+          "name": "HTML"
+         }
+        },
+        {
+         "size": 579,
+         "node": {
+          "name": "Batchfile"
+         }
+        },
+        {
+         "size": 497,
+         "node": {
+          "name": "WebAssembly"
+         }
+        },
+        {
+         "size": 322,
+         "node": {
+          "name": "Sass"
+         }
+        },
+        {
+         "size": 49,
+         "node": {
+          "name": "Pug"
+         }
+        }
+       ]
+      }
+     },
+     "rateLimit": {
+      "cost": 1,
+      "remaining": 4994
+     }
+    }
+   }
+  }
+ ]
+}

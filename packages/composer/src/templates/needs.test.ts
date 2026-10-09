@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { isMeasureId, isShapeName } from '@genui-github/data'
+import { isMeasureId, isShapeName, measureNeeds } from '@genui-github/data'
 import { TEMPLATE_IDS, TEMPLATE_NEEDS } from './needs'
 
 describe('template needs', () => {
@@ -11,6 +11,14 @@ describe('template needs', () => {
       const { shapes, measures } = TEMPLATE_NEEDS[id]
       expect(shapes.filter(s => !isShapeName(s)), id).toEqual([])
       expect(measures.filter(m => !isMeasureId(m)), id).toEqual([])
+    }
+  })
+
+  it('fetches every shape its measures read', () => {
+    for (const id of TEMPLATE_IDS) {
+      const { shapes, measures, scope } = TEMPLATE_NEEDS[id]
+      const read = measures.flatMap(m => measureNeeds(m, scope ? { [scope]: scope === 'pr' ? 1 : scope === 'author' ? 'x' : true } : {}))
+      expect(read.filter(s => !shapes.includes(s)), id).toEqual([])
     }
   })
 })
