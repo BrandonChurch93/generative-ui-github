@@ -22,10 +22,13 @@ export function ComponentViewer({
   name,
   initialDensity,
   initialState,
+  still,
 }: {
   name: string
   initialDensity?: string
   initialState?: string
+  /** Render the settled state with no entrance: for screenshots and the accessibility sweep. */
+  still?: boolean
 }) {
   const entry = catalogEntry(name)!
   const { Component, sample } = entry
@@ -46,7 +49,7 @@ export function ComponentViewer({
   useLayoutEffect(() => {
     const piece = pieceRef.current
     const root = piece?.firstElementChild
-    if (!piece || !(root instanceof HTMLElement)) return
+    if (still || !piece || !(root instanceof HTMLElement)) return
     const entered = catalogEntry(name)
     const variantProps = [entered?.sample.props, ...(entered?.sample.variants ?? []).map(v => v.props)][Number(variant)]
     const shown = state === 'empty' && entered?.sample.empty ? entered.sample.empty : variantProps
@@ -56,7 +59,7 @@ export function ComponentViewer({
       card.progress(1).kill()
       inner?.progress(1).kill()
     }
-  }, [name, state, density, replays, variant])
+  }, [name, state, density, replays, variant, still])
 
   useEffect(() => {
     const url = new URL(window.location.href)

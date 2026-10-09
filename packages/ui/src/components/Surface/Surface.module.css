@@ -1,0 +1,11 @@
+.surface {
+  padding: var(--card-y) var(--inset);
+  border: var(--hairline) solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--card);
+}
+
+.surface[data-tint] {
+  background: var(--surface-tint);
+}

@@ -1,0 +1,170 @@
+{
+  "props": {
+    "title": "Merged commits by author",
+    "measure": "commits",
+    "limit": 8,
+    "wallTone": "fact",
+    "people": [
+      {"handle": "mira-dev", "name": "Mira Devlin", "count": 268, "lastActive": "2026-10-07T16:20:00Z", "lastWords": "last commit 5h ago"},
+      {"handle": "tkato", "name": "Taro Kato", "count": 184, "lastActive": "2026-10-07T09:02:00Z", "lastWords": "last commit 12h ago"},
+      {"handle": "j-oduya", "name": "Jide Oduya", "count": 104, "lastActive": "2026-10-06T18:40:00Z", "lastWords": "last commit 1d ago"},
+      {"handle": "lenaw", "name": "Lena Weiss", "count": 78, "lastActive": "2026-10-05T11:00:00Z", "lastWords": "last commit 2d ago"},
+      {"handle": "pdubois", "name": "Paul Dubois", "count": 61, "lastActive": "2026-10-03T08:15:00Z", "lastWords": "last commit 4d ago"},
+      {"handle": "rsaito", "name": "Rina Saito", "count": 43, "lastActive": "2026-09-30T14:30:00Z", "lastWords": "last commit 8d ago"},
+      {"handle": "kfernandes", "name": "Kai Fernandes de Oliveira", "count": 35, "lastActive": "2026-09-28T10:00:00Z", "lastWords": "last commit 10d ago"},
+      {"handle": "abhatt", "count": 17, "lastActive": "2026-09-21T10:00:00Z", "lastWords": "last commit 17d ago"},
+      {"handle": "knalu", "count": 4, "lastActive": "2026-08-05T12:00:00Z"},
+      {"handle": "vqifi", "count": 4, "lastActive": "2026-09-12T12:00:00Z"},
+      {"handle": "ruso", "count": 4, "lastActive": "2026-07-19T12:00:00Z"},
+      {"handle": "nxeru", "count": 3, "lastActive": "2026-07-04T12:00:00Z"},
+      {"handle": "xene92", "count": 3, "lastActive": "2026-08-11T12:00:00Z"},
+      {"handle": "dovi-dev", "count": 3, "lastActive": "2026-09-18T12:00:00Z"},
+      {"handle": "rana75", "count": 3, "lastActive": "2026-07-25T12:00:00Z"},
+      {"handle": "rona", "count": 3, "lastActive": "2026-08-05T12:00:00Z"},
+      {"handle": "woro69", "count": 3, "lastActive": "2026-09-12T12:00:00Z"},
+      {"handle": "zote-dev", "count": 3, "lastActive": "2026-07-19T12:00:00Z"},
+      {"handle": "vifi-dev", "count": 2, "lastActive": "2026-09-03T12:00:00Z"},
+      {"handle": "thozo", "count": 2, "lastActive": "2026-07-10T12:00:00Z"},
+      {"handle": "xera-dev", "count": 2, "lastActive": "2026-08-17T12:00:00Z"},
+      {"handle": "vira19", "count": 2, "lastActive": "2026-09-24T12:00:00Z"},
+      {"handle": "rora", "count": 2, "lastActive": "2026-07-04T12:00:00Z"},
+      {"handle": "hote22", "count": 2, "lastActive": "2026-08-11T12:00:00Z"},
+      {"handle": "wowo-dev", "count": 2, "lastActive": "2026-09-18T12:00:00Z"},
+      {"handle": "kaso", "count": 2, "lastActive": "2026-07-25T12:00:00Z"},
+      {"handle": "qizo", "count": 2, "lastActive": "2026-08-05T12:00:00Z"},
+      {"handle": "dowo10", "count": 2, "lastActive": "2026-09-12T12:00:00Z"},
+      {"handle": "hoxe26", "count": 2, "lastActive": "2026-07-19T12:00:00Z"},
+      {"handle": "gnaso", "count": 2, "lastActive": "2026-08-26T12:00:00Z"},
+      {"handle": "roqi", "count": 2, "lastActive": "2026-09-06T12:00:00Z"},
+      {"handle": "mixe", "count": 2, "lastActive": "2026-07-13T12:00:00Z"},
+      {"handle": "wota-dev", "count": 1, "lastActive": "2026-08-02T12:00:00Z"},
+      {"handle": "sopa-dev", "count": 1, "lastActive": "2026-09-09T12:00:00Z"},
+      {"handle": "wofi-dev", "count": 1, "lastActive": "2026-07-16T12:00:00Z"},
+      {"handle": "para98", "count": 1, "lastActive": "2026-08-23T12:00:00Z"},
+      {"handle": "howo", "count": 1, "lastActive": "2026-09-03T12:00:00Z"},
+      {"handle": "zofi", "count": 1, "lastActive": "2026-07-10T12:00:00Z"},
+      {"handle": "bnezo", "count": 1, "lastActive": "2026-08-17T12:00:00Z"},
+      {"handle": "qqika", "count": 1, "lastActive": "2026-09-24T12:00:00Z"},
+      {"handle": "lupa-dev", "count": 1, "lastActive": "2026-07-04T12:00:00Z"},
+      {"handle": "rruxe", "count": 1, "lastActive": "2026-08-11T12:00:00Z"},
+      {"handle": "yuka75", "count": 1, "lastActive": "2026-09-18T12:00:00Z"},
+      {"handle": "kate", "count": 1, "lastActive": "2026-07-25T12:00:00Z"},
+      {"handle": "glute", "count": 1, "lastActive": "2026-08-05T12:00:00Z"},
+      {"handle": "sobe70", "count": 1, "lastActive": "2026-09-12T12:00:00Z"},
+      {"handle": "rara82", "count": 1, "lastActive": "2026-07-19T12:00:00Z"},
+      {"handle": "tzomi", "count": 1, "lastActive": "2026-08-26T12:00:00Z"},
+      {"handle": "tero-dev", "count": 1, "lastActive": "2026-09-06T12:00:00Z"}
+    ]
+  },
+  "variants": [
+    {
+      "label": "Reviews · three people",
+      "props": {
+        "title": "Reviews on merged pull requests",
+        "measure": "reviews",
+        "limit": 3,
+        "wallTone": "fact",
+        "people": [
+          {"handle": "hgrey", "name": "Hana Grey", "count": 214, "lastActive": "2026-10-07T15:00:00Z", "lastWords": "last review 6h ago", "ask": "What is hgrey reviewing?"},
+          {"handle": "ovan", "name": "Otto Vandermeer", "count": 95, "lastActive": "2026-10-06T15:00:00Z", "lastWords": "last review 1d ago", "ask": "What is ovan reviewing?"},
+          {"handle": "ivanko", "name": "Ivan Kovac", "count": 42, "lastActive": "2026-10-04T15:00:00Z", "lastWords": "last review 3d ago", "ask": "What is ivanko reviewing?"}
+        ]
+      }
+    },
+    {
+      "label": "Marked as risk",
+      "props": {
+        "title": "Reviews on merged pull requests",
+        "measure": "reviews",
+        "limit": 3,
+        "wallTone": "risk",
+        "people": [
+          {"handle": "hgrey", "name": "Hana Grey", "count": 214, "lastActive": "2026-10-07T15:00:00Z", "lastWords": "last review 6h ago", "ask": "What is hgrey reviewing?"},
+          {"handle": "ovan", "name": "Otto Vandermeer", "count": 95, "lastActive": "2026-10-06T15:00:00Z", "lastWords": "last review 1d ago", "ask": "What is ovan reviewing?"},
+          {"handle": "ivanko", "name": "Ivan Kovac", "count": 42, "lastActive": "2026-10-04T15:00:00Z", "lastWords": "last review 3d ago", "ask": "What is ivanko reviewing?"}
+        ]
+      }
+    },
+    {
+      "label": "Spread out · no wall in view",
+      "props": {
+        "title": "Merged commits by author",
+        "measure": "commits",
+        "limit": 5,
+        "wallTone": "fact",
+        "people": [
+          {"handle": "pdubois", "name": "Paul Dubois", "count": 52, "lastActive": "2026-10-07T10:00:00Z", "lastWords": "last commit 13h ago"},
+          {"handle": "dmello", "name": "Dana Mello", "count": 41, "lastActive": "2026-10-06T10:00:00Z", "lastWords": "last commit 1d ago"},
+          {"handle": "rsaito", "name": "Rina Saito", "count": 30, "lastActive": "2026-10-05T10:00:00Z", "lastWords": "last commit 2d ago"},
+          {"handle": "lenaw", "name": "Lena Weiss", "count": 25, "lastActive": "2026-10-04T10:00:00Z", "lastWords": "last commit 3d ago"},
+          {"handle": "tkato", "name": "Taro Kato", "count": 21, "lastActive": "2026-10-02T10:00:00Z", "lastWords": "last commit 5d ago"},
+          {"handle": "yuro", "count": 9, "lastActive": "2026-07-10T12:00:00Z"},
+          {"handle": "rami79", "count": 9, "lastActive": "2026-08-17T12:00:00Z"},
+          {"handle": "byuru", "count": 9, "lastActive": "2026-09-24T12:00:00Z"},
+          {"handle": "dzozo", "count": 9, "lastActive": "2026-07-04T12:00:00Z"},
+          {"handle": "neho86", "count": 9, "lastActive": "2026-08-11T12:00:00Z"},
+          {"handle": "bezo", "count": 9, "lastActive": "2026-09-18T12:00:00Z"},
+          {"handle": "viwo95", "count": 9, "lastActive": "2026-07-25T12:00:00Z"},
+          {"handle": "luso92", "count": 9, "lastActive": "2026-08-05T12:00:00Z"},
+          {"handle": "hfibe", "count": 9, "lastActive": "2026-09-12T12:00:00Z"},
+          {"handle": "wona", "count": 9, "lastActive": "2026-07-19T12:00:00Z"},
+          {"handle": "gworu", "count": 6, "lastActive": "2026-07-07T12:00:00Z"},
+          {"handle": "womi", "count": 6, "lastActive": "2026-08-14T12:00:00Z"},
+          {"handle": "raka", "count": 6, "lastActive": "2026-09-21T12:00:00Z"},
+          {"handle": "xepa", "count": 6, "lastActive": "2026-07-01T12:00:00Z"},
+          {"handle": "rqimi", "count": 6, "lastActive": "2026-08-08T12:00:00Z"},
+          {"handle": "xgaqi", "count": 6, "lastActive": "2026-09-15T12:00:00Z"},
+          {"handle": "groho", "count": 6, "lastActive": "2026-07-22T12:00:00Z"},
+          {"handle": "soso", "count": 6, "lastActive": "2026-08-02T12:00:00Z"},
+          {"handle": "wnera", "count": 6, "lastActive": "2026-09-09T12:00:00Z"},
+          {"handle": "rumi-dev", "count": 6, "lastActive": "2026-07-16T12:00:00Z"},
+          {"handle": "taru", "count": 6, "lastActive": "2026-08-23T12:00:00Z"},
+          {"handle": "pate", "count": 4, "lastActive": "2026-08-05T12:00:00Z"},
+          {"handle": "rona-dev", "count": 4, "lastActive": "2026-09-12T12:00:00Z"},
+          {"handle": "luka-dev", "count": 4, "lastActive": "2026-07-19T12:00:00Z"},
+          {"handle": "zroro", "count": 4, "lastActive": "2026-08-26T12:00:00Z"},
+          {"handle": "beru-dev", "count": 4, "lastActive": "2026-09-06T12:00:00Z"},
+          {"handle": "hqiyu", "count": 4, "lastActive": "2026-07-13T12:00:00Z"},
+          {"handle": "rute-dev", "count": 4, "lastActive": "2026-08-20T12:00:00Z"},
+          {"handle": "fido", "count": 4, "lastActive": "2026-09-27T12:00:00Z"},
+          {"handle": "dovi", "count": 4, "lastActive": "2026-07-07T12:00:00Z"},
+          {"handle": "kata-dev", "count": 4, "lastActive": "2026-08-14T12:00:00Z"},
+          {"handle": "rawo", "count": 4, "lastActive": "2026-09-21T12:00:00Z"},
+          {"handle": "hora77", "count": 4, "lastActive": "2026-07-01T12:00:00Z"},
+          {"handle": "sota-dev", "count": 4, "lastActive": "2026-08-08T12:00:00Z"},
+          {"handle": "sowo54", "count": 3, "lastActive": "2026-07-04T12:00:00Z"},
+          {"handle": "ruru-dev", "count": 3, "lastActive": "2026-08-11T12:00:00Z"},
+          {"handle": "ptate", "count": 3, "lastActive": "2026-09-18T12:00:00Z"},
+          {"handle": "rube", "count": 3, "lastActive": "2026-07-25T12:00:00Z"},
+          {"handle": "luka66", "count": 3, "lastActive": "2026-08-05T12:00:00Z"},
+          {"handle": "taru-dev", "count": 3, "lastActive": "2026-09-12T12:00:00Z"},
+          {"handle": "fiqi", "count": 3, "lastActive": "2026-07-19T12:00:00Z"},
+          {"handle": "pnaso", "count": 3, "lastActive": "2026-08-26T12:00:00Z"},
+          {"handle": "xviga", "count": 3, "lastActive": "2026-09-06T12:00:00Z"},
+          {"handle": "glumi", "count": 3, "lastActive": "2026-07-13T12:00:00Z"},
+          {"handle": "woho", "count": 3, "lastActive": "2026-08-20T12:00:00Z"},
+          {"handle": "tbedo", "count": 2, "lastActive": "2026-09-03T12:00:00Z"}
+        ]
+      }
+    }
+  ],
+  "empty": {
+    "title": "Merged commits by author",
+    "meta": "v3 branch",
+    "measure": "commits",
+    "limit": 5,
+    "emptyTone": "neutral",
+    "empty": "Nothing merged on v3 in the last 90 days",
+    "emptyMeta": "last merge 5 months ago · v3.4.17",
+    "people": []
+  },
+  "error": {
+    "failed": "Couldn't load commit authors",
+    "cause": "GitHub returned 502 · tried twice"
+  },
+  "warming": {
+    "counting": "GitHub is counting contributors",
+    "nextCheck": "usually under a minute · checking again in 12s",
+    "progress": 0.38
+  }
+}

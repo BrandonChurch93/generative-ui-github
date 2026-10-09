@@ -1,0 +1,298 @@
+.body [data-step="0"] {
+  background: var(--heat-0);
+}
+
+.body [data-step="1"] {
+  background: var(--heat-1);
+}
+
+.body [data-step="2"] {
+  background: var(--heat-2);
+}
+
+.body [data-step="3"] {
+  background: var(--heat-3);
+}
+
+.body [data-step="4"] {
+  background: var(--heat-4);
+}
+
+.body [data-step="5"] {
+  background: var(--heat-5);
+}
+
+.plot {
+  position: relative;
+  padding: var(--card-y) var(--inset) 0;
+}
+
+/*
+ * The field scrolls when the card is too narrow for a legible cell; the day labels stay put. It bleeds into
+ * the end inset and a little above and below so a lifted, focused cell is never clipped by the scroll box.
+ */
+.field {
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  margin-block: calc(-1 * var(--space-2));
+  margin-inline-end: calc(-1 * var(--inset));
+  padding-block: var(--space-2);
+  padding-inline-end: var(--inset);
+}
+
+.matrix {
+  display: grid;
+  grid-template-columns: calc(3ch + var(--row-y)) minmax(calc(24 * var(--space-4) + 23 * var(--ring)), 1fr);
+  row-gap: var(--space-2);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-axis-size);
+  line-height: var(--text-axis-leading);
+  font-weight: var(--text-axis-weight);
+}
+
+/* Covers the hour labels as they scroll under the sticky day column. */
+.matrix::before {
+  content: "";
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  grid-row: 2;
+  grid-column: 1;
+  background: var(--surface);
+}
+
+.days {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  grid-row: 1;
+  grid-column: 1;
+  display: grid;
+  grid-template-rows: repeat(7, minmax(0, 1fr));
+  row-gap: var(--ring);
+  padding-inline-end: var(--row-y);
+  background: var(--surface);
+}
+
+.day {
+  display: flex;
+  align-items: center;
+}
+
+.day[data-peak-day] {
+  color: var(--ink);
+  font-weight: var(--text-label-weight);
+}
+
+.rows {
+  grid-row: 1;
+  grid-column: 2;
+  display: grid;
+  row-gap: var(--ring);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(24, minmax(0, 1fr));
+  column-gap: var(--ring);
+}
+
+/* About a fifth of the cell: 3 at compact widths, never past the small radius. */
+.cell,
+.bar {
+  border-radius: min(var(--radius-xs), 20%);
+}
+
+.cell {
+  position: relative;
+  aspect-ratio: 1;
+  background: var(--heat-0);
+}
+
+.cell:hover,
+.cell[data-active] {
+  z-index: 2;
+  transform: scale(1.2);
+  box-shadow: 0 0 0 var(--ring) var(--surface);
+}
+
+/* The halo clears the ring by a hairline, so focus never lands on a dark neighbor or reads as coral data. */
+.cell:focus-visible,
+.cell:has(.cellButton:focus-visible) {
+  z-index: 2;
+  outline: var(--focus-ring) solid var(--focus);
+  outline-offset: var(--focus-offset);
+  box-shadow: 0 0 0 calc(var(--focus-offset) + var(--focus-ring) + var(--hairline)) var(--surface);
+  transform: scale(1.2);
+}
+
+.cellButton {
+  position: absolute;
+  inset: 0;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: inherit;
+  background: none;
+  cursor: pointer;
+}
+
+.cellButton:focus-visible {
+  outline: none;
+}
+
+.dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  inline-size: var(--space-1);
+  block-size: var(--space-1);
+  margin: calc(var(--space-1) / -2) 0 0 calc(var(--space-1) / -2);
+  border-radius: 50%;
+  background: var(--accent-ink);
+  pointer-events: none;
+}
+
+.hours {
+  grid-row: 2;
+  grid-column: 2;
+  display: grid;
+  grid-template-columns: repeat(24, minmax(0, 1fr));
+  column-gap: var(--ring);
+  block-size: calc(var(--text-axis-size) * var(--text-axis-leading));
+}
+
+.hour {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+/* Skeleton rows: one bar per day, square-cell tall, so loading never reads as a week of zeros. */
+.sizer {
+  grid-row: 1;
+  grid-column: 1;
+  aspect-ratio: 1;
+}
+
+.bar {
+  grid-row: 1;
+  grid-column: 1 / -1;
+}
+
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--card-y) var(--inset);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.legendGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.swatches {
+  display: flex;
+  gap: var(--ring);
+}
+
+.swatch {
+  position: relative;
+  display: block;
+  flex-shrink: 0;
+  inline-size: var(--space-3);
+  block-size: var(--space-3);
+  border-radius: var(--radius-xs);
+}
+
+.peak {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.tip {
+  position: absolute;
+  z-index: 3;
+  top: calc(var(--tip-top) - var(--space-2));
+  display: grid;
+  gap: calc(var(--space-1) / 2);
+  padding: var(--space-2) var(--space-3);
+  border: var(--hairline) solid var(--line-soft);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--card);
+  transform: translate(-50%, -100%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* On the top two rows the tooltip opens below, so the card never clips it. */
+.tip[data-flip] {
+  top: calc(var(--tip-bottom) + var(--space-2));
+  transform: translate(-50%, 0);
+}
+
+.tipCount {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--ink);
+  font-size: var(--text-card-title-size);
+  line-height: var(--text-card-title-leading);
+  font-weight: var(--text-value-weight);
+  font-variant-numeric: tabular-nums;
+}
+
+.tipKey {
+  flex-shrink: 0;
+  inline-size: var(--mark);
+  block-size: var(--mark);
+  border-radius: var(--radius-xs);
+}
+
+.tipUnit {
+  color: var(--muted);
+  font-style: normal;
+  font-weight: var(--text-body-weight);
+}
+
+.tipWhen {
+  padding-inline-start: calc(var(--mark) + var(--space-2));
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  letter-spacing: var(--text-meta-tracking);
+}
+
+.message {
+  padding-block: calc(var(--card-y) - var(--row-y));
+}
+
+.tableCounts td {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}

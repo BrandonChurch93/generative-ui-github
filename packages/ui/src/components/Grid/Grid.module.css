@@ -1,0 +1,21 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--columns, 2), minmax(0, 1fr));
+  gap: var(--region-gap);
+  align-items: start;
+}
+
+/* raw-ok: media queries cannot read custom properties; the shell's two-column breakpoint. */
+@media (max-width: 1023px) {
+  .grid[data-columns="3"],
+  .grid[data-columns="4"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* raw-ok: media queries cannot read custom properties; the phone breakpoint. */
+@media (max-width: 639px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

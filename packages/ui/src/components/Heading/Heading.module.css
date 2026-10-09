@@ -1,0 +1,23 @@
+.heading {
+  margin: 0;
+  color: var(--ink);
+  font-size: var(--text-section-size);
+  line-height: var(--text-section-leading);
+  font-weight: var(--text-section-weight);
+  text-wrap: balance;
+}
+
+.heading[data-look="question"] {
+  max-inline-size: 22ch;
+  font-size: var(--text-question-size);
+  line-height: var(--text-question-leading);
+  font-weight: var(--text-question-weight);
+  letter-spacing: var(--text-question-tracking);
+}
+
+.heading[data-look="card-title"] {
+  font-size: var(--text-card-title-size);
+  line-height: var(--text-card-title-leading);
+  font-weight: var(--text-card-title-weight);
+  letter-spacing: var(--text-card-title-tracking);
+}

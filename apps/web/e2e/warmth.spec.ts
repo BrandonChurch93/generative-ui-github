@@ -12,8 +12,14 @@ test('the warmth follows the pointer, and each frame of following costs under 16
   test.skip(browserName !== 'chromium', 'tracing is Chromium only')
   await page.goto('/catalog/parts')
 
-  await page.mouse.move(300, 200)
-  await expect.poll(() => centre(page)).toMatchObject({ x: 300, y: 200 })
+  // Keep moving until hydration has attached the listener; the first move can arrive before it.
+  await expect
+    .poll(async () => {
+      await page.mouse.move(300 + Math.random(), 200)
+      await page.mouse.move(300, 200)
+      return centre(page)
+    })
+    .toMatchObject({ x: 300, y: 200 })
   await page.mouse.move(900, 500, { steps: 5 })
   await expect.poll(() => centre(page)).toMatchObject({ x: 900, y: 500 })
   await expect.poll(async () => Number((await centre(page)).opacity)).toBeGreaterThan(0.9)

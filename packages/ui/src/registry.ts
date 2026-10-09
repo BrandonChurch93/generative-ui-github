@@ -106,6 +106,3 @@ export function createRegistry(): Registry {
     },
   }
 }
-
-/** The one registry the renderer, the composer and the catalog share. */
-export const registry = createRegistry()

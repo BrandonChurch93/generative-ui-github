@@ -1,0 +1,334 @@
+/* The pieces of the chart's height, shared by every state so the card is one size however it arrives. */
+.body,
+.stateBody {
+  --lane: var(--space-5);
+  --axis-h: calc(var(--space-1) * 2 + var(--text-axis-size) * var(--text-axis-leading));
+  --source-h: calc(var(--text-meta-size) * var(--text-meta-leading));
+  --chart-h: calc(
+    var(--card-y) * 2 + var(--lane) + var(--space-2) + var(--plot-h) + var(--hairline) + var(--axis-h) + var(--row-y) + var(--source-h)
+  );
+}
+
+.body {
+  box-sizing: border-box;
+  min-block-size: var(--chart-h);
+  padding: var(--card-y) var(--inset);
+}
+
+/* A gutter as wide as the widest count plus space-2, then the plot. Narrow has no gutter. */
+.chart {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+}
+
+.ticks {
+  position: relative;
+  block-size: var(--plot-h);
+  margin-top: calc(var(--lane) + var(--space-2));
+  padding-inline-end: var(--space-2);
+}
+
+.sizer {
+  display: block;
+  block-size: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+.sizer,
+.tick,
+.edge,
+.p90Label {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-axis-size);
+  line-height: var(--text-axis-leading);
+  font-weight: var(--text-axis-weight);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.tick {
+  position: absolute;
+  right: var(--space-2);
+  transform: translateY(50%);
+}
+
+/* The lane above the plot holds only the marker label, so the label never meets a bar. */
+.area {
+  position: relative;
+  padding-top: calc(var(--lane) + var(--space-2));
+}
+
+.plot {
+  position: relative;
+  block-size: var(--plot-h);
+  margin-bottom: var(--hairline);
+}
+
+.grid {
+  position: absolute;
+  inset-inline: 0;
+  block-size: var(--hairline);
+  background: var(--line-soft);
+}
+
+.baseline {
+  position: absolute;
+  inset-inline: 0;
+  top: 100%;
+  block-size: var(--hairline);
+  background: var(--line);
+}
+
+.p90 {
+  position: absolute;
+  z-index: 1;
+  inset-block: 0;
+  inline-size: var(--hairline);
+  margin-left: calc(var(--hairline) / -2);
+  background: var(--data-ref);
+  transform-origin: center top;
+}
+
+.p90Label {
+  position: absolute;
+  top: 0;
+  left: var(--space-2);
+}
+
+.p90[data-flip] .p90Label {
+  right: var(--space-2);
+  left: auto;
+}
+
+.bins {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+/* The whole bin is the target, not the bar. */
+.bin {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  min-width: 0;
+  block-size: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.bin::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset-block: 0;
+  inset-inline: max(var(--space-1), calc(50% - var(--col-max) / 2 - var(--space-2)));
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  background: var(--surface-tint);
+  opacity: 0;
+}
+
+.bin:hover::before,
+.bin[data-active]::before {
+  opacity: 1;
+}
+
+.bar {
+  position: relative;
+  z-index: 2;
+  display: block;
+  inline-size: min(var(--col-max), calc(100% - var(--hairline) * 2));
+  border-radius: var(--radius-xs) var(--radius-xs) 0 0;
+  background: var(--data-1);
+  transform-origin: center bottom;
+}
+
+.bin:focus-visible {
+  outline: none;
+}
+
+/* The ring hugs the bar, so the tooltip above it sits clear of the ring. */
+.bin:focus-visible .bar {
+  outline: var(--focus-ring) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+
+/* The median: a stem behind the bars at its bin's center, rising to a cap in the lane. */
+.marker {
+  position: absolute;
+  z-index: 1;
+  top: calc(var(--lane) / 2);
+  bottom: var(--hairline);
+  inline-size: 0;
+}
+
+.stem {
+  position: absolute;
+  inset-block: 0;
+  left: calc(var(--plot-line) / -2);
+  inline-size: var(--plot-line);
+  background: var(--ink);
+  transform-origin: center bottom;
+}
+
+.cap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  inline-size: var(--endpoint);
+  block-size: var(--endpoint);
+  border-radius: 50%;
+  background: var(--ink);
+  box-shadow: 0 0 0 var(--ring) var(--surface);
+  transform: translate(-50%, -50%);
+}
+
+.markerLabel {
+  position: absolute;
+  top: 0;
+  left: calc(var(--endpoint) / 2 + var(--ring) + var(--space-1));
+  color: var(--ink);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-leading);
+  font-weight: var(--text-label-weight);
+  white-space: nowrap;
+  transform: translateY(-50%);
+}
+
+.markerLabel[data-flip] {
+  right: calc(var(--endpoint) / 2 + var(--ring) + var(--space-1));
+  left: auto;
+}
+
+.markerLabel i {
+  color: var(--muted);
+  font-style: normal;
+}
+
+.markerLabel b {
+  font-weight: var(--text-metric-weight);
+  font-variant-numeric: tabular-nums;
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 3;
+  display: grid;
+  gap: calc(var(--space-1) / 2);
+  padding: var(--space-2) var(--space-3);
+  border: var(--hairline) solid var(--line-soft);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--card);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.tooltip:not([data-placed]) {
+  visibility: hidden;
+}
+
+.tipCount {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--ink);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-leading);
+  font-weight: var(--text-value-weight);
+  font-variant-numeric: tabular-nums;
+}
+
+.tipKey {
+  inline-size: var(--space-3);
+  block-size: var(--plot-line);
+  border-radius: var(--radius-pill);
+  background: var(--data-1);
+}
+
+.tipMeta {
+  padding-inline-start: calc(var(--space-3) + var(--space-2));
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  letter-spacing: var(--text-meta-tracking);
+}
+
+/* Edge labels sit space-1 under a 4px tick at each of the six bin edges. */
+.axis {
+  position: relative;
+  block-size: var(--axis-h);
+}
+
+.edge,
+.edgeSkeleton {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+}
+
+.edge {
+  padding-top: calc(var(--space-1) * 2);
+}
+
+.edge::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  inline-size: var(--hairline);
+  block-size: var(--space-1);
+  margin-left: calc(var(--hairline) / -2);
+  background: var(--line);
+}
+
+.edge[data-on] {
+  color: var(--ink);
+}
+
+.edgeSkeleton {
+  padding-top: calc(var(--space-1) * 2);
+}
+
+.source {
+  block-size: var(--source-h);
+  margin: var(--row-y) 0 0;
+  overflow: hidden;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.skBin {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  min-width: 0;
+  block-size: 100%;
+}
+
+.bins .skBar {
+  border-radius: var(--radius-xs) var(--radius-xs) 0 0;
+}
+
+.stateBody {
+  box-sizing: border-box;
+  display: grid;
+  align-content: center;
+  min-block-size: var(--chart-h);
+}

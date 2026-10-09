@@ -1,0 +1,182 @@
+/*
+ * --step-ring is the ring's diameter and the title's line height, so title and ring share a center.
+ * It stands for a 21px size token that tokens.css does not have yet.
+ * Between steps the gap is the density's side padding: space-4, space-5, space-6.
+ * Body to link is space-2, space-2, space-3.
+ */
+.card {
+  --step-ring: calc(var(--space-5) + var(--hairline));
+  --step-gap: var(--inset);
+  --step-link: max(var(--space-2), calc(var(--row-y) - var(--space-1)));
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--step-gap);
+  margin: 0;
+  padding: var(--step-gap) 0;
+  list-style: none;
+  container-type: inline-size;
+}
+
+.step {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: 0 var(--inset);
+}
+
+/* The ring sits a hairline below the title's line box so it centers on the letters, not the box. */
+.ring {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  inline-size: var(--step-ring);
+  block-size: var(--step-ring);
+  margin-top: var(--hairline);
+  border: var(--hairline) solid var(--line);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-tag-size);
+  line-height: 1;
+  font-weight: var(--text-tag-weight);
+}
+
+.step[data-first] .ring {
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.top {
+  display: flex;
+  align-self: stretch;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.title {
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  color: var(--ink);
+  font-size: var(--text-action-size);
+  line-height: var(--step-ring);
+  font-weight: var(--text-action-weight);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.fact {
+  flex-shrink: 0;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+  white-space: nowrap;
+}
+
+.body {
+  display: -webkit-box;
+  max-inline-size: 62ch;
+  margin: var(--space-1) 0 0;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-leading);
+  font-weight: var(--text-body-weight);
+  text-wrap: pretty;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+/* A command never breaks, and takes 0.1em each side so the sans word space does not close up against it. */
+.code {
+  margin: 0 0.1em;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  font-weight: var(--text-handle-weight);
+  white-space: nowrap;
+}
+
+.step .link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-top: var(--step-link);
+}
+
+.arrow {
+  display: block;
+  flex-shrink: 0;
+  inline-size: var(--space-3);
+  block-size: var(--space-3);
+  stroke: currentColor;
+  stroke-width: var(--stroke);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.step .link:hover .arrow {
+  transform: translate(var(--hairline), calc(var(--hairline) * -1));
+}
+
+/* raw-ok: container queries cannot read custom properties; under 480px of card the fact moves under the title. */
+@container (max-width: 479px) {
+  .top {
+    display: block;
+  }
+
+  .title {
+    display: block;
+  }
+
+  .fact {
+    display: block;
+  }
+}
+
+.disc {
+  margin-top: var(--hairline);
+}
+
+.skeletonTop {
+  display: flex;
+  align-self: stretch;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  block-size: var(--step-ring);
+}
+
+.skeletonBody {
+  display: flex;
+  align-self: stretch;
+  flex-direction: column;
+  margin-top: var(--space-1);
+}
+
+.skeletonLink {
+  margin-top: var(--step-link);
+}

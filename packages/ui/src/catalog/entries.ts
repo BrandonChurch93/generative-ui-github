@@ -26,6 +26,27 @@ import { Timeline } from '../components/Timeline/Timeline'
 import { sparklineMotion } from '../components/Sparkline/motion'
 import sparklineSample from '../components/Sparkline/sample.json'
 import { SparklineDemo } from '../components/Sparkline/SparklineDemo'
+import { ContributorRank } from '../components/ContributorRank/ContributorRank'
+import { contributorRankMotion } from '../components/ContributorRank/motion'
+import contributorRankSample from '../components/ContributorRank/sample.json'
+import type { ContributorRankProps } from '../components/ContributorRank/schema'
+import { Comparison } from '../components/Comparison/Comparison'
+import { comparisonMotion } from '../components/Comparison/motion'
+import comparisonSample from '../components/Comparison/sample.json'
+import type { ComparisonProps } from '../components/Comparison/schema'
+import { Distribution } from '../components/Distribution/Distribution'
+import { distributionMotion } from '../components/Distribution/motion'
+import distributionSample from '../components/Distribution/sample.json'
+import type { DistributionProps } from '../components/Distribution/schema'
+import { Heatmap } from '../components/Heatmap/Heatmap'
+import { heatmapMotion } from '../components/Heatmap/motion'
+import heatmapSample from '../components/Heatmap/sample.json'
+import type { HeatmapProps } from '../components/Heatmap/schema'
+import { Steps } from '../components/Steps/Steps'
+import { stepsMotion } from '../components/Steps/motion'
+import stepsSample from '../components/Steps/sample.json'
+import type { StepsProps } from '../components/Steps/schema'
+import * as layout from './layoutDemos'
 import type { PieceMotion } from '../motion/types'
 import type { ComponentSpec } from '../registry'
 import { registry } from '../specs'
@@ -152,6 +173,191 @@ export const CATALOG: CatalogEntry[] = [
     sample: actionCardSample as CatalogSample<ActionCardProps>,
     sampleFile: 'ActionCard/sample.json',
     width: 'third',
+  }),
+  entry<ContributorRankProps>({
+    name: 'ContributorRank',
+    group: 'Data',
+    description: "Who carries a repo's work: one ranked share bar per person, with the smallest group that carries half the work, the bus factor, set apart as the load-bearing wall.",
+    spec: specOf('ContributorRank'),
+    Component: ContributorRank,
+    motion: contributorRankMotion,
+    sample: contributorRankSample as CatalogSample<ContributorRankProps>,
+    sampleFile: 'ContributorRank/sample.json',
+    width: 'half',
+  }),
+  entry<ComparisonProps>({
+    name: 'Comparison',
+    group: 'Data',
+    description: 'Two periods side by side for two to four measures, each a pair of bars on its own zero-based scale with a signed delta and a verdict in a fixed column on the right.',
+    spec: specOf('Comparison'),
+    Component: Comparison,
+    motion: comparisonMotion,
+    sample: comparisonSample as CatalogSample<ComparisonProps>,
+    sampleFile: 'Comparison/sample.json',
+    width: 'half',
+  }),
+  entry<DistributionProps>({
+    name: 'Distribution',
+    group: 'Data',
+    description: 'A histogram of how long something takes, with one ink marker that answers how long would I wait in words and a quieter p90 rule for the tail.',
+    spec: specOf('Distribution'),
+    Component: Distribution,
+    motion: distributionMotion,
+    sample: distributionSample as CatalogSample<DistributionProps>,
+    sampleFile: 'Distribution/sample.json',
+    width: 'half',
+  }),
+  entry<HeatmapProps>({
+    name: 'Heatmap',
+    group: 'Data',
+    description: "A punch card of when work happens: seven weekday rows by 24 hour columns in the viewer's time zone, each cell's count drawn as a step on one coral heat ramp.",
+    spec: specOf('Heatmap'),
+    Component: Heatmap,
+    motion: heatmapMotion,
+    sample: heatmapSample as CatalogSample<HeatmapProps>,
+    sampleFile: 'Heatmap/sample.json',
+    width: 'half',
+  }),
+  entry<StepsProps>({
+    name: 'Steps',
+    group: 'Paths',
+    description: "An ordered path the model writes from the repo's own data, drawn as numbered rings on a hairline spine. Each step is an action title with a line or two of body, an optional fact and an optional link.",
+    spec: specOf('Steps'),
+    Component: Steps,
+    motion: stepsMotion,
+    sample: stepsSample as CatalogSample<StepsProps>,
+    sampleFile: 'Steps/sample.json',
+    width: 'half',
+  }),
+  entry({
+    name: 'Surface',
+    group: 'Primitives',
+    description: 'A plain card ground for pieces that bring their own insides.',
+    spec: specOf('Surface'),
+    Component: layout.SurfaceDemo,
+    sample: { props: {} },
+    sampleFile: 'none · layout has no data',
+    width: 'half',
+  }),
+  entry({
+    name: 'Section',
+    group: 'Primitives',
+    description: 'A titled group of pieces.',
+    spec: specOf('Section'),
+    Component: layout.SectionDemo,
+    sample: { props: {} },
+    sampleFile: 'none · layout has no data',
+    width: 'half',
+  }),
+  entry({
+    name: 'Stack',
+    group: 'Primitives',
+    description: 'Pieces one above the other at the density gap.',
+    spec: specOf('Stack'),
+    Component: layout.StackDemo,
+    sample: { props: {} },
+    sampleFile: 'none · layout has no data',
+    width: 'half',
+  }),
+  entry({
+    name: 'Grid',
+    group: 'Primitives',
+    description: 'Pieces in equal columns that collapse on narrow screens.',
+    spec: specOf('Grid'),
+    Component: layout.GridDemo,
+    sample: { props: {} },
+    sampleFile: 'none · layout has no data',
+    width: 'full',
+  }),
+  entry({
+    name: 'SplitView',
+    group: 'Primitives',
+    description: 'The main and side columns of a composed screen.',
+    spec: specOf('SplitView'),
+    Component: layout.SplitViewDemo,
+    sample: { props: {} },
+    sampleFile: 'none · layout has no data',
+    width: 'full',
+  }),
+  entry({
+    name: 'Drawer',
+    group: 'Primitives',
+    description: 'A sheet from the right edge over a scrim; Escape closes it and focus returns.',
+    spec: specOf('Drawer'),
+    Component: layout.DrawerDemo,
+    sample: { props: {} },
+    sampleFile: 'none · layout has no data',
+    width: 'half',
+  }),
+  entry({
+    name: 'Tabs',
+    group: 'Primitives',
+    description: 'Panels behind a row of tabs; arrow keys move between them.',
+    spec: specOf('Tabs'),
+    Component: layout.TabsDemo,
+    sample: { props: {} },
+    sampleFile: 'none · layout has no data',
+    width: 'half',
+  }),
+  entry({
+    name: 'Heading',
+    group: 'Primitives',
+    description: "The question, a section title or a card title in the system's type styles.",
+    spec: specOf('Heading'),
+    Component: layout.HeadingDemo,
+    sample: { props: {} },
+    sampleFile: 'none · layout has no data',
+    width: 'half',
+  }),
+  entry({
+    name: 'Text',
+    group: 'Primitives',
+    description: 'Lead, body, hint or meta text.',
+    spec: specOf('Text'),
+    Component: layout.TextDemo,
+    sample: { props: {} },
+    sampleFile: 'none · layout has no data',
+    width: 'half',
+  }),
+  entry({
+    name: 'List',
+    group: 'Primitives',
+    description: "A plain list in the system's row rhythm.",
+    spec: specOf('List'),
+    Component: layout.ListDemo,
+    sample: { props: {} },
+    sampleFile: 'none · layout has no data',
+    width: 'half',
+  }),
+  entry({
+    name: 'Avatar',
+    group: 'Primitives',
+    description: 'A person as initials from their handle.',
+    spec: specOf('Avatar'),
+    Component: layout.AvatarDemo,
+    sample: { props: {} },
+    sampleFile: 'none · layout has no data',
+    width: 'half',
+  }),
+  entry({
+    name: 'Button',
+    group: 'Primitives',
+    description: 'Primary is the accent gradient; secondary is surface with a line border. Hover lifts 1px.',
+    spec: specOf('Button'),
+    Component: layout.ButtonDemo,
+    sample: { props: {} },
+    sampleFile: 'none · layout has no data',
+    width: 'half',
+  }),
+  entry({
+    name: 'Ask',
+    group: 'Primitives',
+    description: 'A suggested question chip; the selected one is tinted, the rest muted until hover.',
+    spec: specOf('Ask'),
+    Component: layout.AskDemo,
+    sample: { props: {} },
+    sampleFile: 'none · layout has no data',
+    width: 'full',
   }),
 ]
 

@@ -17,8 +17,6 @@ test('every catalog page and state has no serious accessibility issues @a11y', a
   test.skip(info.project.name === 'unconfigured', 'the catalog does not depend on configuration')
   // Every component in every state: this grows with the catalog.
   test.setTimeout(240_000)
-  // Each piece plays its entrance; contrast is measured on the settled state, after the reduced fades and their stagger.
-  await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/catalog')
   const hrefs = await page
     .getByRole('navigation', { name: 'Catalog' })
@@ -28,8 +26,8 @@ test('every catalog page and state has no serious accessibility issues @a11y', a
   for (const href of hrefs) {
     const component = /^\/catalog\/[A-Z]/.test(href)
     for (const state of component ? ['default', 'skeleton', 'empty', 'error', 'warming'] : ['']) {
-      await page.goto(state ? `${href}?state=${state}` : href)
-      await page.waitForTimeout(800)
+      // `still` skips the entrance, so contrast is measured on the settled piece, never mid-fade.
+      await page.goto(state ? `${href}?state=${state}&still` : href)
       found.push(...(await serious(page)))
     }
   }

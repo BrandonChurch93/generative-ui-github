@@ -1,0 +1,58 @@
+{
+  "props": {
+    "title": "Review and CI health",
+    "window": "month",
+    "finding": "Review wait rose 38% in September while failing checks fell 2.2 points",
+    "periods": { "current": "September", "previous": "August", "currentShort": "Sep", "previousShort": "Aug" },
+    "source": "from 214 merged PRs · 3,480 check runs",
+    "pairs": [
+      { "measure": "review-wait-median", "direction": "lower-is-better", "notable": true, "name": "Median review wait", "meta": "time to first review", "unit": "h", "current": 19.6, "previous": 14.2 },
+      { "measure": "prs-merged", "direction": "higher-is-better", "notable": true, "name": "PRs merged", "meta": "into canary", "unit": "count", "current": 214, "previous": 186 },
+      { "measure": "ci-p50", "direction": "lower-is-better", "notable": false, "name": "CI p50 duration", "meta": "all workflows", "unit": "min", "current": 11.5, "previous": 11.8 },
+      { "measure": "failing-check-rate", "direction": "lower-is-better", "notable": true, "name": "Failing check rate", "meta": "of all check runs", "unit": "percent", "current": 4.1, "previous": 6.3 }
+    ]
+  },
+  "variants": [
+    {
+      "label": "2 pairs · rows ask a follow-up",
+      "props": {
+        "title": "Review throughput",
+        "window": "month",
+        "finding": "Review wait rose 38% in September even as merges rose 15%",
+        "periods": { "current": "September", "previous": "August", "currentShort": "Sep", "previousShort": "Aug" },
+        "source": "from 214 merged PRs · 1,962 reviews",
+        "pairs": [
+          { "measure": "review-wait-median", "direction": "lower-is-better", "notable": true, "ask": "Which pull requests waited longest for a first review in September?", "name": "Median review wait", "meta": "time to first review", "unit": "h", "current": 19.6, "previous": 14.2 },
+          { "measure": "prs-merged", "direction": "higher-is-better", "notable": true, "ask": "Who merged the most pull requests in September?", "name": "PRs merged", "meta": "into canary", "unit": "count", "current": 214, "previous": 186 }
+        ]
+      }
+    },
+    {
+      "label": "30 days · a neutral measure · no change",
+      "props": {
+        "title": "Change in the last 30 days",
+        "window": "30d",
+        "finding": "CI got 17% slower at the median while commits rose 2%",
+        "periods": { "current": "last 30 days", "previous": "30 before", "currentShort": "30d", "previousShort": "prior" },
+        "source": "from 3,429 runs of build-and-test · 1,731 commits",
+        "pairs": [
+          { "measure": "ci-p50", "direction": "lower-is-better", "notable": true, "name": "CI p50 duration", "meta": "median run", "unit": "min", "current": 17.1, "previous": 14.6 },
+          { "measure": "commits", "direction": "neutral", "name": "Commits", "meta": "default branch", "unit": "count", "current": 1731, "previous": 1698 },
+          { "measure": "flaky-rate", "direction": "lower-is-better", "notable": true, "name": "Flaky run rate", "meta": "passed on rerun", "unit": "percent", "current": 2.4, "previous": 2.4 }
+        ]
+      }
+    }
+  ],
+  "empty": {
+    "title": "Docs review wait",
+    "window": "month",
+    "finding": "No docs pull requests were reviewed in either month",
+    "periods": { "current": "September", "previous": "August", "currentShort": "Sep", "previousShort": "Aug" },
+    "source": "from 0 reviews",
+    "pairs": [],
+    "empty": "No docs PRs were reviewed in either month",
+    "emptyMeta": "a median needs at least one review"
+  },
+  "error": { "failed": "Couldn't load check runs", "cause": "GitHub returned 502 · tried twice" },
+  "warming": { "counting": "GitHub is counting commits for both months", "nextCheck": "usually under a minute · checking again in 12s", "progress": 0.38 }
+}

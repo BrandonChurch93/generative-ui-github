@@ -1,0 +1,37 @@
+.tabs {
+  display: grid;
+  gap: var(--card-y);
+}
+
+.list {
+  display: flex;
+  gap: var(--space-4);
+  border-bottom: var(--hairline) solid var(--line-soft);
+}
+
+.tab {
+  margin: 0 0 calc(var(--hairline) * -1);
+  padding: var(--space-2) 0;
+  border: 0;
+  border-bottom: var(--plot-line) solid transparent;
+  background: none;
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-leading);
+  font-weight: var(--text-label-weight);
+  cursor: pointer;
+}
+
+.tab:hover {
+  color: var(--ink);
+}
+
+.tab[aria-selected="true"] {
+  border-bottom-color: var(--accent);
+  color: var(--ink);
+}
+
+.panel {
+  min-width: 0;
+}

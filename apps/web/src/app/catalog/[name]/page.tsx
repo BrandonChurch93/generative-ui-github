@@ -13,10 +13,10 @@ export default async function ComponentPage({
   searchParams,
 }: {
   params: Promise<{ name: string }>
-  searchParams: Promise<{ density?: string; state?: string }>
+  searchParams: Promise<{ density?: string; state?: string; still?: string }>
 }) {
   const { name } = await params
-  const { density, state } = await searchParams
+  const { density, state, still } = await searchParams
   const entry = catalogEntry(name)
   if (!entry) notFound()
   const schema = entry.spec?.schema
@@ -46,7 +46,7 @@ export default async function ComponentPage({
           {entry.spec && !entry.spec.pickable && <code className={styles.chip}>not pickable</code>}
         </p>
       </header>
-      <ComponentViewer name={entry.name} initialDensity={density} initialState={state} />
+      <ComponentViewer name={entry.name} initialDensity={density} initialState={state} still={still !== undefined} />
     </article>
   )
 }

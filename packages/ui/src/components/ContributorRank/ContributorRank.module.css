@@ -1,0 +1,298 @@
+/* Two values the tokens do not name yet: the 18px text line rows land on, and name to bar,
+   space-1 at compact and space-2 above it, read from the density's row padding. */
+.root {
+  --rank-line: calc(var(--space-4) + var(--space-1) / 2);
+  --rank-gap: min(var(--space-2), calc(var(--row-y) - var(--space-1)));
+}
+
+.list .row,
+.skeleton .row {
+  display: grid;
+  grid-template-areas:
+    "line"
+    "bar";
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
+  gap: var(--rank-gap);
+}
+
+.line {
+  grid-area: line;
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  min-width: 0;
+  block-size: var(--rank-line);
+}
+
+/* The handle never truncates before the display name does. */
+.id {
+  display: flex;
+  flex-grow: 1;
+  align-items: baseline;
+  gap: var(--space-2);
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.handle {
+  flex-shrink: 0;
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-handle-size);
+  line-height: var(--text-handle-leading);
+  font-weight: var(--text-handle-weight);
+  text-overflow: ellipsis;
+}
+
+.name {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-leading);
+  font-weight: var(--text-body-weight);
+  text-overflow: ellipsis;
+}
+
+.count {
+  flex-shrink: 0;
+  inline-size: var(--space-7);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+  text-align: end;
+}
+
+.share {
+  flex-shrink: 0;
+  inline-size: calc(var(--space-6) + var(--space-2));
+  color: var(--ink);
+  font-size: var(--text-value-size);
+  line-height: var(--text-value-leading);
+  font-weight: var(--text-value-weight);
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+}
+
+.skeleton .line,
+.skeleton .id {
+  align-items: center;
+}
+
+.skeleton .count,
+.skeleton .share {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Square at the baseline, rounded at the data end. */
+.track,
+.bar,
+.key,
+.skeleton .skeletonBar {
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.track,
+.bar {
+  grid-area: bar;
+  block-size: var(--space-2);
+  transform-origin: left center;
+}
+
+/* The leader's length behind every bar, so each reads as a part of it. */
+.track {
+  background: var(--line-soft);
+}
+
+.bar {
+  position: relative;
+  justify-self: start;
+  inline-size: calc(var(--frac) * 100%);
+  min-inline-size: var(--space-2);
+  background: var(--data-ref);
+}
+
+.bar[data-wall] {
+  background: var(--data-1);
+}
+
+.skeleton .skeletonBar {
+  grid-area: bar;
+}
+
+/* Focus lifts the row the way hover does, so its hairlines hide too. */
+.item:has(> .row:focus-visible) > .hairline,
+.item:has(> .row:focus-visible) + .item > .hairline {
+  opacity: 0;
+}
+
+/* The band takes the row hairline's slot directly under the wall. */
+.band {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: var(--row-y) var(--inset);
+}
+
+/* Key, rule and tag sit on the sentence's first line however it wraps. */
+.keySlot,
+.riskTag {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  block-size: calc(var(--text-label-size) * var(--text-label-leading));
+}
+
+.keySlot {
+  transform-origin: left center;
+}
+
+.key {
+  inline-size: var(--space-3);
+  block-size: var(--space-2);
+  background: var(--data-1);
+}
+
+.key[data-ref] {
+  background: var(--data-ref);
+}
+
+.bandText {
+  min-width: 0;
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-leading);
+  font-weight: var(--text-body-weight);
+  text-wrap: pretty;
+}
+
+.bandText b {
+  color: var(--ink);
+  font-weight: var(--text-label-weight);
+}
+
+.rule {
+  flex: 1 0 var(--space-4);
+  block-size: var(--hairline);
+  margin-top: calc(var(--text-label-size) * var(--text-label-leading) / 2);
+  margin-inline-start: var(--space-1);
+  background: var(--line);
+  transform-origin: left center;
+}
+
+.riskTag {
+  margin-inline-start: var(--space-1);
+}
+
+/* docs/decisions.md (29): the words "at risk" in ink, on the warn tag's ground. */
+.band .riskTag > [data-tone] {
+  color: var(--ink);
+  background: color-mix(in srgb, var(--warn) 10%, transparent);
+}
+
+.foot {
+  position: relative;
+  margin: 0;
+  padding: var(--row-y) var(--inset);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+}
+
+.foot::before {
+  content: "";
+  position: absolute;
+  inset-inline: var(--inset);
+  top: 0;
+  block-size: var(--hairline);
+  background: var(--line);
+}
+
+.band + .foot::before {
+  display: none;
+}
+
+/* Centered on the bar, space-3 past its end; flipped before the end on long bars. */
+.tip {
+  position: absolute;
+  z-index: 2;
+  top: calc(var(--row-y) + var(--rank-line) + var(--rank-gap) + var(--space-2) / 2);
+  display: none;
+  grid-template-columns: var(--space-3) auto;
+  align-items: center;
+  column-gap: var(--space-2);
+  row-gap: calc(var(--space-1) / 2);
+  padding: var(--space-2) var(--space-3);
+  border: var(--hairline) solid var(--line-soft);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--card);
+  white-space: nowrap;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.item[data-side="after"] > .tip {
+  left: calc(var(--inset) + (100% - 2 * var(--inset)) * var(--frac) + var(--space-3));
+}
+
+.item[data-side="before"] > .tip {
+  right: calc(var(--inset) + (100% - 2 * var(--inset)) * (1 - var(--frac)) + var(--space-3));
+}
+
+.item:hover > .tip,
+.item:has(> .row:focus-visible) > .tip {
+  display: grid;
+}
+
+.tipKey {
+  block-size: var(--plot-line);
+  border-radius: var(--radius-pill);
+  background: var(--data-ref);
+}
+
+.tipKey[data-wall] {
+  background: var(--data-1);
+}
+
+.tipValue {
+  color: var(--ink);
+  font-size: var(--text-value-size);
+  line-height: var(--text-value-leading);
+  font-weight: var(--text-value-weight);
+  font-variant-numeric: tabular-nums;
+}
+
+.tipUnit {
+  color: var(--muted);
+  font-weight: var(--text-body-weight);
+}
+
+.tipLast {
+  grid-column: 2;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  font-style: normal;
+  letter-spacing: var(--text-meta-tracking);
+}
+
+@media (prefers-contrast: more) {
+  .track {
+    background: var(--line);
+  }
+}

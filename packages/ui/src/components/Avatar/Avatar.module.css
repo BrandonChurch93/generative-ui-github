@@ -1,0 +1,15 @@
+.avatar {
+  display: inline-grid;
+  flex-shrink: 0;
+  place-items: center;
+  inline-size: calc(var(--space-5) + var(--space-1));
+  block-size: calc(var(--space-5) + var(--space-1));
+  border: var(--hairline) solid var(--line);
+  border-radius: 50%;
+  background: var(--surface-tint);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-tag-size);
+  line-height: 1;
+  font-weight: var(--text-tag-weight);
+}

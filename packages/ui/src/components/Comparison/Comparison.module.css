@@ -1,0 +1,414 @@
+/* Fixed geometry: the columns, the line and the tip room do not follow density, so the delta edge lines up down a column. */
+.body {
+  --cmp-name: calc(var(--space-8) * 2 + var(--space-6));
+  --cmp-delta: calc(var(--space-8) * 1.5);
+  --cmp-tip: var(--space-8);
+  --cmp-line: calc(var(--space-4) + var(--space-1) / 2);
+  container-type: inline-size;
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+  white-space: nowrap;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.legendItem::before {
+  content: "";
+  inline-size: var(--space-3);
+  block-size: var(--space-2);
+  border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+  background: var(--data-1);
+}
+
+.legendItem[data-line="previous"]::before {
+  background: var(--data-ref);
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  position: relative;
+}
+
+/* A real element, so it can extend on arrival. Only between rows. */
+.hairline {
+  position: absolute;
+  z-index: 1;
+  inset-inline: var(--inset);
+  top: 0;
+  block-size: var(--hairline);
+  background: var(--line);
+  transform-origin: left center;
+  pointer-events: none;
+}
+
+.item:first-child > .hairline {
+  display: none;
+}
+
+.item[data-hover] > .hairline,
+.item[data-hover] + .item > .hairline {
+  opacity: 0;
+}
+
+.row {
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: var(--cmp-name) minmax(0, 1fr) var(--cmp-delta);
+  column-gap: var(--space-4);
+  align-items: center;
+  inline-size: 100%;
+  padding: var(--row-y) var(--inset);
+  color: inherit;
+}
+
+button.row {
+  margin: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+/* The shared row hover: an inset rounded shape, space-2 from the card edge and space-1 from the hairlines. */
+.row::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset-block: var(--space-1);
+  inset-inline: var(--space-2);
+  border-radius: var(--radius-md);
+  background: var(--surface-tint);
+  opacity: 0;
+}
+
+.item[data-hover] > .row::after {
+  opacity: 1;
+}
+
+button.row:focus-visible {
+  outline: none;
+}
+
+/* The ring wraps the lifted shape, so it stays inside the card. */
+button.row:focus-visible::after {
+  opacity: 1;
+  outline: var(--focus-ring) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+
+.name {
+  display: grid;
+  row-gap: var(--space-1);
+  min-width: 0;
+}
+
+.nameTitle,
+.nameMeta {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.nameTitle {
+  color: var(--ink);
+  font-size: var(--text-row-title-size);
+  line-height: var(--cmp-line);
+  font-weight: var(--text-row-title-weight);
+}
+
+.nameMeta {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--cmp-line);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+}
+
+.bars {
+  position: relative;
+  min-width: 0;
+}
+
+.lines {
+  position: relative;
+  display: grid;
+  row-gap: var(--space-1);
+}
+
+/* The zero baseline runs the height of the pair and lines up down the card. */
+.lines::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  inline-size: var(--hairline);
+  background: var(--line);
+}
+
+.bars[data-skeleton] .lines::before {
+  display: none;
+}
+
+.line {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  block-size: var(--cmp-line);
+  white-space: nowrap;
+}
+
+/* The larger value spans the column less the room its tip value needs. */
+.bar {
+  flex-shrink: 0;
+  inline-size: calc((100% - var(--cmp-tip)) * var(--k));
+  block-size: var(--space-2);
+  border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+  background: var(--data-1);
+  transform-origin: left center;
+}
+
+.line[data-line="previous"] .bar {
+  background: var(--data-ref);
+}
+
+.bar[data-skeleton] {
+  border-radius: var(--radius-xs);
+  background: var(--line-soft);
+}
+
+.value {
+  color: var(--ink);
+  font-size: var(--text-label-size);
+  line-height: 1;
+  font-weight: var(--text-value-weight);
+  font-variant-numeric: tabular-nums;
+}
+
+.line[data-line="previous"] .value {
+  color: var(--muted);
+  font-weight: var(--text-label-weight);
+}
+
+.unit,
+.deltaUnit {
+  margin-left: var(--space-1);
+  font-family: var(--font-mono);
+  font-size: var(--text-tag-size);
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.unit {
+  color: var(--muted);
+  font-weight: var(--text-meta-weight);
+}
+
+.delta {
+  display: grid;
+  row-gap: var(--space-1);
+  justify-items: end;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.delta[data-verdict="better"] {
+  color: var(--good);
+}
+
+.delta[data-verdict="worse"] {
+  color: var(--crit);
+}
+
+/* The one 700 outside questions and metric numbers (decision 3). */
+.deltaFigure {
+  font-size: var(--text-action-size);
+  line-height: var(--cmp-line);
+  font-weight: var(--text-metric-weight);
+  letter-spacing: var(--text-built-tracking);
+  font-variant-numeric: tabular-nums;
+}
+
+.deltaUnit {
+  font-weight: var(--text-tag-weight);
+}
+
+.verdict {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--cmp-line);
+  font-weight: var(--text-tag-weight);
+  letter-spacing: var(--text-meta-tracking);
+}
+
+.skLine {
+  display: flex;
+  align-items: center;
+  block-size: var(--cmp-line);
+}
+
+.delta .skLine {
+  justify-content: flex-end;
+}
+
+.foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-3);
+  padding: var(--row-y) var(--inset) var(--card-y);
+  border-top: var(--hairline) solid var(--line-soft);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+  white-space: nowrap;
+}
+
+.source {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tally {
+  flex-shrink: 0;
+}
+
+/* Opens space-2 past the current bar's tip, centered on the row, over the row's own values and verdict. */
+.tip {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: calc((100% - var(--cmp-tip)) * var(--k) + var(--space-2));
+  display: grid;
+  grid-template-columns: var(--space-3) auto auto auto;
+  align-items: center;
+  column-gap: var(--space-2);
+  row-gap: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  border: var(--hairline) solid var(--line-soft);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--card);
+  transform: translate(calc(var(--shift, 0%) * -1), -50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.tipKey {
+  inline-size: var(--space-3);
+  block-size: var(--bar);
+  border-radius: var(--radius-pill);
+  background: var(--data-1);
+}
+
+.tipKey[data-line="previous"] {
+  background: var(--data-ref);
+}
+
+.tip .value {
+  line-height: var(--space-4);
+}
+
+.tipPeriod {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--space-4);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+}
+
+.tipChange,
+.tipVerdict {
+  justify-self: end;
+  padding-left: var(--space-1);
+  color: var(--muted);
+}
+
+.tipChange {
+  font-size: var(--text-label-size);
+  line-height: var(--space-4);
+  font-weight: var(--text-value-weight);
+  font-variant-numeric: tabular-nums;
+}
+
+.tipChange .unit {
+  color: inherit;
+}
+
+.tipVerdict {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--space-4);
+  font-weight: var(--text-tag-weight);
+  letter-spacing: var(--text-meta-tracking);
+}
+
+.tip[data-verdict="better"] :is(.tipChange, .tipVerdict) {
+  color: var(--good);
+}
+
+.tip[data-verdict="worse"] :is(.tipChange, .tipVerdict) {
+  color: var(--crit);
+}
+
+/* Narrow: the bar column would fall to a sliver beside a fixed name, so the name takes its own line (decision 43). */
+@container (max-width: 30rem) {
+  .row {
+    grid-template-columns: minmax(0, 1fr) var(--cmp-delta);
+    grid-template-areas: "name name" "bars delta";
+    row-gap: var(--space-2);
+  }
+
+  .name {
+    grid-area: name;
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+  }
+
+  .nameTitle {
+    flex-shrink: 0;
+    max-inline-size: 100%;
+  }
+
+  .bars {
+    grid-area: bars;
+  }
+
+  .delta {
+    grid-area: delta;
+  }
+
+  .foot {
+    flex-wrap: wrap;
+    white-space: normal;
+  }
+}

@@ -1,0 +1,14 @@
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--region-gap);
+  min-width: 0;
+}
+
+.stack[data-gap="card"] {
+  gap: var(--card-y);
+}
+
+.stack[data-gap="row"] {
+  gap: var(--row-y);
+}

@@ -1,0 +1,95 @@
+{
+  "props": {
+    "title": "Where to start",
+    "meta": "vercel/next.js",
+    "steps": [
+      {
+        "id": "contributing-guide",
+        "title": "Read the contributing guide",
+        "body": "It covers the canary branch, commit style and what reviewers check before they approve.",
+        "fact": "updated 12d ago",
+        "link": { "label": "Contributing guide", "href": "https://github.com/vercel/next.js/blob/canary/contributing.md" }
+      },
+      {
+        "id": "good-first-issue",
+        "title": "Pick a good first issue",
+        "body": "Each one is small and already triaged, so nobody is waiting on a design decision before you start.",
+        "fact": "12 open",
+        "link": { "label": "Show the 12 issues", "ask": "Show the good first issues" }
+      },
+      {
+        "id": "run-tests",
+        "title": "Run the tests locally",
+        "body": "Build once, then run the suite that covers the files you changed.",
+        "fact": "pnpm test-dev"
+      },
+      {
+        "id": "discussions",
+        "title": "Ask in Discussions",
+        "body": "Post in the Help category if you get stuck. Most threads get an answer the same day.",
+        "fact": "median reply 5h",
+        "link": { "label": "Help discussions", "href": "https://github.com/vercel/next.js/discussions/categories/help" }
+      }
+    ]
+  },
+  "variants": [
+    {
+      "label": "With inline code",
+      "props": {
+        "title": "Run next.js locally",
+        "meta": "canary",
+        "steps": [
+          {
+            "id": "toolchain",
+            "title": "Install the toolchain",
+            "body": "Run `corepack enable` so the repo's pinned pnpm is used, then `pnpm install` from the root.",
+            "fact": "pnpm 9.15"
+          },
+          {
+            "id": "build",
+            "title": "Build once, then watch",
+            "body": "`pnpm build` compiles every package. Leave `pnpm dev` running while you edit.",
+            "fact": "about 4 min"
+          },
+          {
+            "id": "test-changed",
+            "title": "Run only what you changed",
+            "body": "Pass a path to `pnpm test-dev`, such as `test/e2e/app-dir/navigation`, to run one suite.",
+            "fact": "2,140 suites",
+            "link": { "label": "Testing guide", "href": "https://github.com/vercel/next.js/blob/canary/contributing/core/testing.md" }
+          }
+        ]
+      }
+    },
+    {
+      "label": "Link off GitHub, no fact",
+      "props": {
+        "title": "Where to start",
+        "meta": "facebook/react",
+        "steps": [
+          {
+            "id": "find-issue",
+            "title": "Find an issue to fix",
+            "body": "Issues labeled good first issue are small and come with a reproduction.",
+            "fact": "8 open",
+            "link": { "label": "Good first issues", "href": "https://github.com/facebook/react/labels/good%20first%20issue" }
+          },
+          {
+            "id": "cla",
+            "title": "Sign the contributor agreement",
+            "body": "Meta needs it once before any pull request can merge. It takes a minute.",
+            "link": { "label": "Contributor agreement", "href": "https://code.facebook.com/cla" }
+          },
+          {
+            "id": "package-tests",
+            "title": "Run the tests for your package",
+            "body": "Then run lint and Flow, so the checks pass on your first push.",
+            "fact": "yarn test"
+          }
+        ]
+      }
+    }
+  ],
+  "error": { "failed": "Couldn't load the contributing guide", "cause": "GitHub returned 502 · tried twice" },
+  "warming": { "counting": "GitHub is counting recent contributors", "nextCheck": "usually under a minute · checking again in 12s", "progress": 0.38 }
+}

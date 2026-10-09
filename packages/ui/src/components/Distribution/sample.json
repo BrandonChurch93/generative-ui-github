@@ -1,0 +1,57 @@
+{
+  "props": {
+    "title": "Time to first review",
+    "meta": "last 90 days",
+    "measure": "firstReview",
+    "population": "firstTime",
+    "perspective": "reader",
+    "showP90": true,
+    "counts": [22, 32, 38, 48, 50, 33, 17],
+    "medianMinutes": 1140,
+    "p90Minutes": 8640
+  },
+  "variants": [
+    {
+      "label": "Neutral · every PR",
+      "props": {
+        "title": "Time to merge",
+        "meta": "last 90 days",
+        "measure": "merge",
+        "population": "all",
+        "perspective": "neutral",
+        "showP90": true,
+        "counts": [14, 41, 63, 57, 72, 39, 26],
+        "medianMinutes": 1260,
+        "p90Minutes": 8100
+      }
+    },
+    {
+      "label": "Every issue answered within the hour",
+      "props": {
+        "title": "Time to first response",
+        "meta": "last 30 days",
+        "measure": "issueResponse",
+        "population": "all",
+        "perspective": "neutral",
+        "showP90": false,
+        "counts": [41, 0, 0, 0, 0, 0, 0],
+        "medianMinutes": 18,
+        "p90Minutes": 47
+      }
+    }
+  ],
+  "empty": {
+    "title": "Time to first review",
+    "meta": "last 90 days",
+    "measure": "firstReview",
+    "population": "firstTime",
+    "counts": [0, 0, 0, 0, 0, 0, 0],
+    "medianMinutes": 0,
+    "p90Minutes": 0,
+    "emptyTone": "neutral",
+    "empty": "No first-time contributor PRs reviewed yet",
+    "emptyMeta": "2 still open · oldest waiting 5d"
+  },
+  "error": { "failed": "Couldn't load review times", "cause": "GitHub returned 502 · tried twice" },
+  "warming": { "counting": "GitHub is counting review times", "nextCheck": "usually under a minute · checking again in 12s", "progress": 0.38 }
+}
