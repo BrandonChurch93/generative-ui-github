@@ -14,7 +14,10 @@ export interface Limits {
   countVisitor(visitor: string, day: string): Promise<number>
   /** USD spent on model calls today, across everyone. */
   spend(day: string): Promise<number>
+  /** Records one model call and what it cost. */
   addSpend(day: string, usd: number): Promise<void>
+  /** Model calls today, across everyone. */
+  calls(day: string): Promise<number>
 }
 
 /** The UTC day, `YYYY-MM-DD`: every counter's scope. */
@@ -32,6 +35,7 @@ export function visitorKey(ip: string, userAgent: string): string {
 export function memoryLimits(): Limits {
   const visitors = new Map<string, number>()
   const spend = new Map<string, number>()
+  const calls = new Map<string, number>()
   return {
     visitorCount: async (v, day) => visitors.get(`${day}:${v}`) ?? 0,
     async countVisitor(v, day) {
@@ -42,7 +46,9 @@ export function memoryLimits(): Limits {
     spend: async day => spend.get(day) ?? 0,
     async addSpend(day, usd) {
       spend.set(day, (spend.get(day) ?? 0) + usd)
+      calls.set(day, (calls.get(day) ?? 0) + 1)
     },
+    calls: async day => calls.get(day) ?? 0,
   }
 }
 
@@ -61,6 +67,8 @@ export function kvLimits(store: KvStore & { incr(key: string): Promise<number>; 
     async addSpend(day, usd) {
       await store.incrbyfloat(`spend:${day}`, usd)
       await store.expire(`spend:${day}`, ttl)
+      if ((await store.incr(`calls:${day}`)) === 1) await store.expire(`calls:${day}`, ttl)
     },
+    calls: async day => Number((await store.get<number>(`calls:${day}`)) ?? 0),
   }
 }

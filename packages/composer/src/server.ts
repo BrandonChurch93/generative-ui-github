@@ -3,6 +3,7 @@ import { loadConfig } from '@genui-github/core'
 import { createCache, createGitHubClient, type DatedCache } from '@genui-github/data/server'
 import { createModelClient } from './anthropic'
 import type { ComposeDeps } from './compose'
+import { countedCache } from './health'
 import { kvLimits, memoryLimits, type Limits } from './limits'
 
 // The route's dependencies from the environment, made once per server instance. The token and the key stay here.
@@ -19,7 +20,7 @@ export function composeDeps(env: Record<string, string | undefined> = process.en
   made ??= (async () => {
     const config = loadConfig(env)
     if (!config.ok) throw new Error(`Configuration incomplete: ${config.problems.map(p => p.variable).join(', ')}`)
-    const cache: DatedCache = await createCache(env)
+    const cache = countedCache<DatedCache>(await createCache(env))
     return {
       models: createModelClient(new Anthropic({ apiKey: config.config.anthropicApiKey })),
       github: createGitHubClient({ token: config.config.githubToken }),

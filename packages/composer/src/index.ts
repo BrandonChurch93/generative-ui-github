@@ -6,3 +6,4 @@ export { dayOf, memoryLimits, VISITOR_LIMIT, visitorKey, type Limits } from './l
 export { goldenComposition, goldenQuestion } from './golden'
 export { createModelClient, type CallUsage, type ModelClient } from './anthropic'
 export { noNetwork } from './samples'
+export { countedCache, health, type CacheCounts, type Health } from './health'
