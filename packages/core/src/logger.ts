@@ -21,11 +21,21 @@ export interface LogRecord {
 
 export type LogSink = (record: LogRecord) => void
 
+let stderrOnly = false
+
+/**
+ * Sends every level to stderr. For a process whose stdout is a protocol, such as an MCP server over stdio,
+ * where an info line on stdout would corrupt the stream.
+ */
+export function logToStderr(): void {
+  stderrOnly = true
+}
+
 /* eslint-disable no-console -- the logger is the one place allowed to write to the console */
 const consoleSink: LogSink = record => {
   const { level, scope, message, fields } = record
   const line = `[${scope}] ${message}`
-  const out = level === 'debug' ? console.debug : level === 'info' ? console.info : level === 'warn' ? console.warn : console.error
+  const out = stderrOnly ? console.error : level === 'debug' ? console.debug : level === 'info' ? console.info : level === 'warn' ? console.warn : console.error
   if (fields) out(line, fields)
   else out(line)
 }

@@ -187,8 +187,8 @@ Continue into Phase 8 without stopping.
 Prompt: `prompts/08-mcp.md`
 
 - [x] 8.1 Write `docs/dark-theme-brief.md` for the owner to hand to design: every token needing a dark value, the grounds each contrast figure is redone on, the special cases (hot card, heat ramp, diff tints, focus ring, crit on dark). Done when the file exists. `OWNER` takes it from there.
-- [ ] 8.2 `apps/mcp-app`: an MCP server exposing `compose(repo, question)` and returning a UI resource per the current MCP Apps spec (read it from the official source; record the version in `docs/decisions.md`). Done when the MCP inspector lists the tool and returns a resource.
-- [ ] 8.3 The frame entry: `screens/MCPApp.html`; 420px design width, 360px floor, container queries, regions only, the composer told the frame width. Done when the three fixtures render inside a 420px iframe with no horizontal scroll.
+- [x] 8.2 `apps/mcp-app`: an MCP server exposing `compose(repo, question)` and returning a UI resource per the current MCP Apps spec (read it from the official source; record the version in `docs/decisions.md`). Done when the MCP inspector lists the tool and returns a resource.
+- [x] 8.3 The frame entry: `screens/MCPApp.html`; 420px design width, 360px floor, container queries, regions only, the composer told the frame width. Done when the three fixtures render inside a 420px iframe with no horizontal scroll.
 - [ ] 8.4 `OWNER` Test in Claude Desktop: "show me the health of vercel/next.js" composes in the pane.
 
 `GATE 5` · the owner tries the MCP App in Claude and hands the dark-theme brief to design.

@@ -2,6 +2,29 @@
 
 Newest entry first. Written at every GATE and whenever a session ends mid-phase.
 
+## 2026-10-09 · GATE 5 · the MCP App and the dark theme brief
+
+Phase 8's executor tasks are done: 8.1, 8.2 and 8.3 are ticked and verified. 8.4 is the owner's. The session stops here for GATE 5: try the MCP App in Claude, and hand `docs/dark-theme-brief.md` to design.
+
+**How to check it**
+
+- Claude Desktop: the steps are in `docs/questions.md`, 8.4 (one build, one config entry, no secrets in it).
+- Without a host: `pnpm --filter @genui-github/mcp-app e2e` builds the frame and draws the three renderer fixtures inside a stand-in MCP Apps host at 420 and 360px.
+
+**What was verified**
+
+- MCP Apps 2026-01-26 read from the official spec (`docs/decisions.md`, Protocol). The server uses `@modelcontextprotocol/ext-apps` 2.0.3 and `@modelcontextprotocol/server` 2.3 over stdio, or Streamable HTTP on port 3240 at `/mcp`.
+- The official MCP Inspector (2.10.1, CLI) listed `compose` and the app-only `compose-check`, both with `_meta.ui.resourceUri ui://genui-github/compose.html`; `--app-info` reported the app, its CSP (Google Fonts only) and `text/html;profile=mcp-app`; `resources/read` returned the 1.08 MB single-file frame; `tools/call compose` on golden questions returned the insight sentence and the full-screen link as text and the framed composition as `structuredContent`.
+- The frame: compact density, the insight, two metrics and the main list, the strip with "Open in Generative UI"; metrics side by side from 400px of frame width (a container query on the frame, not the viewport), one per row below; no horizontal scroll at 420 or 360 for all three fixtures (6 Playwright tests). A click on a piece sends its follow-up to the host's chat (`ui/message`); a warming answer asks again through `compose-check` on the schedule.
+- `pnpm lint`, the MCP app's typecheck and unit tests (3), core tests (6).
+- 8.1: `docs/dark-theme-brief.md` covers every color and shadow token, the ten grounds and every contrast figure with its source, and the special cases (hot card, heat ramp, diff tints, focus ring, crit on dark). It found that `scripts/tokens-build.mjs` already emits a dark block from `{ light, dark }` values, and lists the figures never measured even in light.
+
+**Open**
+
+- 8.4 (owner): Claude Desktop. If the pane shows only text, the host has not switched MCP Apps on.
+- The frame bundles the whole catalog (1.08 MB, 312 KB gzipped). Splitting it per component is possible if a host limits resource size.
+- Logs: the core logger gained `logToStderr()`, which the stdio entry calls so nothing but the protocol reaches stdout.
+
 ## 2026-10-09 · Phase 7 done · the three-model baseline
 
 Credits were added and the `sonnet` and `haiku` runs finished; 7.2 and 7.5 are ticked. The three files under `packages/evals/results/2026-10-09-*.json` are the first baseline. 99 cases × 3 runs per model, final scorers; every model composed 291 and refused the 6 it should (the private and missing repos, in every run), with no failures.

@@ -227,3 +227,32 @@ On the baseline, the `haiku` run (Haiku composing the off-template questions) ma
 The fill rewrites the prose of a template composition before anything streams, so the first piece lands at about 6 s with the rest. Streaming the bound pieces first and sending the filled prose as `update` ops would put the first piece under 1 s on a cached sample.
 
 - Check: whether to do that (it changes how the insight arrives: system words first, then the filled sentence).
+
+## 8.4 · Trying the MCP App in Claude Desktop (owner)
+
+Build the frame once, then add the server to Claude Desktop's config (`~/Library/Application Support/Claude/claude_desktop_config.json`) and restart Claude Desktop:
+
+```
+pnpm --filter @genui-github/mcp-app build
+```
+
+```json
+{
+  "mcpServers": {
+    "generative-ui-github": {
+      "command": "/usr/local/bin/node",
+      "args": [
+        "/Users/brandonchurch/generative-ui-github/apps/mcp-app/node_modules/tsx/dist/cli.mjs",
+        "/Users/brandonchurch/generative-ui-github/apps/mcp-app/src/main.ts",
+        "--stdio"
+      ],
+      "env": { "GENUI_APP_URL": "http://localhost:3217" }
+    }
+  }
+}
+```
+
+The server reads `GITHUB_TOKEN` and `ANTHROPIC_API_KEY` from `.env.local` at the repo root, so the config carries no secrets. Then ask "show me the health of vercel/next.js": Claude should call `compose` and the answer should draw in the pane. Golden questions on the five samples answer with no model call; anything else calls Haiku, counted against the 15 a day. `GENUI_APP_URL` is where "Open in Generative UI" goes; it points at the dev server on 3217 until the app is deployed.
+
+- Assumed: Claude Desktop renders MCP Apps for local stdio servers. If it shows only text, the server is fine (the Inspector run in `docs/status.md` shows the UI metadata); the host needs MCP Apps support switched on.
+- Check: the answer draws in the pane, a click on a metric asks the follow-up in the chat, and "Open in Generative UI" opens the full screen.

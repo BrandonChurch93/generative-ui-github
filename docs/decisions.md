@@ -21,6 +21,7 @@ Every settled question, stated as a constraint. Read this before asking the owne
 ## Protocol
 
 - Own internal UI description format (`packages/renderer/src/format.ts`): a tree with stable ids, regions, and `ask` on clickable pieces. A2UI adapter both ways for the README claim. The internal format is the source of truth; A2UI is an export.
+- MCP App: MCP Apps 2026-01-26 (SEP-1865, extension `io.modelcontextprotocol/ui`), read from `modelcontextprotocol/ext-apps/specification/2026-01-26/apps.mdx` on 2026-10-09. SDK `@modelcontextprotocol/ext-apps` 2.0.3 with `@modelcontextprotocol/server` 2.3. One model-visible tool, `compose(repo, question)`, with `_meta.ui.resourceUri` `ui://genui-github/compose.html`; an app-only tool `compose-check` for the warming re-checks; the composition travels in `structuredContent`, the insight sentence and the full-screen link in `content`.
 - Streaming is JSONL with six ops: `start`, `add`, `update`, `remove`, `done`, `error`, as `docs/schemas.md` defines them.
 
 ## Model routing

@@ -1,0 +1,74 @@
+/* The frame: the host's iframe at the width it gives. bg inside, compact inset and region gap, container widths, not viewport. */
+:global(html),
+:global(body) {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The container is the frame itself, unpadded, so its widths are the host's: 420 is the design width, 360 the floor. */
+.shell {
+  container: mc / inline-size;
+}
+
+.frame {
+  display: flex;
+  flex-direction: column;
+  gap: var(--region-gap);
+  padding: var(--inset);
+  --edge: calc(var(--inset) + var(--hairline));
+}
+
+.eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  margin: 0;
+  padding: var(--space-3) var(--edge) 0;
+  border-block-start: var(--hairline) solid var(--line);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  letter-spacing: var(--text-meta-tracking);
+  color: var(--muted);
+}
+
+.strip b {
+  font-weight: var(--text-handle-weight);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.waiting {
+  display: grid;
+  gap: var(--space-1);
+  padding-inline: var(--edge);
+}
+
+/* The renderer's region rules are written for a page; in the frame the container decides. Metrics sit side by side from 400px. */
+@container mc (min-width: 25em) {
+  .frame [data-region='metrics'][data-count] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@container mc (max-width: 24.99em) {
+  .frame [data-region='metrics'][data-count] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.frame [data-columns] {
+  grid-template-columns: minmax(0, 1fr);
+}
