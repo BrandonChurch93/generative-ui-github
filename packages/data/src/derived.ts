@@ -1,5 +1,6 @@
 import { busFactor, isBot, median, percentile } from './chaoss'
 import type {
+  ActivityShape,
   BiggestOpenPrShape,
   BlockingPrsShape,
   BusiestHourShape,
@@ -69,14 +70,31 @@ export function ciRuns(runs: WorkflowRunsShape, workflow = mainWorkflow(runs)): 
   return runs.runs.filter(r => r.workflowName === workflow && countsAsRun(r))
 }
 
+/** Longer than this is a run left waiting or touched later, not a build. */
+const LONGEST_RUN_MS = DAY
+/** This many runs ending in the same second were touched in bulk by GitHub, after the fact. */
+const BULK_TOUCH = 3
+
+/**
+ * Runs whose duration can be trusted. A run's end is its `updated_at`, and GitHub sometimes updates old runs in
+ * bulk weeks later (on next.js, dozens on Oct 1 at 01:57), which would make them look days long.
+ */
+export function timedRuns(runs: readonly WorkflowRun[]): WorkflowRun[] {
+  const touches = new Map<string, number>()
+  for (const r of runs) touches.set(r.updatedAt.slice(0, 19), (touches.get(r.updatedAt.slice(0, 19)) ?? 0) + 1)
+  return runs.filter(r => r.durationMs > 0 && r.durationMs <= LONGEST_RUN_MS && (touches.get(r.updatedAt.slice(0, 19)) ?? 0) < BULK_TOUCH)
+}
+
 function byWeek<T>(items: readonly T[], at: (item: T) => number, now: number, weeks: number): { weekStart: number; items: T[] }[] {
   return weekStarts(now, weeks).map(start => ({ weekStart: start, items: items.filter(i => at(i) >= start && at(i) < start + WEEK) }))
 }
 
 export function ciDurationByWeek(runs: WorkflowRunsShape, options: { now: number; weeks?: number }): CiDurationByWeekShape {
   const workflow = mainWorkflow(runs)
-  const weeks = byWeek(ciRuns(runs, workflow), r => t(r.runStartedAt), options.now, options.weeks ?? 12).map(({ weekStart, items }) => {
-    const ms = items.map(r => r.durationMs)
+  const all = ciRuns(runs, workflow)
+  const timed = new Set(timedRuns(all))
+  const weeks = byWeek(all, r => t(r.runStartedAt), options.now, options.weeks ?? 12).map(({ weekStart, items }) => {
+    const ms = items.filter(r => timed.has(r)).map(r => r.durationMs)
     return { weekStart: iso(weekStart), p50Ms: median(ms) ?? 0, p90Ms: percentile(ms, 90) ?? 0, count: items.length, failures: items.filter(failed).length }
   })
   return { workflow, weeks }
@@ -90,9 +108,15 @@ export function failureRateByWeek(runs: WorkflowRunsShape, options: { now: numbe
   return { weeks }
 }
 
-/** The run worth drilling into: the slowest completed run of the CI workflow. */
-export function slowestRun(runs: WorkflowRunsShape): WorkflowRun | null {
-  return ciRuns(runs).reduce<WorkflowRun | null>((max, r) => (!max || r.durationMs > max.durationMs ? r : max), null)
+/** How far back the slowest run is looked for: the slowest-job metric's window, and inside GitHub's job retention. */
+export const SLOWEST_RUN_DAYS = 30
+
+/** The run worth drilling into: the slowest completed run of the CI workflow in the last 30 days. */
+export function slowestRun(runs: WorkflowRunsShape, options: { now: number }): WorkflowRun | null {
+  const since = options.now - SLOWEST_RUN_DAYS * DAY
+  return timedRuns(ciRuns(runs))
+    .filter(r => t(r.runStartedAt) >= since)
+    .reduce<WorkflowRun | null>((max, r) => (!max || r.durationMs > max.durationMs ? r : max), null)
 }
 
 export function slowestJob(run: WorkflowRun, timing: RunTimingShape): SlowestJobShape | null {
@@ -126,10 +150,26 @@ export function biggestOpenPr(pulls: PullsShape): BiggestOpenPrShape {
   return { pull: pool.reduce<Pull | null>((max, p) => (!max || prSize(p) > prSize(max) ? p : max), null) }
 }
 
-/** The next milestone is the open one due soonest; undated milestones come after dated ones. */
+/**
+ * The next release milestone: the open one due soonest. An undated milestone is a bucket ("backlog"), not a
+ * release, so a repo with only undated ones has no next milestone.
+ */
 export function nextMilestone(milestones: MilestonesShape): MilestonesShape['open'][number] | null {
-  const sorted = [...milestones.open].sort((a, b) => (a.dueOn === null ? 1 : 0) - (b.dueOn === null ? 1 : 0) || (a.dueOn && b.dueOn ? t(a.dueOn) - t(b.dueOn) : a.number - b.number))
-  return sorted[0] ?? null
+  return [...milestones.open].filter(m => m.dueOn !== null).sort((a, b) => t(a.dueOn!) - t(b.dueOn!))[0] ?? null
+}
+
+/** The merged-pull list holds the latest 100; when full, nothing merged before its oldest entry is in it. */
+export const MERGED_LISTED = 100
+/** The closed-issue list holds the latest 50. */
+export const CLOSED_LISTED = 50
+
+/** From when the pull and issue lists are complete. Earlier than this, they hold only a few long-lived items. */
+export function listCoverage(pulls: PullsShape | undefined, issues?: IssuesShape): number {
+  const oldest = (dates: (ISODate | null)[]) => Math.min(...dates.filter((d): d is ISODate => d !== null).map(t))
+  let from = -Infinity
+  if (pulls && pulls.merged.length >= MERGED_LISTED) from = Math.max(from, oldest(pulls.merged.map(p => p.mergedAt)))
+  if (issues && issues.closed.length >= CLOSED_LISTED) from = Math.max(from, oldest(issues.closed.map(i => i.closedAt)))
+  return from
 }
 
 /** How long a pull request has waited on its reviewers: since it opened, or since the last review when one came. */
@@ -238,23 +278,27 @@ function monthStart(at: number, back = 0): number {
 
 const monthName = (at: number) => new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(at))
 
-/** This month so far against all of last month, four measures. */
-export function monthCompare(pulls: PullsShape, issues: IssuesShape, runs: WorkflowRunsShape, options: { now: number }): MonthCompareShape {
+/** This month so far against all of last month, four measures. Merges are exact counts; the medians need the lists to reach back. */
+export function monthCompare(pulls: PullsShape, issues: IssuesShape, runs: WorkflowRunsShape, activity: ActivityShape | undefined, options: { now: number }): MonthCompareShape {
   const ci = ciRuns(runs)
   const pullsAll = [...pulls.open, ...pulls.merged]
-  const values = (from: number, to: number) => {
+  const listed = listCoverage(pulls, issues)
+  const runsFrom = ci.length ? Math.min(...ci.map(r => t(r.runStartedAt))) : Infinity
+  const values = (from: number, to: number, month: string) => {
     const monthRuns = ci.filter(r => t(r.runStartedAt) >= from && t(r.runStartedAt) < to)
+    const covered = listed <= from
     return {
-      'prs-merged': pulls.merged.filter(p => !isBot(p.author) && p.mergedAt && t(p.mergedAt) >= from && t(p.mergedAt) < to).length,
-      'review-wait-median': median(reviewWaitHours(pullsAll, from, to)) ?? 0,
-      'failing-check-rate': monthRuns.length ? (monthRuns.filter(failed).length / monthRuns.length) * 100 : 0,
-      'time-to-close-median': median(closeDays(pulls.merged, issues.closed, from, to)) ?? 0,
+      'prs-merged': activity?.months.find(m => m.month === month)?.pullsMerged ?? null,
+      'review-wait-median': covered ? median(reviewWaitHours(pullsAll, from, to)) : null,
+      'failing-check-rate': runsFrom <= from + 7 * DAY && monthRuns.length ? (monthRuns.filter(failed).length / monthRuns.length) * 100 : null,
+      'time-to-close-median': covered ? median(closeDays(pulls.merged, issues.closed, from, to)) : null,
     }
   }
   const current = monthStart(options.now)
   const previous = monthStart(options.now, 1)
+  const key = (ms: number) => new Date(ms).toISOString().slice(0, 7)
   return {
-    current: { month: monthName(current), values: values(current, options.now) },
-    previous: { month: monthName(previous), values: values(previous, current) },
+    current: { month: monthName(current), values: values(current, options.now, key(current)) },
+    previous: { month: monthName(previous), values: values(previous, current, key(previous)) },
   }
 }

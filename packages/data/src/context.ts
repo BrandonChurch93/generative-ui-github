@@ -91,7 +91,7 @@ const DEPENDS: Partial<Record<ShapeName, ShapeName[]>> = {
   quietestDay: ['stats.punchCard'],
   mergedByDay: ['pulls'],
   contributorShare: ['stats.contributors', 'pulls'],
-  monthCompare: ['pulls', 'issues', 'workflowRuns'],
+  monthCompare: ['pulls', 'issues', 'workflowRuns', 'activity'],
 }
 
 /** The shapes asked for, every shape the measures read, and everything those are derived from. */
@@ -174,12 +174,15 @@ export async function buildContext(client: GitHubClient, cache: Cache, ref: Repo
         return fetched(`tree:${sha}`, () => fetchTree(client, owner, sha))
       case 'runTiming': {
         const runs = await get('workflowRuns')
-        const run = runs ? slowestRun(runs) : null
+        const run = runs ? slowestRun(runs, { now }) : null
         return run ? fetched(`runTiming:${run.id}`, () => fetchRunTiming(client, owner, run.id)) : undefined
       }
       case 'compare': {
         const releases = await get('releases')
-        const [head, base] = (releases?.releases.filter(r => !r.prerelease) ?? []).map(r => r.tag)
+        // The last two stable releases; a repo that ships only prereleases (next.js's canaries) uses its last two of any kind.
+        const all = releases?.releases ?? []
+        const stable = all.filter(r => !r.prerelease)
+        const [head, base] = (stable.length >= 2 ? stable : all).map(r => r.tag)
         return head && base ? fetched(`compare:${base}...${head}`, () => fetchCompare(client, owner, base, head)) : undefined
       }
       case 'prFiles': {
@@ -197,7 +200,7 @@ export async function buildContext(client: GitHubClient, cache: Cache, ref: Repo
       }
       case 'slowestJob': {
         const [runs, timing] = [await get('workflowRuns'), await get('runTiming')]
-        const run = runs ? slowestRun(runs) : null
+        const run = runs ? slowestRun(runs, { now }) : null
         return run && timing ? derive(slowestJob(run, timing), runs, timing) : undefined
       }
       case 'staleIssues': {
@@ -237,8 +240,8 @@ export async function buildContext(client: GitHubClient, cache: Cache, ref: Repo
         return contributors && pulls ? derive(contributorShare(contributors, pulls, { now }), contributors, pulls) : undefined
       }
       case 'monthCompare': {
-        const [pulls, issues, runs] = [await get('pulls'), await get('issues'), await get('workflowRuns')]
-        return pulls && issues && runs ? derive(monthCompare(pulls, issues, runs, { now }), pulls, issues, runs) : undefined
+        const [pulls, issues, runs, activity] = [await get('pulls'), await get('issues'), await get('workflowRuns'), await get('activity')]
+        return pulls && issues && runs ? derive(monthCompare(pulls, issues, runs, activity, { now }), pulls, issues, runs, activity) : undefined
       }
       default:
         return undefined

@@ -116,10 +116,10 @@ Prompt: `prompts/04-data.md`. Spec: `docs/data-layer.md`.
 - [x] 4.4 Stats fetchers with 202 handling and the backoff, returning `WarmingStatus`. Done when a test with a 202, 202, 200 sequence yields warming twice then data, with the right `nextCheckMs` each time.
 - [ ] 4.5 Verify the five unverified facts with one real call each; record answers and dates in `docs/data-layer.md`; adjust fetchers if a fact is wrong and note it in `docs/decisions.md`. Done when the doc has five dated answers.
 - [x] 4.6 CHAOSS module. Done when unit tests on a fixture match hand-computed values for all five metrics.
-- [ ] 4.7 Measures implemented: every id in `measures.ts` computes from the shapes for a repo and window. Done when a fixture test computes every measure on the next.js fixture and the values are sane (non-negative, units right).
-- [ ] 4.8 Derived shapes per `docs/data-layer.md`. Done when each has a fixture test.
+- [x] 4.7 Measures implemented: every id in `measures.ts` computes from the shapes for a repo and window. Done when a fixture test computes every measure on the next.js fixture and the values are sane (non-negative, units right).
+- [x] 4.8 Derived shapes per `docs/data-layer.md`. Done when each has a fixture test.
 - [x] 4.9 Cache behind one interface, memory and KV backends, keys and TTLs per the spec. Done when a test shows a second fetch inside 15 minutes hits the cache and a stats key changes when the SHA changes.
-- [ ] 4.10 Data context builder: repo and template id → `DataContext` with `cachedAt` on every shape, `WarmingStatus` when any stat is cold, and a token estimate. Done when the release-blockers context for the next.js fixture is under 3,000 tokens.
+- [x] 4.10 Data context builder: repo and template id → `DataContext` with `cachedAt` on every shape, `WarmingStatus` when any stat is cold, and a token estimate. Done when the release-blockers context for the next.js fixture is under 3,000 tokens.
 - [ ] 4.11 `pnpm samples:refresh` for the five sample repos; commit the JSON. Done when all five load in under 50ms and the script printed the request count.
 
 Continue into Phase 5 without stopping.

@@ -60,10 +60,12 @@ export function timeToFirstResponse(pulls: readonly Pull[], issues: readonly Iss
 }
 
 /** Closed (merged or closed) divided by opened, per week and over the whole span. Below 1 is falling behind. */
-export function closureRatio(activity: ActivityShape): { weeks: { weekStart: ISODate; ratio: number | null }[]; total: number | null } {
+type Flow = Pick<ActivityShape['weeks'][number], 'weekStart' | 'issuesOpened' | 'issuesClosed' | 'pullsOpened' | 'pullsClosed'>
+
+export function closureRatio(activity: { weeks: readonly Flow[] }): { weeks: { weekStart: ISODate; ratio: number | null }[]; total: number | null } {
   const ratio = (closed: number, opened: number) => (opened === 0 ? null : closed / opened)
   const weeks = activity.weeks.map(w => ({ weekStart: w.weekStart, ratio: ratio(w.issuesClosed + w.pullsClosed, w.issuesOpened + w.pullsOpened) }))
-  const sum = (f: (w: ActivityShape['weeks'][number]) => number) => activity.weeks.reduce((n, w) => n + f(w), 0)
+  const sum = (f: (w: Flow) => number) => activity.weeks.reduce((n, w) => n + f(w), 0)
   return { weeks, total: ratio(sum(w => w.issuesClosed + w.pullsClosed), sum(w => w.issuesOpened + w.pullsOpened)) }
 }
 

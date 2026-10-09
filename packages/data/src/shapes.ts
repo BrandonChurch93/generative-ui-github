@@ -96,9 +96,26 @@ export interface IssuesShape {
   closed: Issue[]
 }
 
-/** Opened and closed counts per week for 12 weeks, oldest first, weeks starting Monday UTC: the closure ratio's inputs. */
+/**
+ * Exact counts from GitHub search, where the lists above are capped samples: opened, closed and merged per week
+ * for 12 weeks (oldest first, Monday UTC), merged per month for last month and this one, and today's open counts.
+ */
 export interface ActivityShape {
-  weeks: { weekStart: ISODate; issuesOpened: number; issuesClosed: number; pullsOpened: number; pullsClosed: number }[]
+  weeks: { weekStart: ISODate; issuesOpened: number; issuesClosed: number; pullsOpened: number; pullsClosed: number; pullsMerged: number }[]
+  /** Last month, then this month so far. `month` is YYYY-MM, UTC. */
+  months: { month: string; pullsMerged: number }[]
+  open: {
+    pulls: number
+    drafts: number
+    /** Ready for review and no review yet. */
+    awaitingReview: number
+    changesRequested: number
+    issues: number
+    /** Open issues with no activity for 30 days. */
+    staleIssues: number
+    /** Labeled good first issue or help wanted. */
+    goodFirstIssues: number
+  }
 }
 
 export interface Milestone {
@@ -310,7 +327,8 @@ export interface ContributorShareShape {
 }
 
 export interface MonthCompareShape {
-  current: { month: string; values: Record<'prs-merged' | 'review-wait-median' | 'failing-check-rate' | 'time-to-close-median', number> }
+  /** A value is null when the data does not reach back over that month. A zero is a real zero. */
+  current: { month: string; values: Record<'prs-merged' | 'review-wait-median' | 'failing-check-rate' | 'time-to-close-median', number | null> }
   previous: MonthCompareShape['current']
 }
 

@@ -1,4 +1,5 @@
 import type { MeasureId, MeasureScope, ShapeName } from '@genui-github/data'
+import type { ContextNeeds } from '@genui-github/data/server'
 
 // What each template reads, from docs/golden-questions.md. No compose logic: the data context builder
 // fetches exactly these shapes and computes exactly these measures, and nothing else.
@@ -36,13 +37,13 @@ export const TEMPLATE_NEEDS: Record<TemplateId, TemplateNeeds> = {
   overview: {
     question: "How's this repo doing?",
     kind: 'golden',
-    shapes: ['repo', 'pulls', 'issues', 'community', 'stats.commitActivity', 'stats.contributors'],
+    shapes: ['repo', 'pulls', 'issues', 'community', 'stats.commitActivity', 'stats.contributors', 'activity'],
     measures: ['open-prs', 'prs-merged', 'review-wait-median', 'contributors'],
   },
   'release-blockers': {
     question: "What's blocking the next release?",
     kind: 'golden',
-    shapes: ['repo', 'pulls', 'issues', 'milestones', 'checks', 'workflowRuns', 'blockingPrs', 'ciDurationByWeek'],
+    shapes: ['repo', 'pulls', 'issues', 'milestones', 'checks', 'workflowRuns', 'blockingPrs', 'ciDurationByWeek', 'activity'],
     measures: ['open-prs', 'awaiting-review', 'failing-checks', 'milestone-issues-open', 'milestone-closes', 'ci-p50'],
   },
   contributors: {
@@ -60,13 +61,13 @@ export const TEMPLATE_NEEDS: Record<TemplateId, TemplateNeeds> = {
   'merged-recent': {
     question: "What's been merged this week?",
     kind: 'golden',
-    shapes: ['repo', 'pulls', 'mergedByDay', 'stats.contributors'],
+    shapes: ['repo', 'pulls', 'mergedByDay', 'stats.contributors', 'activity'],
     measures: ['prs-merged', 'contributors'],
   },
   'stale-issues': {
     question: 'Which issues have gone stale?',
     kind: 'golden',
-    shapes: ['repo', 'pulls', 'issues', 'staleIssues'],
+    shapes: ['repo', 'pulls', 'issues', 'staleIssues', 'activity'],
     measures: ['stale-issues', 'time-to-close-median'],
   },
   'biggest-pr': {
@@ -78,7 +79,7 @@ export const TEMPLATE_NEEDS: Record<TemplateId, TemplateNeeds> = {
   'new-contributor': {
     question: 'Where would a new contributor start?',
     kind: 'golden',
-    shapes: ['repo', 'readme', 'community', 'issues', 'goodFirstIssues', 'pulls', 'stats.contributors'],
+    shapes: ['repo', 'readme', 'community', 'issues', 'goodFirstIssues', 'pulls', 'stats.contributors', 'activity'],
     measures: ['good-first-issues', 'review-wait-median', 'first-time-contributors'],
   },
   responsiveness: {
@@ -90,7 +91,7 @@ export const TEMPLATE_NEEDS: Record<TemplateId, TemplateNeeds> = {
   'month-compare': {
     question: 'Compare this month to last',
     kind: 'golden',
-    shapes: ['repo', 'pulls', 'issues', 'workflowRuns', 'monthCompare'],
+    shapes: ['repo', 'pulls', 'issues', 'workflowRuns', 'monthCompare', 'activity'],
     measures: ['prs-merged', 'review-wait-median', 'failing-check-rate', 'time-to-close-median'],
   },
   'punch-card': {
@@ -122,8 +123,15 @@ export const TEMPLATE_NEEDS: Record<TemplateId, TemplateNeeds> = {
   person: {
     question: 'What has <handle> been working on?',
     kind: 'follow-up',
-    shapes: ['repo', 'pulls', 'commits'],
+    shapes: ['repo', 'pulls', 'commits', 'activity'],
     measures: ['prs-merged', 'commits', 'open-prs'],
     scope: 'author',
   },
+}
+
+/** What the data context builder gets for a template; `scope` fills in what a click narrowed it to (a pull, a person). */
+export function needsFor(id: TemplateId, scope: MeasureScope = {}): ContextNeeds {
+  const { shapes, measures } = TEMPLATE_NEEDS[id]
+  const kind = TEMPLATE_NEEDS[id].scope
+  return { shapes, measures, scope: kind === 'release' ? { release: true, ...scope } : scope }
 }

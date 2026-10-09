@@ -114,6 +114,9 @@ export interface MeasureResult<Id extends MeasureId = MeasureId> {
   value: UnitValue[MeasureUnit<Id>]
   unit: MeasureUnit<Id>
   formatted: Formatted
+  /** Twelve weekly values, only when the data covers all twelve weeks. */
   series12w?: number[]
+  /** Set when the data starts after the window does: the value covers from here, not the whole window. */
+  coveredFrom?: string
   cachedAt: string
 }

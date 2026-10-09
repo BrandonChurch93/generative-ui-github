@@ -1,13 +1,13 @@
 {
- "recordedAt": "2026-10-09T07:18:23.513Z",
+ "recordedAt": "2026-10-09T07:30:58.384Z",
  "responses": [
   {
-   "key": "POST /graphql 6f3e4ec4a3fe6641",
+   "key": "POST /graphql 04b27f9b322add3d",
    "status": 200,
    "headers": {
     "content-type": "application/json; charset=utf-8",
     "x-ratelimit-limit": "5000",
-    "x-ratelimit-remaining": "4996",
+    "x-ratelimit-remaining": "4912",
     "x-ratelimit-reset": "1791533242",
     "x-ratelimit-resource": "graphql"
    },
@@ -25,6 +25,9 @@
      "w0_pullsClosed": {
       "issueCount": 143
      },
+     "w0_pullsMerged": {
+      "issueCount": 119
+     },
      "w1_issuesOpened": {
       "issueCount": 45
      },
@@ -36,6 +39,9 @@
      },
      "w1_pullsClosed": {
       "issueCount": 125
+     },
+     "w1_pullsMerged": {
+      "issueCount": 107
      },
      "w2_issuesOpened": {
       "issueCount": 99
@@ -49,6 +55,9 @@
      "w2_pullsClosed": {
       "issueCount": 146
      },
+     "w2_pullsMerged": {
+      "issueCount": 114
+     },
      "w3_issuesOpened": {
       "issueCount": 72
      },
@@ -60,6 +69,9 @@
      },
      "w3_pullsClosed": {
       "issueCount": 152
+     },
+     "w3_pullsMerged": {
+      "issueCount": 126
      },
      "w4_issuesOpened": {
       "issueCount": 46
@@ -73,6 +85,9 @@
      "w4_pullsClosed": {
       "issueCount": 128
      },
+     "w4_pullsMerged": {
+      "issueCount": 91
+     },
      "w5_issuesOpened": {
       "issueCount": 67
      },
@@ -84,6 +99,9 @@
      },
      "w5_pullsClosed": {
       "issueCount": 164
+     },
+     "w5_pullsMerged": {
+      "issueCount": 147
      },
      "w6_issuesOpened": {
       "issueCount": 41
@@ -97,6 +115,9 @@
      "w6_pullsClosed": {
       "issueCount": 71
      },
+     "w6_pullsMerged": {
+      "issueCount": 55
+     },
      "w7_issuesOpened": {
       "issueCount": 41
      },
@@ -108,6 +129,9 @@
      },
      "w7_pullsClosed": {
       "issueCount": 116
+     },
+     "w7_pullsMerged": {
+      "issueCount": 96
      },
      "w8_issuesOpened": {
       "issueCount": 39
@@ -121,6 +145,9 @@
      "w8_pullsClosed": {
       "issueCount": 105
      },
+     "w8_pullsMerged": {
+      "issueCount": 97
+     },
      "w9_issuesOpened": {
       "issueCount": 52
      },
@@ -132,6 +159,9 @@
      },
      "w9_pullsClosed": {
       "issueCount": 172
+     },
+     "w9_pullsMerged": {
+      "issueCount": 154
      },
      "w10_issuesOpened": {
       "issueCount": 56
@@ -145,6 +175,9 @@
      "w10_pullsClosed": {
       "issueCount": 167
      },
+     "w10_pullsMerged": {
+      "issueCount": 150
+     },
      "w11_issuesOpened": {
       "issueCount": 40
      },
@@ -157,9 +190,39 @@
      "w11_pullsClosed": {
       "issueCount": 107
      },
+     "w11_pullsMerged": {
+      "issueCount": 85
+     },
+     "m0_pullsMerged": {
+      "issueCount": 462
+     },
+     "m1_pullsMerged": {
+      "issueCount": 152
+     },
+     "open_pulls": {
+      "issueCount": 2524
+     },
+     "open_drafts": {
+      "issueCount": 774
+     },
+     "open_awaitingReview": {
+      "issueCount": 1620
+     },
+     "open_changesRequested": {
+      "issueCount": 41
+     },
+     "open_issues": {
+      "issueCount": 1085
+     },
+     "open_staleIssues": {
+      "issueCount": 890
+     },
+     "open_goodFirstIssues": {
+      "issueCount": 11
+     },
      "rateLimit": {
       "cost": 1,
-      "remaining": 4996
+      "remaining": 4912
      }
     }
    }
