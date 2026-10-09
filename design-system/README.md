@@ -62,7 +62,7 @@ Two rules hold across all of them: a zero is data, not empty, and `crit` is rese
 
 **Hairlines.** `line` for rules that draw in (row underlines, chip borders). `line-soft` for rules that sit still (card borders, chart grid). A hairline is 1px; a bar is 3px; a rank bar is `space-2`.
 
-**Cursor warmth.** A fixed radial gradient follows the pointer: `glow-a` inner, `glow-b` at 45%, transparent by 72%, 560px across. It fades in on first move and out when the pointer leaves. It is the only thing on the page that is not caused by the data.
+**Cursor warmth.** A fixed radial gradient follows the pointer: `warmth-a` inner, `warmth-b` at 45%, transparent by 72%, `glow` (420px) across: faint, about a third of the bloom's `glow-a` and `glow-b` (owner's polish round, 2026-10-09). It fades in on first move and out when the pointer leaves. It is the only thing on the page that is not caused by the data.
 
 ## Motion grammar
 

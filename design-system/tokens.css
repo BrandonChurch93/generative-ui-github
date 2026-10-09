@@ -34,6 +34,8 @@
   --diff-del-word: #f0dbe0;
   --glow-a: #f16b4e24;
   --glow-b: #c24bb614;
+  --warmth-a: #f16b4e0e;
+  --warmth-b: #c24bb608;
   --scrim: #23201e1a;
   /* spacing */
   --space-1: 4px;
@@ -72,7 +74,7 @@
   --hit: 36px;
   --tag-y: 3px;
   --underline-offset: 3px;
-  --glow: 560px;
+  --glow: 420px;
   --spark-max: 120px;
   --spark-min: 56px;
   --spark-row: 80px;

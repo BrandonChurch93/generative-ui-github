@@ -6,7 +6,7 @@
   inline-size: var(--glow);
   block-size: var(--glow);
   border-radius: 50%;
-  background: radial-gradient(circle closest-side, var(--glow-a), var(--glow-b) 45%, transparent 72%);
+  background: radial-gradient(circle closest-side, var(--warmth-a), var(--warmth-b) 45%, transparent 72%);
   opacity: 0;
   pointer-events: none;
   will-change: transform, opacity;

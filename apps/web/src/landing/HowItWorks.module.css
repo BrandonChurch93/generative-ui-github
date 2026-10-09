@@ -1,118 +1,290 @@
-/* The overlay sits under the top bar, over a scrim that covers the whole viewport. */
-.layer {
-  position: fixed;
-  inset: 0;
-  z-index: 40;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: calc(var(--nav-h) + var(--space-6)) var(--space-4) var(--space-4);
-  overflow-y: auto;
-  overscroll-behavior: contain;
+/* How it works: the three steps in the reading line, and the composed answer with their numbers on it. */
+.how {
+  margin-block-start: var(--space-8);
+  padding-block-start: var(--space-7);
+  border-top: var(--hairline) solid var(--line);
+  scroll-margin-block-start: var(--space-5);
 }
 
-.scrim {
-  position: fixed;
-  inset: 0;
-  background: var(--scrim);
+/* The section takes focus when its link is followed, so the reader's next Tab starts here; the heading marks it. */
+.how:focus {
+  outline: none;
 }
 
-.card {
-  position: relative;
-  inline-size: min(var(--overlay-w), 100%);
-  padding: var(--space-5) var(--space-6) var(--space-6);
-  background: var(--surface);
-  border: var(--hairline) solid var(--line-soft);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--card-hover);
-  color: var(--ink);
-}
-
-.head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--space-4);
-  margin-block-end: var(--space-4);
+.how:focus-visible .title {
+  outline: var(--focus-ring) solid var(--focus);
+  outline-offset: var(--focus-offset);
+  border-radius: var(--radius-xs);
 }
 
 .title {
   margin: 0;
-  font-size: var(--text-action-size);
-  line-height: var(--text-action-leading);
-  font-weight: var(--text-action-weight);
-}
-
-.x {
-  flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  inline-size: var(--ask-chip-h);
-  block-size: var(--ask-chip-h);
-  margin: calc(var(--space-1) * -1.5) calc(var(--space-1) * -1.5) 0 0;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: none;
-  color: var(--muted);
-  cursor: pointer;
-}
-
-.x:hover {
-  background: var(--surface-tint);
+  padding-inline: var(--edge);
+  font-size: var(--text-section-size);
+  line-height: var(--text-section-leading);
+  font-weight: var(--text-section-weight);
+  letter-spacing: var(--text-section-tracking);
   color: var(--ink);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: var(--space-6);
+  margin-block-start: var(--space-5);
+}
+
+.grid[data-preview] {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  align-items: start;
+  column-gap: var(--space-8);
 }
 
 .steps {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-5);
   margin: 0;
-  padding: 0;
+  padding: 0 var(--edge);
   list-style: none;
-  counter-reset: step;
 }
 
-.steps li {
+.step {
   display: grid;
-  grid-template-columns: var(--space-5) minmax(0, 1fr);
-  column-gap: var(--space-2);
-  row-gap: calc(var(--hairline) * 2);
-  counter-increment: step;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  column-gap: var(--space-3);
 }
 
-.steps li::before {
-  content: counter(step);
-  grid-row: 1 / span 2;
-  font-family: var(--font-mono);
-  font-size: var(--text-meta-size);
-  line-height: 1.6;
-  font-weight: var(--text-label-weight);
-  color: var(--muted);
-}
-
-.steps b {
+.step h3 {
+  margin: 0;
   font-size: var(--text-row-title-size);
-  line-height: var(--text-row-title-leading);
+  line-height: var(--chip-h);
   font-weight: var(--text-row-title-weight);
+  color: var(--ink);
 }
 
-.steps span {
+.step p {
+  margin: var(--space-1) 0 0;
   font-size: var(--text-body-size);
   line-height: var(--text-body-leading);
   color: var(--muted);
-  text-wrap: pretty;
 }
 
-.foot {
+/* One numeral face for the steps and the callouts, so a number in the list finds its twin on the picture. */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  inline-size: var(--chip-h);
+  block-size: var(--chip-h);
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: 1;
+  font-weight: var(--text-label-weight);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The picture: a screen laid out at --nw and scaled to its frame. */
+.fig {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-inline-size: 0;
+  margin: 0;
+}
+
+.shot {
+  --nw: var(--page-max);
+  position: relative;
+  container-type: inline-size;
+  aspect-ratio: 1280 / 720;
+  overflow: hidden;
+  background: var(--bg);
+  border: var(--hairline) solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--card);
+  transition:
+    box-shadow 250ms cubic-bezier(0.25, 1, 0.5, 1),
+    transform 250ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.shot:hover {
+  box-shadow: var(--card-hover);
+  transform: translateY(calc(var(--hairline) * -1));
+}
+
+.shotIn {
+  --edge: calc(var(--inset) + var(--hairline));
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--region-gap);
+  inline-size: var(--nw);
+  padding: var(--space-7);
+  transform-origin: 0 0;
+  transform: scale(tan(atan2(100cqw, var(--nw))));
+  pointer-events: none;
+}
+
+/* Without typed division, the picture keeps the scale of the widest frame and the frame crops it. */
+@supports not (inline-size: calc(tan(atan2(1em, 1em)) * 1em)) {
+  .shotIn {
+    transform: scale(0.6);
+  }
+}
+
+/* The picture keeps its metrics in one row at every viewport: it is drawn at --nw, not at the viewport's width. */
+.shot .shotIn [data-region='metrics'][data-count='3'] {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* The frame shows the answer down to its first rows; the action card would only be cut off at its edge. */
+.shot .shotIn [data-region='action'] {
+  display: none;
+}
+
+.shotLink {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+}
+
+.shotLink:focus-visible {
+  outline: var(--focus-ring) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+
+/* Each callout rings its piece a little outside the piece's edge, its number on the ring's corner. */
+.callouts {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms linear;
+}
+
+.callouts[data-callouts] {
+  opacity: 1;
+}
+
+.callout {
+  position: absolute;
+  inset-inline-start: calc(var(--x) - var(--space-1));
+  inset-block-start: calc(var(--y) - var(--space-1));
+  inline-size: calc(var(--w) + var(--space-2));
+  block-size: calc(var(--h) + var(--space-2));
+  border: var(--ring) solid var(--accent);
+  border-radius: var(--radius-md);
+}
+
+.callout .badge {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0;
+  transform: translate(-40%, -40%);
+  box-shadow: 0 0 0 var(--ring) var(--surface);
+}
+
+/* The insight's words start at its left edge, so its number sits on the far corner instead. */
+.callout[data-callout='1'] .badge {
+  inset-inline: auto 0;
+  transform: translate(40%, -40%);
+}
+
+.shotChrome {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: last baseline;
+  column-gap: var(--space-7);
+  padding-inline: var(--edge);
+}
+
+.shotEyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-block-end: var(--space-4);
+}
+
+.shotChip {
+  display: inline-flex;
+  align-items: center;
+  block-size: var(--chip-h);
+  padding: 0 var(--space-2);
+  border: var(--hairline) solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: 1;
+  letter-spacing: var(--text-meta-tracking);
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.shotQuestion {
+  margin: 0;
+  max-inline-size: 22ch;
+  font-size: var(--text-question-size);
+  line-height: var(--text-question-leading);
+  font-weight: var(--text-question-weight);
+  letter-spacing: var(--text-question-tracking);
+  text-wrap: balance;
+}
+
+.shotBuilt {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-1);
+  text-align: end;
+}
+
+.shotNum {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin-block-end: var(--space-1);
+  font-size: var(--text-built-size);
+  line-height: var(--text-built-leading);
+  font-weight: var(--text-built-weight);
+  letter-spacing: var(--text-built-tracking);
+  font-variant-numeric: tabular-nums;
+}
+
+.shotNum small {
+  font-family: var(--font-mono);
+  font-size: var(--text-suffix-size);
+  line-height: var(--text-suffix-leading);
+  font-weight: var(--text-suffix-weight);
+  color: var(--muted);
+}
+
+.shotMeta {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  letter-spacing: var(--text-meta-tracking);
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.cap {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  justify-content: space-between;
-  gap: var(--space-3);
-  margin-block-start: var(--space-5);
-  padding-block-start: var(--space-4);
-  border-top: var(--hairline) solid var(--line-soft);
+  gap: var(--space-2) var(--space-5);
+  margin: 0;
+  padding-inline: var(--edge);
   font-family: var(--font-mono);
   font-size: var(--text-meta-size);
   line-height: var(--text-meta-leading);
@@ -120,30 +292,51 @@
   color: var(--muted);
 }
 
-.link {
-  border-radius: var(--radius-xs);
-  color: var(--accent-text);
-  font-family: var(--font-sans);
-  font-size: var(--text-label-size);
-  line-height: var(--text-label-leading);
+.cap b {
   font-weight: var(--text-label-weight);
-  letter-spacing: normal;
-  text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, var(--accent-text) 35%, transparent);
-  text-underline-offset: var(--underline-offset);
+  color: var(--ink);
 }
 
-.link:hover {
-  text-decoration-color: currentColor;
+/* raw-ok: media conditions cannot read custom properties; these are the shell's breakpoints. */
+@media (max-width: 1023px) {
+  .grid[data-preview] {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
-/* raw-ok: media conditions cannot read custom properties; this is the shell's phone breakpoint. */
+/* raw-ok: media conditions cannot read custom properties. */
 @media (max-width: 639px) {
-  .layer {
-    padding-block-start: calc(var(--nav-h-narrow) + var(--space-4));
+  .how {
+    margin-block-start: var(--space-7);
+    padding-block-start: var(--space-6);
   }
 
-  .card {
-    padding: var(--space-5);
+  .shot {
+    --nw: calc(var(--page-max) / 2);
+    aspect-ratio: 640 / 860;
+  }
+
+  .shotIn {
+    padding: var(--space-6) var(--space-5);
+  }
+
+  .shotChrome {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--space-4);
+  }
+
+  .shotBuilt {
+    align-items: flex-start;
+    text-align: start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shot {
+    transition: none;
+  }
+
+  .shot:hover {
+    transform: none;
   }
 }

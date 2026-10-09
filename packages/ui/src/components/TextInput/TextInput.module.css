@@ -210,6 +210,9 @@
 }
 
 .heroButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
   flex-shrink: 0;
   block-size: calc(var(--space-7) + var(--space-1));
   margin: 0;
@@ -224,6 +227,35 @@
   font-weight: var(--text-label-weight);
   white-space: nowrap;
   cursor: pointer;
+  transition:
+    transform 150ms cubic-bezier(0.25, 1, 0.5, 1),
+    box-shadow 150ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* The arrow is decoration: the empty alternative keeps the button's name its label. */
+.heroButton::after {
+  content: "\2192" / "";
+  transition: transform 150ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* The gradient has no hover ground to shift to, so it hovers as the primary Button does: it lifts. */
+.heroButton:is(:hover, :focus-visible):not([aria-disabled="true"]) {
+  transform: translateY(calc(var(--hairline) * -1));
+  box-shadow: var(--card-hover);
+}
+
+.heroButton:is(:hover, :focus-visible):not([aria-disabled="true"])::after {
+  transform: translateX(calc(var(--space-1) / 2));
+}
+
+.heroButton:focus-visible {
+  outline: var(--focus-ring) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+
+.heroButton:active:not([aria-disabled="true"]) {
+  transform: none;
+  box-shadow: none;
 }
 
 .heroButton[aria-disabled="true"] {
@@ -250,11 +282,23 @@
   .control {
     font-size: 1rem;
   }
+
+  /* A phone has the placeholder's width to keep and no pointer to nudge for, so the arrow stays out. */
+  .heroButton::after {
+    content: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .control,
-  .heroBox {
+  .heroBox,
+  .heroButton,
+  .heroButton::after {
     transition: none;
+  }
+
+  .heroButton:is(:hover, :focus-visible):not([aria-disabled="true"]),
+  .heroButton:is(:hover, :focus-visible):not([aria-disabled="true"])::after {
+    transform: none;
   }
 }

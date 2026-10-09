@@ -57,7 +57,7 @@ export default async function Home() {
     )
   }
 
-  return <Landing samples={samples} initialRepo={PREVIEW.repo} groups={groups} preview={previewOnce()} />
+  return <Landing samples={samples} groups={groups} preview={previewOnce()} />
 }
 
 function ConfigError({ problems }: { problems: Parameters<typeof configErrorCopy>[0] }) {

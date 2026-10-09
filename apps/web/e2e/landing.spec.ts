@@ -9,8 +9,15 @@ const GROUPS = {
 
 const composedAt = (repo: string, question: string) => (url: URL) => url.pathname === `/r/${repo}` && url.searchParams.get('q') === question
 
-test('the twelve golden questions sit in four groups', async ({ page }) => {
+test('step 2 waits until a repo is chosen, then offers the twelve golden questions in four groups', async ({ page }) => {
   await page.goto('/')
+  const ask = page.locator('[data-step="2"]')
+  await expect(ask).not.toHaveAttribute('data-ready')
+  await expect(page.locator('[data-question]')).toHaveCount(0)
+  await expect(page.locator('[data-sample][aria-pressed="true"]')).toHaveCount(0)
+
+  await page.getByRole('button', { name: 'vercel/next.js' }).click()
+  await expect(ask).toHaveAttribute('data-ready', '')
   await expect(page.locator('[data-question]')).toHaveCount(12)
   for (const [label, questions] of Object.entries(GROUPS)) {
     const group = page.locator(`[data-group="${label}"]`)
@@ -19,16 +26,43 @@ test('the twelve golden questions sit in four groups', async ({ page }) => {
   }
 })
 
-test('a question asks it of the preselected sample, and of another once it is picked', async ({ page }) => {
+test('a question asks it of the picked sample, and of another once that is picked', async ({ page }) => {
   await page.goto('/')
-  await expect(page.getByRole('button', { name: 'vercel/next.js' })).toHaveAttribute('aria-pressed', 'true')
   await page.getByRole('button', { name: 'facebook/react' }).click()
   await expect(page.getByRole('button', { name: 'facebook/react' })).toHaveAttribute('aria-pressed', 'true')
   await expect(page.getByRole('link', { name: 'Is CI getting slower?' })).toHaveAttribute('href', '/r/facebook/react?q=Is%20CI%20getting%20slower%3F')
 
   await page.getByRole('button', { name: 'vercel/next.js' }).click()
+  await expect(page.getByRole('button', { name: 'facebook/react' })).toHaveAttribute('aria-pressed', 'false')
   await page.getByRole('link', { name: "What's been merged this week?" }).click()
   await expect(page).toHaveURL(composedAt('vercel/next.js', "What's been merged this week?"))
+})
+
+test("a question of the reader's own on a sample goes to the composed screen", async ({ page }) => {
+  // Only the route is under test; a question off the golden set would cost a live composer call.
+  await page.route('**/api/compose**', route => route.abort())
+  await page.goto('/')
+  await page.getByRole('button', { name: 'vitejs/vite' }).click()
+  const field = page.getByRole('textbox', { name: 'Your question about vitejs/vite' })
+  await page.getByRole('button', { name: 'Ask', exact: true }).click()
+  await expect(field).toBeFocused()
+  await field.fill('Which plugins changed the most?')
+  await field.press('Enter')
+  await expect(page).toHaveURL(composedAt('vitejs/vite', 'Which plugins changed the most?'))
+})
+
+test('a typed repo that parses opens step 2 for it', async ({ page }) => {
+  await page.goto('/')
+  await page.getByRole('textbox', { name: 'Public GitHub repository' }).fill('github.com/withastro/astro')
+  await expect(page.locator('[data-step="2"]')).toHaveAttribute('data-ready', '')
+  await expect(page.getByRole('link', { name: 'Is CI getting slower?' })).toHaveAttribute('href', '/r/withastro/astro?q=Is%20CI%20getting%20slower%3F')
+})
+
+test('a sample picked on a phone brings step 2 into view', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/')
+  await page.getByRole('button', { name: 'tailwindlabs/tailwindcss' }).click()
+  await expect(page.getByRole('textbox', { name: 'Your question about tailwindlabs/tailwindcss' })).toBeInViewport()
 })
 
 test('a repo the field cannot read says why in its validation line', async ({ page }) => {
@@ -46,31 +80,22 @@ test('a repo the field cannot read says why in its validation line', async ({ pa
   await expect(page).toHaveURL(url => url.pathname === '/r/vitejs/vite')
 })
 
-test('how this works opens over an inert page, keeps focus, and closes with Escape', async ({ page }) => {
+test('how it works sits inline, and its link scrolls to it', async ({ page }) => {
   await page.goto('/')
-  const opener = page.getByRole('button', { name: 'How this works' })
-  const behindIsInert = () => page.evaluate(() => document.getElementById('main')?.closest('[inert]') != null)
-  await opener.click()
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+  const section = page.getByRole('region', { name: 'How it works' })
+  await expect(section.getByRole('listitem')).toHaveCount(3)
+  await expect(section.getByRole('heading', { level: 3 })).toHaveText(['Pick a repo', 'Ask a question', 'Click anything and the screen rebuilds around it'])
+  const top = () => section.evaluate(el => el.getBoundingClientRect().top)
+  const before = await top()
 
-  const dialog = page.getByRole('dialog', { name: 'How this works' })
-  await expect(dialog).toBeVisible()
-  await expect(dialog.getByRole('listitem')).toHaveCount(4)
-  expect(await behindIsInert()).toBe(true)
-  await expect(dialog.getByRole('button', { name: 'Close' })).toBeFocused()
-  for (let i = 0; i < 4; i++) {
-    await page.keyboard.press('Tab')
-    expect(await dialog.evaluate(el => el.contains(document.activeElement))).toBe(true)
-  }
-
-  await page.keyboard.press('Escape')
-  await expect(dialog).toBeHidden()
-  await expect(opener).toBeFocused()
-  expect(await behindIsInert()).toBe(false)
-
-  await opener.click()
-  await dialog.getByRole('button', { name: 'Close' }).click()
-  await expect(dialog).toBeHidden()
-  await expect(opener).toBeFocused()
+  await page.getByRole('link', { name: 'How it works' }).click()
+  // The page may end before the section can reach the top, so the scroll is checked as travel toward it.
+  await expect.poll(top).toBeLessThan(before / 2)
+  await expect(section.getByRole('heading', { level: 2 })).toBeInViewport()
+  await expect(section).toBeFocused()
+  await expect(page).toHaveURL(url => url.hash === '#how-it-works')
+  await expect(section.locator('[data-callout]')).toHaveCount(3)
 })
 
 test('a second visit offers the last repo again', async ({ page }) => {

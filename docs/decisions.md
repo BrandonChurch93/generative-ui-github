@@ -8,7 +8,7 @@ Every settled question, stated as a constraint. Read this before asking the owne
 - Public repos only. No OAuth, no private repos, no user accounts. The only visitor state is a `localStorage` last-repo convenience and a day-scoped rate-limit counter keyed on a SHA-256 of IP plus user agent, kept in KV and gone at midnight UTC. No question text, repo name or result is ever stored per visitor.
 - Sample repos: `vercel/next.js`, `facebook/react`, `anthropics/claude-code`, `tailwindlabs/tailwindcss`, `vitejs/vite`. Precomputed and cached forever; refreshed by script.
 - No persona toggle. The composer picks a default density from the question ("quick version" → compact; "walk me through" → spacious; else comfortable). The tray has a segmented density control the reader can override with; the override persists for the session.
-- No chatbot. Help is the "how this works" overlay plus the question field itself.
+- No chatbot. Help is the inline "How it works" section on the landing plus the question field itself (the owner's polish round, 2026-10-09, replaced the overlay).
 - The footer is the whole privacy policy: "Nothing you paste is stored. Public repos only. Sample data is marked."
 - Everything in the plan is v1. Nothing is deferred.
 
@@ -85,7 +85,7 @@ Every settled question, stated as a constraint. Read this before asking the owne
 - Promoted to tokens: `scrim` (ink 10%), `sheet` shadow, a `lead` type style for WarmingUp and RateLimit (49). The mono repo chip and the segmented control are shell components in `packages/ui/src/parts/`, not tokens.
 - Schema additions: Timeline commits (`id` PR number or short SHA, `verb`); a Metric with `format: "clock"` wipes in instead of counting; escalation reasons have fixed wording in `docs/composer.md` (50).
 - Rate limit: Try again is enabled and re-checks for free; the tray is disabled with the reset time; DailyCap shows the original built figure (51).
-- Landing: the chips are the twelve golden questions from `docs/golden-questions.md`, grouped Shipping, Health, People, Getting started; the screen mock's chip wording is superseded. One sample repo preselected with the accent mark; "Who should review this PR?" is not a chip; `@supports` fallback for the preview scale; page behind the overlay is `inert` (52).
+- Landing: the chips are the twelve golden questions from `docs/golden-questions.md`, grouped Shipping, Health, People, Getting started; the screen mock's chip wording is superseded. No sample is preselected: the journey reads "1 · Pick a repo" then "2 · Ask it a question", and step 2 stays muted until a repo is chosen (owner's polish round, 2026-10-09, replacing the preselected sample of 52). A sample takes a typed question too, which goes through the live composer with the usual limits. "Who should review this PR?" is not a chip; `@supports` fallback for the preview scale (52).
 - MCP App frame: 420px design width, 360px floor, container queries, the composer is told the frame width (53).
 - Catalog: a disabled segment for skipped states; View JSON shows the sample; Evals scroll box is not a tab stop on desktop (54). Built figure stays tabular (55). Ask key hints dropped (56).
 - Arrival order with a warming card on a composed screen: the warming card takes its region's slot at full height with the WarmingUp row; when data lands it morphs in place (57).

@@ -1,4 +1,4 @@
-/* The landing: the sentence, then the field beside a composed answer in miniature, then the questions. */
+/* The landing: the sentence, then the journey in two numbered steps, then how it works. */
 .hero {
   padding-block-start: var(--space-8);
 }
@@ -19,67 +19,85 @@
   color: var(--muted);
 }
 
-.start {
+.howLine {
+  margin: var(--space-4) 0 0;
+  padding-inline: var(--edge);
+}
+
+.howLink {
+  position: relative;
+  border-radius: var(--radius-xs);
+  color: var(--accent-text);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-leading);
+  font-weight: var(--text-label-weight);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent-text) 35%, transparent);
+  text-underline-offset: var(--underline-offset);
+  transition: text-decoration-color 150ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.howLink:hover {
+  text-decoration-color: currentColor;
+}
+
+/* The hit area grows to --hit without moving the layout. */
+.howLink::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  inline-size: max(100%, var(--hit));
+  block-size: max(100%, var(--hit));
+  transform: translate(-50%, -50%);
+}
+
+/* The journey. */
+.journey {
+  margin-block-start: var(--space-7);
+}
+
+.step {
+  scroll-margin-block-start: var(--space-5);
+}
+
+.stepTitle {
+  margin: 0;
+  padding-inline: var(--edge);
+  font-size: var(--text-section-size);
+  line-height: var(--text-section-leading);
+  font-weight: var(--text-section-weight);
+  letter-spacing: var(--text-section-tracking);
+  color: var(--ink);
+  transition: color 200ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.stepNum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Step 2 waits in muted until there is a repo to ask, then turns to ink. */
+.step[data-step='2']:not([data-ready]) .stepTitle {
+  color: var(--muted);
+}
+
+/* The arrow that joins the two steps, on the content edge. */
+.join {
+  display: flex;
+  padding: var(--space-5) var(--edge);
+  color: var(--muted);
+}
+
+.pick {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: start;
   column-gap: var(--space-8);
-  margin-block-start: var(--space-7);
+  margin-block-start: var(--space-4);
 }
 
-.lead {
+.paste {
   min-inline-size: 0;
-}
-
-.samples {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  margin-block-start: var(--space-6);
-  padding-inline: var(--edge);
-}
-
-.samplesLabel {
-  margin: 0;
-  font-size: var(--text-label-size);
-  line-height: var(--text-label-leading);
-  font-weight: var(--text-label-weight);
-  color: var(--muted);
-}
-
-.chips,
-.qchips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-}
-
-.sample {
-  display: inline-flex;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-pill);
-  background: none;
-  cursor: pointer;
-}
-
-/* A sample is a chip the reader picks: the ask chip's size, the repo chip's face. */
-.sample .sampleChip {
-  block-size: var(--ask-chip-h);
-  padding-block: 0;
-  padding-inline: var(--space-3);
-  font-size: var(--text-hint-size);
-  line-height: 1;
-  letter-spacing: 0;
-  transition:
-    box-shadow 250ms cubic-bezier(0.25, 1, 0.5, 1),
-    transform 250ms cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.sample:hover .sampleChip {
-  box-shadow: var(--card-hover);
-  transform: translateY(calc(var(--hairline) * -1));
 }
 
 /* The returning visitor's line keeps its height whether or not there is a repo to offer, so nothing moves when it arrives. */
@@ -87,6 +105,8 @@
   display: flex;
   align-items: center;
   min-block-size: var(--space-6);
+  margin-block-start: var(--space-2);
+  padding-inline: var(--edge);
 }
 
 .offerLink {
@@ -117,233 +137,196 @@
   text-overflow: ellipsis;
 }
 
-/* The preview: a screen laid out at --nw and scaled to its frame. */
-.fig {
+/* The samples: a second, optional path, in a tinted panel of its own with its label as the eyebrow. */
+.samples {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  min-inline-size: 0;
-  margin: 0;
-}
-
-.shot {
-  --nw: var(--page-max);
-  position: relative;
-  container-type: inline-size;
-  aspect-ratio: 1280 / 455;
-  overflow: hidden;
-  background: var(--bg);
+  padding: var(--card-y) var(--inset);
   border: var(--hairline) solid var(--line-soft);
   border-radius: var(--radius-lg);
-  box-shadow: var(--card);
-  transition:
-    box-shadow 250ms cubic-bezier(0.25, 1, 0.5, 1),
-    transform 250ms cubic-bezier(0.25, 1, 0.5, 1);
+  background: var(--surface-tint);
 }
 
-.shot:hover {
+.eyebrow {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  letter-spacing: var(--text-meta-tracking);
+  color: var(--muted);
+}
+
+.chips,
+.qchips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.sample {
+  display: inline-flex;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: none;
+  cursor: pointer;
+}
+
+/* A sample is a chip the reader picks: the ask chip's size, the repo chip's face, bordered on the panel. */
+.sample .sampleChip {
+  block-size: var(--ask-chip-h);
+  padding-block: 0;
+  padding-inline: var(--space-3);
+  border-color: var(--line);
+  font-size: var(--text-hint-size);
+  line-height: 1;
+  letter-spacing: 0;
+  transition:
+    border-color 150ms cubic-bezier(0.25, 1, 0.5, 1),
+    box-shadow 150ms cubic-bezier(0.25, 1, 0.5, 1),
+    transform 150ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* On the tinted panel the chosen chip keeps the surface, so its accent border and dot carry the choice. */
+.sample .sampleChip[data-selected] {
+  border-color: var(--accent);
+  background: var(--surface);
+}
+
+/* The panel is already the hover ground, so a sample rises as a card does instead of tinting. */
+.sample:is(:hover, :focus-visible) .sampleChip {
   box-shadow: var(--card-hover);
   transform: translateY(calc(var(--hairline) * -1));
 }
 
-.shotIn {
-  --edge: calc(var(--inset) + var(--hairline));
-  position: absolute;
-  inset-block-start: 0;
-  inset-inline-start: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--region-gap);
-  inline-size: var(--nw);
-  padding: var(--space-7);
-  transform-origin: 0 0;
-  transform: scale(tan(atan2(100cqw, var(--nw))));
-  pointer-events: none;
+.sample:is(:hover, :focus-visible) .sampleChip:not([data-selected]) {
+  border-color: var(--line-strong);
 }
 
-/* Without typed division, the picture keeps the scale of the widest frame and the frame crops it. */
-@supports not (inline-size: calc(tan(atan2(1em, 1em)) * 1em)) {
-  .shotIn {
-    transform: scale(0.47);
-  }
-}
-
-/* The picture keeps its metrics in one row at every viewport: it is drawn at --nw, not at the viewport's width. */
-.shot .shotIn [data-region='metrics'][data-count='3'] {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-/* The frame shows the answer down to its numbers; the cards below would only be cut off at its edge. */
-.shot .shotIn :is([data-region='main'], [data-region='side'], [data-region='action']) {
-  display: none;
-}
-
-.shotLink {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-}
-
-.shotChrome {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: last baseline;
-  column-gap: var(--space-7);
+/* Step 2. */
+.waiting,
+.askLead {
+  margin: var(--space-2) 0 0;
   padding-inline: var(--edge);
-}
-
-.shotEyebrow {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  margin-block-end: var(--space-4);
-}
-
-.shotChip {
-  display: inline-flex;
-  align-items: center;
-  block-size: var(--chip-h);
-  padding: 0 var(--space-2);
-  border: var(--hairline) solid var(--line);
-  border-radius: var(--radius-pill);
-  background: var(--surface);
-  font-family: var(--font-mono);
-  font-size: var(--text-meta-size);
-  line-height: 1;
-  letter-spacing: var(--text-meta-tracking);
-  color: var(--muted);
-  white-space: nowrap;
-}
-
-.shotQuestion {
-  margin: 0;
-  max-inline-size: 22ch;
-  font-size: var(--text-question-size);
-  line-height: var(--text-question-leading);
-  font-weight: var(--text-question-weight);
-  letter-spacing: var(--text-question-tracking);
-  text-wrap: balance;
-}
-
-.shotBuilt {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: var(--space-1);
-  text-align: end;
-}
-
-.shotNum {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-2);
-  margin-block-end: var(--space-1);
-  font-size: var(--text-built-size);
-  line-height: var(--text-built-leading);
-  font-weight: var(--text-built-weight);
-  letter-spacing: var(--text-built-tracking);
-  font-variant-numeric: tabular-nums;
-}
-
-.shotNum small {
-  font-family: var(--font-mono);
-  font-size: var(--text-suffix-size);
-  line-height: var(--text-suffix-leading);
-  font-weight: var(--text-suffix-weight);
-  color: var(--muted);
-}
-
-.shotMeta {
-  font-family: var(--font-mono);
-  font-size: var(--text-meta-size);
-  line-height: var(--text-meta-leading);
-  letter-spacing: var(--text-meta-tracking);
-  color: var(--muted);
-  white-space: nowrap;
-}
-
-.cap {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--space-2) var(--space-5);
-  margin: 0;
-  padding-inline: var(--edge);
-  font-family: var(--font-mono);
-  font-size: var(--text-meta-size);
-  line-height: var(--text-meta-leading);
-  letter-spacing: var(--text-meta-tracking);
-  color: var(--muted);
-}
-
-.cap b {
-  font-weight: var(--text-label-weight);
-  color: var(--ink);
-}
-
-.how {
-  position: relative;
-  margin: 0 0 0 auto;
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-xs);
-  background: none;
-  color: var(--accent-text);
-  font-family: var(--font-sans);
-  font-size: var(--text-label-size);
-  line-height: var(--text-label-leading);
-  font-weight: var(--text-label-weight);
-  letter-spacing: normal;
-  white-space: nowrap;
-  text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, var(--accent-text) 35%, transparent);
-  text-underline-offset: var(--underline-offset);
-  cursor: pointer;
-}
-
-.how:hover {
-  text-decoration-color: currentColor;
-}
-
-/* The hit area grows to --hit without moving the layout. */
-.how::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  inline-size: max(100%, var(--hit));
-  block-size: max(100%, var(--hit));
-  transform: translate(-50%, -50%);
-}
-
-/* The questions. */
-.questions {
-  margin-block-start: var(--space-8);
-}
-
-.questionsHead {
-  padding: 0 var(--edge) var(--space-5);
-}
-
-.questionsHead h2 {
-  margin: 0;
-  font-size: var(--text-action-size);
-  line-height: var(--text-action-leading);
-  font-weight: var(--text-action-weight);
-}
-
-.questionsHead p {
-  margin: var(--space-1) 0 0;
   font-size: var(--text-body-size);
   line-height: var(--text-body-leading);
   color: var(--muted);
 }
 
-.questionsHead code {
+.askLead code {
   font-family: var(--font-mono);
   font-size: 0.85em;
   font-weight: var(--text-label-weight);
   color: var(--ink);
+}
+
+/* The question field: the hero's box and button, with the question set in the reading face. */
+.ask {
+  max-inline-size: calc((100% - var(--space-8)) / 2);
+  margin: var(--space-4) 0 0;
+}
+
+.askBox {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  block-size: calc(var(--space-7) + var(--space-1) * 3);
+  padding: var(--space-1);
+  border: var(--hairline) solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--card);
+  transition: border-color 120ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.askBox:hover {
+  border-color: var(--line-strong);
+}
+
+.askBox:has(.askInput:focus-visible) {
+  outline: var(--focus-ring) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+
+/* iOS zooms into any field under 16px, so the question is the root size at every width. */
+.askInput {
+  flex: 1;
+  align-self: stretch;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0 var(--space-3);
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  caret-color: var(--accent);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* The ring is drawn on the box around it. */
+.askInput:focus-visible {
+  outline: none;
+}
+
+.askInput::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+
+.askButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+  block-size: calc(var(--space-7) + var(--space-1));
+  margin: 0;
+  padding: 0 var(--space-5);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: var(--accent-ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-body-size);
+  line-height: 1;
+  font-weight: var(--text-label-weight);
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    transform 150ms cubic-bezier(0.25, 1, 0.5, 1),
+    box-shadow 150ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* The arrow is decoration: the empty alternative keeps the button's name its label. */
+.askButton::after {
+  content: "\2192" / "";
+  transition: transform 150ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* The gradient has no hover ground to shift to, so it hovers as the primary Button does: it lifts. */
+.askButton:is(:hover, :focus-visible) {
+  transform: translateY(calc(var(--hairline) * -1));
+  box-shadow: var(--card-hover);
+}
+
+.askButton:is(:hover, :focus-visible)::after {
+  transform: translateX(calc(var(--space-1) / 2));
+}
+
+.askButton:active {
+  transform: none;
+  box-shadow: none;
+}
+
+.or {
+  margin: var(--space-5) 0 var(--space-3);
+  padding-inline: var(--edge);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-leading);
+  font-weight: var(--text-label-weight);
+  color: var(--muted);
 }
 
 .groups {
@@ -392,23 +375,27 @@
   text-decoration: none;
   white-space: nowrap;
   transition:
-    color 250ms cubic-bezier(0.25, 1, 0.5, 1),
-    box-shadow 250ms cubic-bezier(0.25, 1, 0.5, 1),
-    transform 250ms cubic-bezier(0.25, 1, 0.5, 1);
+    color 150ms cubic-bezier(0.25, 1, 0.5, 1),
+    background-color 150ms cubic-bezier(0.25, 1, 0.5, 1),
+    border-color 150ms cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.qchip:hover {
+/* The system's one hover ground. */
+.qchip:is(:hover, :focus-visible) {
+  border-color: var(--line-strong);
+  background: var(--surface-tint);
   color: var(--ink);
-  box-shadow: var(--card-hover);
-  transform: translateY(calc(var(--hairline) * -1));
 }
 
 /* raw-ok: media conditions cannot read custom properties; these are the shell's breakpoints. */
 @media (max-width: 1023px) {
-  /* The offer's reserved line and the samples' gap make up the space-7 between the field and the preview. */
-  .start {
+  .pick {
     grid-template-columns: minmax(0, 1fr);
-    row-gap: calc(var(--space-7) - var(--space-6) - var(--space-3));
+    row-gap: var(--space-3);
+  }
+
+  .ask {
+    max-inline-size: none;
   }
 
   .group {
@@ -418,33 +405,22 @@
   }
 }
 
+/* raw-ok: media conditions cannot read custom properties; the hero field's phone width. */
+@media (max-width: 29.99em) {
+  /* A phone has the placeholder's width to keep and no pointer to nudge for, so the arrow stays out. */
+  .askButton::after {
+    content: none;
+  }
+}
+
 /* raw-ok: media conditions cannot read custom properties. */
 @media (max-width: 639px) {
   .hero {
     padding-block-start: var(--space-5);
   }
 
-  .shot {
-    --nw: calc(var(--page-max) / 2);
-    aspect-ratio: 640 / 565;
-  }
-
-  .shotIn {
-    padding: var(--space-6) var(--space-5);
-  }
-
-  .shotChrome {
-    grid-template-columns: minmax(0, 1fr);
-    row-gap: var(--space-4);
-  }
-
-  .shotBuilt {
-    align-items: flex-start;
-    text-align: start;
-  }
-
-  .how {
-    margin-inline-start: 0;
+  .journey {
+    margin-block-start: var(--space-6);
   }
 
   .qchip {
@@ -454,22 +430,22 @@
     padding-block: var(--space-2);
     line-height: var(--text-label-leading);
   }
-
-  .questions {
-    margin-block-start: var(--space-7);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .howLink,
+  .stepTitle,
   .sample .sampleChip,
-  .shot,
+  .askBox,
+  .askButton,
+  .askButton::after,
   .qchip {
     transition: none;
   }
 
-  .sample:hover .sampleChip,
-  .shot:hover,
-  .qchip:hover {
+  .sample:is(:hover, :focus-visible) .sampleChip,
+  .askButton:is(:hover, :focus-visible),
+  .askButton:is(:hover, :focus-visible)::after {
     transform: none;
   }
 }

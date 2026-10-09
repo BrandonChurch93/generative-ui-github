@@ -34,6 +34,8 @@ export const TOKEN_NAMES = [
   'diff-del-word',
   'glow-a',
   'glow-b',
+  'warmth-a',
+  'warmth-b',
   'scrim',
   'space-1',
   'space-2',
