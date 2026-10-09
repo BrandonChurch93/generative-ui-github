@@ -4,14 +4,22 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./server": "./src/server.ts"
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "fixtures:record": "tsx scripts/record.ts"
   },
   "dependencies": {
+    "@genui-github/core": "workspace:*",
+    "@octokit/core": "7.0.8",
+    "@upstash/redis": "1.39.0",
     "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.15"
   }
 }

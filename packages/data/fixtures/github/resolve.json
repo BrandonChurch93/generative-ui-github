@@ -1,0 +1,139 @@
+{
+ "recordedAt": "2026-10-09T07:12:46.473Z",
+ "responses": [
+  {
+   "key": "GET /repos/vercel/next.js",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8",
+    "x-ratelimit-limit": "5000",
+    "x-ratelimit-remaining": "4998",
+    "x-ratelimit-reset": "1791533356",
+    "x-ratelimit-resource": "core"
+   },
+   "body": {
+    "full_name": "vercel/next.js",
+    "private": false,
+    "default_branch": "canary",
+    "owner": {
+     "login": "vercel"
+    },
+    "name": "next.js"
+   }
+  },
+  {
+   "key": "GET /repos/vercel/next.js",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8",
+    "x-ratelimit-limit": "5000",
+    "x-ratelimit-remaining": "4997",
+    "x-ratelimit-reset": "1791533356",
+    "x-ratelimit-resource": "core"
+   },
+   "body": {
+    "full_name": "vercel/next.js",
+    "private": false,
+    "default_branch": "canary",
+    "owner": {
+     "login": "vercel"
+    },
+    "name": "next.js"
+   }
+  },
+  {
+   "key": "GET /repos/vercel/next.js",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8",
+    "x-ratelimit-limit": "5000",
+    "x-ratelimit-remaining": "4996",
+    "x-ratelimit-reset": "1791533356",
+    "x-ratelimit-resource": "core"
+   },
+   "body": {
+    "full_name": "vercel/next.js",
+    "private": false,
+    "default_branch": "canary",
+    "owner": {
+     "login": "vercel"
+    },
+    "name": "next.js"
+   }
+  },
+  {
+   "key": "GET /repos/vercel/next.js",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8",
+    "x-ratelimit-limit": "5000",
+    "x-ratelimit-remaining": "4995",
+    "x-ratelimit-reset": "1791533356",
+    "x-ratelimit-resource": "core"
+   },
+   "body": {
+    "full_name": "vercel/next.js",
+    "private": false,
+    "default_branch": "canary",
+    "owner": {
+     "login": "vercel"
+    },
+    "name": "next.js"
+   }
+  },
+  {
+   "key": "GET /repos/Vercel/Next.js",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8",
+    "x-ratelimit-limit": "5000",
+    "x-ratelimit-remaining": "4994",
+    "x-ratelimit-reset": "1791533356",
+    "x-ratelimit-resource": "core"
+   },
+   "body": {
+    "full_name": "vercel/next.js",
+    "private": false,
+    "default_branch": "canary",
+    "owner": {
+     "login": "vercel"
+    },
+    "name": "next.js"
+   }
+  },
+  {
+   "key": "GET /repos/vercel/next.js",
+   "status": 200,
+   "headers": {
+    "content-type": "application/json; charset=utf-8",
+    "x-ratelimit-limit": "5000",
+    "x-ratelimit-remaining": "4993",
+    "x-ratelimit-reset": "1791533356",
+    "x-ratelimit-resource": "core"
+   },
+   "body": {
+    "full_name": "vercel/next.js",
+    "private": false,
+    "default_branch": "canary",
+    "owner": {
+     "login": "vercel"
+    },
+    "name": "next.js"
+   }
+  },
+  {
+   "key": "GET /repos/genui-github-fixtures/this-repo-does-not-exist",
+   "status": 404,
+   "headers": {
+    "content-type": "application/json; charset=utf-8",
+    "x-ratelimit-limit": "5000",
+    "x-ratelimit-remaining": "4992",
+    "x-ratelimit-reset": "1791533356",
+    "x-ratelimit-resource": "core"
+   },
+   "body": {
+    "message": "Not Found"
+   }
+  }
+ ]
+}

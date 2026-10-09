@@ -108,9 +108,9 @@ Prompt: `prompts/03-renderer.md`
 
 Prompt: `prompts/04-data.md`. Spec: `docs/data-layer.md`.
 
-- [ ] 4.0 `packages/composer/src/templates/needs.ts`: the 15 template ids with the data shapes and measures each needs (no compose logic). Done when a test lists all 15 and every shape and measure name resolves in `packages/data/src/shapes.ts` and `measures.ts` from 1.11.
-- [ ] 4.1 Octokit client with the server-side token, rate-limit header logging, `GitHubError` (status, endpoint, resetAt, retryAfter). Done when a test mocks a 403 and the error carries all fields.
-- [ ] 4.2 Repo resolver. Done when the ten cases in `docs/data-layer.md` pass.
+- [x] 4.0 `packages/composer/src/templates/needs.ts`: the 15 template ids with the data shapes and measures each needs (no compose logic). Done when a test lists all 15 and every shape and measure name resolves in `packages/data/src/shapes.ts` and `measures.ts` from 1.11.
+- [x] 4.1 Octokit client with the server-side token, rate-limit header logging, `GitHubError` (status, endpoint, resetAt, retryAfter). Done when a test mocks a 403 and the error carries all fields.
+- [x] 4.2 Repo resolver. Done when the ten cases in `docs/data-layer.md` pass.
 - [ ] 4.3a GraphQL entity fetchers: repo, pulls, issues, milestones, with recorded fixtures. Done when each has a fixture test.
 - [ ] 4.3b REST fetchers: releases and tags, community, commits, workflow runs, run timing, checks, compare, PR files, tree, readme, with recorded fixtures. Done when each has a fixture test.
 - [ ] 4.4 Stats fetchers with 202 handling and the backoff, returning `WarmingStatus`. Done when a test with a 202, 202, 200 sequence yields warming twice then data, with the right `nextCheckMs` each time.
@@ -118,7 +118,7 @@ Prompt: `prompts/04-data.md`. Spec: `docs/data-layer.md`.
 - [ ] 4.6 CHAOSS module. Done when unit tests on a fixture match hand-computed values for all five metrics.
 - [ ] 4.7 Measures implemented: every id in `measures.ts` computes from the shapes for a repo and window. Done when a fixture test computes every measure on the next.js fixture and the values are sane (non-negative, units right).
 - [ ] 4.8 Derived shapes per `docs/data-layer.md`. Done when each has a fixture test.
-- [ ] 4.9 Cache behind one interface, memory and KV backends, keys and TTLs per the spec. Done when a test shows a second fetch inside 15 minutes hits the cache and a stats key changes when the SHA changes.
+- [x] 4.9 Cache behind one interface, memory and KV backends, keys and TTLs per the spec. Done when a test shows a second fetch inside 15 minutes hits the cache and a stats key changes when the SHA changes.
 - [ ] 4.10 Data context builder: repo and template id → `DataContext` with `cachedAt` on every shape, `WarmingStatus` when any stat is cold, and a token estimate. Done when the release-blockers context for the next.js fixture is under 3,000 tokens.
 - [ ] 4.11 `pnpm samples:refresh` for the five sample repos; commit the JSON. Done when all five load in under 50ms and the script printed the request count.
 
