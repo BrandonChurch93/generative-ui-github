@@ -92,3 +92,18 @@ export function validateNumbers(text: string, allowed: Iterable<number>): Number
 
 /** The system sentence that replaces prose whose numbers do not match its data. */
 export const NUMBER_MISMATCH_SENTENCE = "The model's figure didn't match the data. Here is what the data shows."
+
+/**
+ * The figures a sentence about a series may cite beyond its points: how many weeks, and the change from
+ * the first point to the last, absolute and in percent ("39% slower in 12 weeks").
+ */
+export function seriesFacts(points: readonly (number | null | undefined)[]): number[] {
+  const values = points.filter((p): p is number => typeof p === 'number' && Number.isFinite(p))
+  if (!values.length) return [points.length]
+  const first = values[0]!
+  const last = values.at(-1)!
+  const facts = [...values, points.length, Math.abs(last - first), Math.min(...values), Math.max(...values)]
+  if (first !== 0) facts.push(Math.abs(((last - first) / first) * 100))
+  if (last !== 0) facts.push(Math.abs(((first - last) / last) * 100))
+  return facts
+}

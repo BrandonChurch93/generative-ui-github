@@ -1,0 +1,283 @@
+.body {
+  padding: var(--card-y) var(--inset);
+}
+
+.body [data-series="0"] {
+  --series: var(--data-1);
+}
+
+.body [data-series="1"] {
+  --series: var(--data-2);
+}
+
+/* Names never wear the series color: the key beside them carries identity. */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--space-4);
+  row-gap: var(--space-1);
+  margin: 0 0 var(--card-y);
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-leading);
+  font-weight: var(--text-label-weight);
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.lineKey {
+  inline-size: var(--space-4);
+  block-size: var(--plot-line);
+  border-radius: var(--radius-pill);
+  background: var(--series);
+}
+
+.columnKey {
+  inline-size: var(--space-2);
+  block-size: var(--space-3);
+  border-radius: var(--plot-line) var(--plot-line) 0 0;
+  background: var(--crit-fill);
+}
+
+/* Ticks in a gutter as wide as the widest tick, the plot, and an end zone for the end labels. */
+.chart {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  /* The plot sits down half an axis label so the top tick never clips. */
+  padding-top: calc(var(--text-axis-size) * var(--text-axis-leading) / 2);
+}
+
+.ticks {
+  position: relative;
+  padding-inline-end: var(--space-2);
+}
+
+.sizer,
+.endSizer {
+  display: block;
+  block-size: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+.sizer,
+.tick,
+.week,
+.unit,
+.count {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-axis-size);
+  line-height: var(--text-axis-leading);
+  font-weight: var(--text-axis-weight);
+  white-space: nowrap;
+}
+
+.tick {
+  position: absolute;
+  right: var(--space-2);
+  transform: translateY(-50%);
+  font-variant-numeric: tabular-nums;
+}
+
+.plot {
+  position: relative;
+  block-size: var(--plot-h);
+  border-radius: var(--radius-xs);
+  touch-action: pan-y;
+}
+
+.grid {
+  position: absolute;
+  inset-inline: 0;
+  block-size: var(--hairline);
+  margin-top: calc(var(--hairline) / -2);
+  background: var(--line-soft);
+}
+
+.grid[data-baseline] {
+  background: var(--line);
+}
+
+.svg {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: visible;
+}
+
+.line {
+  fill: none;
+  stroke: var(--series);
+  stroke-width: var(--plot-line);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.dot {
+  position: absolute;
+  z-index: 1;
+  inline-size: var(--endpoint);
+  block-size: var(--endpoint);
+  border-radius: 50%;
+  background: var(--series);
+  box-shadow: 0 0 0 var(--ring) var(--surface);
+  transform: translate(-50%, -50%);
+}
+
+.endLabel {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-1);
+  margin-left: calc(var(--endpoint) / 2 + var(--space-3));
+  transform: translateY(-50%);
+  white-space: nowrap;
+}
+
+.endLabel b,
+.endSizer b,
+.tipValue {
+  color: var(--ink);
+  font-size: var(--text-card-title-size);
+  line-height: var(--text-card-title-leading);
+  font-weight: var(--text-card-title-weight);
+  font-variant-numeric: tabular-nums;
+}
+
+.endZone {
+  padding-inline-start: var(--space-3);
+}
+
+.endSizer {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.crosshair {
+  position: absolute;
+  inset-block: 0;
+  inline-size: var(--hairline);
+  background: var(--line);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  border: var(--hairline) solid var(--line-soft);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--card);
+  transform: translateY(-50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.tooltip[data-side="right"] {
+  left: calc(var(--x) + var(--space-3));
+}
+
+.tooltip[data-side="left"] {
+  right: calc(100% - var(--x) + var(--space-3));
+}
+
+.tipRow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.tipKey {
+  align-self: center;
+  inline-size: var(--space-3);
+  block-size: var(--plot-line);
+  border-radius: var(--radius-pill);
+  background: var(--series);
+}
+
+.tipValue {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-1);
+}
+
+.tipName {
+  color: var(--muted);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-leading);
+}
+
+/* Failed runs: their own band, their own baseline, the shared weeks below. No scale, so never a second axis. */
+.strip {
+  display: flex;
+  box-sizing: content-box;
+  block-size: var(--strip-h);
+  margin-top: var(--card-y);
+  padding-top: calc(var(--text-axis-size) * var(--text-axis-leading) + var(--space-1));
+  border-bottom: var(--hairline) solid var(--line);
+}
+
+.band {
+  display: flex;
+  flex: 1 1 0;
+  justify-content: center;
+  align-items: flex-end;
+  min-width: 0;
+}
+
+.column {
+  position: relative;
+  inline-size: min(40%, var(--col-max));
+  border-radius: var(--radius-xs) var(--radius-xs) 0 0;
+  background: var(--crit-fill);
+  transform-origin: center bottom;
+}
+
+.count {
+  position: absolute;
+  bottom: calc(100% + var(--space-1));
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.axis {
+  position: relative;
+  block-size: calc(var(--text-axis-size) * var(--text-axis-leading));
+  margin-top: var(--space-2);
+}
+
+.week {
+  position: absolute;
+  transform: translateX(-50%);
+}
+
+.week[data-hover] {
+  color: var(--ink);
+  font-weight: var(--text-label-weight);
+}
+
+.grid[data-skeleton] {
+  background: var(--line-soft);
+}
+
+/* Every state keeps the chart's full height, so a card is one size however it arrives. */
+.stateBody {
+  display: grid;
+  align-content: center;
+  min-block-size: calc(var(--plot-h) + var(--text-axis-size) * var(--text-axis-leading) * 1.5 + var(--space-2) + var(--card-y) * 2);
+}

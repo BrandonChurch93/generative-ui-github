@@ -73,6 +73,9 @@ export const TOKEN_NAMES = [
   'spark-min',
   'spark-row',
   'row-value',
+  'col-max',
+  'label-gap',
+  'band-count',
   'font-sans',
   'font-mono',
   'text-question-size',
@@ -148,6 +151,7 @@ export const TOKEN_NAMES = [
   'plot-h',
   'code-leading',
   'spark-h',
+  'strip-h',
 ] as const
 
 export type TokenName = (typeof TOKEN_NAMES)[number]

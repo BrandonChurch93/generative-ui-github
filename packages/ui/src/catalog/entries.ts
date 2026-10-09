@@ -3,6 +3,10 @@ import { Insight } from '../components/Insight/Insight'
 import { insightMotion } from '../components/Insight/motion'
 import insightSample from '../components/Insight/sample.json'
 import type { InsightProps } from '../components/Insight/schema'
+import { LineChart } from '../components/LineChart/LineChart'
+import { lineChartMotion } from '../components/LineChart/motion'
+import lineChartSample from '../components/LineChart/sample.json'
+import type { LineChartProps } from '../components/LineChart/schema'
 import { Metric } from '../components/Metric/Metric'
 import { metricMotion } from '../components/Metric/motion'
 import metricSample from '../components/Metric/sample.json'
@@ -29,6 +33,8 @@ export type CatalogGroup = (typeof CATALOG_GROUPS)[number]
 /** What a component's sample.json holds: the default props, and whatever each other state needs. */
 export interface CatalogSample<P> {
   props: P
+  /** Other default-state versions worth seeing, such as two series or a failure strip. */
+  variants?: { label: string; props: P }[]
   empty?: P
   error?: ErrorInfo
   warming?: WarmingInfo
@@ -105,6 +111,18 @@ export const CATALOG: CatalogEntry[] = [
     motion: timelineMotion,
     sample: timelineSample as CatalogSample<TimelineProps>,
     sampleFile: 'Timeline/sample.json',
+    width: 'half',
+  }),
+  entry<LineChartProps>({
+    name: 'LineChart',
+    group: 'Data',
+    description:
+      'A trend over weeks: one or two lines on one zero-based y axis with the latest value at each line end and, when failures matter, a strip of failed runs under the plot that shares its weeks.',
+    spec: specOf('LineChart'),
+    Component: LineChart,
+    motion: lineChartMotion,
+    sample: lineChartSample as CatalogSample<LineChartProps>,
+    sampleFile: 'LineChart/sample.json',
     width: 'half',
   }),
   entry<InsightProps>({

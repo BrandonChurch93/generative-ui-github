@@ -1,0 +1,51 @@
+{
+  "props": {
+    "title": "CI duration",
+    "meta": "p50 · last 12 weeks",
+    "unit": "min",
+    "weeks": ["2026-07-20", "2026-07-27", "2026-08-03", "2026-08-10", "2026-08-17", "2026-08-24", "2026-08-31", "2026-09-07", "2026-09-14", "2026-09-21", "2026-09-28", "2026-10-05"],
+    "series": [{ "name": "Duration", "points": [13.2, 13.6, 13.1, 14.0, 14.4, 14.1, 15.2, 15.8, 15.5, 16.9, 17.6, 18.4] }],
+    "failures": [3, 2, 4, 3, 5, 4, 6, 9, 7, 8, 11, 12],
+    "finding": "CI got 39% slower in 12 weeks: the median run went from 13.2 to 18.4 minutes."
+  },
+  "variants": [
+    {
+      "label": "One series",
+      "props": {
+        "title": "CI duration",
+        "meta": "p50 · last 12 weeks",
+        "unit": "min",
+        "weeks": ["2026-07-20", "2026-07-27", "2026-08-03", "2026-08-10", "2026-08-17", "2026-08-24", "2026-08-31", "2026-09-07", "2026-09-14", "2026-09-21", "2026-09-28", "2026-10-05"],
+        "series": [{ "name": "Duration", "points": [13.2, 13.6, 13.1, 14.0, 14.4, 14.1, 15.2, 15.8, 15.5, 16.9, 17.6, 18.4] }],
+        "finding": "CI got 39% slower in 12 weeks: the median run went from 13.2 to 18.4 minutes."
+      }
+    },
+    {
+      "label": "Two series",
+      "props": {
+        "title": "Wait for first review",
+        "meta": "median · last 12 weeks",
+        "unit": "h",
+        "weeks": ["2026-07-20", "2026-07-27", "2026-08-03", "2026-08-10", "2026-08-17", "2026-08-24", "2026-08-31", "2026-09-07", "2026-09-14", "2026-09-21", "2026-09-28", "2026-10-05"],
+        "series": [
+          { "name": "New contributors", "points": [19.5, 21.2, 20.4, 24.1, 23.3, 27.0, 28.9, 28.0, 33.1, 36.0, 38.0, 41.0] },
+          { "name": "Core team", "points": [6.4, 7.0, 6.0, 7.6, 6.9, 6.6, 7.5, 7.9, 7.1, 7.3, 7.7, 8.0] }
+        ],
+        "finding": "New contributors now wait 41 hours for a first review; the core team waits 8."
+      }
+    }
+  ],
+  "empty": {
+    "title": "e2e-rspack duration",
+    "meta": "p50 · last 12 weeks",
+    "unit": "min",
+    "weeks": [],
+    "series": [{ "name": "Duration", "points": [] }],
+    "finding": "No full week of runs yet.",
+    "emptyTone": "neutral",
+    "empty": "No full week of runs yet",
+    "emptyMeta": "workflow added Oct 5 · first point lands Oct 12"
+  },
+  "error": { "failed": "Couldn't load workflow runs", "cause": "GitHub returned 502 · tried twice" },
+  "warming": { "counting": "GitHub is counting commit activity", "nextCheck": "usually under a minute · checking again in 12s", "progress": 0.34 }
+}

@@ -35,7 +35,10 @@ export function ComponentViewer({
     COMPONENT_STATES.find(s => s === initialState && !omitted.has(s)) ?? 'default',
   )
   const [showJson, setShowJson] = useState(false)
-  const props = state === 'empty' && sample.empty ? sample.empty : sample.props
+  const [variant, setVariant] = useState('0')
+  const variants = [{ label: 'Sample', props: sample.props }, ...(sample.variants ?? [])]
+  const chosen = variants[Number(variant)]?.props ?? sample.props
+  const props = state === 'empty' && sample.empty ? sample.empty : chosen
   const pieceRef = useRef<HTMLDivElement>(null)
   const [replays, setReplays] = useState(0)
 
@@ -45,14 +48,15 @@ export function ComponentViewer({
     const root = piece?.firstElementChild
     if (!piece || !(root instanceof HTMLElement)) return
     const entered = catalogEntry(name)
-    const shown = state === 'empty' && entered?.sample.empty ? entered.sample.empty : entered?.sample.props
+    const variantProps = [entered?.sample.props, ...(entered?.sample.variants ?? []).map(v => v.props)][Number(variant)]
+    const shown = state === 'empty' && entered?.sample.empty ? entered.sample.empty : variantProps
     const card = rise(piece)
     const inner = state === 'default' && entered?.motion ? entered.motion.enter(root, shown, { delay: 0.15 }) : undefined
     return () => {
       card.progress(1).kill()
       inner?.progress(1).kill()
     }
-  }, [name, state, density, replays])
+  }, [name, state, density, replays, variant])
 
   useEffect(() => {
     const url = new URL(window.location.href)
@@ -82,6 +86,14 @@ export function ComponentViewer({
           onChange={setDensity}
           options={DENSITIES.map(d => ({ value: d, label: DENSITY_LABELS[d] }))}
         />
+        {variants.length > 1 && (
+          <Segmented
+            label="Variant"
+            value={variant}
+            onChange={setVariant}
+            options={variants.map((v, i) => ({ value: String(i), label: v.label }))}
+          />
+        )}
         <Segmented
           label="State"
           value={state}

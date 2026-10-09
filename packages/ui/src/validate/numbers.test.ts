@@ -50,3 +50,12 @@ describe('validateNumbers', () => {
     expect(validateNumbers('Nothing stands out on v16.2 this week.', []).ok).toBe(true)
   })
 })
+
+describe('seriesFacts', () => {
+  it('lets a chart finding cite the weeks and the change from first to last', async () => {
+    const { seriesFacts } = await import('./numbers')
+    const facts = seriesFacts([13.2, 13.6, 14.1, 18.4])
+    expect(validateNumbers('CI got 39% slower in 4 weeks: the median went from 13.2 to 18.4 minutes.', facts).ok).toBe(true)
+    expect(validateNumbers('CI got 45% slower.', facts).ok).toBe(false)
+  })
+})

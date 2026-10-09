@@ -2,6 +2,28 @@
 
 Newest entry first. Written at every GATE and whenever a session ends mid-phase.
 
+## 2026-10-08 · Phase 2 checkpoint 1 · Metric, StatusList, Insight, Timeline, LineChart
+
+GATE 0 passed (the owner confirmed and asked to proceed). Phase 1 is done: 1.1 to 1.11 ticked and verified.
+
+**Built since GATE 0**
+
+- Foundations: generated `tokens.ts`, the registry (specs only, no React, so the composer imports it in Node), the catalog at `/catalog/[name]` with density, state and variant controls, Replay and View JSON, plus `/catalog/parts`, `/catalog/density` and `/catalog/motion`. GSAP primitives for the six moves and the card rise, each with a reduced branch; the interaction tier and the card's exit written into `design-system/motion.md`. Shared parts, focus ring and row hover, cursor warmth, the measure catalog and shape types.
+- Components: Metric (with Sparkline as a part), StatusList (with `StatusRow` as a part), Insight, Timeline, LineChart. Each has five states, three densities, a schema with `when`, `heightClass` and `pickable`, `motion.ts` with enter, exit, update and morph, `sample.json`, and a render test per state. Each was screenshotted beside its `preview.html` and differences fixed.
+- `packages/ui/src/validate/numbers.ts`: number validation for prose, unit tested; Insight and LineChart use it as a second line of defense.
+
+**Verified**
+
+- `pnpm lint` (now also rejects hex and pixel values in component CSS), `pnpm typecheck`, `pnpm test` (101 UI tests), `pnpm e2e` (11), `pnpm a11y` (every catalog component in every state, zero serious issues) all pass.
+
+**Notes**
+
+- Tokens added to `tokens.json` so component CSS carries no raw values: a `size` family (hairline, stroke, bar, plot-line, spark-inset, mark, node, endpoint, ring, focus ring and offset, hit, tag-y, underline-offset, glow, spark-max, spark-min, spark-row, row-value, col-max, label-gap, band-count) and two density values (spark-h, strip-h). Each has a usage note.
+- One raw value stays, with a `raw-ok` comment: a container query in Sparkline, because CSS cannot read custom properties there.
+- The repo sits on the Desktop, which this Mac syncs to iCloud Drive. iCloud has been creating " 2" duplicate files inside `apps/web/.next`. Typecheck now ignores them, but they could appear in source or `.git` too. Moving the repo outside iCloud (or renaming the folder to end in `.nosync`) would stop it.
+
+**Next**: 2.6 Distribution.
+
 ## 2026-10-08 · GATE 0 · scaffold and tooling
 
 **Built**
