@@ -1,5 +1,5 @@
-import { createLogger, type Logger } from '@genui-github/core'
-import { REGION_NAMES, emptyRegions, streamOpSchema, type Ask, type Built, type Composition, type Density, type Piece, type Regions, type StreamOp } from './format'
+import { createLogger } from '@genui-github/core'
+import { REGION_NAMES, emptyRegions, streamOpSchema, type WarnLog, type Ask, type Built, type Composition, type Density, type Piece, type Regions, type StreamOp } from './format'
 
 /** The tree as the stream has built it so far. Each op returns a new tree; nothing is mutated. */
 export interface StreamTree {
@@ -46,7 +46,7 @@ function withPiece(regions: Regions, region: keyof Regions, pieces: Piece[]): Re
   return { ...regions, [region]: pieces }
 }
 
-export function applyOp(tree: StreamTree, op: StreamOp, logger: Logger = log): StreamTree {
+export function applyOp(tree: StreamTree, op: StreamOp, logger: WarnLog = log): StreamTree {
   switch (op.op) {
     case 'start':
       return { ...emptyTree(), id: op.id, density: op.density, asks: op.asks }
@@ -97,7 +97,7 @@ export interface StreamParser {
   tree(): StreamTree
 }
 
-export function createStreamParser(options: { onTree?: (tree: StreamTree, op: StreamOp) => void; log?: Logger } = {}): StreamParser {
+export function createStreamParser(options: { onTree?: (tree: StreamTree, op: StreamOp) => void; log?: WarnLog } = {}): StreamParser {
   const logger = options.log ?? log
   let tree = emptyTree()
   let buffer = ''

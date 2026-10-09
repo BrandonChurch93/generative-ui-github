@@ -80,3 +80,10 @@ No component reads `emphasis`, and the docs give it no appearance. Fixture 2 re-
 
 - Assumed: a piece whose emphasis rises to `high` blooms once (the warmth ActionCard has on arrival, behind its card). Nothing else changes.
 - Check: whether `high` should also change the card (a stronger border, the strip's contrast) and what `low` should do.
+
+## 3.12 · `pnpm pack`, not `npm pack`, and the packages stay private
+
+`npm pack` on a pnpm workspace package ships the raw manifest: exports pointing at `src/*.ts` and `workspace:*` ranges, which no consumer can install. `pnpm pack` applies `publishConfig` (exports and types from `dist`) and rewrites `workspace:*` to the real version.
+
+- Assumed: the tarballs are made with `pnpm pack`. Both packages are at 0.1.0, MIT, with `private: true` kept so nothing can be published by accident before 10.2 claims the scope. `@genui-github/core` and `@genui-github/data` are bundled into the builds rather than published.
+- Check: that Phase 10 should drop `private` and publish with `pnpm publish`. The dist files carry no `'use client'` directive (bundling drops it); a Next.js consumer imports the React parts from a client component.

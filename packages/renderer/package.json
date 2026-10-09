@@ -1,25 +1,47 @@
 {
   "name": "@genui-github/renderer",
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "description": "Renders a Generative UI for GitHub Repos composition: validates it, streams it, diffs it, and animates every rewrite so survivors morph in place.",
+  "license": "MIT",
   "private": true,
   "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "files": [
+    "dist",
+    "fixtures",
+    "README.md",
+    "LICENSE"
+  ],
   "exports": {
     ".": "./src/index.ts",
     "./fixtures/*": "./fixtures/*"
   },
+  "publishConfig": {
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.js"
+      },
+      "./styles.css": "./dist/styles.css",
+      "./fixtures/*": "./fixtures/*"
+    },
+    "types": "./dist/index.d.ts"
+  },
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "tsup && node ../../scripts/package-styles.mjs . dist/index.css",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run"
   },
   "dependencies": {
-    "@genui-github/core": "workspace:*",
     "@genui-github/ui": "workspace:*",
     "gsap": "^3.15.0",
     "motion": "^14.0.0",
     "zod": "^4.6.5"
   },
   "devDependencies": {
+    "@genui-github/core": "workspace:*",
     "@testing-library/react": "^16.3.3",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",

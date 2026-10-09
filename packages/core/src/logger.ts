@@ -41,7 +41,8 @@ export interface LoggerOptions {
 }
 
 export function createLogger(scope: string, options: LoggerOptions = {}): Logger {
-  const level = options.level ?? parseLevel(process.env.LOG_LEVEL)
+  // A browser bundle outside Next has no `process`; the published packages log at info there.
+  const level = options.level ?? parseLevel(typeof process === 'undefined' ? undefined : process.env.LOG_LEVEL)
   const sink = options.sink ?? consoleSink
   const threshold = LOG_LEVELS.indexOf(level)
 

@@ -98,7 +98,7 @@ Prompt: `prompts/03-renderer.md`
 - [x] 3.9 Interaction events: a click on a piece with `ask`, a day heading with `dayAsk`, a heatmap cell with `cellAsk`, or a source chip with `ask` emits `{ ask, from: id }` to the host. Done when a test captures all four.
 - [x] 3.10 A2UI adapter: `toA2UI(tree)` and `fromA2UI(messages)`, round-trip tested on the three fixtures. Done when round trip is lossless.
 - [x] 3.11 Reduced motion: every choreography path has a reduced branch. Done when a test with the media query stubbed asserts no timeline longer than 200ms.
-- [ ] 3.12 Package build: `@genui-github/renderer` and `@genui-github/ui` build to ESM with types, a README each with install and a 20-line usage example, MIT. Done when `npm pack` produces tarballs and a scratch Vite app under `/tmp` renders fixture 1 from them.
+- [x] 3.12 Package build: `@genui-github/renderer` and `@genui-github/ui` build to ESM with types, a README each with install and a 20-line usage example, MIT. Done when `npm pack` produces tarballs and a scratch Vite app under `/tmp` renders fixture 1 from them.
 
 `GATE 2` · the owner drives the three-screen rewrite in a browser.
 

@@ -1,4 +1,4 @@
-import { createLogger, type Logger } from '@genui-github/core'
+import { createLogger } from '@genui-github/core'
 import {
   NUMBER_MISMATCH_SENTENCE,
   registry as defaultRegistry,
@@ -10,7 +10,7 @@ import {
   type Tone,
   type WarmingInfo,
 } from '@genui-github/ui'
-import { REGION_NAMES, emptyRegions, type Ask, type Built, type Density, type Piece, type RegionName, type Regions } from './format'
+import { REGION_NAMES, emptyRegions, type WarnLog, type Ask, type Built, type Density, type Piece, type RegionName, type Regions } from './format'
 
 // The validation pipeline from docs/schemas.md, shared with the composer. Nothing here throws on bad model
 // output: a bad piece becomes an error piece with a logged reason, and the rest of the screen renders.
@@ -49,7 +49,7 @@ export interface Screen {
 
 export interface ValidateOptions {
   registry?: Registry
-  log?: Logger
+  log?: WarnLog
   final?: boolean
 }
 
@@ -97,7 +97,7 @@ const PROSE: Record<string, ProseCheck> = {
   },
 }
 
-function checkProse(piece: Piece, bound: unknown, log: Logger): unknown {
+function checkProse(piece: Piece, bound: unknown, log: WarnLog): unknown {
   const check = PROSE[piece.component]
   if (!check || !isRecord(bound)) return bound
   let out = bound

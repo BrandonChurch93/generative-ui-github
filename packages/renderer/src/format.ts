@@ -102,6 +102,11 @@ export const streamOpSchema = z.discriminatedUnion('op', [
 ])
 export type StreamOp = z.infer<typeof streamOpSchema>
 
+/** Where the renderer reports what it dropped or replaced. `console` fits. */
+export interface WarnLog {
+  warn(message: string, fields?: Record<string, unknown>): void
+}
+
 export function emptyRegions(): Regions {
   return { insight: [], metrics: [], main: [], side: [], action: [] }
 }
