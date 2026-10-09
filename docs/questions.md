@@ -129,3 +129,24 @@ Composer rule 4 says two `grows` pieces never share a row, but `docs/golden-ques
 
 - Assumed: a KeyValue of the pull request's own facts (author, size, review state, wait) takes that place. Fetching a pull request's own checks is one more call (`/commits/{head}/check-runs`) when that template runs.
 - Check: whether to add that call in Phase 6 so the checks list can come back.
+
+## 5.2 to 5.5 · Latency is well over the targets
+
+`docs/composer.md` targets 300ms to classify, 600ms to fill, first piece under 1s and done under 2.5s on a cached sample; off-template first piece under 2s, done under 6s. Measured (Haiku 5.5 at effort `low`, Sonnet 5.5 at `medium`, structured outputs): classify about 1.6 to 2.5s; fill p50 4.7s, p90 6.3s; a live template composition about 8s end to end; off-template first piece 1.5 to 5s, done 4 to 7s.
+
+- Assumed: correctness first; the golden questions on samples are served from the committed compositions in milliseconds, so the targets bite only on live repos and paraphrases. Tuning (effort, `max_tokens`, dropping structured outputs for the classifier, a smaller fill prompt, or skipping the fill on live repos) belongs with the Phase 7 evals, which can measure the quality cost of each.
+- Check: whether the targets should move, or which lever to pull first.
+
+## 5.9 · Golden compositions are composed in UTC
+
+The 60 committed compositions were built once, in UTC, so a golden punch card reads "peaks at 23:00 UTC" for every viewer, while decision 22 puts Heatmap hours and Timeline days in the viewer's zone.
+
+- Assumed: acceptable for GATE 3. In Phase 6 the route can recompose the zone-dependent templates (punch-card, merged-recent) from the sample with the viewer's zone, still with zero GitHub calls, and fill only when the zone is not UTC.
+- Check: whether that is the right fix, or golden answers should stay fixed in UTC and say so.
+
+## 5.4 · The number check proves a figure is in the data, not that it is the right one
+
+A fill sentence can pass by quoting a real figure in the wrong frame: the first merged-recent draft said "84 pull requests merged this week, from 27 contributors", where 27 is the 90-day count. The template now cites only what its window supports, but the general risk stays.
+
+- Assumed: Phase 7's bindings scorer, which compares each figure to the measure and window it claims, is where this is measured; the fill prompt already says to use only the figures listed for each sentence.
+- Check: nothing now; read the GATE 3 compositions with this in mind.

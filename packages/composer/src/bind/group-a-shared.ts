@@ -95,9 +95,15 @@ export function figure(result: MeasureResult): string {
 const LEADING: ReadonlySet<MeasureId> = new Set(['bus-factor', 'busiest-hour', 'quietest-day', 'milestone-closes', 'failing-since'])
 
 /** A measure in words for a source line or a default sentence: "57 of 421 failing checks", "median CI run 11.3 min". */
+/** One of a thing reads as one: "1 contributor", "1 file changed", not "1 contributors". */
+function singular(label: string): string {
+  return label.replace(/\b(contributors|commits|files|issues|requests|reviews|runs|checks|people)\b/, word => (word === 'people' ? 'person' : word.slice(0, -1)))
+}
+
 export function measureWords(result: MeasureResult): string {
-  const label = inline(MEASURES[result.id].label)
   const counted = result.unit === 'count' || result.unit === 'count-of-total'
+  const one = counted && (typeof result.value === 'number' ? result.value === 1 : typeof result.value === 'object' && result.value !== null && 'count' in result.value && result.value.count === 1)
+  const label = one ? singular(inline(MEASURES[result.id].label)) : inline(MEASURES[result.id].label)
   return counted && !LEADING.has(result.id) ? `${figure(result)} ${label}` : `${label} ${figure(result)}`
 }
 

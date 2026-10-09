@@ -2,6 +2,56 @@
 
 Newest entry first. Written at every GATE and whenever a session ends mid-phase.
 
+## 2026-10-09 · GATE 3 · the data layer and the composer
+
+Phases 4 and 5 are complete: 4.0 to 4.11 and 5.0 to 5.9 are ticked and verified. GATE 2 was deferred to the final audit (plan box A.1) at the owner's request. The session stops here for GATE 3.
+
+**How to check it**
+
+- `pnpm dev`, then `POST /api/compose` with `{ "repo": "vercel/next.js", "question": "<a golden question>" }`. The answer is JSONL: `start`, one `add` per piece, `done` with the built block. A golden question on a sample repo streams the committed composition (`packages/composer/golden/vercel__next.js/<template>.json`) with no model or GitHub call. The renderer page that draws a composition from this route is Phase 6; until then the JSON is the thing to read.
+- The twelve next.js answers, as committed:
+
+| Template | Insight sentence | Pieces |
+| --- | --- | --- |
+| overview | 2,525 pull requests are open and 84 merged, with a 1.1 h median review wait and 27 contributors. | Insight, Metric × 4, StatusList, LineChart, Checklist |
+| release-blockers | 1,620 pulls await review and 57 of 485 checks fail, out of 2,525 open pull requests. | Insight, Metric × 3, StatusList, LineChart, ActionCard |
+| contributors | Work is split evenly: the core team share is 50% across 27 contributors, with a bus factor of 8. | Insight, Metric × 3, ContributorRank, LineChart, Heatmap |
+| ci-trend | Median CI run is 11.1 min, with a failing run rate of 20.3% and slowest job 6.8 min. | Insight, Metric × 3, StatusList, LineChart, Comparison |
+| merged-recent | 84 pull requests merged this week, with a median review wait of 1.1h. | Insight, Metric × 2, Timeline, PersonList |
+| stale-issues | 901 issues have gone stale. Median time to close is 0.2 d. | Insight, Metric × 2, FilterChips, StatusList, BarChart, ActionCard |
+| biggest-pr | The biggest open PR changes 2,454 lines across 28 files. Median review wait is 1.1h. | Insight, Metric × 3, DiffView, StatusList, FileTree |
+| new-contributor | Start with one of the 11 good first issues. Median review wait is 1.1 h and 3 first-time contributors are listed. | Insight, Steps, Distribution, Checklist |
+| responsiveness | Maintainers respond fast: median review wait is 1.1h and median time to close is 0.2d, with closure ratio at 1×. | Insight, Metric × 3, ContributorRank, Distribution, LineChart |
+| month-compare | 84 pull requests merged, failing run rate 20.3% and median review wait 1.1 h. | Insight, Metric × 2, Comparison, StatusList |
+| punch-card | Commits cluster around 23:00 UTC, the busiest hour, with Sunday the quietest day and 662 commits in all. | Insight, Metric × 2, Heatmap, PersonList |
+| release-diff | 4 commits, 1 contributor and 25 files changed. | Insight, Metric × 3, Timeline, FileTree |
+
+**Built**
+
+- `packages/data`: the GitHub client (retries, `GitHubError`, rate-limit logging), the resolver, GraphQL, REST and stats fetchers, the 202 warming check on the WarmingUp schedule, CHAOSS, every measure, the derived shapes, the cache (memory and Upstash KV), the data context builder, and the five committed samples (`pnpm samples:refresh`, 290 GitHub requests). Exact counts come from GitHub search (one query, one point); lists are capped samples, and a figure from a list says where its data starts.
+- `packages/composer`: the eval set (99 cases), the Anthropic client with a cached system block and costing from the price table, the Haiku classifier, a binder for every pickable component, the 12 golden and 3 follow-up templates, the prose fill with a strict number check, off-template composition with Sonnet, the composition rules in code, the visitor limit and daily cap, `POST /api/compose`, and the 60 golden compositions (`pnpm compositions:refresh`).
+- The fetchers and the binders were written by parallel subagents to shared briefs, each in its own folder; I integrated, reviewed and fixed what real data showed.
+
+**Verified**
+
+- `pnpm lint`, `pnpm typecheck`, `pnpm test` (data 67, composer 164, renderer 27, ui 311), `pnpm e2e` (21), `pnpm a11y`.
+- The five unverified GitHub facts answered with dated calls in `docs/data-layer.md`.
+- Classifier: 32 of 32 golden and paraphrase questions right, live. Fill: 100 live runs, 177 sentences kept, 9 refused, zero unvalidated figures in any tree ($0.057). Off-template: the 10 eval cases compose valid trees live ($0.013 each); the recordings replay in tests. The golden zero-call test and the visitor-limit test pass against the route handler. A production build served a golden question in 2ms, a live paraphrase in about 8s, and a cold live repo (`vercel/ms`) the warming screen.
+
+**Found and fixed on the way**
+
+- next.js runs CI so often that the latest runs are mostly bots: CI is now one workflow (`build-and-test`), read a week at a time. Old runs touched in bulk by GitHub looked 18 days long and are now left out of durations.
+- Capped lists made counts like open PRs read 49; exact search counts replaced them. Weekly series no longer show zeros for weeks the data does not reach.
+- Machine accounts without `[bot]` (`vercel-release-bot`, next.js's fourth committer) now count as bots. `facebook/react` moved to `react/react`; the sample uses the new name and keeps the old one as an alias.
+- A stat GitHub is still counting is now the warming state, not an error. Sample contexts are offline: a missing stat is reported, never fetched.
+- The fill check refused numbers hidden in backticks and partial identifiers ("v16.5.0" for "v16.5.0-canary.5"). Reading the golden answers caught a sentence pairing this week's merges with the 90-day contributor count, and a "1 contributors"; both fixed.
+
+**Open**
+
+- vite's commit activity and contributors stats: GitHub was still recounting them more than 90 minutes after a push, so on vite those pieces show the warming state. `pnpm samples:refresh vitejs/vite` later fills them.
+- Latency is well over the composer's targets (classify about 2s, fill about 5s). Golden answers are instant; see `docs/questions.md` for the levers.
+- New questions in `docs/questions.md`: bound props beside model props, rule 4 against the golden layouts, pr-detail's checks, the punch card's 20,000 cap, first-time contributors as an estimate, Upstash KV, golden answers in UTC, latency, and what the number check can and cannot prove.
+
 ## 2026-10-09 · GATE 2 deferred · continuing into Phase 4
 
 The owner could not test in a browser and asked to move the GATE 2 check later. It is now box A.1 in a new "Final audit" stop before Phase 10 in `docs/plan.md`, with the exact things to look at. Phase 4 starts now.
