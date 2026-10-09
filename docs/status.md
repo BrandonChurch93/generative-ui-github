@@ -2,6 +2,33 @@
 
 Newest entry first. Written at every GATE and whenever a session ends mid-phase.
 
+## 2026-10-09 · Phase 10 prep, before the owner's review · nothing deployed or published
+
+The owner wants to review the whole app before anything ships, and asked for the executor's side of Phase 10 to be done first. Nothing has been deployed, published or pushed. Ticks for 10.1, 10.2 and 10.4 wait for the owner's go-ahead after review.
+
+**10.1 deploy prep (executor side done)**
+
+- `apps/web/vercel.json` (Next.js, `pnpm install --frozen-lockfile`, `next build`); `/api/compose` sets `maxDuration = 60`.
+- `NODE_ENV=production pnpm build`: 8 of 8 packages built. Two build configs (`composer`, `data`) had started pulling in `scripts/`; both now build `src` only.
+
+Deploy checklist, for the owner:
+
+1. Vercel: import the GitHub repo, set Root Directory to `apps/web`, leave "Include files outside the root directory" on (the app transpiles the workspace packages), Node 22.x. pnpm comes from `packageManager` in the root `package.json`.
+2. Environment variables (Production and Preview):
+   - `GITHUB_TOKEN`: a fine-grained token with public repositories read-only.
+   - `ANTHROPIC_API_KEY`.
+   - `DAILY_CAP_USD`: start at `5`.
+   - KV: Vercel Marketplace, add Upstash Redis and connect it to the project; it sets `KV_REST_API_URL` and `KV_REST_API_TOKEN`. Without them the visitor limit, the daily cap and the cache are per instance and reset on every cold start.
+3. As a second guard, set a monthly spend limit on the Anthropic console.
+4. Before launch, decide two things in `docs/questions.md`: whether the `?force=` flags stay on in production (6.6 and 6.7), and whether `/dev/render` should be hidden (it is `noindex`).
+5. After the first deploy: open `/api/health` (the counters should survive a redeploy once KV is linked), ask a golden question and check the built block says no model was called, then run `pnpm lighthouse` against the production URL.
+6. For the MCP App, set `GENUI_APP_URL` to the production URL in the Claude Desktop config (`docs/questions.md` 8.4).
+
+**10.2 npm tarballs (executor side done)**
+
+- `pnpm pack` of `@genui-github/ui` and `@genui-github/renderer` 0.1.0 (manifests use the `dist` exports, `workspace:*` rewritten to `0.1.0`). Installed from the tarballs into a clean Vite 8 and React 19 app outside the workspace: it typechecks against the shipped types, builds, and renders fixture 1 with all 8 pieces settled and no console errors.
+- To publish (owner): remove `"private": true` from both `package.json` files, then `pnpm publish --access public` in `packages/ui` first and `packages/renderer` second, logged in to an npm account that owns the `@genui-github` scope. A consumer loads Plus Jakarta Sans and JetBrains Mono themselves; without them the token stacks fall back to system fonts.
+
 ## 2026-10-09 · Final audit · Phases 0 to 9 done, Phase 10 waits on the owner
 
 Phase 9 is complete (9.1 to 9.6; 9.0 skipped until the dark values land). The plan's final audit gate comes before Phase 10, so the session stops here. Work through boxes A.1 to A.4 in `docs/plan.md`; Phase 10 (deploy, npm, the video, the About page and launch copy) starts after.

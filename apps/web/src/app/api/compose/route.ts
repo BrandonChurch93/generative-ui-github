@@ -3,6 +3,8 @@ import { composeDeps, composeResponse } from '@genui-github/composer'
 // Node, not the edge: the composer reads the committed samples and golden compositions from disk.
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
+// A live off-template answer takes up to about 10 s and a cold repo's first warming check more; this is the ceiling.
+export const maxDuration = 60
 
 export async function POST(request: Request): Promise<Response> {
   const deps = await composeDeps()
