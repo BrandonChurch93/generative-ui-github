@@ -1,6 +1,6 @@
 export * from './templates/needs'
-export { compose, SYSTEM_SENTENCES, type ComposeDeps, type ComposeInput, type ComposeOutcome, type Refusal } from './compose'
-export { composeResponse, visitorOf } from './http'
+export { answerKey, compose, SYSTEM_SENTENCES, type ComposeDeps, type ComposeInput, type ComposeOutcome, type Notice, type Refusal } from './compose'
+export { composeResponse, FORCES, visitorOf, type Force } from './http'
 export { composeDeps } from './server'
 export { dayOf, memoryLimits, VISITOR_LIMIT, visitorKey, type Limits } from './limits'
 export { goldenComposition, goldenQuestion } from './golden'

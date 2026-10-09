@@ -37,10 +37,10 @@ function models(route: TemplateId | 'off-template', streamed = '') {
   return { client, calls }
 }
 
-function setup(route: TemplateId | 'off-template', limits: Limits = memoryLimits(), streamed?: string) {
+function setup(route: TemplateId | 'off-template', limits: Limits = memoryLimits(), streamed?: string, cache?: ReturnType<typeof memoryCache>) {
   const m = models(route, streamed)
   const gh = noNetwork()
-  const deps = () => ({ models: m.client, github: gh.client, cache: memoryCache(), limits, dailyCapUsd: 5 })
+  const deps = () => ({ models: m.client, github: gh.client, cache: cache ?? memoryCache(), limits, dailyCapUsd: 5 })
   const post = (body: object) =>
     composeResponse(new Request('http://x/api/compose', { method: 'POST', body: JSON.stringify(body), headers: { 'user-agent': 'test', 'x-forwarded-for': '203.0.113.7' } }), deps)
   return { post, modelCalls: m.calls, githubCalls: gh.calls }
@@ -101,6 +101,19 @@ describe('POST /api/compose', () => {
     const done = stream.at(-1) as Extract<StreamOp, { op: 'done' }>
     expect(done.built).toMatchObject({ template: 'off-template', reason: 'no template matched', model: MODELS.sonnet })
     expect(stream.filter(o => o.op === 'add').map(o => (o as Extract<StreamOp, { op: 'add' }>).region)[0]).toBe('insight')
+  })
+
+  it('replays a composed answer from the cache for a share URL: no model call, no visitor count, even at the cap', async () => {
+    const limits = memoryLimits()
+    const { post, modelCalls } = setup('ci-trend', limits, undefined, memoryCache())
+    const first = await ops(await post({ repo: 'vercel/next.js', question: 'are builds taking longer' }))
+    expect(modelCalls.length).toBe(2)
+    await limits.addSpend(dayOf(Date.now()), 5)
+    const again = await post({ repo: 'Vercel/Next.js', question: 'Are builds  taking longer' })
+    expect(again.status).toBe(200)
+    const second = await ops(again)
+    expect(modelCalls.length).toBe(2)
+    expect(second.filter(o => o.op === 'add')).toEqual(first.filter(o => o.op === 'add'))
   })
 
   it('refuses a repo it cannot read with the system words, before anything streams', async () => {

@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto'
 import { createLogger } from '@genui-github/core'
 import {
   buildContext,
@@ -13,7 +14,7 @@ import {
   type GitHubClient,
   type RepoRef,
 } from '@genui-github/data/server'
-import type { WarmingStatus } from '@genui-github/data'
+import { CHECK_SCHEDULE, type WarmingStatus } from '@genui-github/data'
 import { registry } from '@genui-github/ui/registry'
 import { toStream, type Built, type Composition, type Piece, type StreamOp } from '@genui-github/renderer/core'
 import { sumUsage, type CallUsage, type ModelClient } from './anthropic'
@@ -72,10 +73,25 @@ export type Refusal =
   | { kind: 'daily-cap'; message: string; resetAt: string }
   | { kind: 'rate-limit'; message: string; resetAt?: string }
 
-export type ComposeOutcome = { kind: 'stream'; ops: AsyncIterable<StreamOp> } | { kind: 'refused'; refusal: Refusal }
+/** What the shell says about an answer it is given: from the cache, and whether new questions are paused. */
+export interface Notice {
+  /** When the answer was composed, if it came from the answer cache. */
+  cachedAt?: string
+  /** Set at the daily cap: when live questions open again. */
+  capped?: string
+}
 
-const timeWords = (iso: string | undefined, zone = 'UTC') =>
+export type ComposeOutcome = { kind: 'stream'; ops: AsyncIterable<StreamOp>; notice: Notice } | { kind: 'refused'; refusal: Refusal }
+
+export const timeWords = (iso: string | undefined, zone = 'UTC') =>
   iso ? new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit', timeZone: zone, timeZoneName: 'short' }).format(new Date(iso)) : 'a later time'
+
+/**
+ * A composed answer, kept as long as the data under it: what a share URL replays without a model call. Keyed
+ * by a hash, so the cache holds no question text.
+ */
+export const answerKey = (repo: RepoRef, question: string, from?: { id: string }) =>
+  `answer:${`${repo.owner}/${repo.name}`.toLowerCase()}:${createHash('sha256').update(`${question.trim().toLowerCase().replace(/\s+/g, ' ')}\n${from?.id ?? ''}`).digest('hex').slice(0, 32)}`
 
 /** Replays a finished composition as stream ops, insight first, then metrics, then the regions, then done. */
 async function* replay(composition: Composition): AsyncIterable<StreamOp> {
@@ -93,15 +109,21 @@ export async function compose(input: ComposeInput, deps: ComposeDeps): Promise<C
   if (!parsed.ok) return { kind: 'refused', refusal: { kind: 'repo', message: parsed.message } }
   const sample = isSample(parsed) ? canonicalSample(parsed) : null
 
+  const day = dayOf(started)
+  // A counter that cannot be read must not take down the answers that need no model.
+  const atCap = (await deps.limits.spend(day).catch(() => 0)) >= deps.dailyCapUsd
+  const notice: Notice = atCap ? { capped: resetAt(started) } : {}
+  const served = (c: Composition) => replay({ ...c, built: { ...c.built, latencyMs: { ...c.built.latencyMs, total: now() - started } } })
+
   if (sample && !input.from) {
     const golden = goldenComposition(sample, input.question)
-    if (golden) return { kind: 'stream', ops: replay({ ...golden, built: { ...golden.built, latencyMs: { ...golden.built.latencyMs, total: now() - started } } }) }
+    if (golden) return { kind: 'stream', ops: served(golden), notice }
   }
 
-  const day = dayOf(started)
-  if ((await deps.limits.spend(day)) >= deps.dailyCapUsd) {
-    return { kind: 'refused', refusal: { kind: 'daily-cap', message: SYSTEM_SENTENCES.dailyCap, resetAt: resetAt(started) } }
-  }
+  const cached = await deps.cache.get<Composition>(answerKey(sample ?? parsed, input.question, input.from)).catch(() => null)
+  if (cached) return { kind: 'stream', ops: served(cached.value), notice: { ...notice, cachedAt: cached.cachedAt } }
+
+  if (atCap) return { kind: 'refused', refusal: { kind: 'daily-cap', message: SYSTEM_SENTENCES.dailyCap, resetAt: resetAt(started) } }
   if ((await deps.limits.visitorCount(deps.visitor, day)) >= VISITOR_LIMIT) {
     return { kind: 'refused', refusal: { kind: 'visitor-limit', message: SYSTEM_SENTENCES.visitorLimit(VISITOR_LIMIT), resetAt: resetAt(started) } }
   }
@@ -122,7 +144,7 @@ export async function compose(input: ComposeInput, deps: ComposeDeps): Promise<C
   }
 
   await deps.limits.countVisitor(deps.visitor, day)
-  return { kind: 'stream', ops: run(input, deps, repo, Boolean(sample), started) }
+  return { kind: 'stream', ops: run(input, deps, repo, Boolean(sample), started), notice }
 }
 
 async function* run(input: ComposeInput, deps: ComposeDeps, repo: RepoRef, sample: boolean, started: number): AsyncIterable<StreamOp> {
@@ -135,6 +157,8 @@ async function* run(input: ComposeInput, deps: ComposeDeps, repo: RepoRef, sampl
     await deps.limits.addSpend(day, usage.costUsd)
   }
   const id = `cmp-${started.toString(36)}`
+  const keep = (composition: Composition) =>
+    deps.cache.set(answerKey(repo, input.question, input.from), composition, sample ? null : LIVE_TTL_SECONDS).catch(error => log.warn('answer not cached', { error: (error as Error).message }))
 
   try {
     const cache = sample ? await primeSampleCache(repo, deps.sampleCache) : deps.cache
@@ -175,6 +199,7 @@ async function* run(input: ComposeInput, deps: ComposeDeps, repo: RepoRef, sampl
       await spend(filled.usage)
       const composition: Composition = { id, density: filled.screen.density, regions: filled.screen.regions, asks: filled.screen.asks, built: built(template, calls, { classifyMs, dataMs, composeMs: now() - tCompose, started, now }, ctx, chose(filled.screen.regions)) }
       const { composition: kept } = enforceRules(composition, { question: input.question })
+      await keep(kept)
       yield* replay({ ...kept, built: { ...kept.built, latencyMs: { ...kept.built.latencyMs, total: now() - started } } })
       return
     }
@@ -206,8 +231,9 @@ async function* run(input: ComposeInput, deps: ComposeDeps, repo: RepoRef, sampl
     await spend(result.usage)
     if (!started_) queue.push({ op: 'start', id, density: sofar.density, asks: [] })
     yield* queue
-    const done = built('off-template', calls, { classifyMs, dataMs, composeMs: now() - tCompose, started, now }, ctx, chose(sofar.regions))
-    yield { op: 'done', built: { ...done, reason: 'no template matched' } }
+    const done: Built = { ...built('off-template', calls, { classifyMs, dataMs, composeMs: now() - tCompose, started, now }, ctx, chose(sofar.regions)), reason: 'no template matched' }
+    if (started_) await keep({ ...sofar, built: done })
+    yield { op: 'done', built: done }
   } catch (error) {
     log.error('composition failed', { error: (error as Error).message })
     if (error instanceof GitHubError && error.rateLimited) yield { op: 'error', reason: SYSTEM_SENTENCES.rateLimit(timeWords(error.resetAt, input.timeZone)) }
@@ -260,6 +286,28 @@ function built(
     githubReads: ctx.githubReads,
     chose: components,
   }
+}
+
+/**
+ * The `?force=warming` screen: the first checks report GitHub still counting, then the next one hands off to
+ * the real composition, as a cold repo does. Nothing is fetched while it counts.
+ */
+export function forcedWarming(repo: string, previous: WarmingStatus | null | undefined, now = Date.now()): AsyncIterable<StreamOp> | null {
+  const attempt = (previous?.attempt ?? 0) + 1
+  if (attempt > 2) return null
+  const startedAt = previous?.startedAt ?? new Date(now).toISOString()
+  const ids = ['contributors', 'participation', 'commit_activity', 'punch_card'] as const
+  const status: WarmingStatus = {
+    repo,
+    phase: 'warming',
+    attempt,
+    nextCheckMs: (CHECK_SCHEDULE[attempt]! - CHECK_SCHEDULE[attempt - 1]!) * 1000,
+    startedAt,
+    elapsedMs: now - Date.parse(startedAt),
+    stats: ids.map((id, i) => (attempt > 1 && i === 0 ? { id, state: 'ready', landedAt: new Date(now).toISOString() } : { id, state: 'counting' })),
+  }
+  const b: Built = { template: 'warming', model: 'none', tokens: { input: 0, cached: 0, output: 0 }, costUsd: 0, latencyMs: { classify: 0, data: 0, compose: 0, total: 0 }, githubReads: 0, chose: ['WarmingUp'] }
+  return warmingScreen(`cmp-warming-${Date.parse(startedAt).toString(36)}`, { warming: status } as DataContext, b)
 }
 
 /** While GitHub counts: the WarmingUp card in main, which says the system sentence itself. */
