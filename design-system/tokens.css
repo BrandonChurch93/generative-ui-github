@@ -80,6 +80,22 @@
   --col-max: 24px;
   --label-gap: 64px;
   --band-count: 32px;
+  --page-max: 1280px;
+  --nav-h: 64px;
+  --nav-h-narrow: 56px;
+  --tray-h: 54px;
+  --tray-max: 720px;
+  --chip-h: 24px;
+  --ask-chip-h: 32px;
+  --send: 44px;
+  --seg-h: 36px;
+  --wordmark: 15px;
+  --nav-type: 13px;
+  --question-min: 28px;
+  --drawer-w: 440px;
+  --overlay-w: 420px;
+  --hero-type-min: 32px;
+  --hero-type: 52px;
   /* type families */
   --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
