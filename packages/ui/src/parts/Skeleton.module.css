@@ -1,0 +1,32 @@
+.line {
+  display: flex;
+  align-items: center;
+  inline-size: var(--sk-w);
+  block-size: calc(var(--sk-size) * var(--sk-leading));
+}
+
+/* The block is the height of the letters, not the line, so it reads as text. */
+.block {
+  inline-size: 100%;
+  block-size: calc(var(--sk-size) * 0.72);
+  border-radius: var(--radius-xs);
+  background: var(--line-soft);
+}
+
+.shape {
+  display: block;
+  flex-shrink: 0;
+  inline-size: var(--sk-w);
+  block-size: var(--sk-h);
+  border-radius: var(--radius-xs);
+  background: var(--line-soft);
+}
+
+.shape[data-round] {
+  border-radius: 50%;
+}
+
+:global([data-ground="bg"]) .block,
+:global([data-ground="bg"]) .shape {
+  background: var(--line);
+}

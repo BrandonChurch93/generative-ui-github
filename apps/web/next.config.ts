@@ -8,7 +8,9 @@ const repoRoot = fileURLToPath(new URL('../..', import.meta.url))
 loadEnvConfig(repoRoot, process.env.NODE_ENV !== 'production', undefined, true)
 
 const config: NextConfig = {
-  transpilePackages: ['@genui-github/core'],
+  // The generated AGENTS.md carries an em dash, which this repo bans.
+  agentRules: false,
+  transpilePackages: ['@genui-github/core', '@genui-github/ui', '@genui-github/data'],
   outputFileTracingRoot: repoRoot,
   turbopack: { root: repoRoot },
 }

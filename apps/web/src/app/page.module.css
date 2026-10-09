@@ -60,6 +60,7 @@
 
 .meta {
   margin: 0;
+  font-family: var(--font-mono);
   font-size: var(--text-meta-size);
   line-height: var(--text-meta-leading);
   font-weight: var(--text-meta-weight);

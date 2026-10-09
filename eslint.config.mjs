@@ -1,5 +1,6 @@
 import js from '@eslint/js'
 import globals from 'globals'
+import reactHooks from 'eslint-plugin-react-hooks'
 import tseslint from 'typescript-eslint'
 import { genuiPlugin } from './packages/core/lint/index.js'
 
@@ -19,6 +20,10 @@ export default tseslint.config(
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
+  {
+    files: ['**/*.tsx'],
+    ...reactHooks.configs.flat['recommended-latest'],
+  },
   {
     languageOptions: { globals: { ...globals.node, ...globals.browser } },
     plugins: { genui: genuiPlugin },

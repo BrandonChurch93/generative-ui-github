@@ -12,7 +12,7 @@ const themeValue = (v, theme) => (typeof v === 'string' ? v : v[theme] ?? v[t.co
 const lines = []
 
 lines.push(':root {')
-for (const fam of ['color', 'spacing', 'radius', 'shadow']) {
+for (const fam of ['color', 'spacing', 'radius', 'shadow', 'size']) {
   lines.push(`  /* ${fam} */`)
   for (const tok of t[fam].tokens) lines.push(`  --${tok.name}: ${alias(themeValue(tok.value, t.color.themes[0].id))};`)
 }

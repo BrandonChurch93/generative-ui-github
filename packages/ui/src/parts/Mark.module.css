@@ -1,0 +1,68 @@
+.mark {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  inline-size: var(--mark);
+  block-size: var(--mark);
+  border: var(--stroke) solid var(--good-fill);
+  border-radius: 50%;
+}
+
+.mark[data-kind="warn"] {
+  border-style: dashed;
+  border-color: var(--warn-fill);
+}
+
+.mark[data-kind="crit"] {
+  border-color: var(--crit-fill);
+  background: var(--crit-fill);
+}
+
+.mark[data-kind="neutral"],
+.mark[data-kind="unavailable"] {
+  border-color: var(--muted);
+}
+
+.mark[data-kind="unavailable"]::after {
+  content: "";
+  position: absolute;
+  inset-block: calc(var(--stroke) * -1);
+  left: 50%;
+  inline-size: var(--stroke);
+  margin-left: calc(var(--stroke) / -2);
+  background: var(--muted);
+  transform: rotate(45deg);
+}
+
+.mark[data-kind="warming"] {
+  border-color: var(--line);
+}
+
+.mark[data-kind="warming"]::after {
+  content: "";
+  position: absolute;
+  inset: calc(var(--stroke) * -1);
+  border: var(--stroke) solid transparent;
+  border-top-color: var(--accent);
+  border-right-color: var(--accent);
+  border-radius: 50%;
+}
+
+.mark[data-kind="node"],
+.mark[data-kind="endpoint"] {
+  border: 0;
+  box-shadow: 0 0 0 var(--ring) var(--surface);
+}
+
+.mark[data-kind="node"] {
+  inline-size: var(--node);
+  block-size: var(--node);
+  background: var(--muted);
+}
+
+.mark[data-kind="endpoint"] {
+  inline-size: var(--endpoint);
+  block-size: var(--endpoint);
+  background: var(--accent);
+}

@@ -1,0 +1,46 @@
+.row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--row-y) var(--inset);
+}
+
+/* Centered on the title line, whatever the density. */
+.mark {
+  margin-top: calc((var(--text-row-title-size) * var(--text-row-title-leading) - var(--mark)) / 2);
+}
+
+.text {
+  display: grid;
+  gap: var(--space-1);
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.titleLine {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+
+.title {
+  min-width: 0;
+  color: var(--ink);
+  font-size: var(--text-row-title-size);
+  line-height: var(--text-row-title-leading);
+  font-weight: var(--text-row-title-weight);
+}
+
+.row[data-state="warming"] .title {
+  color: var(--muted);
+}
+
+.meta {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+}

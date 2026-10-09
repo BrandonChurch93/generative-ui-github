@@ -1,0 +1,29 @@
+.tag {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: var(--tag-y) var(--space-2);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, currentColor 10%, transparent);
+  font-family: var(--font-mono);
+  font-size: var(--text-tag-size);
+  line-height: var(--text-tag-leading);
+  font-weight: var(--text-tag-weight);
+  white-space: nowrap;
+}
+
+.tag[data-tone="good"] {
+  color: var(--good);
+}
+
+.tag[data-tone="warn"] {
+  color: var(--warn);
+}
+
+.tag[data-tone="crit"] {
+  color: var(--crit);
+}
+
+.tag[data-tone="quiet"] {
+  color: var(--muted);
+}

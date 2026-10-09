@@ -57,6 +57,20 @@
   --bloom: 0 16px 48px #e2606233;
   --tray: 0 10px 36px #0000001f;
   --sheet: 0 24px 64px #23201e24, 0 2px 6px #23201e14;
+  /* size */
+  --hairline: 1px;
+  --stroke: 1.5px;
+  --bar: 3px;
+  --mark: 10px;
+  --node: 6px;
+  --endpoint: 8px;
+  --ring: 2px;
+  --focus-ring: 2px;
+  --focus-offset: 2px;
+  --hit: 36px;
+  --tag-y: 3px;
+  --underline-offset: 3px;
+  --glow: 560px;
   /* type families */
   --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;

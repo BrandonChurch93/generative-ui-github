@@ -1,0 +1,11 @@
+.spine {
+  position: absolute;
+  z-index: 0;
+  top: var(--spine-top);
+  bottom: var(--spine-bottom);
+  left: var(--spine-x, calc(var(--inset) + var(--mark) / 2 - var(--hairline) / 2));
+  inline-size: var(--hairline);
+  background: var(--line);
+  transform-origin: top center;
+  pointer-events: none;
+}

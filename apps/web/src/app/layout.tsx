@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 import { JetBrains_Mono, Plus_Jakarta_Sans } from 'next/font/google'
 import '../../../../design-system/tokens.css'
+import '@genui-github/ui/styles.css'
 import './globals.css'
 
 const sans = Plus_Jakarta_Sans({
