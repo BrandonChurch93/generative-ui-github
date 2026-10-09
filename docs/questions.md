@@ -150,3 +150,34 @@ A fill sentence can pass by quoting a real figure in the wrong frame: the first 
 
 - Assumed: Phase 7's bindings scorer, which compares each figure to the measure and window it claims, is where this is measured; the fill prompt already says to use only the figures listed for each sentence.
 - Check: nothing now; read the GATE 3 compositions with this in mind.
+
+## 6.6 and 6.7 · The force flags work in production too
+
+`prompts/06-shell.md` calls `?force=warming`, `?force=ratelimit`, `?force=cap` and `?force=empty` dev flags. The Playwright suite runs against a production build, so the flags have to work there.
+
+- Assumed: they stay on in production. None of them spends anything or reads GitHub: warming and rate limit are synthetic, cap answers only from golden and cached answers, and empty composes a committed fixture with no model call.
+- Check: whether to hide them behind an environment variable before launch.
+
+## 6.8 · A follow-up click on a sample calls Haiku
+
+Golden answers on samples cost nothing, but a click on a piece asks a follow-up (`from` is set), which goes through the classifier and the fill on the sample's data: about 6s and a fraction of a cent, counted against the visitor's 15. The answer is then kept in the answer cache, so the next visitor's identical click replays it.
+
+- Assumed: acceptable. Precomputing the default follow-ups of the 60 golden compositions would make every first click instant, at the cost of a larger `golden/` directory.
+- Check: whether to precompute them.
+
+## 6.12 · Footer wording
+
+The screen references print "Public repos only · nothing is stored beyond a cache of GitHub's public stats · no account needed"; `docs/decisions.md` says the footer is "Nothing you paste is stored. Public repos only. Sample data is marked."
+
+- Assumed: the decision wins, per `design-system/screens/README.md` (docs win over a screen's wording). Sample data is marked by a `sample · read <day>` chip in the eyebrow and "read the sample" in the strip.
+- Check: nothing unless the wording should change.
+
+## 6.7 · Small gaps left open after the shell
+
+- The near-empty fixture (`packages/composer/fixtures/near-empty/vercel-labs__vercel-byoc.json`, recorded by `pnpm --filter @genui-github/composer near-empty:refresh`) has no `stats/contributors`: GitHub answered 202 for half an hour. Under `?force=empty`, the questions that read it show the warming state. Check: rerun the recorder once GitHub has counted.
+- Under `?force=empty` the eyebrow shows the repo in the URL, since the stream carries no repo name. Open `/r/vercel-labs/vercel-byoc?q=…&force=empty` to read it right. A response header naming the repo would fix it for good.
+- A LineChart with tiny values repeats y-axis labels (0.2, 0.2, 0.1, 0.1, 0), seen on the near-empty CI chart. Assumed: a component fix for the final audit; it shows only on repos with almost no CI.
+- A SystemScreen is swapped for the answer outright when Try again succeeds, so its exit never plays.
+- A server-rendered Renderer under reduced motion fails hydration (the server draws the rise offset, the client a fade). The composed screen is unaffected because its tree arrives after hydration; the landing preview mounts its Renderer in the browser only. The fix belongs in `PieceFrame`.
+- `--hero-type-min` and `--hero-type` (32 to 52px) are unused: the landing sentence matches the reference at 1440 with the question's clamp (44px).
+- Copy written by the build for the owner to read: the landing's group lines and returning offer ("Pick up where you left off"), the how-this-works steps, the drawer's route sentence, and the rate-limit and daily-cap body copy. The rate-limit screen leaves out the reference's "GitHub answered 403" and "0 of 5,000 requests left", since the refusal does not carry them.

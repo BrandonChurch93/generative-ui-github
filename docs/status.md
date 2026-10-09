@@ -2,6 +2,37 @@
 
 Newest entry first. Written at every GATE and whenever a session ends mid-phase.
 
+## 2026-10-09 · GATE 4 · the app shell
+
+Phase 6 is complete: 6.1 to 6.13 are ticked and verified. GATE 2 and GATE 3 wait in the final audit (A.1, A.2). The session stops here for GATE 4: use the app end to end on desktop and phone.
+
+**How to check it**
+
+- `pnpm dev`, open `/`. Pick a sample or paste a repo, pick a question. Golden questions on the five samples open from the committed compositions with no network or model call; anything else asks Haiku (and Sonnet off-template) live.
+- On a composed screen: click a metric or a row to ask its follow-up, press `r` to replay the screen, switch density in the tray, open "How this was built" from the built figure or the strip.
+- Force each special screen on any composed URL with `&force=warming`, `&force=ratelimit`, `&force=cap` or `&force=empty` (the near-empty repo reads right at `/r/vercel-labs/vercel-byoc?q=What%27s%20blocking%20the%20next%20release%3F&force=empty`).
+- On a phone, or at 390px: every screen is one column with no sideways scroll.
+
+**What was verified**
+
+- `pnpm lint`, `pnpm typecheck`, `pnpm test` (core 6, data 67, ui 311, renderer 27, composer 170, web 15, evals 2, mcp-app 1), `pnpm e2e` (38 passed, 1 skipped: the live follow-up click, run with `E2E_LIVE=1`), `pnpm a11y` (6 passed, zero serious issues on every golden screen, every forced screen, the landing, the catalog, `/evals` and `/about`, at 1440 and 390; fields are 16px under 480px).
+- The 60 golden screens fit 390px with no horizontal scroll (Playwright asserts `scrollWidth === clientWidth`).
+- Click to recompose, live: "Failing checks" on next.js release blockers rewrote to check-failures in about 6.5s, the metric kept as the same DOM node and morphed; the URL and question followed.
+- A cold live repo (`sindresorhus/cpy-cli`): WarmingUp for about 11s, then the card left and the contributors answer composed in.
+- Screenshots of the landing, the composed screen, the drawer, the overlay and the special screens at 1440 and 390, compared with `design-system/screens/`.
+
+**Built along the way**
+
+- The composer keeps every composed answer 15 minutes (samples forever) under a hash of repo and question, so a share URL replays with no model call and still opens at the daily cap. Responses say how they were served (`x-genui-served`, `x-genui-cached-at`, `x-genui-capped`).
+- The renderer now settles when its host re-renders mid-entrance: a class piece enters once per plan, and a wrapper animation completed early resolves its own handle (StrictMode in dev never settled before).
+- StatusList takes the wrap rule under a 30em container: titles wrap, nothing truncates. The action card takes one column, and the split stacks under 1024px, as `shell.css` does.
+- Timeline binds an empty state, not an error, when a repo has no two releases to compare.
+- `/evals` and `/about` are placeholders in the frame until Phases 7 and 10.
+
+**Open**
+
+- New entries in `docs/questions.md` for 6.6 to 6.12: force flags on in production, follow-up clicks call Haiku on samples, the footer wording, and the small gaps listed under 6.7 (near-empty fixture missing contributors, the eyebrow under `force=empty`, LineChart tiny ticks, SystemScreen exit, a server-rendered Renderer's hydration under reduced motion, unused hero tokens, copy to read).
+
 ## 2026-10-09 · GATE 3 deferred · continuing into Phase 6
 
 The owner still could not review and asked to continue. GATE 3's checks are box A.2 in the final audit before Phase 10, beside GATE 2's. Phase 6 starts now.

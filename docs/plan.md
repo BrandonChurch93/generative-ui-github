@@ -150,19 +150,19 @@ Prompt: `prompts/05-composer.md`. Spec: `docs/composer.md`.
 
 Prompt: `prompts/06-shell.md`. Reference renderings: `design-system/screens/*.html` (open them in a browser; `genui.css` and `shell.css` beside them).
 
-- [ ] 6.1 Landing `/`: matches `screens/Landing.html` with the twelve golden questions as the chips (grouped Shipping, Health, People, Getting started), one sample preselected, the hero field, the scaled preview with an `@supports` fallback. Done when Playwright screenshots at 1440 and 390 are compared to the reference and visible differences are fixed.
-- [ ] 6.2 Composed screen `/r/[owner]/[name]?q=`: `screens/Main.html`. Share URL replays from cache. Done when the twelve golden questions render from the samples with the full entrance.
-- [ ] 6.3 Chrome entrance and exit. Done when `r` replays the whole screen out and in.
-- [ ] 6.4 The tray with the density segmented control and the ask field; disabled with the reset time when the app can't take a question. Done when the rate-limit state shows it disabled with a real time.
-- [ ] 6.5 The drawer: `screens/Drawer.html`. Done when it opens from the built block and the strip.
-- [ ] 6.6 Warming screen: `screens/Warming.html`. Done when `?force=warming` shows it and a cold live repo hands off to a composition.
-- [ ] 6.7 Rate limit, daily cap, near-empty: `screens/RateLimit.html`, `DailyCap.html`, `NearEmpty.html`. Done when each is forced with its query flag.
-- [ ] 6.8 Click to recompose. Done when clicking "Failing checks" on release-blockers rewrites to check-failures with the survivor metric morphing.
-- [ ] 6.9 Mobile: one column under 640px, spacious steps down, StatusList wrap rule, DiffView scroll rule, Heatmap sticky labels. Done when every golden question renders at 390 with no horizontal scroll (Playwright asserts `scrollWidth === clientWidth`).
-- [ ] 6.10 Returning visitor offer. Done when a second visit shows it.
-- [ ] 6.11 The "how this works" overlay: `screens/HowItWorks.html`. Done when it opens, animates, closes with Escape, and the page behind is `inert`.
-- [ ] 6.12 Footer line on every page. Done when a Playwright test finds it on `/`, `/r/...`, `/catalog`, `/evals`, `/about`.
-- [ ] 6.13 Accessibility pass. Done when `pnpm a11y` reports zero serious issues on every screen and fields are 16px under 480px.
+- [x] 6.1 Landing `/`: matches `screens/Landing.html` with the twelve golden questions as the chips (grouped Shipping, Health, People, Getting started), one sample preselected, the hero field, the scaled preview with an `@supports` fallback. Done when Playwright screenshots at 1440 and 390 are compared to the reference and visible differences are fixed.
+- [x] 6.2 Composed screen `/r/[owner]/[name]?q=`: `screens/Main.html`. Share URL replays from cache. Done when the twelve golden questions render from the samples with the full entrance.
+- [x] 6.3 Chrome entrance and exit. Done when `r` replays the whole screen out and in.
+- [x] 6.4 The tray with the density segmented control and the ask field; disabled with the reset time when the app can't take a question. Done when the rate-limit state shows it disabled with a real time.
+- [x] 6.5 The drawer: `screens/Drawer.html`. Done when it opens from the built block and the strip.
+- [x] 6.6 Warming screen: `screens/Warming.html`. Done when `?force=warming` shows it and a cold live repo hands off to a composition.
+- [x] 6.7 Rate limit, daily cap, near-empty: `screens/RateLimit.html`, `DailyCap.html`, `NearEmpty.html`. Done when each is forced with its query flag.
+- [x] 6.8 Click to recompose. Done when clicking "Failing checks" on release-blockers rewrites to check-failures with the survivor metric morphing.
+- [x] 6.9 Mobile: one column under 640px, spacious steps down, StatusList wrap rule, DiffView scroll rule, Heatmap sticky labels. Done when every golden question renders at 390 with no horizontal scroll (Playwright asserts `scrollWidth === clientWidth`).
+- [x] 6.10 Returning visitor offer. Done when a second visit shows it.
+- [x] 6.11 The "how this works" overlay: `screens/HowItWorks.html`. Done when it opens, animates, closes with Escape, and the page behind is `inert`.
+- [x] 6.12 Footer line on every page. Done when a Playwright test finds it on `/`, `/r/...`, `/catalog`, `/evals`, `/about`.
+- [x] 6.13 Accessibility pass. Done when `pnpm a11y` reports zero serious issues on every screen and fields are 16px under 480px.
 
 `GATE 4` · the owner uses the app end to end on desktop and phone.
 
