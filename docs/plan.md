@@ -100,7 +100,7 @@ Prompt: `prompts/03-renderer.md`
 - [x] 3.11 Reduced motion: every choreography path has a reduced branch. Done when a test with the media query stubbed asserts no timeline longer than 200ms.
 - [x] 3.12 Package build: `@genui-github/renderer` and `@genui-github/ui` build to ESM with types, a README each with install and a 20-line usage example, MIT. Done when `npm pack` produces tarballs and a scratch Vite app under `/tmp` renders fixture 1 from them.
 
-`GATE 2` · the owner drives the three-screen rewrite in a browser.
+`GATE 2` · deferred to the final audit before Phase 10 (owner, 2026-10-09): the owner could not test in a browser at the time. Continue into Phase 4 without stopping.
 
 ---
 
@@ -206,6 +206,23 @@ Prompt: `prompts/09-hardening.md`
 - [ ] 9.4 Security: `scripts/check-secrets.sh` greps the build output and client bundles for the token and key patterns; repo input validated server side; no user content stored. Done when the script exits 0 on a production build.
 - [ ] 9.5 Performance: `pnpm lighthouse` on `/` and a composed sample screen. Done when mobile performance ≥ 90 and accessibility ≥ 95.
 - [ ] 9.6 Root README per `docs/launch.md`. Done when it contains every section listed there.
+
+---
+
+## Final audit · the deferred owner checks
+
+Checks the owner put off to one sitting before launch. Each one names the gate it came from. The executor reruns the listed commands first, so the owner looks at a green build, and writes the results at the top of `docs/status.md`.
+
+- [ ] A.1 From GATE 2, the renderer. `pnpm dev`, then `/dev/render`:
+  - Drive the three-screen rewrite: click Failing checks (1 to 2), the Contributors segment (2 to 3), Awaiting review (3 to 1). Survivors move in place, never blink out and back.
+  - Watch the main column mid-rewrite: the leaving card and the arriving one share a spot for about 200ms and their headers cross briefly. Decide whether it reads as busy (`docs/status.md`, GATE 2, Open).
+  - Watch the insight change: the new sentence wipes in over the old one without the old one wiping out first. Decide whether that is enough.
+  - Live update: the first metric counts up and a list gains a row, nothing leaves or rises.
+  - `?reduced`: every move is a short fade; `?density=compact` and `spacious`.
+  - Answer the Phase 3 entries in `docs/questions.md` (3.1 bound props, 3.1 the 120-character cap, 3.5 the clock, 3.11 reduced offsets, 3.7 emphasis, 3.12 packing), if Phase 5 has not already needed them.
+  - Executor reruns first: `pnpm e2e -- render.spec.ts` and `pnpm a11y`.
+
+`GATE` · final audit: the owner works through every box above, then Phase 10 starts.
 
 ---
 

@@ -2,6 +2,10 @@
 
 Newest entry first. Written at every GATE and whenever a session ends mid-phase.
 
+## 2026-10-09 · GATE 2 deferred · continuing into Phase 4
+
+The owner could not test in a browser and asked to move the GATE 2 check later. It is now box A.1 in a new "Final audit" stop before Phase 10 in `docs/plan.md`, with the exact things to look at. Phase 4 starts now.
+
 ## 2026-10-09 · GATE 2 · the renderer
 
 Phase 3 is complete: 3.1 to 3.12 are ticked and verified. The session stops here for the owner to drive the three-screen rewrite.
