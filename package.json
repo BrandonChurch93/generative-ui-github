@@ -19,7 +19,8 @@
     "samples:refresh": "pnpm --filter @genui-github/data samples:refresh",
     "compositions:refresh": "pnpm --filter @genui-github/composer compositions:refresh",
     "evals:run": "pnpm --filter @genui-github/evals evals:run",
-    "evals:check": "pnpm --filter @genui-github/evals evals:check"
+    "evals:check": "pnpm --filter @genui-github/evals evals:check",
+    "check:secrets": "bash scripts/check-secrets.sh"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",
