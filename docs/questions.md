@@ -273,3 +273,10 @@ The server reads `GITHUB_TOKEN` and `ANTHROPIC_API_KEY` from `.env.local` at the
 
 - `packages/ui` and `packages/renderer` are `"private": true`, so the README's install section describes packages not yet published. Phase 10.2 prepares the tarballs; publishing is the owner's.
 - The README's architecture diagram is drawn from the five-step flow in `design-system/screens/About.html`; the brief has the four-layers table (copied as is) but no diagram.
+
+## Polish round · Link rows name their destination inside the name, not as an aria-label
+
+The polish list asked for aria-labels naming the destination ("Open PR #123 on GitHub"). An `aria-label` replaces a link's whole accessible name, so a screen reader would lose the row's title, state tag and size, and the visible text would no longer be part of the name (WCAG label in name).
+
+- Assumed: the destination is appended inside the link as screen-reader text, so the name reads "Update error strings … 15 lines added, 2 removed. Open PR #99886 on GitHub".
+- Check: if a literal `aria-label` is wanted, it is one line in `OutWords` (`packages/ui/src/parts/OutArrow.tsx`).

@@ -2,6 +2,46 @@
 
 Newest entry first. Written at every GATE and whenever a session ends mid-phase.
 
+## 2026-10-09 · Polish round before deploy · done, waiting for the owner's review
+
+The owner's polish list, eleven items in four sections, is built, checked in a real browser at 1440 and 390 and under reduced motion, and committed one section at a time. Nothing deployed, published or pushed.
+
+**Landing** (`f5ee238`)
+
+1. Cursor warmth at about a third of its strength: new tokens `warmth-a` and `warmth-b` at about 40% of the old alphas, `glow` from 560 to 420px. The bloom on flagged cards reads `--bloom` and is unchanged.
+2. Hover on every input-row button ("Open repo", "Ask"): the primary button's lift and `card-hover` shadow with the arrow nudging 2px right, 150 ms on the house curve, the same on `:focus-visible`. Question chips hover to `surface-tint`; the sample chips, which sit on a tint, rise like a card.
+3. The samples in their own `surface-tint` panel, the label as an eyebrow, chips bordered.
+4. The journey: "1 · Pick a repo", an arrow, "2 · Ask it a question". Step 2 is muted until a sample is clicked or a typed repo parses, then turns ink and wipes in; on a phone, picking a sample scrolls step 2 into view. No sample is preselected any more (step 2 could not start muted otherwise; `docs/decisions.md` updated).
+5. Your own question on a sample: a field and Ask above the chips, with "or pick one" between; it goes to the live composer with the usual limits.
+6. The overlay is gone; an inline "How it works" section in the main column has the three steps and the live golden preview with numbered callouts on the insight, the hot metric and a row. A "How it works" link under the headline scrolls to it.
+
+**Composed screen** (`1a24238`)
+
+7. A hint under the chrome, "Click any card, row or point. The screen rebuilds around it.", until the first click inside the answer, then it wipes out; the dismissal holds for the session. Not on refused or warming screens.
+8. Rows that open GitHub (StatusList, Checklist, ActivityFeed, Timeline, PersonList, FileTree) carry a muted arrow that turns ink on hover, and their titles underline on hover and focus. Each link's accessible name ends with where it goes ("Open PR #99886 on GitHub"). This is appended to the name rather than set as an `aria-label`, which would have replaced the title, state and size a screen reader reads (`docs/questions.md`, polish).
+
+**Catalog** (`cb0a3a0`)
+
+9. A sticky sidebar that scrolls on its own, grouped by family, with a filter at the top ("No component matches" when empty). Picking a component swaps the pane in place with `router.replace(…, { scroll: false })`: no hash, no scroll reset, deep links still render on the server. The state and density controls are sticky at the top of the pane. On phones the sidebar is the filter and one scrolling row above the pane.
+10. `/catalog` shows "Pick a component. It renders from sample data, then rebuilds each time you switch state or density." Every switch runs the piece's exit, then its enter; `?still` swaps at once; reduced motion is the 200 ms fade.
+
+**About and footer** (`415b729`, with `25b2c7c` fixing the header gutter on the catalog)
+
+11. "Brandon Church" on the About page links to https://brandonchurchportfolio.com in a new tab, and every page's footer carries "Built by Brandon Church" and "Source on GitHub", both new tabs.
+
+**Verified**
+
+- `pnpm lint` (exit 0), `pnpm typecheck` (8 of 8), `pnpm test` (ui 312, composer 172, data 67, renderer 29, web 15, evals 8, core 6, mcp-app 3), `pnpm e2e` (54 passed, 1 skipped: the live click), `pnpm a11y` (6 passed, zero serious issues, production build).
+- Every focusable element on the landing, a composed screen and the catalog shows the 2px `focus` ring at a 2px offset (tabbed through 60 stops each; text fields ring their wrapper).
+- Reduced motion: each section checked with `reducedMotion: 'reduce'`; every new move is a 200 ms opacity change.
+
+**Open, for the owner's review**
+
+- The hint leaves by unmounting after its wipe, so the answer moves up one line; usually hidden by the rewrite or the new tab a click opens.
+- Picking a component in the catalog carries the current state and density to the next one, so components can be compared; say if each should open in its default state instead.
+- A typed question on a sample can go off-template, where Sonnet sometimes writes a piece the schema refuses; the screen shows that piece's error card ("Couldn't show Timeline"). This is the 9% schema figure from the evals, not the landing.
+- The "How it works" link sits under the landing headline, not in the site nav; adding it to the nav is one line in `Frame.tsx`.
+
 ## 2026-10-09 · Phase 10 prep, before the owner's review · nothing deployed or published
 
 The owner wants to review the whole app before anything ships, and asked for the executor's side of Phase 10 to be done first. Nothing has been deployed, published or pushed. Ticks for 10.1, 10.2 and 10.4 wait for the owner's go-ahead after review.
