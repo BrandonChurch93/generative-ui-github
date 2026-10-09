@@ -1,0 +1,24 @@
+{
+  "props": {
+    "sentence": "Both failing checks are `e2e-turbopack` runs on `canary`, red since Tuesday's merge.",
+    "sources": [{ "key": "checks" }, { "key": "failing-checks", "ask": "Which checks are failing?" }],
+    "tone": "crit",
+    "sourceMap": {
+      "checks": { "words": "14 check runs on canary", "numbers": [14] },
+      "failing-checks": { "words": "2 failing", "numbers": [2] }
+    },
+    "facts": ["last 7 days"]
+  },
+  "empty": {
+    "sentence": "Nothing stands out on v16.2 this week. Reviews and checks are moving at their usual pace.",
+    "sources": [{ "key": "pulls" }, { "key": "issues" }, { "key": "checks" }],
+    "tone": "neutral",
+    "sourceMap": {
+      "pulls": { "words": "7 open PRs", "numbers": [7] },
+      "issues": { "words": "19 milestone issues", "numbers": [19] },
+      "checks": { "words": "214 check runs", "numbers": [214] }
+    }
+  },
+  "error": { "failed": "Couldn't write an answer to this question.", "cause": "the model timed out after 20s" },
+  "warming": { "counting": "Waiting on GitHub to finish counting before writing this.", "nextCheck": "usually under a minute · checking again in 12s", "progress": 0.35 }
+}

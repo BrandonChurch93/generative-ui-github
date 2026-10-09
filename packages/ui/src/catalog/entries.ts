@@ -1,4 +1,8 @@
 import type { ComponentType } from 'react'
+import { Insight } from '../components/Insight/Insight'
+import { insightMotion } from '../components/Insight/motion'
+import insightSample from '../components/Insight/sample.json'
+import type { InsightProps } from '../components/Insight/schema'
 import { Metric } from '../components/Metric/Metric'
 import { metricMotion } from '../components/Metric/motion'
 import metricSample from '../components/Metric/sample.json'
@@ -86,6 +90,18 @@ export const CATALOG: CatalogEntry[] = [
     sample: statusListSample as CatalogSample<StatusListProps>,
     sampleFile: 'StatusList/sample.json',
     width: 'half',
+  }),
+  entry<InsightProps>({
+    name: 'Insight',
+    group: 'Text',
+    description:
+      'The one sentence the model writes about the data, with a gradient rule on its left and a source line naming what it was computed from.',
+    spec: specOf('Insight'),
+    Component: Insight,
+    motion: insightMotion,
+    sample: insightSample as CatalogSample<InsightProps>,
+    sampleFile: 'Insight/sample.json',
+    width: 'full',
   }),
 ]
 

@@ -1,0 +1,105 @@
+/* Not a card: the answer sits on the page ground, its rule on the column's card edge. */
+.insight {
+  position: relative;
+  padding-inline-start: calc(var(--inset) + var(--hairline));
+}
+
+.text {
+  display: grid;
+  gap: calc(var(--row-y) - var(--space-1));
+}
+
+.sentence {
+  max-inline-size: 60ch;
+  margin: 0;
+  color: var(--ink);
+  font-size: var(--insight-size);
+  line-height: var(--text-insight-leading);
+  font-weight: var(--text-insight-weight);
+  text-wrap: pretty;
+}
+
+.sentence[data-quiet] {
+  color: var(--muted);
+}
+
+.ident {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  font-weight: var(--text-handle-weight);
+}
+
+.source {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: var(--space-3);
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+}
+
+.source[data-source] {
+  display: block;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 0 var(--space-2);
+  border: var(--hairline) solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+}
+
+.chip:hover {
+  border-color: var(--line-strong);
+}
+
+/* The rule runs from the sentence's cap height to the source line's baseline: claim and evidence as one unit. */
+.rule,
+.track {
+  position: absolute;
+  left: 0;
+  top: calc(var(--insight-size) * (var(--text-insight-leading) - 0.72) / 2);
+  bottom: calc(var(--text-meta-size) * (var(--text-meta-leading) - 1) / 2 + var(--text-meta-size) * 0.2);
+  inline-size: var(--bar);
+  border-radius: var(--radius-pill);
+}
+
+.rule {
+  background: linear-gradient(180deg, var(--accent), var(--accent-2));
+  transform-origin: center top;
+}
+
+.rule[data-quiet] {
+  background: var(--muted);
+}
+
+.track {
+  background: var(--line);
+}
+
+.track .rule {
+  inset: 0;
+  transform: scaleY(var(--progress, 0));
+}
+
+.sourceSkeleton {
+  margin-top: calc(var(--row-y) - var(--space-1));
+}
+
+@media (prefers-contrast: more) {
+  .chip {
+    border-color: var(--muted);
+  }
+}

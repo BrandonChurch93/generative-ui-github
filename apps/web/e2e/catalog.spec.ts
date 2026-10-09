@@ -39,7 +39,7 @@ test('every catalog component renders in every state and density it supports', a
         await page.goto(`/catalog/${name}?density=${density}&state=${state}`)
         const piece = page.getByTestId('catalog-piece')
         await expect(piece).toHaveAttribute('data-state', state)
-        await expect(piece.locator('[data-card]').first()).toBeVisible()
+        await expect(piece.locator(':scope > *').first()).toBeVisible()
         await expect(page.locator(`[data-density="${density}"]`)).toHaveCount(1)
       }
     }
