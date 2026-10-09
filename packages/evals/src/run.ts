@@ -50,6 +50,18 @@ function measureContext(ctx: DataContext): MeasureContext {
 
 const empty = (): Record<ScorerName, Score | null> => ({ template: NA, components: NA, hot: NA, schema: NA, bindings: NA, numbers: NA, rules: NA })
 
+/** A case that should have composed and did not fails every scorer it would have had, rather than leaving them unscored. */
+function failedScores(c: EvalCase, said: string): Record<ScorerName, Score | null> {
+  const fail = { pass: false, reason: `nothing composed: ${said}` }
+  return {
+    ...empty(),
+    template: fail,
+    ...(c.expect.components ? { components: { ...fail, value: 0 } } : {}),
+    ...(c.expect.hot ? { hot: fail } : {}),
+    ...(c.expect.bindings ? { bindings: { ...fail, value: 0 } } : {}),
+  }
+}
+
 export async function runCase(c: EvalCase, model: RunModel, deps: RunDeps, run = 1, now: () => number = Date.now): Promise<CaseResult> {
   let context: DataContext | undefined
   let routed: string | undefined
@@ -74,7 +86,7 @@ export async function runCase(c: EvalCase, model: RunModel, deps: RunDeps, run =
   ).catch((error: Error) => ({ kind: 'failed' as const, error }))
 
   if (outcome.kind === 'failed') {
-    return { ...base, outcome: 'failed', scores, latency: { firstPieceMs: null, doneMs: now() - started }, costUsd: 0, tokens: { input: 0, cached: 0, output: 0 }, said: outcome.error.message }
+    return { ...base, outcome: 'failed', scores: failedScores(c, outcome.error.message), latency: { firstPieceMs: null, doneMs: now() - started }, costUsd: 0, tokens: { input: 0, cached: 0, output: 0 }, said: outcome.error.message }
   }
   if (outcome.kind === 'refused') {
     const said = outcome.refusal.message
@@ -93,7 +105,8 @@ export async function runCase(c: EvalCase, model: RunModel, deps: RunDeps, run =
   const tree = parser.end()
   const composition: Composition | undefined = toComposition(tree)
   if (!composition) {
-    return { ...base, outcome: 'failed', routed, scores, latency: { firstPieceMs, doneMs }, costUsd: 0, tokens: { input: 0, cached: 0, output: 0 }, said: tree.error ?? 'the stream ended without a finished composition' }
+    const said = tree.error ?? 'the stream ended without a finished composition'
+    return { ...base, outcome: 'failed', routed, scores: failedScores(c, said), latency: { firstPieceMs, doneMs }, costUsd: 0, tokens: { input: 0, cached: 0, output: 0 }, said }
   }
 
   if (c.expect.error) scores.template = { pass: false, reason: `composed an answer, expected "${c.expect.error}"` }

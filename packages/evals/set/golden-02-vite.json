@@ -20,11 +20,6 @@
     ],
     "bindings": [
       {
-        "id": "metric:open-prs",
-        "prop": "value",
-        "equals": "measures.open-prs.value"
-      },
-      {
         "id": "metric:awaiting-review",
         "prop": "value",
         "equals": "measures.awaiting-review.value"

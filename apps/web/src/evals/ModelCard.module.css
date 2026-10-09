@@ -1,0 +1,133 @@
+/* A run model's results: two tables in the row rhythm, words on the content edge. */
+.card {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.scroll {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  padding: 0 var(--inset) var(--card-y);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+.scroll:focus-visible {
+  outline: var(--focus-ring) solid var(--focus);
+  outline-offset: calc(var(--focus-offset) * -1);
+}
+
+.table {
+  inline-size: 100%;
+  min-inline-size: calc(var(--space-8) * 5);
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.table th,
+.table td {
+  padding: var(--row-y) var(--space-3) var(--row-y) 0;
+  border-block-start: var(--hairline) solid var(--line);
+  text-align: start;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+.table :is(th, td):last-child {
+  padding-inline-end: 0;
+}
+
+.table tbody tr:first-child :is(th, td) {
+  border-block-start: 0;
+}
+
+.table thead th {
+  padding-block: var(--row-y) var(--space-1);
+  border: 0;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+}
+
+.table tbody th {
+  font-weight: inherit;
+  white-space: normal;
+}
+
+.table tbody th :is(b, i) {
+  display: block;
+}
+
+.table tbody th b {
+  color: var(--ink);
+  font-size: var(--text-row-title-size);
+  line-height: var(--text-row-title-leading);
+  font-weight: var(--text-row-title-weight);
+}
+
+.table tbody th i,
+.num,
+.none {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  font-style: normal;
+  letter-spacing: var(--text-meta-tracking);
+}
+
+.table .num,
+.table .figure {
+  text-align: end;
+}
+
+.table .none {
+  text-align: end;
+}
+
+.figure {
+  color: var(--ink);
+  font-size: var(--text-value-size);
+  line-height: var(--text-value-leading);
+  font-weight: var(--text-value-weight);
+}
+
+.subhead {
+  padding: var(--card-y) 0 var(--space-1);
+  border-block-start: var(--hairline) solid var(--line-soft);
+  color: var(--ink);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-leading);
+  font-weight: var(--text-card-title-weight);
+  text-align: start;
+}
+
+.table[data-speed] {
+  margin-block-start: var(--row-y);
+}
+
+/* Fixed columns, so the scorer table and the speed table line up down the card. */
+.colFigure {
+  inline-size: var(--space-8);
+}
+
+.colSpread {
+  inline-size: calc(var(--space-8) + var(--space-5));
+}
+
+.colCount {
+  inline-size: var(--space-8);
+}
+
+.subhead span {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+}

@@ -38,19 +38,19 @@ describe('scorers', () => {
     expect(scoreHot([], composition([metric('open-prs', 1)])).pass).toBe(true)
   })
 
-  it('bindings read the context path and compare to one decimal; a piece left out is skipped', () => {
+  it('bindings read the context path and compare to one decimal; a piece left out fails', () => {
     const ctx = { measures: { 'open-prs': { value: 2525 }, 'review-wait-median': { value: 1.14 }, 'failing-checks': { value: { count: 57, total: 485 } } } }
     expect(at(ctx, 'measures.open-prs.value')).toBe(2525)
     const c = composition([metric('open-prs', 2525), metric('review-wait-median', 1.1)])
     const bindings = [
       { id: 'metric:open-prs', prop: 'value', equals: 'measures.open-prs.value' },
       { id: 'metric:review-wait-median', prop: 'value', equals: 'measures.review-wait-median.value' },
-      { id: 'metric:not-composed', prop: 'value', equals: 'measures.contributors.value' },
       { id: 'metric:failing-checks', prop: 'value', equals: 'measures.failing-checks.value' },
     ]
     const withCount = composition([metric('open-prs', 2525), metric('review-wait-median', 1.1), metric('failing-checks', 57)])
     expect(scoreBindings(bindings, withCount, ctx)).toEqual({ pass: true, value: 1 })
-    expect(scoreBindings(bindings, c, ctx)).toEqual({ pass: true, value: 1 })
+    expect(scoreBindings(bindings.slice(0, 2), c, ctx)).toEqual({ pass: true, value: 1 })
+    expect(scoreBindings([{ id: 'metric:not-composed', prop: 'value', equals: 'measures.contributors.value' }], c, ctx)).toMatchObject({ pass: false, value: 0, reason: 'metric:not-composed is not on screen' })
     const wrong = composition([metric('open-prs', 2524)])
     expect(scoreBindings(bindings.slice(0, 1), wrong, ctx)).toMatchObject({ pass: false, value: 0, reason: 'metric:open-prs.value is 2524, measures.open-prs.value is 2525' })
   })

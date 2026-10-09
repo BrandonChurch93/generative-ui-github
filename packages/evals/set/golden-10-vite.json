@@ -19,9 +19,9 @@
         "equals": "measures.prs-merged.value"
       },
       {
-        "id": "metric:review-wait-median",
+        "id": "metric:failing-check-rate",
         "prop": "value",
-        "equals": "measures.review-wait-median.value"
+        "equals": "measures.failing-check-rate.value"
       }
     ],
     "sources": [

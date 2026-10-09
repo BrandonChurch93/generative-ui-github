@@ -87,8 +87,8 @@ const same = (x: unknown, b: unknown) => {
 }
 
 /**
- * Each binding on a piece that is on screen: the prop equals the expression evaluated on the context. A piece the
- * composer left out is the components scorer's business, so it is skipped here, and said so.
+ * Each binding: the piece is on screen and its prop equals the expression evaluated on the context. A piece that
+ * is missing fails, since a template that binds the wrong scope or measure changes the piece's id.
  */
 export function scoreBindings(
   expected: NonNullable<EvalCase['expect']['bindings']>,
@@ -102,8 +102,11 @@ export function scoreBindings(
   let checked = 0
   for (const b of expected) {
     const piece = byId.get(b.id)
-    if (!piece) continue
     checked += 1
+    if (!piece) {
+      wrong.push(`${b.id} is not on screen`)
+      continue
+    }
     const got = at(piece.bound, b.prop)
     const window = (piece.props as { window?: unknown } | undefined)?.window
     const measure = /^measures\.([^.]+)\.value$/.exec(b.equals)?.[1]
@@ -112,7 +115,6 @@ export function scoreBindings(
     if (piece.state && want == null) continue
     if (!same(got, want)) wrong.push(`${b.id}.${b.prop} is ${String(got)}, ${b.equals} is ${String(want)}`)
   }
-  if (!checked) return { pass: true, value: 1, reason: 'no expected piece on screen' }
   const value = Number(((checked - wrong.length) / checked).toFixed(3))
   return wrong.length ? { pass: false, value, reason: wrong.join(' · ') } : { pass: true, value }
 }

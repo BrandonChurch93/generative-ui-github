@@ -49,5 +49,11 @@ describe('the runner', () => {
     const wrong = await runCase(c, 'production', { models: model('overview').client, github: gh.client, cache: memoryCache() })
     expect(wrong.scores.template).toEqual({ pass: false, reason: 'routed to overview, expected ci-trend' })
     expect(aggregate([r, { ...wrong, run: 2 }]).pass.template).toEqual({ mean: 0.5, min: 0, max: 1, n: 1 })
+
+    // A composition that errors is a failure on every scorer it expected, never an unscored case.
+    const broken: ModelClient = { ...m.client, json: async () => { throw new Error('the model is down') } }
+    const failed = await runCase(c, 'production', { models: broken, github: gh.client, cache: memoryCache() })
+    expect(failed.outcome).toBe('failed')
+    expect([failed.scores.template?.pass, failed.scores.components?.pass, failed.scores.bindings?.pass]).toEqual([false, false, false])
   })
 })

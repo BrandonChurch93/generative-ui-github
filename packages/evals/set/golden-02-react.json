@@ -34,11 +34,6 @@
         "id": "metric:failing-checks",
         "prop": "value",
         "equals": "measures.failing-checks.value"
-      },
-      {
-        "id": "metric:milestone-issues-open",
-        "prop": "value",
-        "equals": "measures.milestone-issues-open.value"
       }
     ],
     "sources": [

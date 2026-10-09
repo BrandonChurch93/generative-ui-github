@@ -52,6 +52,9 @@ importers:
       '@genui-github/data':
         specifier: workspace:*
         version: link:../../packages/data
+      '@genui-github/evals':
+        specifier: workspace:*
+        version: link:../../packages/evals
       '@genui-github/renderer':
         specifier: workspace:*
         version: link:../../packages/renderer

@@ -16,6 +16,7 @@ const config: NextConfig = {
   outputFileTracingIncludes: {
     '/api/compose': ['../../packages/data/samples/**', '../../packages/composer/golden/**', '../../packages/composer/fixtures/near-empty/**'],
     '/r/[owner]/[name]': ['../../packages/data/samples/**'],
+    '/evals': ['../../packages/evals/results/**'],
   },
   turbopack: { root: repoRoot },
 }

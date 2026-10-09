@@ -1,0 +1,87 @@
+/* The results page's stack: chrome, the production numbers, the charts, a card per model, the failing cases, the strip. */
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--region-gap);
+  padding-block-start: var(--space-7);
+}
+
+.lede {
+  margin: var(--space-4) 0 0;
+  max-inline-size: 62ch;
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-leading);
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+.lede b {
+  font-weight: var(--text-card-title-weight);
+  color: var(--ink);
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.metrics > * {
+  min-inline-size: 0;
+}
+
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.models {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  grid-auto-flow: column;
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.note {
+  margin: 0;
+  padding-inline: var(--edge);
+  max-inline-size: 80ch;
+  font-size: var(--text-hint-size);
+  line-height: var(--text-hint-leading);
+  font-weight: var(--text-hint-weight);
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+/* raw-ok: media conditions cannot read custom properties; these are the shell's breakpoints. */
+@media (max-width: 1023px) {
+  .metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .split,
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-auto-flow: row;
+  }
+}
+
+/* raw-ok: media conditions cannot read custom properties. */
+@media (max-width: 639px) {
+  .page {
+    padding-block-start: var(--space-5);
+  }
+
+  .metrics {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
