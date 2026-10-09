@@ -1,0 +1,19 @@
+/* The composed screen's stack: chrome, answer, strip, each a region gap apart. */
+.screen {
+  --edge: calc(var(--inset) + var(--hairline));
+  display: flex;
+  flex-direction: column;
+  gap: var(--region-gap);
+  padding-block-start: var(--space-7);
+}
+
+.answer {
+  min-inline-size: 0;
+}
+
+/* raw-ok: media conditions cannot read custom properties. */
+@media (max-width: 639px) {
+  .screen {
+    padding-block-start: var(--space-5);
+  }
+}

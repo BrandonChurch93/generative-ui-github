@@ -1,0 +1,249 @@
+/* The chrome above the answer: eyebrow, question, the built receipt, the follow-up questions. On the content edge. */
+.chrome {
+  display: flex;
+  flex-direction: column;
+  padding-inline: var(--edge);
+}
+
+.top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: last baseline;
+  column-gap: var(--space-7);
+}
+
+.eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-4);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  block-size: var(--chip-h);
+  padding: 0 var(--space-2);
+  border: var(--hairline) solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: 1;
+  letter-spacing: var(--text-meta-tracking);
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.repo {
+  block-size: var(--chip-h);
+  padding-block: 0;
+}
+
+.note {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  letter-spacing: var(--text-meta-tracking);
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.question {
+  margin: 0;
+  max-inline-size: 22ch;
+  font-size: clamp(var(--question-min), calc(var(--question-min) * 0.786 + 1.524vw), var(--text-question-size));
+  line-height: var(--text-question-leading);
+  font-weight: var(--text-question-weight);
+  letter-spacing: var(--text-question-tracking);
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.built {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-1);
+  margin: 0;
+  padding: var(--space-1) var(--space-2);
+  margin-inline-end: calc(var(--space-2) * -1);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: end;
+  cursor: pointer;
+}
+
+.built:hover {
+  background: var(--surface-tint);
+}
+
+.built:focus-visible {
+  outline: var(--focus-ring) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+
+.num {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin-block-end: var(--space-1);
+  font-size: var(--text-built-size);
+  line-height: var(--text-built-leading);
+  font-weight: var(--text-built-weight);
+  letter-spacing: var(--text-built-tracking);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.num small {
+  font-family: var(--font-mono);
+  font-size: var(--text-suffix-size);
+  line-height: 1;
+  font-weight: var(--text-suffix-weight);
+  letter-spacing: 0;
+  color: var(--muted);
+}
+
+.meta {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  letter-spacing: var(--text-meta-tracking);
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.cached {
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--line-soft);
+}
+
+.notice {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin: var(--space-4) 0 0;
+  max-inline-size: 80ch;
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-leading);
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+.notice b {
+  font-weight: var(--text-label-weight);
+  color: var(--ink);
+}
+
+.notice > span:first-child {
+  align-self: center;
+}
+
+.asks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-5) 0 0;
+}
+
+.ask {
+  display: inline-flex;
+  align-items: center;
+  max-inline-size: 100%;
+  block-size: var(--ask-chip-h);
+  margin: 0;
+  padding: 0 var(--space-3);
+  border: var(--hairline) solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  font-family: var(--font-sans);
+  font-size: var(--text-label-size);
+  line-height: 1;
+  font-weight: var(--text-label-weight);
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition:
+    color 250ms cubic-bezier(0.25, 1, 0.5, 1),
+    box-shadow 250ms cubic-bezier(0.25, 1, 0.5, 1),
+    transform 250ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.ask:hover {
+  color: var(--ink);
+  box-shadow: var(--card-hover);
+  transform: translateY(calc(var(--hairline) * -1));
+}
+
+/* A full accent border: the study's 45% border measured 1.89:1 on surface-tint, under the 3:1 a selected state needs. */
+.ask[aria-current='true'] {
+  border-color: var(--accent);
+  background: var(--surface-tint);
+  color: var(--ink);
+}
+
+.ask:focus-visible {
+  outline: var(--focus-ring) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+
+@media (prefers-contrast: more) {
+  .chip,
+  .ask:not([aria-current='true']) {
+    border-color: var(--muted);
+  }
+}
+
+/* raw-ok: media conditions cannot read custom properties. */
+@media (max-width: 639px) {
+  .top {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--space-4);
+  }
+
+  .eyebrow {
+    margin-block-end: var(--space-3);
+  }
+
+  .built {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    justify-self: start;
+    column-gap: var(--space-3);
+    row-gap: 0;
+    margin-inline: calc(var(--space-2) * -1) 0;
+    text-align: start;
+  }
+
+  .num {
+    grid-row: span 2;
+    margin: 0;
+  }
+
+  .meta {
+    white-space: normal;
+  }
+
+  .asks {
+    margin-block-start: var(--space-4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ask {
+    transition: none;
+  }
+
+  .ask:hover {
+    transform: none;
+  }
+}

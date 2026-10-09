@@ -1,0 +1,132 @@
+/* The ask tray, fixed at the foot of a composed screen: the field, send, and the reader's density. */
+.tray {
+  position: fixed;
+  inset-inline-start: 50%;
+  inset-block-end: var(--space-5);
+  z-index: 20;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  inline-size: min(var(--tray-max), calc(100% - 2 * var(--space-4)));
+  block-size: var(--tray-h);
+  margin: 0;
+  padding: var(--space-1);
+  background: var(--surface);
+  border: var(--hairline) solid var(--line);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--tray);
+}
+
+.ask {
+  flex: 1;
+  min-inline-size: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  block-size: var(--send);
+  padding-inline-start: var(--space-4);
+  border-radius: var(--radius-pill);
+}
+
+.ask:focus-within {
+  outline: var(--focus-ring) solid var(--focus);
+  outline-offset: calc(var(--focus-ring) * -1);
+}
+
+.input {
+  flex: 1;
+  min-inline-size: 0;
+  block-size: 100%;
+  margin: 0;
+  padding: 0 var(--space-2) 0 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-sans);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-leading);
+  color: var(--ink);
+  outline: none;
+  text-overflow: ellipsis;
+}
+
+.input::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+
+.input:disabled {
+  cursor: not-allowed;
+}
+
+.send {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  inline-size: var(--send);
+  block-size: var(--send);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--surface-tint);
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.send[data-ready] {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: var(--accent-ink);
+}
+
+.send:disabled {
+  cursor: not-allowed;
+}
+
+.send:focus-visible {
+  outline: var(--focus-ring) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+
+.rule {
+  flex-shrink: 0;
+  inline-size: var(--hairline);
+  block-size: var(--chip-h);
+  margin: 0 var(--space-2);
+  background: var(--line);
+}
+
+.tray .density {
+  flex-shrink: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  gap: calc(var(--space-1) / 2);
+}
+
+.tray .density button {
+  block-size: var(--seg-h);
+}
+
+.tray .density button:focus-visible {
+  outline: var(--focus-ring) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+
+/* raw-ok: media conditions cannot read custom properties. */
+@media (max-width: 639px) {
+  .tray {
+    inset-block-end: var(--space-4);
+    inline-size: calc(100% - 2 * var(--space-4));
+  }
+
+  .input {
+    /* iOS Safari zooms into any field under 16px. */
+    font-size: 1rem;
+  }
+
+  .rule,
+  .tray .density {
+    display: none;
+  }
+}

@@ -1,0 +1,32 @@
+/* The strip under the answer: what the composition read and how long each step took. Chrome on the container edge, words on the content edge. */
+.strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2) var(--space-6);
+  margin: 0;
+  padding: var(--space-4) var(--edge) 0;
+  border-block-start: var(--hairline) solid var(--line);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  letter-spacing: var(--text-meta-tracking);
+  color: var(--muted);
+}
+
+.strip b {
+  font-weight: var(--text-handle-weight);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.end {
+  margin-inline-start: auto;
+}
+
+/* raw-ok: media conditions cannot read custom properties. */
+@media (max-width: 639px) {
+  .end {
+    margin-inline-start: 0;
+  }
+}

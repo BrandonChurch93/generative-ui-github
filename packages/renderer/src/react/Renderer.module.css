@@ -66,6 +66,11 @@
   display: none;
 }
 
+.action {
+  /* The action card takes one column: the same width as the main card above it, so its edges line up. */
+  inline-size: calc((100% - var(--space-4)) / 2);
+}
+
 .main,
 .side {
   display: flex;
@@ -93,6 +98,14 @@
   .metrics,
   .metrics[data-count='3'] {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .split {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .action {
+    inline-size: auto;
   }
 }
 

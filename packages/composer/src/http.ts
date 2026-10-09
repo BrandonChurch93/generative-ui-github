@@ -67,6 +67,7 @@ function stream(ops: AsyncIterable<StreamOp>, notice: Notice): Response {
     },
   })
   const headers: Record<string, string> = { 'content-type': 'application/x-ndjson', 'cache-control': 'no-store' }
+  if (notice.served) headers['x-genui-served'] = notice.served
   if (notice.cachedAt) headers['x-genui-cached-at'] = notice.cachedAt
   if (notice.capped) headers['x-genui-capped'] = notice.capped
   return new Response(body, { status: 200, headers })

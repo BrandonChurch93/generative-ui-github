@@ -75,6 +75,8 @@ export type Refusal =
 
 /** What the shell says about an answer it is given: from the cache, and whether new questions are paused. */
 export interface Notice {
+  /** An answer that was not composed for this request: a committed golden one, or one from the answer cache. */
+  served?: 'golden' | 'cache'
   /** When the answer was composed, if it came from the answer cache. */
   cachedAt?: string
   /** Set at the daily cap: when live questions open again. */
@@ -90,8 +92,8 @@ export const timeWords = (iso: string | undefined, zone = 'UTC') =>
  * A composed answer, kept as long as the data under it: what a share URL replays without a model call. Keyed
  * by a hash, so the cache holds no question text.
  */
-export const answerKey = (repo: RepoRef, question: string, from?: { id: string }) =>
-  `answer:${`${repo.owner}/${repo.name}`.toLowerCase()}:${createHash('sha256').update(`${question.trim().toLowerCase().replace(/\s+/g, ' ')}\n${from?.id ?? ''}`).digest('hex').slice(0, 32)}`
+export const answerKey = (repo: RepoRef, question: string, from?: { id: string; ask: string }) =>
+  `answer:${`${repo.owner}/${repo.name}`.toLowerCase()}:${createHash('sha256').update(`${question.trim().toLowerCase().replace(/\s+/g, ' ')}\n${from ? `${from.id}\n${from.ask}` : ''}`).digest('hex').slice(0, 32)}`
 
 /** Replays a finished composition as stream ops, insight first, then metrics, then the regions, then done. */
 async function* replay(composition: Composition): AsyncIterable<StreamOp> {
@@ -113,15 +115,16 @@ export async function compose(input: ComposeInput, deps: ComposeDeps): Promise<C
   // A counter that cannot be read must not take down the answers that need no model.
   const atCap = (await deps.limits.spend(day).catch(() => 0)) >= deps.dailyCapUsd
   const notice: Notice = atCap ? { capped: resetAt(started) } : {}
-  const served = (c: Composition) => replay({ ...c, built: { ...c.built, latencyMs: { ...c.built.latencyMs, total: now() - started } } })
+  // The receipt stays the original composition's: opening a kept answer takes no time worth printing.
+  const served = (c: Composition) => replay(c)
 
   if (sample && !input.from) {
     const golden = goldenComposition(sample, input.question)
-    if (golden) return { kind: 'stream', ops: served(golden), notice }
+    if (golden) return { kind: 'stream', ops: served(golden), notice: { ...notice, served: 'golden' } }
   }
 
   const cached = await deps.cache.get<Composition>(answerKey(sample ?? parsed, input.question, input.from)).catch(() => null)
-  if (cached) return { kind: 'stream', ops: served(cached.value), notice: { ...notice, cachedAt: cached.cachedAt } }
+  if (cached) return { kind: 'stream', ops: served(cached.value), notice: { ...notice, served: 'cache', cachedAt: cached.cachedAt } }
 
   if (atCap) return { kind: 'refused', refusal: { kind: 'daily-cap', message: SYSTEM_SENTENCES.dailyCap, resetAt: resetAt(started) } }
   if ((await deps.limits.visitorCount(deps.visitor, day)) >= VISITOR_LIMIT) {

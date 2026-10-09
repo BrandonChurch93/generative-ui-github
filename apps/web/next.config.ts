@@ -13,7 +13,10 @@ const config: NextConfig = {
   transpilePackages: ['@genui-github/core', '@genui-github/ui', '@genui-github/data', '@genui-github/renderer', '@genui-github/composer'],
   outputFileTracingRoot: repoRoot,
   // The composer reads the committed samples and golden compositions by path at request time.
-  outputFileTracingIncludes: { '/api/compose': ['../../packages/data/samples/**', '../../packages/composer/golden/**'] },
+  outputFileTracingIncludes: {
+    '/api/compose': ['../../packages/data/samples/**', '../../packages/composer/golden/**'],
+    '/r/[owner]/[name]': ['../../packages/data/samples/**'],
+  },
   turbopack: { root: repoRoot },
 }
 

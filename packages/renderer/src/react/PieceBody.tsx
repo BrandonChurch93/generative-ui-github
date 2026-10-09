@@ -64,6 +64,8 @@ class PieceBoundary extends Component<{ node: RenderNode; children: ReactNode },
  */
 export class PieceBody extends Component<PieceBodyProps> {
   private ref = createRef<HTMLDivElement>()
+  /** The plan this piece last entered for: StrictMode mounts a class twice, and a second enter would fight the first. */
+  private entered?: Plan
 
   /** The component's own root, which every `motion.ts` takes. */
   root(): HTMLElement | null {
@@ -104,6 +106,8 @@ export class PieceBody extends Component<PieceBodyProps> {
     const root = this.root()
     const { node, def, reduced } = this.props
     if (!root || !this.moves() || node.state !== 'default') return
+    if (this.entered === this.props.plan) return
+    this.entered = this.props.plan
     const delay = cue.at + (NO_CARD.has(node.component) ? 0 : INSIDE_DELAY)
     this.run(() => later(delay, def!.motion.enter(root, node.props, { reduced })))
     this.markInsight(delay)

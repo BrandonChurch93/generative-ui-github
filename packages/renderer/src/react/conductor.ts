@@ -21,6 +21,11 @@ function mark(name: string, detail?: unknown) {
  * Owns every animation of one screen change. A new change finishes whatever is still running, so two
  * timelines never run at once and nothing is left half drawn.
  */
+export interface MotionHandle {
+  complete(): void
+  finished: Promise<void>
+}
+
 export class Conductor {
   generation = 0
   private running = new Set<Running>()
@@ -85,10 +90,20 @@ export class Conductor {
     return tl
   }
 
-  /** A Motion animation on a piece's wrapper. */
-  motion(controls: AnimationPlaybackControls, generation = this.generation, onDone?: () => void, label?: string): AnimationPlaybackControls {
-    this.track(() => controls.complete(), controls.finished, generation, onDone, label)
-    return controls
+  /**
+   * A Motion animation on a piece's wrapper. Motion never settles `finished` for an animation that a newer one
+   * on the same element replaced, so the returned handle resolves on its own when it is completed early.
+   */
+  motion(controls: AnimationPlaybackControls, generation = this.generation, onDone?: () => void, label?: string): MotionHandle {
+    let resolve!: () => void
+    const finished = new Promise<void>(r => (resolve = r))
+    controls.finished.then(() => resolve(), () => resolve())
+    const complete = () => {
+      controls.complete()
+      resolve()
+    }
+    this.track(complete, finished, generation, onDone, label)
+    return { complete, finished }
   }
 
   /** The insight is readable: its sentence has finished arriving. */

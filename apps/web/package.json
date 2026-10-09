@@ -16,6 +16,7 @@
   "dependencies": {
     "@genui-github/composer": "workspace:*",
     "@genui-github/core": "workspace:*",
+    "@genui-github/data": "workspace:*",
     "@genui-github/renderer": "workspace:*",
     "@genui-github/ui": "workspace:*",
     "@next/env": "16.4.0",
