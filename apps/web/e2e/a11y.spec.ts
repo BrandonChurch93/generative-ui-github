@@ -33,3 +33,13 @@ test('every catalog page and state has no serious accessibility issues @a11y', a
   }
   expect(found).toEqual([])
 })
+
+test('the three composed screens have no serious accessibility issues @a11y', async ({ page }, info) => {
+  test.skip(info.project.name === 'unconfigured', 'the renderer does not depend on configuration')
+  for (const fixture of ['1', '2', '3']) {
+    // Reduced motion, so contrast is measured on the settled screen, never mid-fade.
+    await page.goto(`/dev/render?fixture=${fixture}&reduced`)
+    await page.locator('[data-phase="settled"]').waitFor()
+    expect(await serious(page)).toEqual([])
+  }
+})

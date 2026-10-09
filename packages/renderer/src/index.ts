@@ -4,3 +4,7 @@ export { applyRules, PIECE_ERRORS, SYSTEM_COMPONENTS, validatePiece, validateReg
 export { toScreen } from './screen'
 export { diff, sameNode, type Diff, type DiffEntry } from './diff'
 export { fromA2UI, toA2UI } from './a2ui'
+export { plan, EXIT_LEAD, INSIDE_DELAY, PIECE_STAGGER, REGION_STAGGER, type Cue, type CueAction, type Plan } from './choreography'
+export { Renderer, COMPOSITION_FAILED, type RendererProps } from './react/Renderer'
+export { type AskEvent, type RendererHandlers } from './react/PieceFrame'
+export { Conductor, MARKS } from './react/conductor'

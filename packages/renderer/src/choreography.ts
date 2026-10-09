@@ -23,8 +23,11 @@ export interface Plan {
 export const REGION_STAGGER = (CHOREOGRAPHY.regionStagger.min + CHOREOGRAPHY.regionStagger.max) / 2
 /** Metrics rise left to right, this far apart; a second piece stacked in a column follows the first the same way. */
 export const PIECE_STAGGER = CHOREOGRAPHY.metricStagger
-/** In a rewrite, a region's exits run this far ahead of its entrances. */
-export const EXIT_LEAD = 0.12
+/**
+ * In a rewrite, a region's exits run this far ahead of its entrances: long enough that a leaving card has
+ * mostly gone before the card taking its place rises, since both stand in the same spot.
+ */
+export const EXIT_LEAD = 0.3
 /** A card's insides start after its rise has begun, so the rise reads first. */
 export const INSIDE_DELAY = 0.15
 

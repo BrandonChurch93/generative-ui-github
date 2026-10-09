@@ -43,6 +43,9 @@ importers:
       '@genui-github/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@genui-github/renderer':
+        specifier: workspace:*
+        version: link:../../packages/renderer
       '@genui-github/ui':
         specifier: workspace:*
         version: link:../../packages/ui

@@ -26,10 +26,10 @@ export class Conductor {
   private running = new Set<Running>()
   private pending = 0
   private insightMarked = false
-  private onSettle?: (generation: number) => void
+  private onPhase?: (phase: 'composing' | 'settled', generation: number) => void
 
-  constructor(options: { onSettle?: (generation: number) => void } = {}) {
-    this.onSettle = options.onSettle
+  constructor(options: { onPhase?: (phase: 'composing' | 'settled', generation: number) => void } = {}) {
+    this.onPhase = options.onPhase
   }
 
   /** Starts a screen change: whatever the last one left running jumps to its end. */
@@ -41,6 +41,7 @@ export class Conductor {
     this.insightMarked = false
     mark(MARKS.start, { generation: this.generation })
     const generation = this.generation
+    this.onPhase?.('composing', generation)
     // Pieces register in their layout effects; if none did, the change settles at once.
     queueMicrotask(() => {
       if (generation === this.generation && this.pending === 0) this.settle()
@@ -48,12 +49,13 @@ export class Conductor {
     return generation
   }
 
-  private track(finish: () => void, done: Promise<unknown>, generation: number, onDone?: () => void) {
+  private track(finish: () => void, done: Promise<unknown>, generation: number, onDone?: () => void, label?: string) {
     const entry: Running = { finish }
     this.running.add(entry)
     if (generation === this.generation) this.pending += 1
     const close = () => {
       this.running.delete(entry)
+      if (label && generation === this.generation) mark(`genui:done:${label}`, { generation })
       onDone?.()
       if (generation !== this.generation) return
       this.pending -= 1
@@ -63,7 +65,7 @@ export class Conductor {
   }
 
   /** A GSAP timeline the change started. */
-  timeline(tl: gsap.core.Timeline, generation = this.generation, onDone?: () => void): gsap.core.Timeline {
+  timeline(tl: gsap.core.Timeline, generation = this.generation, onDone?: () => void, label?: string): gsap.core.Timeline {
     let resolve!: () => void
     const done = new Promise<void>(r => (resolve = r))
     // An empty timeline never ticks to completion, so it would hold the screen open forever.
@@ -78,13 +80,14 @@ export class Conductor {
       done,
       generation,
       onDone,
+      label,
     )
     return tl
   }
 
   /** A Motion animation on a piece's wrapper. */
-  motion(controls: AnimationPlaybackControls, generation = this.generation, onDone?: () => void): AnimationPlaybackControls {
-    this.track(() => controls.complete(), controls.finished, generation, onDone)
+  motion(controls: AnimationPlaybackControls, generation = this.generation, onDone?: () => void, label?: string): AnimationPlaybackControls {
+    this.track(() => controls.complete(), controls.finished, generation, onDone, label)
     return controls
   }
 
@@ -104,7 +107,7 @@ export class Conductor {
         // A cleared mark buffer is not worth failing a screen over.
       }
     }
-    this.onSettle?.(this.generation)
+    this.onPhase?.('settled', this.generation)
   }
 
   /** Finishes everything; for unmount. */

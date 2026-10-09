@@ -1,0 +1,109 @@
+/* The composed screen: five regions top to bottom, spaced by the density's region gap. */
+.screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--region-gap);
+  color: var(--ink);
+  font-family: var(--font-sans);
+}
+
+.question {
+  margin: 0;
+  max-inline-size: 22ch;
+  font-size: var(--text-question-size);
+  line-height: var(--text-question-leading);
+  font-weight: var(--text-question-weight);
+  letter-spacing: var(--text-question-tracking);
+  text-wrap: balance;
+}
+
+/* popLayout lifts a leaving piece out of the flow, measured against its region. */
+.insight,
+.metrics,
+.main,
+.side,
+.action {
+  position: relative;
+  min-inline-size: 0;
+}
+
+.insight:empty,
+.metrics:empty,
+.action:empty {
+  display: none;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.metrics[data-count='1'] {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.metrics[data-count='2'] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.metrics[data-count='3'] {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.split[data-columns='1'] {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.split:has(> .main:empty):has(> .side:empty) {
+  display: none;
+}
+
+.main,
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.piece {
+  position: relative;
+  min-inline-size: 0;
+}
+
+/* The bloom when the model raises a card's emphasis: the same warmth ActionCard has on arrival. */
+.warmth {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--bloom);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* raw-ok: media conditions cannot read custom properties; these are the shell's breakpoints. */
+@media (max-width: 1023px) {
+  .metrics,
+  .metrics[data-count='3'] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* raw-ok: media conditions cannot read custom properties. */
+@media (max-width: 639px) {
+  .metrics,
+  .metrics[data-count] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .split {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

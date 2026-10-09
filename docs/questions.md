@@ -59,3 +59,24 @@ The sentence in `docs/composer.md` ("... The milestone closes in 4 days.") is 12
 
 - Assumed: fixture 1 says "It closes in 4 days." instead. Same facts and numbers.
 - Check: whether the cap should be 140 instead. Real sentences of this shape will hit 120 often.
+
+## 3.5 · Where the screen's clock starts, and what "insight visible" means
+
+`design-system/motion.md` puts the chrome first and the insight 160 to 200ms after it, and says the answer is visible in under a second. The insight's wipe alone is 900ms, so starting it 160ms after the chrome would finish it at 1.06s.
+
+- Assumed: the renderer's clock starts at the insight (the answer arrives first), and its header question wipes at the same moment. The shell's chrome (eyebrow, built block, question chips) runs outside it in Phase 6. "Visible" is when the insight's sentence has finished wiping in (its rule keeps drawing after). Measured on fixture 1 in a production build: insight at 0.90s, screen complete at 2.53s, regions 180ms apart, metrics 80ms apart.
+- Check: whether the chrome should lead the insight in the shell, which would push "visible" to about 1.06s.
+
+## 3.11 · "No timeline longer than 200ms" under reduced motion
+
+`motion.md` keeps the composition's order and offsets under reduced motion, so a staggered list still fades row by row 70ms apart, and its timeline runs longer than 200ms in total.
+
+- Assumed: the test asserts every move (each target's own tween) is an opacity change of 200ms or less, and that the wrapper's Motion animations are opacity-only at 200ms. Offsets stay.
+- Check: whether reduced motion should also drop the offsets, so everything fades at once.
+
+## 3.7 · What `emphasis` looks like
+
+No component reads `emphasis`, and the docs give it no appearance. Fixture 2 re-emphasizes the CI chart ("the failure strip comes forward").
+
+- Assumed: a piece whose emphasis rises to `high` blooms once (the warmth ActionCard has on arrival, behind its card). Nothing else changes.
+- Check: whether `high` should also change the card (a stronger border, the strip's contrast) and what `low` should do.
