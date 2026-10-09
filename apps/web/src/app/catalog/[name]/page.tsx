@@ -46,7 +46,7 @@ export default async function ComponentPage({
           {entry.spec && !entry.spec.pickable && <code className={styles.chip}>not pickable</code>}
         </p>
       </header>
-      <ComponentViewer name={entry.name} initialDensity={density} initialState={state} still={still !== undefined} />
+      <ComponentViewer key={entry.name} name={entry.name} initialDensity={density} initialState={state} still={still !== undefined} />
     </article>
   )
 }

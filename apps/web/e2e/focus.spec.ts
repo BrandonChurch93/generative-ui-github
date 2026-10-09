@@ -46,3 +46,31 @@ test('every interactive element on /catalog/parts shows the focus ring', async (
   expect(seen.length).toBe(tabStops)
   expect(failures).toEqual([])
 })
+
+test('the catalog filter and its sidebar links show the focus ring', async ({ page }) => {
+  await page.goto('/catalog/Metric')
+  const focus = await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--focus').trim())
+  const expected = await page.evaluate(hex => {
+    const probe = document.createElement('span')
+    probe.style.color = hex
+    document.body.append(probe)
+    const rgb = getComputedStyle(probe).color
+    probe.remove()
+    return rgb
+  }, focus)
+  const ring = () =>
+    page.evaluate(() => {
+      const el = document.activeElement as HTMLElement
+      const s = getComputedStyle(el)
+      return { label: el.getAttribute('aria-label') ?? el.textContent?.trim() ?? el.tagName, ring: `${s.outlineStyle} ${s.outlineWidth} ${s.outlineOffset} ${s.outlineColor}` }
+    })
+
+  const field = page.getByRole('searchbox', { name: 'Filter components' })
+  for (let i = 0; i < 40 && !(await field.evaluate(el => el === document.activeElement)); i++) await page.keyboard.press('Tab')
+  await expect(field).toBeFocused()
+  expect((await ring()).ring).toBe(`solid 2px 2px ${expected}`)
+  await page.keyboard.press('Tab')
+  const link = await ring()
+  expect(link.label).toBe('Metric')
+  expect(link.ring).toBe(`solid 2px 2px ${expected}`)
+})
