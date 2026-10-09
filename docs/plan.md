@@ -173,10 +173,10 @@ Prompt: `prompts/06-shell.md`. Reference renderings: `design-system/screens/*.ht
 Prompt: `prompts/07-evals.md`. Spec: `docs/evals.md`.
 
 - [x] 7.1 Scorers with unit tests. Done when each scorer has a test.
-- [ ] 7.2 Runner: calls the composer directly (not the route, so limits and the cap do not apply), three runs each for `production`, `sonnet`, `haiku`, writes `packages/evals/results/<date>-<model>.json`. Done when one full run completes and every case has every score.
+- [x] 7.2 Runner: calls the composer directly (not the route, so limits and the cap do not apply), three runs each for `production`, `sonnet`, `haiku`, writes `packages/evals/results/<date>-<model>.json`. Done when one full run completes and every case has every score.
 - [x] 7.3 Results page `/evals`: `screens/Evals.html`, composed from the catalog. Done when it renders the latest results.
 - [x] 7.4 Regression gate `pnpm evals:check`: fails if template accuracy or bindings on the 60 golden cases drop below the last recorded `production` run. Done when a deliberately broken template fails it.
-- [ ] 7.5 Commit the first baseline results (override the gitignore for this one file set). Put the aggregate table in `docs/status.md`. Done when `git show --stat` lists the three results files and `docs/status.md` carries the table.
+- [x] 7.5 Commit the first baseline results (override the gitignore for this one file set). Put the aggregate table in `docs/status.md`. Done when `git show --stat` lists the three results files and `docs/status.md` carries the table.
 
 Continue into Phase 8 without stopping.
 
@@ -186,7 +186,7 @@ Continue into Phase 8 without stopping.
 
 Prompt: `prompts/08-mcp.md`
 
-- [ ] 8.1 Write `docs/dark-theme-brief.md` for the owner to hand to design: every token needing a dark value, the grounds each contrast figure is redone on, the special cases (hot card, heat ramp, diff tints, focus ring, crit on dark). Done when the file exists. `OWNER` takes it from there.
+- [x] 8.1 Write `docs/dark-theme-brief.md` for the owner to hand to design: every token needing a dark value, the grounds each contrast figure is redone on, the special cases (hot card, heat ramp, diff tints, focus ring, crit on dark). Done when the file exists. `OWNER` takes it from there.
 - [ ] 8.2 `apps/mcp-app`: an MCP server exposing `compose(repo, question)` and returning a UI resource per the current MCP Apps spec (read it from the official source; record the version in `docs/decisions.md`). Done when the MCP inspector lists the tool and returns a resource.
 - [ ] 8.3 The frame entry: `screens/MCPApp.html`; 420px design width, 360px floor, container queries, regions only, the composer told the frame width. Done when the three fixtures render inside a 420px iframe with no horizontal scroll.
 - [ ] 8.4 `OWNER` Test in Claude Desktop: "show me the health of vercel/next.js" composes in the pane.

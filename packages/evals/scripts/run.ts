@@ -45,6 +45,11 @@ for (let run = 1; run <= runs; run++) {
   )
   results.push(...batch)
   const failed = batch.filter(r => r.outcome === 'failed')
+  // A run where most cases failed is an outage (credits, a network), not a result; keep the last good file.
+  if (failed.length > batch.length / 2) {
+    out(`${model} run ${run}: ${failed.length} of ${batch.length} failed (${failed[0]?.said}); stopping without writing results`)
+    process.exit(1)
+  }
   out(`${model} run ${run} done in ${Math.round((Date.now() - started) / 1000)}s · ${failed.length} failed${failed.length ? `: ${failed.map(f => `${f.id} (${f.said})`).join('; ')}` : ''}`)
 }
 

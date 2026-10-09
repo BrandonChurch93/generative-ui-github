@@ -2,6 +2,33 @@
 
 Newest entry first. Written at every GATE and whenever a session ends mid-phase.
 
+## 2026-10-09 · Phase 7 done · the three-model baseline
+
+Credits were added and the `sonnet` and `haiku` runs finished; 7.2 and 7.5 are ticked. The three files under `packages/evals/results/2026-10-09-*.json` are the first baseline. 99 cases × 3 runs per model, final scorers; every model composed 291 and refused the 6 it should (the private and missing repos, in every run), with no failures.
+
+| Scorer | production | sonnet | haiku |
+| --- | --- | --- | --- |
+| template | 0.96 | 0.13 | 0.96 (0.96 to 0.97) |
+| components (mean F1) | 1.00 (0.993) | 0.27 (0.749) | 1.00 (0.993) |
+| hot | 1.00 | 0.33 | 1.00 |
+| schema | 1.00 | 0.91 | 0.997 |
+| bindings | 1.00 | 0.35 | 1.00 |
+| numbers | 1.00 | 1.00 | 1.00 |
+| rules | 1.00 | 0.95 | 1.00 |
+| done p50 / p90 | 6.1 s / 8.4 s | 4.7 s / 6.6 s | 6.0 s / 8.6 s |
+| first piece p50 | 6.1 s | 2.6 s | 6.0 s |
+| cost per answer | $0.0019 | $0.0137 | $0.0007 |
+| cost for 297 | $0.56 | $3.99 | $0.20 |
+
+What it says:
+
+- The decision model pays: routing to templates is 96% right, every template answer binds the right numbers, and production costs about a seventh of composing everything with Sonnet. Sonnet composing freely picks the expected components about a quarter of the time, binds the expected metrics a third of the time and writes 9% of its pieces with props the schema refuses; every number it does write is checked and right.
+- `haiku` matches production here because the two differ only on the off-template cases (about 10%), and those cases have no component expectations, so the set does not yet measure the quality of a free composition. Haiku there costs a third of Sonnet. Whether to switch off-template to Haiku is a question for the owner (`docs/questions.md`, 7.2).
+- Sonnet's off-template answers sometimes write non-JSON lines (a stray `<invoke>` tag, a "Correction:" line); the composer skips them.
+- Latency is still over `docs/composer.md`'s targets (the 5.2 to 5.5 entry): the fill dominates, and the first piece of a template answer arrives with the last because the fill runs before anything streams.
+
+Eval spend today: about $10.3 across all runs, inside the $15 budget.
+
 ## 2026-10-09 · Phase 7 stopped · the Anthropic credit balance ran out
 
 Stopped mid-phase, not at a gate: every Anthropic call now answers 400 "Your credit balance is too low to access the Anthropic API." Live questions in the app fail the same way until credits are added; golden questions on the five samples still open (they call no model).

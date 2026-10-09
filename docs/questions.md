@@ -214,3 +214,16 @@ The catalog's Distribution has a minutes-to-days scale with pull request and iss
 Release blockers draws the milestone metrics only with a dated milestone (vite has one; its open-PR metric is then scoped to it), and month compare's second metric is the failing run rate, not review wait. The set now expects what the templates draw. The bindings scorer then became strict: an expected piece missing from the screen fails, which is what lets the gate catch a template that binds the wrong scope.
 
 - Check: whether month compare should show review wait as `docs/golden-questions.md` implies ("Metric ×2 with trend") instead.
+
+## 7.2 · Haiku could compose off-template
+
+On the baseline, the `haiku` run (Haiku composing the off-template questions) matched production on every scorer at a third of the cost, but the off-template cases carry no component or binding expectations, so the set does not measure how good a free composition is.
+
+- Assumed: production keeps Sonnet off-template, as `docs/decisions.md` says.
+- Check: whether to add expectations to the 10 off-template cases (or a judge) so the two can be compared on quality, then decide.
+
+## 7.2 · A template answer's first piece arrives with its last
+
+The fill rewrites the prose of a template composition before anything streams, so the first piece lands at about 6 s with the rest. Streaming the bound pieces first and sending the filled prose as `update` ops would put the first piece under 1 s on a cached sample.
+
+- Check: whether to do that (it changes how the insight arrives: system words first, then the filled sentence).
