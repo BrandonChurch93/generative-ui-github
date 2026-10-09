@@ -24,6 +24,12 @@ Deploy checklist, for the owner:
 5. After the first deploy: open `/api/health` (the counters should survive a redeploy once KV is linked), ask a golden question and check the built block says no model was called, then run `pnpm lighthouse` against the production URL.
 6. For the MCP App, set `GENUI_APP_URL` to the production URL in the Claude Desktop config (`docs/questions.md` 8.4).
 
+**10.4 About page and launch copy (executor side done)**
+
+- `/about` replaces the placeholder (`design-system/screens/About.html`): the idea, the five-step flow, the four layers, what the decision model saved (four Metrics and a three-run table read from `packages/evals/results/` at request time), the design system, what it does not do, links. axe clean at 1440 and 390; one column with no sideways scroll at 390; `pnpm e2e` (40) and `pnpm a11y` (6) pass.
+- `docs/launch.md` has a "Draft for approval" block under the portfolio page and under the LinkedIn post. The LinkedIn draft's claims were corrected to the measured results, each change listed under it (for example "on every axis" was false: Sonnet alone was faster, 4.7 s against 6.1 s, but far less accurate and 7 times the cost; "40+" is 40).
+- Owner inputs still needed: portfolio and LinkedIn URLs, the live URL after deploying, npm links after publishing, the video; confirm the byline, that the repo will be public, and the "next thing to fix" line in both drafts.
+
 **10.2 npm tarballs (executor side done)**
 
 - `pnpm pack` of `@genui-github/ui` and `@genui-github/renderer` 0.1.0 (manifests use the `dist` exports, `workspace:*` rewritten to `0.1.0`). Installed from the tarballs into a clean Vite 8 and React 19 app outside the workspace: it typechecks against the shipped types, builds, and renders fixture 1 with all 8 pieces settled and no console errors.
