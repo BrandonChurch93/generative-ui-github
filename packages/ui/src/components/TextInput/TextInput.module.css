@@ -116,6 +116,16 @@
   margin-top: calc((var(--text-hint-size) * var(--text-hint-leading) - var(--mark)) / 2);
 }
 
+.check {
+  flex-shrink: 0;
+  align-self: center;
+  color: var(--good);
+}
+
+.message[data-kind="resolved"] {
+  color: var(--good);
+}
+
 .messageText {
   min-width: 0;
 }

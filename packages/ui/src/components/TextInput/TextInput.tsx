@@ -111,6 +111,13 @@ export function TextInput({ props, state, error, onRetry }: PieceRenderProps<Tex
   const id = useId()
   const [value, setValue] = useState(props.value ?? '')
   const [problem, setProblem] = useState<Problem>()
+  // A new value from the host (a sample picked beside the hero) replaces what was typed.
+  const [given, setGiven] = useState(props.value)
+  if (props.value !== given) {
+    setGiven(props.value)
+    setValue(props.value ?? '')
+    setProblem(undefined)
+  }
   // A verdict from GitHub is about the value it checked; once the reader edits, it no longer applies.
   const [editedOver, setEditedOver] = useState<FieldStatus>()
   const status = props.status !== editedOver ? props.status : undefined

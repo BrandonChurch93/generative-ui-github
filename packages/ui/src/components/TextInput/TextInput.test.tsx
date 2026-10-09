@@ -69,6 +69,18 @@ describe('TextInput', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Open repo' }))
     expect(onSubmit).toHaveBeenCalledWith('vercel/next.js')
   })
+
+  it('hero: a value set by the host replaces the typed one, and a resolved value shows a check in the system words', () => {
+    const hero = variant('Hero')
+    const { rerender } = render(<TextInput props={hero} state="default" />)
+    const input = screen.getByLabelText<HTMLInputElement>('Public GitHub repository')
+    fireEvent.change(input, { target: { value: 'half typed' } })
+    rerender(<TextInput props={{ ...hero, value: 'vercel/next.js', status: { kind: 'resolved', value: 'vercel/next.js' } }} state="default" />)
+    expect(input.value).toBe('vercel/next.js')
+    const line = screen.getByText('Found vercel/next.js on GitHub · ready for a question').closest('[data-kind]')!
+    expect(line.getAttribute('data-kind')).toBe('resolved')
+    expect(line.querySelector('[data-check]')).toBeTruthy()
+  })
 })
 
 describe('checkValue', () => {

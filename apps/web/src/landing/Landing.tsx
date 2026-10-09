@@ -2,9 +2,9 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useEffect, useId, useLayoutEffect, useRef, useState, useSyncExternalStore, type ComponentType, type FormEvent, type MouseEvent } from 'react'
+import { useEffect, useId, useRef, useState, useSyncExternalStore, type ComponentType, type FormEvent, type MouseEvent } from 'react'
 import { RepoChip, TextInput as TextInputPiece, type PieceRenderProps } from '@genui-github/ui'
-import { prefersReducedMotion, wipe } from '@genui-github/ui/motion'
+import { prefersReducedMotion } from '@genui-github/ui/motion'
 import type { TextInput } from '@genui-github/ui/schemas'
 import { Frame } from '../shell/Frame'
 import { lastRepo, onLastRepoChange } from '../shell/lastRepo'
@@ -23,11 +23,15 @@ const Field = TextInputPiece as unknown as ComponentType<PieceRenderProps<HeroPr
 const WORDS = {
   placeholder: 'Paste a public GitHub repo',
   helper: 'Public repos only, as owner/name or a github.com link',
+  pickFirst: 'Pick a repo first',
+  action: 'Use repo',
   samples: 'Or try a sample GitHub repo',
-  waiting: 'Pick a repo first. Then type a question or choose one of twelve.',
+  recent: 'Recent',
   ask: 'Type your own question',
   or: 'or pick one',
 } as const
+
+type Resolution = { ok: true; repo: string; sample: boolean } | { ok: false; message: string; kind: 'missing' | 'shape' | 'unreachable' }
 
 /** A typed repo un-mutes step 2 once the typing pauses, so it does not wipe in halfway through a name. */
 const SETTLE_MS = 400
@@ -40,50 +44,98 @@ const QUESTION_MAX = 300
 
 /**
  * The landing: the sentence, then the journey in two numbered steps (pick a repo, ask it a question), then how it
- * works. Step 2 waits in `muted` until a repo is chosen, then turns to ink and its content wipes in. The hero field
- * is the ask, so there is no tray.
+ * works. Step 2 is always whole but muted until a repo is chosen, then turns to ink and comes alive. Choosing a repo
+ * never leaves the page; only a question opens the composed screen.
  */
 export function Landing({ samples, groups, preview }: { samples: string[]; groups: QuestionGroup[]; preview: LandingPreview | null }) {
   const router = useRouter()
   const [repo, setRepo] = useState<string>()
+  // What the hero field shows when the page sets it (a sample, the recent repo), and what GitHub said about it.
+  const [fieldValue, setFieldValue] = useState<string>()
   const [status, setStatus] = useState<TextInput.FieldStatus>()
+  const [pickFirst, setPickFirst] = useState(false)
   // Read after hydration: the server never knows it, so the first paint matches and the slot is reserved.
   const last = useSyncExternalStore(onLastRepoChange, lastRepo, () => undefined)
+  const pickStep = useRef<HTMLElement>(null)
   const askStep = useRef<HTMLElement>(null)
   const typing = useRef<number | undefined>(undefined)
+  const asking = useRef<AbortController | null>(null)
   const pickTitle = useId()
   const askTitle = useId()
   const samplesLabel = useId()
 
-  const open = (value: string) => {
+  const stopChecking = () => {
+    window.clearTimeout(typing.current)
+    asking.current?.abort()
+  }
+  useEffect(() => stopChecking, [])
+
+  /** Asks the server whether the repo exists and is public. Choosing it never leaves the page. */
+  const check = async (value: string) => {
+    stopChecking()
     const parsed = parseRepo(value)
     if (!parsed.ok) {
+      setRepo(undefined)
       setStatus({ kind: 'invalid', problem: parsed.problem })
       return
     }
-    router.push(repoPath(`${parsed.owner}/${parsed.name}`))
+    const abort = new AbortController()
+    asking.current = abort
+    setStatus({ kind: 'checking' })
+    try {
+      const response = await fetch(`/api/resolve?repo=${encodeURIComponent(value.trim())}`, { signal: abort.signal })
+      const found = (await response.json()) as Resolution
+      if (abort.signal.aborted) return
+      if (found.ok) {
+        setRepo(found.repo)
+        setStatus({ kind: 'resolved', value: found.repo })
+        setPickFirst(false)
+      } else {
+        setRepo(undefined)
+        setStatus(found.kind === 'unreachable' ? { kind: 'unreachable', cause: found.message } : { kind: 'invalid', problem: found.kind === 'shape' ? 'repo-format' : 'repo-missing' })
+      }
+    } catch {
+      if (abort.signal.aborted) return
+      setRepo(undefined)
+      setStatus({ kind: 'unreachable', cause: 'the network request failed' })
+    }
   }
 
-  // The hero field keeps its own value; its input events bubble here, so a repo that parses can be chosen.
+  // The hero field keeps its own value; its input events bubble here. Editing unchooses the repo until it checks out.
   const typed = (event: FormEvent<HTMLDivElement>) => {
     const input = event.target
     if (!(input instanceof HTMLInputElement)) return
-    window.clearTimeout(typing.current)
-    const parsed = parseRepo(input.value)
-    if (!parsed.ok) return
-    typing.current = window.setTimeout(() => setRepo(`${parsed.owner}/${parsed.name}`), SETTLE_MS)
+    stopChecking()
+    setRepo(undefined)
+    setStatus(undefined)
+    const value = input.value
+    // Mirrored, so picking a sample after typing always reads as a new value to the field and fills it.
+    setFieldValue(value)
+    if (!parseRepo(value).ok) return
+    typing.current = window.setTimeout(() => void check(value), SETTLE_MS)
   }
-  useEffect(() => () => window.clearTimeout(typing.current), [])
 
-  const pick = (name: string) => {
-    window.clearTimeout(typing.current)
+  /** A sample or the recent repo: chosen at once, the field filled with its name. */
+  const choose = (name: string) => {
+    stopChecking()
     setRepo(name)
-    // A click commits before the next frame, so step 2 has its content by then. Low on the screen, it comes up.
+    setFieldValue(name)
+    setStatus({ kind: 'resolved', value: name })
+    setPickFirst(false)
+    // A click commits before the next frame, so step 2 is live by then. Low on the screen, it comes up.
     requestAnimationFrame(() => {
       const step = askStep.current
       if (!step || step.getBoundingClientRect().top < window.innerHeight * FOLD) return
       step.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'start' })
     })
+  }
+
+  /** Step 2 touched before a repo is chosen: back to the repo field, with the hint under it. */
+  const needRepo = () => {
+    setPickFirst(true)
+    const input = pickStep.current?.querySelector<HTMLInputElement>('input')
+    input?.focus({ preventScroll: true })
+    pickStep.current?.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'nearest' })
   }
 
   const toHow = (event: MouseEvent<HTMLAnchorElement>) => {
@@ -109,12 +161,12 @@ export function Landing({ samples, groups, preview }: { samples: string[]; group
       </div>
 
       <div className={styles.journey}>
-        <section className={styles.step} aria-labelledby={pickTitle} data-step="1">
+        <section ref={pickStep} className={styles.step} aria-labelledby={pickTitle} data-step="1">
           <h2 className={styles.stepTitle} id={pickTitle}>
             <span className={styles.stepNum}>1</span> · Pick a repo
           </h2>
           <div className={styles.pick}>
-            <div className={styles.paste} onInput={typed}>
+            <div className={styles.paste} onInput={typed} data-chosen={repo ? '' : undefined}>
               <Field
                 state="default"
                 props={{
@@ -123,17 +175,21 @@ export function Landing({ samples, groups, preview }: { samples: string[]; group
                   validate: 'repo',
                   size: 'hero',
                   placeholder: WORDS.placeholder,
-                  helper: WORDS.helper,
+                  helper: pickFirst ? WORDS.pickFirst : WORDS.helper,
+                  action: WORDS.action,
+                  ...(fieldValue !== undefined ? { value: fieldValue } : {}),
                   status,
-                  onSubmit: open,
+                  onSubmit: value => void check(value),
                 }}
               />
               <div className={styles.offer}>
                 {last && (
-                  <Link className={styles.offerLink} href={repoPath(last)} prefetch={false} data-offer="">
-                    <span>Pick up where you left off</span>
-                    <RepoChip repo={last} className={styles.offerChip} />
-                  </Link>
+                  <p className={styles.recent} data-offer="">
+                    <span className={styles.recentLabel}>{WORDS.recent}</span>
+                    <button type="button" className={styles.recentButton} aria-pressed={last === repo} onClick={() => choose(last)}>
+                      <RepoChip repo={last} selected={last === repo} className={styles.recentChip} />
+                    </button>
+                  </p>
                 )}
               </div>
             </div>
@@ -143,7 +199,7 @@ export function Landing({ samples, groups, preview }: { samples: string[]; group
               </p>
               <div className={styles.chips} role="group" aria-labelledby={samplesLabel}>
                 {samples.map(name => (
-                  <button key={name} type="button" className={styles.sample} aria-pressed={name === repo} onClick={() => pick(name)} data-sample="">
+                  <button key={name} type="button" className={styles.sample} aria-pressed={name === repo} onClick={() => choose(name)} data-sample="">
                     <RepoChip repo={name} selected={name === repo} className={styles.sampleChip} />
                   </button>
                 ))}
@@ -163,11 +219,7 @@ export function Landing({ samples, groups, preview }: { samples: string[]; group
           <h2 className={styles.stepTitle} id={askTitle}>
             <span className={styles.stepNum}>2</span> · Ask it a question
           </h2>
-          {repo ? (
-            <AskBody repo={repo} groups={groups} onAsk={question => router.push(repoPath(repo, question))} />
-          ) : (
-            <p className={styles.waiting}>{WORDS.waiting}</p>
-          )}
+          <AskBody repo={repo} groups={groups} onAsk={question => repo && router.push(repoPath(repo, question))} onNeedRepo={needRepo} />
         </section>
       </div>
 
@@ -176,24 +228,18 @@ export function Landing({ samples, groups, preview }: { samples: string[]; group
   )
 }
 
-/** Step 2 once a repo is chosen: a question of the reader's own, or one of the twelve. It wipes in when it arrives. */
-function AskBody({ repo, groups, onAsk }: { repo: string; groups: QuestionGroup[]; onAsk: (question: string) => void }) {
-  const body = useRef<HTMLDivElement>(null)
-
-  useLayoutEffect(() => {
-    if (!body.current) return
-    const tl = wipe(body.current)
-    return () => {
-      tl.progress(1).kill()
-    }
-  }, [])
-
+/**
+ * Step 2, always whole: a question of the reader's own, then the twelve. Until a repo is chosen it is muted and
+ * nothing in it acts; touching it sends the reader back to step 1.
+ */
+function AskBody({ repo, groups, onAsk, onNeedRepo }: { repo?: string; groups: QuestionGroup[]; onAsk: (question: string) => void; onNeedRepo: () => void }) {
+  const off = !repo
   return (
-    <div ref={body} className={styles.askBody} data-ask-body="">
+    <div className={styles.askBody} data-ask-body="" data-off={off ? '' : undefined}>
       <p className={styles.askLead}>
-        Each kind of question composes a different screen for <code>{repo}</code>.
+        Each kind of question composes a different screen for {repo ? <code>{repo}</code> : 'the repo you pick'}.
       </p>
-      <AskField repo={repo} onAsk={onAsk} />
+      <AskField repo={repo} onAsk={onAsk} onNeedRepo={onNeedRepo} />
       <p className={styles.or}>{WORDS.or}</p>
       <ul className={styles.groups}>
         {groups.map(group => (
@@ -203,11 +249,18 @@ function AskBody({ repo, groups, onAsk }: { repo: string; groups: QuestionGroup[
               <p>{group.draws}</p>
             </div>
             <div className={styles.qchips}>
-              {group.questions.map(question => (
-                <Link key={question} className={styles.qchip} href={repoPath(repo, question)} prefetch={false} data-question="">
-                  {question}
-                </Link>
-              ))}
+              {group.questions.map(question =>
+                repo ? (
+                  <Link key={question} className={styles.qchip} href={repoPath(repo, question)} prefetch={false} data-question="">
+                    {question}
+                  </Link>
+                ) : (
+                  // Not disabled outright: a disabled button takes no click, and the click is what says "pick a repo first".
+                  <button key={question} type="button" className={styles.qchip} aria-disabled="true" onClick={onNeedRepo} data-question="">
+                    {question}
+                  </button>
+                ),
+              )}
             </div>
           </li>
         ))}
@@ -217,14 +270,16 @@ function AskBody({ repo, groups, onAsk }: { repo: string; groups: QuestionGroup[
 }
 
 /** The reader's own question, as the composed screen's tray takes it: up to 300 characters, sent on Enter. */
-function AskField({ repo, onAsk }: { repo: string; onAsk: (question: string) => void }) {
+function AskField({ repo, onAsk, onNeedRepo }: { repo?: string; onAsk: (question: string) => void; onNeedRepo: () => void }) {
   const id = useId()
   const input = useRef<HTMLInputElement>(null)
   const [text, setText] = useState('')
+  const off = !repo
 
   // Asking with nothing typed puts the reader in the field, which is what the button was for.
   const submit = (event: FormEvent) => {
     event.preventDefault()
+    if (off) return onNeedRepo()
     const question = text.trim()
     if (question) onAsk(question)
     else input.current?.focus()
@@ -233,7 +288,7 @@ function AskField({ repo, onAsk }: { repo: string; onAsk: (question: string) => 
   return (
     <form className={styles.ask} onSubmit={submit} data-ask="">
       <label className="sr-only" htmlFor={id}>
-        {`Your question about ${repo}`}
+        {repo ? `Your question about ${repo}` : 'Your question, once a repo is picked'}
       </label>
       <div className={styles.askBox}>
         <input
@@ -247,9 +302,14 @@ function AskField({ repo, onAsk }: { repo: string; onAsk: (question: string) => 
           maxLength={QUESTION_MAX}
           placeholder={WORDS.ask}
           value={text}
+          readOnly={off}
+          aria-disabled={off || undefined}
           onChange={e => setText(e.target.value)}
+          // The field stays reachable so a tap or a key can say what it needs first.
+          onPointerDown={off ? event => (event.preventDefault(), onNeedRepo()) : undefined}
+          onKeyDown={off ? event => event.key !== 'Tab' && !event.metaKey && !event.ctrlKey && (event.preventDefault(), onNeedRepo()) : undefined}
         />
-        <button type="submit" className={styles.askButton}>
+        <button type="submit" className={styles.askButton} aria-disabled={off || undefined}>
           Ask
         </button>
       </div>

@@ -39,7 +39,7 @@ export type Problem = (typeof PROBLEMS)[number]
  * What the system found when it checked a value with GitHub. `invalid` blocks submit and is crit;
  * `unreachable` is GitHub failing, never the reader, so it is the shared neutral error; `checking` is the wait.
  */
-export type FieldStatus = { kind: 'invalid'; problem: Problem } | { kind: 'unreachable'; cause: string } | { kind: 'checking' }
+export type FieldStatus = { kind: 'invalid'; problem: Problem } | { kind: 'unreachable'; cause: string } | { kind: 'checking' } | { kind: 'resolved'; value: string }
 
 /** What a field's message slot shows. The words are always the system's. */
 export type FieldMessage =
@@ -47,6 +47,7 @@ export type FieldMessage =
   | { kind: 'invalid'; text: string }
   | { kind: 'unreachable'; failed: string; cause: string }
   | { kind: 'checking'; text: string }
+  | { kind: 'resolved'; text: string }
 
 /** What TextInput renders: the model's words plus what the system binds. */
 export interface TextInputProps {
@@ -119,6 +120,8 @@ export const fieldWords = {
   },
   unreachable: (validate: Validator) => `Couldn't check this ${SUBJECT[validate]}`,
   checking: (value: string) => `Checking ${value} on GitHub`,
+  /** GitHub found it: the value as GitHub names it, which may differ from what was typed (a renamed repo). */
+  resolved: (value: string, validate: Validator) => `Found ${value} on GitHub${validate === 'repo' ? ' · ready for a question' : ''}`,
   /** A field that depends on a wrong one waits; it never shows an error of its own. */
   waiting: (label: string, subject: string) => `${capital(plural(lower(label)))} load once the ${subject} checks out`,
   noOptions: (label: string) => `No ${plural(lower(label))} to choose from`,
@@ -167,6 +170,7 @@ export function messageFor(
   if (status?.kind === 'invalid') return { kind: 'invalid', text: fieldWords.problem(status.problem, field) }
   if (status?.kind === 'unreachable') return { kind: 'unreachable', failed: fieldWords.unreachable(field.validate), cause: status.cause }
   if (status?.kind === 'checking') return { kind: 'checking', text: fieldWords.checking(value.trim()) }
+  if (status?.kind === 'resolved') return { kind: 'resolved', text: fieldWords.resolved(status.value, field.validate) }
   return field.helper ? { kind: 'helper', text: field.helper } : undefined
 }
 

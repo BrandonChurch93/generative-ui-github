@@ -9,16 +9,36 @@ const GROUPS = {
 
 const composedAt = (repo: string, question: string) => (url: URL) => url.pathname === `/r/${repo}` && url.searchParams.get('q') === question
 
-test('step 2 waits until a repo is chosen, then offers the twelve golden questions in four groups', async ({ page }) => {
+test('step 2 is whole but muted before a repo; touching it asks for a repo first, never leaving the page', async ({ page }) => {
   await page.goto('/')
   const ask = page.locator('[data-step="2"]')
   await expect(ask).not.toHaveAttribute('data-ready')
-  await expect(page.locator('[data-question]')).toHaveCount(0)
+  await expect(ask.getByRole('textbox')).toBeVisible()
+  await expect(ask.locator('button[data-question][aria-disabled="true"]')).toHaveCount(12)
   await expect(page.locator('[data-sample][aria-pressed="true"]')).toHaveCount(0)
 
+  const repoField = page.getByRole('textbox', { name: 'Public GitHub repository' })
+  // aria-disabled, not disabled: the click is how the step says what it needs.
+  await ask.getByRole('button', { name: 'Is CI getting slower?' }).click({ force: true })
+  await expect(page).toHaveURL(url => url.pathname === '/')
+  await expect(repoField).toBeFocused()
+  await expect(page.locator(`#${await repoField.getAttribute('aria-describedby')}`)).toHaveText('Pick a repo first')
+
+  await ask.getByRole('textbox').click({ force: true })
+  await expect(repoField).toBeFocused()
+})
+
+test('a sample, once picked, fills the field with a check and brings step 2 to life with the twelve questions', async ({ page }) => {
+  await page.goto('/')
   await page.getByRole('button', { name: 'vercel/next.js' }).click()
+  await expect(page).toHaveURL(url => url.pathname === '/')
+  const repoField = page.getByRole('textbox', { name: 'Public GitHub repository' })
+  await expect(repoField).toHaveValue('vercel/next.js')
+  await expect(page.locator('[data-message-line][data-kind="resolved"]:not([aria-hidden])')).toHaveText('Found vercel/next.js on GitHub · ready for a question')
+  await expect(page.locator('[data-check]').first()).toBeVisible()
+  const ask = page.locator('[data-step="2"]')
   await expect(ask).toHaveAttribute('data-ready', '')
-  await expect(page.locator('[data-question]')).toHaveCount(12)
+  await expect(ask.locator('a[data-question]')).toHaveCount(12)
   for (const [label, questions] of Object.entries(GROUPS)) {
     const group = page.locator(`[data-group="${label}"]`)
     await expect(group.getByRole('heading', { level: 3 })).toHaveText(label)
@@ -51,11 +71,26 @@ test("a question of the reader's own on a sample goes to the composed screen", a
   await expect(page).toHaveURL(composedAt('vitejs/vite', 'Which plugins changed the most?'))
 })
 
-test('a typed repo that parses opens step 2 for it', async ({ page }) => {
+test('a typed repo resolves with a check and opens step 2 for it, staying on the page', async ({ page }) => {
+  // The check is the server's word on whether GitHub has the repo; stood in here so the test reads no network.
+  await page.route('**/api/resolve**', route => route.fulfill({ json: { ok: true, repo: 'withastro/astro', sample: false } }))
   await page.goto('/')
   await page.getByRole('textbox', { name: 'Public GitHub repository' }).fill('github.com/withastro/astro')
+  await expect(page.locator('[data-message-line][data-kind="resolved"]:not([aria-hidden])')).toHaveText('Found withastro/astro on GitHub · ready for a question')
   await expect(page.locator('[data-step="2"]')).toHaveAttribute('data-ready', '')
+  await expect(page).toHaveURL(url => url.pathname === '/')
   await expect(page.getByRole('link', { name: 'Is CI getting slower?' })).toHaveAttribute('href', '/r/withastro/astro?q=Is%20CI%20getting%20slower%3F')
+})
+
+test('a repo GitHub does not have says so and keeps step 2 muted', async ({ page }) => {
+  await page.route('**/api/resolve**', route => route.fulfill({ status: 404, json: { ok: false, kind: 'missing', message: "That repo is private or doesn't exist" } }))
+  await page.goto('/')
+  const field = page.getByRole('textbox', { name: 'Public GitHub repository' })
+  await field.fill('someone/private-thing')
+  await page.getByRole('button', { name: 'Use repo' }).click()
+  await expect(field).toHaveAttribute('aria-invalid', 'true')
+  await expect(page.locator(`#${await field.getAttribute('aria-describedby')}`)).toHaveText("That repo is private or doesn't exist")
+  await expect(page.locator('[data-step="2"]')).not.toHaveAttribute('data-ready')
 })
 
 test('a sample picked on a phone brings step 2 into view', async ({ page }) => {
@@ -77,7 +112,8 @@ test('a repo the field cannot read says why in its validation line', async ({ pa
 
   await field.fill('github.com/vitejs/vite')
   await field.press('Enter')
-  await expect(page).toHaveURL(url => url.pathname === '/r/vitejs/vite')
+  await expect(page.locator('[data-step="2"]')).toHaveAttribute('data-ready', '')
+  await expect(page).toHaveURL(url => url.pathname === '/')
 })
 
 test('how it works sits inline, and its link scrolls to it', async ({ page }) => {
@@ -98,12 +134,15 @@ test('how it works sits inline, and its link scrolls to it', async ({ page }) =>
   await expect(section.locator('[data-callout]')).toHaveCount(3)
 })
 
-test('a second visit offers the last repo again', async ({ page }) => {
+test('a second visit shows the last repo under Recent, and picking it chooses it without leaving', async ({ page }) => {
   await page.goto('/')
   await expect(page.locator('[data-offer]')).toHaveCount(0)
   await page.evaluate(() => localStorage.setItem('genui:last-repo', 'vitejs/vite'))
   await page.reload()
-  const offer = page.getByRole('link', { name: 'Pick up where you left off vitejs/vite' })
-  await expect(offer).toBeVisible()
-  await expect(offer).toHaveAttribute('href', '/r/vitejs/vite')
+  const offer = page.locator('[data-offer]')
+  await expect(offer).toHaveText('Recentvitejs/vite')
+  await offer.getByRole('button', { name: 'vitejs/vite' }).click()
+  await expect(page).toHaveURL(url => url.pathname === '/')
+  await expect(page.getByRole('textbox', { name: 'Public GitHub repository' })).toHaveValue('vitejs/vite')
+  await expect(page.locator('[data-step="2"]')).toHaveAttribute('data-ready', '')
 })

@@ -57,6 +57,11 @@ export function MessageSlot({
           {message.kind === 'invalid' && <Mark kind="crit" className={styles.messageMark} />}
           {message.kind === 'unreachable' && <Mark kind="unavailable" className={styles.messageMark} />}
           {message.kind === 'checking' && <Mark kind="warming" className={styles.messageMark} />}
+          {message.kind === 'resolved' && (
+            <svg className={styles.check} width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" data-check="">
+              <path d="M2.5 6.25L5 8.75L9.5 3.5" />
+            </svg>
+          )}
           {message.kind === 'unreachable' ? (
             <span className={styles.messageText}>
               <span className={styles.ink}>{message.failed}</span>
