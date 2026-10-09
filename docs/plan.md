@@ -61,7 +61,7 @@ A designed component is done when: its five states and three densities render on
 - [ ] 2.7 Comparison.
 - [ ] 2.8 ContributorRank.
 - [ ] 2.9 Heatmap, Monday first, with the table view control.
-- [ ] 2.10 ActionCard: typed `effect`, sample mode only, the 400ms activation guard, focus management.
+- [x] 2.10 ActionCard: typed `effect`, sample mode only, the 400ms activation guard, focus management.
 
 `CHECKPOINT` · commit, status, continue.
 

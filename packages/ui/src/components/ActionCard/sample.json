@@ -1,0 +1,11 @@
+{
+  "props": {
+    "heading": "Nudge the three waiting reviewers",
+    "body": "Posts one comment on each pull request asking its requested reviewer for a look before v16.2 closes. Nothing merges.",
+    "primary": "Nudge reviewers",
+    "secondary": { "label": "Open milestone", "href": "https://github.com/vercel/next.js/milestone/1" },
+    "effect": { "kind": "comment", "targets": ["#84120", "#84077", "#84201"] },
+    "mode": "sample"
+  },
+  "error": { "failed": "Couldn't draft the comments", "cause": "GitHub returned 502 on #84077" }
+}

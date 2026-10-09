@@ -40,4 +40,6 @@ export interface PieceRenderProps<P> {
   ask?: string
   onRetry?: () => void
   onAsk?: (ask: string) => void
+  /** Opens the shell's drawer with what a piece made (ActionCard's drafts). Without it, the piece shows them inline. */
+  onOpenDrawer?: (content: { title: string; items: string[] }) => void
 }

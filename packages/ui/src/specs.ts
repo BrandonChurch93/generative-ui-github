@@ -1,3 +1,4 @@
+import { actionCardSpec } from './components/ActionCard/schema'
 import { insightSpec } from './components/Insight/schema'
 import { lineChartSpec } from './components/LineChart/schema'
 import { metricSpec } from './components/Metric/schema'
@@ -10,5 +11,6 @@ registry.register(statusListSpec)
 registry.register(insightSpec)
 registry.register(timelineSpec)
 registry.register(lineChartSpec)
+registry.register(actionCardSpec)
 
 export { registry }

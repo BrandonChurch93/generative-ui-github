@@ -198,6 +198,10 @@
   max-width: 19rem;
 }
 
+.stage[data-width="third"] .piece {
+  max-width: 25rem;
+}
+
 .stage[data-width="full"] .piece {
   max-width: none;
 }

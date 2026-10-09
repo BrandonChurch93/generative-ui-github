@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { MEASURE_IDS, MEASURES } from '@genui-github/data'
 import type { ComponentState, HeightClass } from './types'
 
 export interface OmittedState {
@@ -53,6 +54,19 @@ function fnv1a(text: string): string {
   return (hash >>> 0).toString(36)
 }
 
+/** The JSON Schema the model reads, minus the noise that costs tokens and says nothing. */
+function compactSchema(schema: z.ZodType): unknown {
+  const json = z.toJSONSchema(schema, { unrepresentable: 'any' }) as Record<string, unknown>
+  delete json.$schema
+  return json
+}
+
+function componentPrompt(spec: ComponentSpec): string {
+  const lines = [spec.when, `Props: ${JSON.stringify(compactSchema(spec.schema))}`]
+  if (spec.example !== undefined) lines.push(`Example: ${JSON.stringify(spec.example)}`)
+  return lines.join('\n')
+}
+
 export function createRegistry(): Registry {
   const specs = new Map<string, ComponentSpec>()
 
@@ -76,13 +90,17 @@ export function createRegistry(): Registry {
       return `${prefix}:${fnv1a(stableStringify(props))}`
     },
     toPrompt(options = {}) {
-      const sections = [...(options.preamble ?? [])]
+      const measures = MEASURE_IDS.map(id => {
+        const m = MEASURES[id]
+        return `${id} · ${m.unit} · better ${m.better} · ${m.what}`
+      })
+      const sections: PromptSection[] = [
+        ...(options.preamble ?? []),
+        { title: 'Measures', body: `Name a measure by id; the system computes it.\n${measures.join('\n')}` },
+      ]
       for (const spec of specs.values()) {
         if (!spec.pickable) continue
-        const lines = [`${spec.heightClass ? `Height: ${spec.heightClass}. ` : ''}${spec.when}`]
-        lines.push(`Props: ${JSON.stringify(z.toJSONSchema(spec.schema, { unrepresentable: 'any' }))}`)
-        if (spec.example !== undefined) lines.push(`Example: ${JSON.stringify(spec.example)}`)
-        sections.push({ title: spec.name, body: lines.join('\n') })
+        sections.push({ title: `${spec.name} · ${spec.heightClass ?? 'field'}`, body: componentPrompt(spec) })
       }
       return sections.map(s => `## ${s.title}\n${s.body}`).join('\n\n')
     },

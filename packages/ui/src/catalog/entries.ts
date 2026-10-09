@@ -1,4 +1,8 @@
 import type { ComponentType } from 'react'
+import { ActionCard } from '../components/ActionCard/ActionCard'
+import { actionCardMotion } from '../components/ActionCard/motion'
+import actionCardSample from '../components/ActionCard/sample.json'
+import type { ActionCardProps } from '../components/ActionCard/schema'
 import { Insight } from '../components/Insight/Insight'
 import { insightMotion } from '../components/Insight/motion'
 import insightSample from '../components/Insight/sample.json'
@@ -52,7 +56,7 @@ export interface CatalogEntry<P = unknown> {
   sample: CatalogSample<P>
   sampleFile: string
   /** How wide the piece sits on the catalog stage. */
-  width?: 'quarter' | 'half' | 'full'
+  width?: 'quarter' | 'third' | 'half' | 'full'
 }
 
 function entry<P>(e: CatalogEntry<P>): CatalogEntry {
@@ -136,6 +140,18 @@ export const CATALOG: CatalogEntry[] = [
     sample: insightSample as CatalogSample<InsightProps>,
     sampleFile: 'Insight/sample.json',
     width: 'full',
+  }),
+  entry<ActionCardProps>({
+    name: 'ActionCard',
+    group: 'Actions',
+    description:
+      'One thing the model proposes doing next, stated as its effect, with an inline second step that restates exactly what will happen. Sample mode only: it drafts and shows, never writes to GitHub.',
+    spec: specOf('ActionCard'),
+    Component: ActionCard,
+    motion: actionCardMotion,
+    sample: actionCardSample as CatalogSample<ActionCardProps>,
+    sampleFile: 'ActionCard/sample.json',
+    width: 'third',
   }),
 ]
 
