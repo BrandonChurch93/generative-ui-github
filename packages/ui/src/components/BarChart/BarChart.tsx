@@ -6,6 +6,7 @@ import { bandCenter, formatChartValue, formatTick, niceScale, UNIT_WORDS, yPerce
 import { CardFrame, Skeleton, SkeletonBlock, StateRow, TextLink } from '../../parts'
 import type { PieceRenderProps } from '../../types'
 import { validateNumbers } from '../../validate/numbers'
+import { barFacts } from './facts'
 import { BAR_EMPTY, BY_WORDS, MAX_BARS, type BarChartProps } from './schema'
 import styles from './BarChart.module.css'
 
@@ -23,17 +24,6 @@ export const barScale = (props: BarChartProps) => niceScale(Math.max(0, ...barsO
 /** A bar's height as a percent of the plot. */
 export const barHeight = (value: number, max: number) => 100 - yPercent(Math.max(0, value), max)
 
-/**
- * The figures a sentence about the bars may cite: each value, how many bars, their total, the spread,
- * and each bar's share of the total ("23 of the 61", "38% of stale issues").
- */
-export function barFacts(values: readonly number[]): number[] {
-  if (!values.length) return [0]
-  const total = values.reduce((a, b) => a + b, 0)
-  const facts = [...values, values.length, total, Math.max(...values) - Math.min(...values)]
-  if (total > 0) facts.push(...values.map(v => (v / total) * 100))
-  return facts
-}
 
 /** The aria-label: the model's finding when its numbers check out, else the system's own summary. */
 export function chartLabel(props: BarChartProps): string {
@@ -252,3 +242,4 @@ export function BarChart({ props, state, error, warming, onRetry }: PieceRenderP
     </div>,
   )
 }
+

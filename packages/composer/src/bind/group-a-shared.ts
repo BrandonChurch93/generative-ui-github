@@ -11,7 +11,7 @@ import {
   type ShapeMap,
   type ShapeName,
 } from '@genui-github/data'
-import type { ErrorInfo } from '@genui-github/ui'
+import type { ErrorInfo } from '@genui-github/ui/schemas'
 import { DEPENDS } from '@genui-github/data/server'
 import type { DataContext } from './types'
 
@@ -29,7 +29,7 @@ export function shape<K extends ShapeName>(ctx: DataContext, name: K): ShapeMap[
 
 /** Why a shape the piece needs is not in the context, in the system's words. */
 export function absentCause(ctx: DataContext, names: readonly ShapeName[]): string {
-  const missing = names.filter(n => !ctx.shapes[n])
+  const missing = roots(ctx, names.filter(n => !ctx.shapes[n]))
   if (missing.some(n => ctx.unavailable.includes(n))) return "GitHub doesn't count this for the repo"
   if (ctx.warming && missing.some(n => SHAPE_KIND[n] === 'stats')) return 'GitHub is still counting it'
   return "Not in this answer's data"
@@ -47,6 +47,11 @@ export function readMeasure<Id extends MeasureId>(ctx: DataContext, id: Id, opti
 /** The shapes a measure reads that the context does not hold. */
 export function measureGaps(ctx: DataContext, id: MeasureId, scope: MeasureScope = {}): ShapeName[] {
   return measureNeeds(id, { ...ctx.scope, ...scope }).filter(n => missing(ctx, n))
+}
+
+/** A missing derived shape traced back to the inputs that are missing, so the cause names the real gap. */
+function roots(ctx: DataContext, names: readonly ShapeName[]): ShapeName[] {
+  return [...new Set(names.flatMap(n => (DEPENDS[n]?.some(d => !ctx.shapes[d]) ? roots(ctx, DEPENDS[n]!.filter(d => !ctx.shapes[d])) : [n])))]
 }
 
 /**

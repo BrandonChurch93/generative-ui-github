@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { DENSITIES, EMPHASES, TONES, COMPONENT_STATES } from '@genui-github/ui'
+import { DENSITIES, EMPHASES, TONES, COMPONENT_STATES } from '@genui-github/ui/schemas'
 
 // The UI description, exactly as docs/schemas.md defines it. The internal format is the source of truth;
 // A2UI is an export of it (a2ui.ts).

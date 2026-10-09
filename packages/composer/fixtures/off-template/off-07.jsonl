@@ -1,0 +1,8 @@
+{"op":"start","density":"comfortable","asks":[{"label":"Review wait","ask":"How long until a maintainer reviews my PR?"},{"label":"Release blockers","ask":"What's blocking the next release?"},{"label":"CI speed","ask":"Is CI getting slower?"}]}
+{"op":"add","region":"insight","piece":{"component":"Insight","props":{"sentence":"Most open pull requests here are small: the oldest few change between 42 and 123 lines, though one Turbopack draft reaches 1,172.","sources":[{"key":"pr-size"},{"key":"pulls"}],"tone":"neutral"}}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"open-prs","label":"Open PRs"}}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"prs-merged","label":"Merged","window":"12w","trend":true}}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"review-wait-median","label":"Review wait, median"}}}
+{"op":"add","region":"main","piece":{"component":"StatusList","props":{"kind":"pull","title":"Oldest open pull requests","meta":"sorted by size","sort":"size","limit":6}}}
+{"op":"add","region":"side","piece":{"component":"LineChart","props":{"title":"Merged pull requests","meta":"per week · last 12 weeks","series":[{"measure":"prs-merged","name":"Merged"}],"window":"12w","finding":"Weekly merges ranged from 55 to 154 over 12 weeks."}}}
+{"op":"done"}

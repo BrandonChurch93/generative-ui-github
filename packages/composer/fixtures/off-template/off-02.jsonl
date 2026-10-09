@@ -1,0 +1,8 @@
+{"op":"start","density":"comfortable","asks":[{"label":"Bus factor","ask":"Who's carrying this repo?"},{"label":"Review wait","ask":"How long until a maintainer reviews my PR?"},{"label":"Release blockers","ask":"What's blocking the next release?"}]}
+{"op":"add","region":"insight","piece":{"component":"Insight","props":{"sentence":"eps1lon does 49.5% of reviews, 90 in all. hoxyq is next at 7.1%, so review work leans heavily on one person.","sources":[{"key":"contributorShare"},{"key":"bus-factor"}],"tone":"warn"}}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"review-wait-median","label":"Median review wait","delta":"to first human review"}}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"review-wait-p90","label":"Review wait p90","deltaTone":"warn"}}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"bus-factor","label":"Bus factor","deltaTone":"warn"}}}
+{"op":"add","region":"main","piece":{"component":"ContributorRank","props":{"title":"Reviews by person","meta":"recent reviews","measure":"reviews","limit":6,"wallTone":"risk"}}}
+{"op":"add","region":"side","piece":{"component":"Comparison","props":{"title":"Review pace, month over month","window":"month","pairs":[{"measure":"review-wait-median","direction":"lower-is-better","notable":true},{"measure":"prs-merged","direction":"higher-is-better"}],"finding":"Median review wait fell as merges slowed this month"}}}
+{"op":"done"}

@@ -1,0 +1,12 @@
+The question is which files change most often. The data has no per-file change counts, but I can use commit activity and a FileTree overview of the repo. The Insight should be honest about this and cite only figures from measures I name in its sources.
+
+I'll use commits as the measure, a FileTree overview in main, and a LineChart of weekly commit activity in side. There is no PR in scope, so the tree is an overview of the repo root.
+
+
+{"op":"start","density":"comfortable","asks":[{"label":"Who commits","ask":"Who's carrying this repo?"},{"label":"Busy hours","ask":"When do commits happen?"},{"label":"Release blockers","ask":"What's blocking the next release?"}]}
+{"op":"add","region":"insight","piece":{"component":"Insight","props":{"sentence":"Per-file change counts aren't available here, but the repo saw 131 commits last week, so the tree shows where work lands.","sources":[{"key":"commits"}],"tone":"neutral"}}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"commits","label":"Commits","window":"12w","trend":true}}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"contributors","label":"Contributors","window":"90d"}}}
+{"op":"add","region":"main","piece":{"component":"FileTree","props":{"repo":"vercel/next.js","mode":"overview","title":"Repository layout"}}}
+{"op":"add","region":"side","piece":{"component":"LineChart","props":{"title":"Commit pace","meta":"commits per week · 12 weeks","series":[{"measure":"commits","name":"Commits"}],"window":"12w","finding":"Weekly commits ranged from 61 to 211 over the last 12 weeks."}}}
+{"op":"done"}

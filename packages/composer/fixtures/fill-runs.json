@@ -1,0 +1,17 @@
+{
+ "ranAt": "2026-10-09T08:25:00.571Z",
+ "runs": 100,
+ "kept": 177,
+ "refused": 9,
+ "refusals": {
+  "v16.5.0 is not in the data": 4,
+  "over 120 characters": 6,
+  "figures not in the data": 1
+ },
+ "unvalidated": [],
+ "costUsd": 0.05667,
+ "latencyMs": {
+  "p50": 4659,
+  "p90": 6262
+ }
+}

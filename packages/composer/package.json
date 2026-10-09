@@ -10,7 +10,9 @@
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
-    "classify:record": "tsx scripts/classify-record.ts"
+    "classify:record": "tsx scripts/classify-record.ts",
+    "fill:run": "tsx scripts/fill-run.ts",
+    "off-template:run": "tsx scripts/off-template-run.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "0.132.1",

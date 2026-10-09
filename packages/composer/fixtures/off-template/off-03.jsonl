@@ -1,0 +1,8 @@
+{"op":"start","density":"comfortable","asks":[{"label":"Review wait","ask":"How long until a maintainer reviews my PR?"},{"label":"Release blockers","ask":"What's blocking the next release?"},{"label":"Who reviews","ask":"Who's carrying this repo?"}]}
+{"op":"add","region":"insight","piece":{"component":"Insight","props":{"sentence":"The data doesn't split review wait by docs or code. Across all PRs, the median first review takes 1.1 h and p90 takes 25.7 h.","sources":[{"key":"review-wait-median"},{"key":"review-wait-p90"}],"tone":"neutral"}}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"review-wait-median","label":"Median first review","delta":"all PRs, not split"}}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"review-wait-p90","label":"p90 first review","delta":"slowest tenth wait longer","deltaTone":"warn"}}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"awaiting-review","label":"Awaiting review"}}}
+{"op":"add","region":"main","piece":{"component":"StatusList","props":{"kind":"pull","title":"Oldest open pull requests","meta":"sorted by wait","sort":"wait","limit":6}}}
+{"op":"add","region":"side","piece":{"component":"Distribution","props":{"title":"Time to first review","meta":"all pull requests","measure":"firstReview","population":"all","showP90":true}}}
+{"op":"done"}

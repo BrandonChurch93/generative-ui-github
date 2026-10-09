@@ -1,0 +1,8 @@
+{"op":"start","density":"comfortable","asks":[{"label":"Stale issues","ask":"Which labels have the most stale issues?"},{"label":"Closure pace","ask":"Are we closing issues as fast as they open?"},{"label":"Release blockers","ask":"What's blocking the next release?"}]}
+{"op":"add","region":"insight","piece":{"component":"Insight","props":{"sentence":"Closing time by label isn't available here. Overall, the median issue or PR takes 6.8 days to close, and closures run at 0.4 of openings.","sources":[{"key":"time-to-close-median"},{"key":"closure-ratio"}],"tone":"warn"}}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"time-to-close-median","label":"Median time to close","delta":"all labels combined"}}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"closure-ratio","label":"Closure ratio","delta":"closed per opened","deltaTone":"warn","trend":true}}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"stale-issues","label":"Stale issues","deltaTone":"crit","hot":true},"ask":"Which labels have the most stale issues?"}}
+{"op":"add","region":"main","piece":{"component":"BarChart","props":{"title":"Time to close by label","meta":"median days","measure":"time-to-close-median","by":"label","finding":"Compares how long issues under each label take to close."}}}
+{"op":"add","region":"side","piece":{"component":"LineChart","props":{"title":"Closure ratio","meta":"closed per opened · last 12 weeks","series":[{"measure":"closure-ratio","name":"Closure ratio"}],"window":"12w","finding":"Closures stayed below openings for 12 weeks, ranging from 0.2 to 0.7."}}}
+{"op":"done"}

@@ -1,7 +1,7 @@
 import { buildContext, closure, memoryCache, type ContextNeeds, type DataContext } from '@genui-github/data/server'
 import { CONTEXT_NOW, CONTEXT_ZONE, fixtureClient, NEXT } from '@genui-github/data/testing'
 import { MEASURE_IDS, SHAPE_NAMES } from '@genui-github/data'
-import { validatePiece, type Piece, type RegionName } from '@genui-github/renderer'
+import { validatePiece, type Piece, type RegionName } from '@genui-github/renderer/core'
 import { createLogger, type LogRecord } from '@genui-github/core'
 
 // Test helpers for binders: the recorded next.js context, and a check that a piece passes the renderer's pipeline.

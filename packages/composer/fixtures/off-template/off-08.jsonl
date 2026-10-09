@@ -1,0 +1,8 @@
+{"op":"start","density":"comfortable","asks":[{"label":"Stale bugs","ask":"Which bug reports have gone stale?"},{"label":"Issue flow","ask":"Are we closing issues as fast as they open?"},{"label":"Release blockers","ask":"What's blocking the next release?"}]}
+{"op":"add","region":"insight","piece":{"component":"Insight","props":{"sentence":"The data has no total bug share, so the label breakdown of stale issues is the closest read. Many open items are not labeled.","sources":[{"key":"stale-issues","ask":"Which bug reports have gone stale?"}],"tone":"neutral"}}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"stale-issues","label":"Stale issues","delta":"no activity in 30 days","deltaTone":"warn"},"ask":"Which bug reports have gone stale?"}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"closure-ratio","label":"Closure ratio","window":"12w","trend":true}}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"time-to-close-median","label":"Median time to close"}}}
+{"op":"add","region":"main","piece":{"component":"StatusList","props":{"kind":"issue","title":"Open issues labeled Bug","meta":"sorted by age","scope":{"labels":["Type: Bug"]},"sort":"age","limit":6,"empty":"No open issues carry the bug label."}}}
+{"op":"add","region":"side","piece":{"component":"BarChart","props":{"title":"Stale issues by label","meta":"no activity in 30 days","measure":"stale-issues","by":"label","finding":"Bug-labeled issues are one slice of the stale backlog, alongside discussions."}}}
+{"op":"done"}

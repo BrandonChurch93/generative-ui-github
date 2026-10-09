@@ -1,7 +1,7 @@
 import type { z } from 'zod'
 import type { DataContext } from '@genui-github/data/server'
-import type { Piece } from '@genui-github/renderer'
-import { registry, type ErrorInfo, type Emphasis, type Tone } from '@genui-github/ui'
+import type { Piece } from '@genui-github/renderer/core'
+import { registry, type ErrorInfo, type Emphasis, type Tone } from '@genui-github/ui/schemas'
 
 // A binder turns a component's model-facing props and a data context into the piece the renderer draws:
 // the same props back, plus the `bound` props the component renders. Templates call binders directly;

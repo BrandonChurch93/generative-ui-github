@@ -133,10 +133,10 @@ Prompt: `prompts/05-composer.md`. Spec: `docs/composer.md`.
 - [x] 5.0 Eval set authored as data in `packages/evals/set/` per `docs/evals.md` (99 cases). Done when the set loads and validates against its schema. (Authored here because 5.2 and 5.5 test against it; Phase 7 builds the runner.)
 - [x] 5.1 Anthropic client via the official SDK, prompt caching on the registry block, cost accounting from the price table. Done when a test asserts the cost math on a mocked response.
 - [x] 5.2 Classifier (Haiku). Done when the 12 golden questions and the 20 paraphrases classify correctly against a recorded fixture of responses, and a live run over them matches at 90% or better.
-- [~] 5.3a The 12 golden templates, one module each, deterministic, no model call. Done when all 12 produce a valid tree from each sample repo.
+- [x] 5.3a The 12 golden templates, one module each, deterministic, no model call. Done when all 12 produce a valid tree from each sample repo.
 - [x] 5.3b The 3 follow-up templates (`check-failures`, `pr-detail`, `person`). Done when each produces a valid tree from a click on the matching fixture.
-- [ ] 5.4 Prose fill (Haiku) for Insight sentences, LineChart and Comparison findings, Metric deltas, Heatmap summaries, with number validation. Done when 100 runs over the samples yield zero unvalidated numbers reaching the tree.
-- [ ] 5.5 Off-template composition (Sonnet), streaming JSONL. Done when the 10 off-template eval cases produce valid trees.
+- [x] 5.4 Prose fill (Haiku) for Insight sentences, LineChart and Comparison findings, Metric deltas, Heatmap summaries, with number validation. Done when 100 runs over the samples yield zero unvalidated numbers reaching the tree.
+- [x] 5.5 Off-template composition (Sonnet), streaming JSONL. Done when the 10 off-template eval cases produce valid trees.
 - [x] 5.6 Composition rules enforced in code. Done when each rule has a test that rejects a violating tree.
 - [ ] 5.7 `POST /api/compose` with the per-visitor limit, cached golden questions, and the daily cap. Done when a test exhausts the visitor limit and gets the rate-limit response, and a test with the Anthropic client mocked asserts zero calls for a golden question on a sample repo.
 - [ ] 5.8 The built payload on every composition. Done when the route's final message carries every `Built` field.

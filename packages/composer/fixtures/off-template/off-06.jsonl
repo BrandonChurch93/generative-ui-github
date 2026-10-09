@@ -1,0 +1,8 @@
+{"op":"start","density":"comfortable","asks":[{"label":"CI speed","ask":"Is CI getting slower?"},{"label":"Failing checks","ask":"Which checks are failing on main?"},{"label":"Release blockers","ask":"What's blocking the next release?"}]}
+{"op":"add","region":"insight","piece":{"component":"Insight","props":{"sentence":"Runs aren't split by weekday, so Monday can't be isolated. Overall, 10.3% of runs on main fail.","sources":[{"key":"failing-check-rate","ask":"Which checks are failing on main?"}],"tone":"neutral"}}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"failing-check-rate","label":"Failing check rate","window":"12w","trend":true,"scope":"main"}}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"flaky-rate","label":"Flaky rate","delta":"failures are not reruns"}}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"ci-p50","label":"CI p50"}}}
+{"op":"add","region":"main","piece":{"component":"StatusList","props":{"kind":"workflow","title":"Workflows on main","meta":"recent runs","scope":{"branch":"main"},"sort":"activity","limit":6}}}
+{"op":"add","region":"side","piece":{"component":"BarChart","props":{"title":"Failure rate by workflow","meta":"main · recent runs","measure":"failing-check-rate","by":"workflow","finding":"Failures are ranked by workflow across all weekdays, since the data has no Monday split."}}}
+{"op":"done"}

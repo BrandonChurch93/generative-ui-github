@@ -9,7 +9,7 @@ import {
   type Registry,
   type Tone,
   type WarmingInfo,
-} from '@genui-github/ui'
+} from '@genui-github/ui/schemas'
 import { REGION_NAMES, emptyRegions, type WarnLog, type Ask, type Built, type Density, type Piece, type RegionName, type Regions } from './format'
 
 // The validation pipeline from docs/schemas.md, shared with the composer. Nothing here throws on bad model

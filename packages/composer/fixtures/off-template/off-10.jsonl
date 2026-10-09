@@ -1,0 +1,8 @@
+{"op":"start","density":"comfortable","asks":[{"label":"Review wait","ask":"How long until a maintainer reviews my PR?"},{"label":"Who reviews","ask":"Who does most of the reviewing?"},{"label":"Release blockers","ask":"What's blocking the next release?"}]}
+{"op":"add","region":"insight","piece":{"component":"Insight","props":{"sentence":"The data doesn't count reviewers per PR. Reviews are concentrated: eps1lon did 49.5% of them, and median first review takes 12.7 h.","sources":[{"key":"reviews"},{"key":"review-wait-median"}],"tone":"neutral"}}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"review-wait-median","label":"Median first review","delta":"p90 is 114.1 h","deltaTone":"warn"}}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"review-wait-p90","label":"Slowest tenth wait","hot":true}}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"open-prs","label":"Open PRs"}}}
+{"op":"add","region":"main","piece":{"component":"ContributorRank","props":{"title":"Reviews by person","meta":"recent reviews","measure":"reviews","limit":6,"wallTone":"risk"}}}
+{"op":"add","region":"side","piece":{"component":"Distribution","props":{"title":"Time to first review","meta":"last 90 days","measure":"firstReview","population":"all","showP90":true}}}
+{"op":"done"}

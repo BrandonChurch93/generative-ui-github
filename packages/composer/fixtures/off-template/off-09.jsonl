@@ -1,0 +1,8 @@
+{"op":"start","density":"comfortable","asks":[{"label":"Release blockers","ask":"What's blocking the next release?"},{"label":"Review wait","ask":"How long until a maintainer reviews my PR?"},{"label":"Stale issues","ask":"Which issues have gone stale?"},{"label":"Contributors","ask":"Who's carrying this repo?"}]}
+{"op":"add","region":"insight","piece":{"component":"Insight","props":{"sentence":"There are 2,525 open pull requests, but the data has no per-area breakdown, so I can only show the oldest ones.","sources":[{"key":"open-prs"}],"tone":"neutral"}}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"open-prs","label":"Open PRs","delta":"across the repo"}}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"review-wait-median","label":"Review wait median"}}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"prs-merged","label":"Merged","window":"12w","trend":true}}}
+{"op":"add","region":"main","piece":{"component":"StatusList","props":{"kind":"pull","title":"Oldest open pull requests","meta":"sorted by age","sort":"age","limit":6}}}
+{"op":"add","region":"side","piece":{"component":"BarChart","props":{"title":"Stale issues by area","meta":"no activity in 30 days","measure":"stale-issues","by":"area","finding":"Stale issues are the closest area signal available; open PRs are not split by area."}}}
+{"op":"done"}

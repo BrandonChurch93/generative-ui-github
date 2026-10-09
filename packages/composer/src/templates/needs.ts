@@ -141,3 +141,12 @@ export function needsFor(id: TemplateId, scope: MeasureScope = {}): ContextNeeds
   const kind = TEMPLATE_NEEDS[id].scope
   return { shapes, measures, scope: kind === 'release' ? { release: true, ...scope } : scope }
 }
+
+/** Off-template questions read a broad set: the overview, CI, review speed and who does the work. */
+export function offTemplateNeeds(): ContextNeeds {
+  const ids: TemplateId[] = ['overview', 'ci-trend', 'responsiveness', 'contributors', 'stale-issues']
+  return {
+    shapes: [...new Set(ids.flatMap(id => TEMPLATE_NEEDS[id].shapes))],
+    measures: [...new Set(ids.flatMap(id => TEMPLATE_NEEDS[id].measures))],
+  }
+}

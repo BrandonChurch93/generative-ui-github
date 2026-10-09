@@ -1,5 +1,5 @@
 import { createLogger, type LogRecord } from '@genui-github/core'
-import { compositionSchema, REGION_NAMES, toScreen, type Ask, type Built, type Composition, type Density, type Piece, type RegionName, type Regions } from '@genui-github/renderer'
+import { compositionSchema, REGION_NAMES, toScreen, type Ask, type Built, type Composition, type Density, type Piece, type RegionName, type Regions } from '@genui-github/renderer/core'
 import type { DataContext } from '../bind/types'
 import { enforceRules } from '../rules'
 import type { TemplateId } from './needs'

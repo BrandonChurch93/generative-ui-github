@@ -1,0 +1,9 @@
+{"op":"start","density":"comfortable","asks":[{"label":"Review wait","ask":"How long until a maintainer reviews my PR?"},{"label":"New contributors","ask":"Where would a new contributor start?"},{"label":"Release blockers","ask":"What's blocking the next release?"}]}
+{"op":"add","region":"insight","piece":{"component":"Insight","props":{"sentence":"84 pull requests merged in the window, and the median first review takes 1.1 h, but the p90 is 25.7 h.","sources":[{"key":"prs-merged"},{"key":"review-wait-median"},{"key":"review-wait-p90"}],"tone":"neutral"}}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"prs-merged","label":"PRs merged","delta":"in the window"}}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"review-wait-median","label":"Median first review"}}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"review-wait-p90","label":"Slowest 10% wait","deltaTone":"warn"}}}
+{"op":"add","region":"metrics","piece":{"component":"Metric","props":{"measure":"first-time-contributors","label":"First-time authors","delta":"first merge in window"}}}
+{"op":"add","region":"main","piece":{"component":"Distribution","props":{"title":"Time to first review","meta":"first-time contributors","measure":"firstReview","population":"firstTime","perspective":"reader","showP90":true}}}
+{"op":"add","region":"side","piece":{"component":"LineChart","props":{"title":"Merged PRs per week","meta":"last 12 weeks","series":[{"measure":"prs-merged","name":"Merged"}],"window":"12w","finding":"Weekly merges ranged from 55 to 154 across the last 12 weeks."}}}
+{"op":"done"}

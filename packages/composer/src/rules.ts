@@ -1,5 +1,5 @@
 import { createLogger, type Logger } from '@genui-github/core'
-import { applyRules, REGION_NAMES, validatePiece, type Ask, type Composition, type Density, type Piece, type RenderNode } from '@genui-github/renderer'
+import { applyRules, REGION_NAMES, validatePiece, type Ask, type Composition, type Density, type Piece, type RenderNode } from '@genui-github/renderer/core'
 import { TEMPLATE_NEEDS } from './templates/needs'
 
 // The composition rules (docs/composer.md) enforced in code. The structural ones (one insight, four metrics,

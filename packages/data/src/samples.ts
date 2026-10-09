@@ -38,8 +38,16 @@ export function isSample(repo: RepoRef): boolean {
   return SAMPLE_REPOS.some(s => `${s.owner}/${s.name}`.toLowerCase() === canonical)
 }
 
+/** The sample's own name for a repo, following an old name GitHub redirects. */
+export function canonicalSample(repo: RepoRef): RepoRef {
+  const alias = SAMPLE_ALIASES[`${repo.owner}/${repo.name}`.toLowerCase()]
+  if (!alias) return repo
+  const [owner, name] = alias.split('/') as [string, string]
+  return { owner, name }
+}
+
 export function readSample(repo: RepoRef): SampleFile {
-  return JSON.parse(readFileSync(`${SAMPLE_DIR}${sampleFileName(repo)}`, 'utf8')) as SampleFile
+  return JSON.parse(readFileSync(`${SAMPLE_DIR}${sampleFileName(canonicalSample(repo))}`, 'utf8')) as SampleFile
 }
 
 /** Loads a sample's entries into the cache with no expiry, keeping the time each was fetched. */

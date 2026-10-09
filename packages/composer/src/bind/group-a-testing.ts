@@ -1,7 +1,7 @@
 import { createElement } from 'react'
 import { render, type RenderResult } from '@testing-library/react'
 import { PIECES } from '@genui-github/ui/pieces'
-import type { RenderNode } from '@genui-github/renderer'
+import type { RenderNode } from '@genui-github/renderer/core'
 
 // Group A's render check: the real component draws a validated node's bound props in its state.
 

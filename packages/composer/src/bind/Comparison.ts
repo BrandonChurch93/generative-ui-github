@@ -25,7 +25,7 @@ import {
   missingCause,
   round1,
 } from './group-b-ui'
-import { validateNumbers } from '@genui-github/ui'
+import { validateNumbers } from '@genui-github/ui/schemas'
 import { Comparison, ComparisonReading } from '@genui-github/ui/schemas'
 
 type ComparisonModel = Comparison.ComparisonModelProps

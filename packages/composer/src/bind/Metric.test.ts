@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it } from 'vitest'
 import { cleanup } from '@testing-library/react'
-import { validateNumbers } from '@genui-github/ui'
+import { validateNumbers } from '@genui-github/ui/schemas'
 import { check, nextContext } from './testing'
 import { draw } from './group-a-testing'
 import { seriesFacts } from './group-a-shared'

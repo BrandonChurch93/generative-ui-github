@@ -1,5 +1,5 @@
 import { MEASURES, type MeasureId } from '@genui-github/data'
-import { extractNumbers } from '@genui-github/ui'
+import { extractNumbers } from '@genui-github/ui/schemas'
 import { bound, type Binder } from './types'
 import { inline, measureNumbers } from './group-a-shared'
 import type { CalloutModelProps, CalloutProps } from './group-a-ui'

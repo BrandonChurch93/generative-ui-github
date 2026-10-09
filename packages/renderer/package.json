@@ -16,7 +16,8 @@
   ],
   "exports": {
     ".": "./src/index.ts",
-    "./fixtures/*": "./fixtures/*"
+    "./fixtures/*": "./fixtures/*",
+    "./core": "./src/core.ts"
   },
   "publishConfig": {
     "exports": {
@@ -25,7 +26,11 @@
         "import": "./dist/index.js"
       },
       "./styles.css": "./dist/styles.css",
-      "./fixtures/*": "./fixtures/*"
+      "./fixtures/*": "./fixtures/*",
+      "./core": {
+        "types": "./dist/core.d.ts",
+        "import": "./dist/core.js"
+      }
     },
     "types": "./dist/index.d.ts"
   },

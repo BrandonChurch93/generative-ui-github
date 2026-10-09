@@ -1,5 +1,5 @@
 import type { ShapeName } from '@genui-github/data'
-import { WINDOW_WORDS as SHARED_WINDOW_WORDS, type LineChart } from '@genui-github/ui/schemas'
+import { BarChartFacts, WINDOW_WORDS as SHARED_WINDOW_WORDS, type LineChart } from '@genui-github/ui/schemas'
 import type { DataContext } from './types'
 
 // Shared by group B's binders. The model and bound types come from `@genui-github/ui/schemas`; the chart
@@ -26,14 +26,7 @@ export function formatChartValue(value: number, unit: ChartUnit | 'ratio'): stri
   return Math.abs(value) < 10 ? fixedOne.format(value) : oneDecimal.format(value)
 }
 
-/** packages/ui/src/components/BarChart/BarChart.tsx `barFacts` */
-export function barFacts(values: readonly number[]): number[] {
-  if (!values.length) return [0]
-  const total = values.reduce((a, b) => a + b, 0)
-  const facts = [...values, values.length, total, Math.max(...values) - Math.min(...values)]
-  if (total > 0) facts.push(...values.map(v => (v / total) * 100))
-  return facts
-}
+export const barFacts = BarChartFacts.barFacts
 
 // Shared by the group's binders.
 
@@ -51,7 +44,7 @@ export function missingCause(ctx: DataContext, shapes: readonly ShapeName[]): st
     if (ctx.shapes[shape]) continue
     const stat = STAT_IDS[shape]
     if (!stat) continue
-    if (ctx.warming?.stats.some(s => s.id === stat.id && s.state === 'counting')) return `GitHub is still counting ${stat.words}`
+    if (ctx.warming?.stats.some(s => s.id === stat.id && (s.state === 'counting' || s.state === 'missing'))) return `GitHub is still counting ${stat.words}`
     if (ctx.unavailable.includes(shape)) return `GitHub does not count ${stat.words} for this repo`
   }
   return NOT_IN_DATA

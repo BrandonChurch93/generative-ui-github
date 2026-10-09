@@ -18,7 +18,7 @@ import {
   type ShapeName,
   type WorkflowRun,
 } from '@genui-github/data'
-import { validateNumbers } from '@genui-github/ui'
+import { validateNumbers } from '@genui-github/ui/schemas'
 import { bound, empty, unavailable, type Binder, type DataContext } from './types'
 import {
   barFacts,

@@ -14,7 +14,7 @@ import {
   type Pull,
   type WorkflowRun,
 } from '@genui-github/data'
-import type { ErrorInfo } from '@genui-github/ui'
+import type { ErrorInfo } from '@genui-github/ui/schemas'
 import { bound, empty, unavailable, type Binder, type DataContext } from './types'
 import { ago, during, missingData, ref, sha7, shape, span } from './group-a-shared'
 import { WINDOW_WORDS, type StatusItem, type StatusListModelProps, type StatusListProps, type StatusScope, type StatusSort, type Window } from './group-a-ui'
