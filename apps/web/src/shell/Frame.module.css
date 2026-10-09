@@ -80,9 +80,14 @@
   flex: 1;
 }
 
+.footer {
+  display: grid;
+  gap: var(--space-2);
+  padding-block: var(--space-8) var(--space-6);
+}
+
 .foot {
   margin: 0;
-  padding-block: var(--space-8) var(--space-6);
   text-align: center;
   font-family: var(--font-mono);
   font-size: var(--text-meta-size);
@@ -90,6 +95,47 @@
   letter-spacing: var(--text-meta-tracking);
   color: var(--muted);
   text-wrap: balance;
+}
+
+.credits {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-1) var(--space-2);
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  letter-spacing: var(--text-meta-tracking);
+  color: var(--muted);
+}
+
+.credits a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--muted);
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: var(--underline-offset);
+  border-radius: var(--radius-xs);
+  transition: color 150ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.credits a:hover {
+  color: var(--ink);
+  text-decoration-color: currentColor;
+}
+
+.credits a:focus-visible {
+  outline: var(--focus-ring) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .credits a {
+    transition: none;
+  }
 }
 
 /* raw-ok: media conditions cannot read custom properties; these are the shell's breakpoints. */

@@ -4,7 +4,7 @@ import { CardFrame, registry, Tag, TextLink } from '@genui-github/ui'
 import { Piece } from '../../evals/Piece'
 import { loadResults } from '../../evals/results'
 import { MODEL_TITLE, runWhen, secondsWords, timesWord } from '../../evals/view'
-import { ExternalArrow, Frame, GITHUB_URL } from '../../shell/Frame'
+import { ExternalArrow, Frame, GITHUB_URL, OutLink, PORTFOLIO_URL } from '../../shell/Frame'
 import { MIDDOT } from '../../shell/words'
 import chrome from '../../shell/Chrome.module.css'
 import { findingSentences, headlineMetrics, runWords, tableRows, type Runs } from './finding'
@@ -286,7 +286,11 @@ export default function AboutPage() {
           </div>
           <h1 className={chrome.question}>Model decides, code renders.</h1>
           <p className={styles.by}>
-            Built by <b>Brandon Church</b>. Open source, MIT.
+            Built by{' '}
+            <OutLink className={styles.byLink} href={PORTFOLIO_URL}>
+              Brandon Church
+            </OutLink>
+            . Open source, MIT.
           </p>
         </header>
 

@@ -8,6 +8,8 @@ export const FOOTER_LINE = 'Nothing you paste is stored. Public repos only. Samp
 
 export const GITHUB_URL = 'https://github.com/BrandonChurch93/generative-ui-github'
 
+export const PORTFOLIO_URL = 'https://brandonchurchportfolio.com'
+
 type Section = 'catalog' | 'evals' | 'about'
 
 const LINKS: { href: string; label: string; section: Section }[] = [
@@ -49,11 +51,27 @@ export function SiteHeader({ current }: { current?: Section }) {
   )
 }
 
+/** A link that opens in a new tab and says so to a screen reader. */
+export function OutLink({ href, children, className }: { href: string; children: ReactNode; className?: string }) {
+  return (
+    <a className={className} href={href} target="_blank" rel="noreferrer">
+      {children}
+      <ExternalArrow />
+      <span className="sr-only">, opens in a new tab</span>
+    </a>
+  )
+}
+
 export function SiteFooter() {
   return (
-    <footer className={styles.wrap}>
+    <footer className={`${styles.wrap} ${styles.footer}`}>
       <p className={styles.foot} data-footer="">
         {FOOTER_LINE}
+      </p>
+      <p className={styles.credits}>
+        <OutLink href={PORTFOLIO_URL}>Built by Brandon Church</OutLink>
+        <span aria-hidden="true">·</span>
+        <OutLink href={GITHUB_URL}>Source on GitHub</OutLink>
       </p>
     </footer>
   )

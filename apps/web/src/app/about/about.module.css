@@ -19,9 +19,25 @@
   color: var(--muted);
 }
 
-.by b {
+.byLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
   font-weight: var(--text-label-weight);
   color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: var(--underline-offset);
+  border-radius: var(--radius-xs);
+}
+
+.byLink:hover {
+  text-decoration-color: currentColor;
+}
+
+.byLink:focus-visible {
+  outline: var(--focus-ring) solid var(--focus);
+  outline-offset: var(--focus-offset);
 }
 
 .sec {
