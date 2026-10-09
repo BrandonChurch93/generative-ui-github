@@ -164,7 +164,7 @@ Prompt: `prompts/06-shell.md`. Reference renderings: `design-system/screens/*.ht
 - [x] 6.12 Footer line on every page. Done when a Playwright test finds it on `/`, `/r/...`, `/catalog`, `/evals`, `/about`.
 - [x] 6.13 Accessibility pass. Done when `pnpm a11y` reports zero serious issues on every screen and fields are 16px under 480px.
 
-`GATE 4` · the owner uses the app end to end on desktop and phone.
+`GATE 4` · the owner uses the app end to end on desktop and phone. Passed 2026-10-09: the owner ran it and it works as expected; UI and UX changes are box A.3 in the final audit.
 
 ---
 
@@ -226,6 +226,11 @@ Checks the owner put off to one sitting before launch. Each one names the gate i
   - Ask two paraphrases and one off-template question on a live repo that is not a sample; note the latency against `docs/composer.md`'s targets.
   - Answer the Phase 4 and 5 entries in `docs/questions.md` (bound props, rule 4 and the golden layouts, pr-detail's checks, the punch card cap, first-time contributors, Upstash KV, golden answers in UTC, latency, the number check).
   - Executor reruns first: `pnpm samples:refresh vitejs/vite` (vite's two stats GitHub was still counting), `pnpm compositions:refresh`, `pnpm test`.
+
+- [ ] A.3 From GATE 4, the owner's UI and UX pass. The owner used the app and expects to want changes to its look and flow; they are made here, before launch, not mid-build.
+  - `pnpm dev`, then walk the landing, a composed screen at each density, a follow-up click, the drawer, the overlay, and each `?force=` screen, at desktop and phone widths. List the changes wanted.
+  - Read the copy the build wrote (`docs/questions.md`, 6.7: landing group lines and returning offer, the overlay steps, the drawer's route sentence, the rate-limit and daily-cap body copy) and the other Phase 6 entries.
+  - The executor makes the changes in the components, tokens and shell, keeping the CLAUDE.md rules, then reruns `pnpm e2e` and `pnpm a11y` and updates the reference comparisons.
 
 `GATE` · final audit: the owner works through every box above, then Phase 10 starts.
 

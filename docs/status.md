@@ -2,6 +2,10 @@
 
 Newest entry first. Written at every GATE and whenever a session ends mid-phase.
 
+## 2026-10-09 · GATE 4 passed · continuing into Phase 7
+
+The owner ran the app and it works as expected. They expect to want UI and UX changes; those are box A.3 in the final audit, beside A.1 and A.2. Phase 7 starts now.
+
 ## 2026-10-09 · GATE 4 · the app shell
 
 Phase 6 is complete: 6.1 to 6.13 are ticked and verified. GATE 2 and GATE 3 wait in the final audit (A.1, A.2). The session stops here for GATE 4: use the app end to end on desktop and phone.
