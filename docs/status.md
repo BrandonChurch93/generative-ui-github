@@ -2,6 +2,30 @@
 
 Newest entry first. Written at every GATE and whenever a session ends mid-phase.
 
+## 2026-10-09 · Final audit · Phases 0 to 9 done, Phase 10 waits on the owner
+
+Phase 9 is complete (9.1 to 9.6; 9.0 skipped until the dark values land). The plan's final audit gate comes before Phase 10, so the session stops here. Work through boxes A.1 to A.4 in `docs/plan.md`; Phase 10 (deploy, npm, the video, the About page and launch copy) starts after.
+
+**Phase 9, verified**
+
+- 9.1 An error boundary per region: a component that throws and a move that throws each leave the other four regions drawn (two renderer tests).
+- 9.2 `curl /api/health` returns the cache hit rate, model calls today, spend today with the cap, and GitHub's REST and GraphQL allowances.
+- 9.3 With `DAILY_CAP_USD=0.50`: `pnpm --filter @genui-github/composer load:samples` fired 500 golden compositions at the samples with zero model and zero GitHub calls; `load:limits` fired 50 live questions from 5 visitors, and the first visitor's 16th tripped the visitor limit, then the cap tripped at question 36, once $0.51 was counted.
+- 9.4 `pnpm check:secrets` exits 0 on a production build: no key-shaped strings, no configured token or key value, and no server variable named in a client bundle (core is now side-effect free, so its config schema stays on the server). Repo input is validated server side; nothing per visitor is stored.
+- 9.5 `pnpm lighthouse` (mobile, median of 3 runs): landing performance 0.93, accessibility 1.00; composed sample screen 0.94 and 1.00. The renderer and its schemas now load after first paint, CSS is inlined, and the composed screen holds the fold, so CLS is 0.01.
+- 9.6 `README.md` has every section `docs/launch.md` lists; it quotes measured figures (`docs/questions.md` 9.6).
+
+**Reruns for the audit** (2026-10-09, all green)
+
+- `pnpm samples:refresh vitejs/vite`: commit activity now counted; `stats/contributors` still not, so vite's contributor pieces show GitHub still counting. `pnpm compositions:refresh`: 60 written, 0 invalid, $0.034.
+- `pnpm lint`, `pnpm typecheck`, `pnpm test` (ui 311, composer 172, data 67, renderer 29, web 15, evals 8, core 6, mcp-app 3), `pnpm e2e` (40 passed, 1 skipped: the live click, `E2E_LIVE=1`), `pnpm a11y` (6 passed, zero serious issues), `pnpm --filter @genui-github/mcp-app e2e` (6 passed), the Inspector probe (both tools report the app).
+- One flake fixed on the way: the sample-load test took a single 50 ms reading while eight suites shared the CPU; it now takes the best of three, keeping 4.11's budget.
+
+**For the owner**
+
+- A.1 to A.4 in `docs/plan.md`, with the questions in `docs/questions.md` they point to.
+- `.env.local` holds what look like npm keys in plaintext comment lines. The README agent read the file to list variable names, against the rule that only code reads it; it copied nothing and the file stays gitignored. Consider moving those keys to a password manager.
+
 ## 2026-10-09 · GATE 5 deferred · continuing into Phase 9
 
 The owner is busy and asked to continue. GATE 5's checks are box A.4 in the final audit. Phase 9 starts now.
