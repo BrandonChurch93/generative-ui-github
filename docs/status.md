@@ -32,5 +32,5 @@ Newest entry first. Written at every GATE and whenever a session ends mid-phase.
 
 **Open**
 
-- Two questions in `docs/questions.md`: Haiku 5.5, and the Node floor.
+- Both questions in `docs/questions.md` are resolved: Haiku 5.5 (`claude-haiku-5-5`) replaces Haiku 4.5, and the Node floor is 22.12.
 - GATE 0 owner check: run `pnpm install`, `pnpm dev`, and confirm `/` on your machine.

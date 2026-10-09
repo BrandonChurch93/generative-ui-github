@@ -16,7 +16,7 @@ Every settled question, stated as a constraint. Read this before asking the owne
 
 - pnpm + Turborepo monorepo. Next.js App Router. React. TypeScript strict. CSS modules + custom properties. Motion (Framer) for wrappers, GSAP for internals. Zod for schemas. Vercel AI SDK is not used; the Anthropic SDK is called directly so cost accounting and caching are explicit. Octokit for GitHub. Vitest. Vercel hosting. Optional Vercel KV behind a cache interface.
 - No Tailwind. No Storybook; the catalog page is the component documentation.
-- Node 20+. ESM throughout.
+- Node 22.12+ (the Vitest 5 floor; Node 20 reached end of life in April 2026). Develop on 22 or 24 LTS. ESM throughout.
 
 ## Protocol
 
@@ -26,7 +26,7 @@ Every settled question, stated as a constraint. Read this before asking the owne
 ## Model routing
 
 - Haiku classifies the question to one of 15 templates or `off-template` and fills the prose slots of a template. Sonnet composes only off-template. The registry block is cached. No open model in v1 evals.
-- Model ids: Haiku is `claude-haiku-4-5-20251001`; Sonnet is the current Sonnet 5.5 id from https://docs.claude.com (record the exact string in `packages/core/config.ts` when Phase 0 runs). Prices: read the per-million input, cached-input and output prices for both models from https://docs.claude.com/en/docs/about-claude/pricing at Phase 0, write them into the price table with that date, and update the table whenever prices change. Never hard-code a price anywhere else.
+- Model ids: Haiku is Haiku 5.5, `claude-haiku-5-5` (owner, 2026-10-08, replacing Haiku 4.5: a tenth of the price, built for classification and routing). Sonnet is Sonnet 5.5, `claude-sonnet-5-5`. Both live in `packages/core/src/models.ts`. Haiku 5.5 runs adaptive thinking with effort defaulting to `medium`; the classifier and the fill set effort explicitly (start at `low` for the ~300ms classify budget) and Phase 5 tunes it against the eval set. Haiku 5.5 prices by prompt length: over 100,000 prompt tokens every token costs five times more, which the price table models; our prompts stay far below it. Prices: read the per-million input, cached-input and output prices for both models from https://docs.claude.com/en/docs/about-claude/pricing at Phase 0, write them into the price table with that date, and update the table whenever prices change. Never hard-code a price anywhere else.
 - The Motion package is `motion` (the current name of Framer Motion), imported as `motion/react`.
 - Evals call the composer directly, never the route, so the visitor limit and the daily cap do not apply to them. One full eval run (99 cases × 3 models × 3 runs) is roughly 900 compositions; budget about $15 at current prices and confirm with the cost accounting after the first run.
 - Vercel KV is required in production because the per-visitor limit and the daily cap are counters that must survive serverless cold starts. In-memory counters are for dev only. The cache uses the same KV when present.

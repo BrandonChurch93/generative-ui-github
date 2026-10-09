@@ -21,9 +21,16 @@ describe('price table', () => {
     for (const id of Object.values(MODELS)) expect(PRICES[id]).toBeDefined()
   })
 
-  it('computes cost per million tokens', () => {
-    const cost = costUsd(MODELS.haiku, { inputTokens: 1_000_000, outputTokens: 1_000_000, cacheReadTokens: 1_000_000 })
-    expect(cost).toBeCloseTo(PRICES[MODELS.haiku].input + PRICES[MODELS.haiku].output + PRICES[MODELS.haiku].cacheRead)
+  it('prices a short prompt at the base tier', () => {
+    const cost = costUsd(MODELS.haiku, { inputTokens: 60_000, cacheReadTokens: 40_000, outputTokens: 1_000_000 })
+    const p = PRICES[MODELS.haiku].base
+    expect(cost).toBeCloseTo((60_000 * p.input + 40_000 * p.cacheRead + 1_000_000 * p.output) / 1_000_000)
+  })
+
+  it('prices every token at the long tier once the prompt passes the threshold', () => {
+    const cost = costUsd(MODELS.haiku, { inputTokens: 60_000, cacheReadTokens: 40_001, outputTokens: 1_000_000 })
+    const p = PRICES[MODELS.haiku].longPrompt!.price
+    expect(cost).toBeCloseTo((60_000 * p.input + 40_001 * p.cacheRead + 1_000_000 * p.output) / 1_000_000)
   })
 })
 
