@@ -1,0 +1,18 @@
+<!-- @dsCard group="Actions" height=72 subtitle="suggested question chip" -->
+<style>
+body{margin:0;padding:16px;background:var(--bg);color:var(--ink);font-family:var(--font-sans);font-variant-numeric:tabular-nums}
+.grid{display:grid;gap:16px}
+.card{background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius-lg);box-shadow:var(--card)}
+.mono{font-family:var(--font-mono)}
+</style><style>
+.asks{display:flex;flex-wrap:wrap;gap:8px}
+.ask{padding:8px 13px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font:inherit;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer}
+.ask .k{font-family:var(--font-mono);opacity:.5;margin-right:6px}
+.ask.on{color:var(--ink);border-color:var(--accent);background:var(--surface-tint)}
+.ask:hover{border-color:var(--line-strong)}.ask:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+</style>
+<div class="asks">
+  <button class="ask on"><span class="k">1</span>What's blocking the next release?</button>
+  <button class="ask"><span class="k">2</span>Which checks are failing on canary?</button>
+  <button class="ask"><span class="k">3</span>Who's carrying this repo?</button>
+</div>

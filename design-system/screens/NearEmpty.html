@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Near-empty repo</title>
+
+<link rel="stylesheet" href="genui.css">
+<link rel="stylesheet" href="shell.css">
+</head>
+<body>
+
+
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#fcfaf8}
+/* Insight (insight-canvas States) */
+.in{position:relative;display:flex;flex-direction:column;gap:var(--space-2);padding-left:calc(var(--inset) + 1px);font-size:var(--insight)}
+[data-density="compact"] .in{gap:var(--space-1)}
+[data-density="spacious"] .in{gap:var(--space-3)}
+.in-rule{position:absolute;left:0;top:.34em;bottom:4px;width:3px;border-radius:var(--radius-pill);background:linear-gradient(180deg,var(--accent),var(--accent-2))}
+.in-rule.quiet{background:var(--muted)}
+.in p{margin:0}
+.in-text{max-width:60ch;text-wrap:pretty;font-size:var(--insight);line-height:1.35;font-weight:500;color:var(--ink)}
+.in-src{display:flex;align-items:baseline;gap:var(--space-3);font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+/* StatusList (StatusList States) */
+.sl ul{margin:0;padding:0;list-style:none}
+.sl li{position:relative;display:flex;align-items:center;gap:var(--space-3);padding:var(--row-y) var(--inset)}
+.sl li+li::before{content:"";position:absolute;left:var(--inset);right:var(--inset);top:0;height:1px;background:var(--line)}
+.sl .g-mark{align-self:flex-start;margin-top:3.75px}
+.sl-t{flex-grow:1;min-width:0;display:grid;gap:2px}
+.sl-t b{font-size:13.5px;line-height:1.3;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sl-t i{font:normal 400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Timeline (Timeline-States) */
+.tl-body{position:relative}
+.tl-day h3{margin:0;padding:var(--card-y) var(--inset) var(--space-1) calc(var(--inset) + 22px);font:500 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.tl-day ol{margin:0;padding:0;list-style:none}
+.tl-day li{position:relative}
+.tl-row{display:block;margin:0 var(--space-2);padding:var(--row-y) calc(var(--inset) - var(--space-2)) var(--row-y) calc(var(--inset) - var(--space-2) + 22px);border-radius:var(--radius-md);color:inherit;text-decoration:none}
+.tl-row:hover,.tl-row.is-hover{background:var(--surface-tint)}
+.tl-row:hover .tl-node,.tl-row.is-hover .tl-node{box-shadow:0 0 0 2px var(--surface-tint)}
+.tl-row:focus-visible,.tl-row.is-focus{outline:2px solid var(--focus);outline-offset:2px}
+.tl-line{display:flex;align-items:baseline;gap:var(--space-3)}
+.tl-title{flex-grow:1;min-width:0;font-size:13.5px;line-height:1.3;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tl-title.quiet{color:var(--muted)}
+.tl-size{flex-shrink:0;display:flex;gap:var(--space-1);font:500 11px/1.3 var(--font-mono)}
+.tl-size .add{color:var(--good)}
+.tl-size .del{min-width:4ch;text-align:right;color:var(--crit)}
+.tl-meta{display:block;margin-top:2px;font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tl-node{position:absolute;z-index:1;left:calc(var(--inset) + 1.5px);top:calc(var(--row-y) + 5.775px);width:6px;height:6px;border-radius:50%;background:var(--muted);box-shadow:0 0 0 2px var(--surface)}
+.tl-node.now{left:calc(var(--inset) + .5px);top:calc(var(--row-y) + 4.775px);width:8px;height:8px;background:var(--accent)}
+.tl-spine{position:absolute;left:calc(var(--inset) + 4px);width:1px;top:calc(var(--card-y) + var(--space-1) + var(--row-y) + 24.875px);bottom:calc(var(--row-y) + 26.875px);background:var(--line)}
+/* Steps (Steps sheet) */
+[data-density]{--st-gap:var(--space-5);--st-link:var(--space-2)}
+[data-density="compact"]{--st-gap:var(--space-4);--st-link:var(--space-2)}
+[data-density="spacious"]{--st-gap:var(--space-6);--st-link:var(--space-3)}
+.st-list{margin:0;padding:var(--st-gap) 0;list-style:none;display:flex;flex-direction:column;gap:var(--st-gap)}
+.st-list>li{position:relative;display:flex;align-items:flex-start;gap:var(--space-3);padding:0 var(--inset)}
+.st-list>li:not(:last-child)::after{content:"";position:absolute;left:calc(var(--inset) + 10px);top:26px;bottom:calc(var(--space-1) - var(--st-gap) - 1px);width:1px;background:var(--line)}
+.st-n{flex-shrink:0;box-sizing:border-box;width:21px;height:21px;margin-top:1px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font:500 11px/1 var(--font-mono);color:var(--muted)}
+.st-list>li:first-child .st-n{border-color:var(--accent);color:var(--accent-text)}
+.st-c{flex-grow:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start}
+.st-top{align-self:stretch;display:flex;align-items:baseline;justify-content:space-between;gap:var(--space-3);min-width:0}
+.st-top h3{margin:0;min-width:0;font-size:15px;line-height:21px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.st-fact{flex-shrink:0;font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap}
+.st-c p{margin:var(--space-1) 0 0;max-width:62ch;font-size:14px;line-height:1.45;color:var(--muted);text-wrap:pretty}
+.st-c code{margin:0 .1em;font-family:var(--font-mono);font-size:.85em;font-weight:500;color:var(--ink);white-space:nowrap}
+.st-c .st-a{position:relative;margin-top:var(--st-link);display:inline-flex;align-items:center;gap:var(--space-1)}
+.st-c .st-a svg{flex-shrink:0;display:block}
+.st-c .st-a:hover svg{transform:translate(1px,-1px)}
+/* page: the two evidence cards stack in one column */
+.ne-stack{display:flex;flex-direction:column;gap:var(--space-4);min-width:0}
+</style>
+
+<div class="sc-page" data-density="comfortable">
+
+<header class="sc-wrap">
+<div class="sc-top">
+<a class="sc-wordmark" href="#">Generative UI</a>
+<nav class="sc-nav" aria-label="Site">
+<a href="#">Catalog</a>
+<a href="#">Evals</a>
+<a href="#">About</a>
+<a href="https://github.com/">GitHub<svg class="sc-ext" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8L8 4"/><path d="M4.5 4H8V7.5"/></svg></a>
+</nav>
+</div>
+</header>
+
+<main class="sc-wrap sc-main">
+
+<header class="sc-chrome">
+<div class="sc-chrome-top">
+<div>
+<div class="sc-eyebrow"><span class="sc-chip repo">ellie-hart/tidycsv</span><span class="sc-chip">branch main</span><span class="sc-eyebrow-note">asked just now</span></div>
+<h1 class="sc-question">What's blocking the next release?</h1>
+</div>
+<div class="sc-built">
+<span class="sc-built-num">1.6<small>s</small></span>
+<span class="sc-built-meta">composed by Haiku · 4 components</span>
+<span class="sc-built-meta">template release-blockers</span>
+</div>
+</div>
+</header>
+
+<div class="in"><span class="in-rule quiet" aria-hidden="true"></span><p class="in-text">Nothing is blocking a release here yet. There are no releases, tags or pull requests, only 3&#160;commits by one author.</p><p class="in-src">from 3 commits, 0 PRs, 0 releases, 0 tags</p></div>
+
+<div class="sc-split" style="--sc-split: minmax(0,2fr) minmax(0,3fr)">
+<div class="ne-stack">
+<section class="g-card sl" aria-label="Open pull requests"><div class="g-head"><h2>Open pull requests</h2><span>none yet</span></div><ul><li><span class="g-mark neutral" aria-hidden="true"></span><span class="sl-t"><b>No pull requests yet</b><i>all 3 commits went straight to main</i></span></li></ul></section>
+
+<section class="g-card tl" aria-label="Commits to main"><div class="g-head"><h2>Commits to main</h2><span>last 14 days</span></div><div class="tl-body">
+<div class="tl-day"><h3>Mon Oct 5</h3><ol>
+<li><a class="tl-row" href="https://github.com/ellie-hart/tidycsv/commit/9f3a2c1"><span class="tl-node now" aria-hidden="true"></span><span class="tl-line"><span class="tl-title">Parse quoted fields that span lines</span><span class="tl-size" aria-hidden="true"><span class="add">+142</span><span class="del">−37</span></span></span><span class="tl-meta">9f3a2c1 · ellie-hart · committed 3d ago</span><span class="g-sr">142 lines added, 37 removed</span></a></li>
+</ol></div>
+<span class="tl-spine" aria-hidden="true"></span>
+</div></section>
+</div>
+
+<section class="g-card" aria-labelledby="ne-steps"><div class="g-head"><h2 id="ne-steps">Questions that fit this repo</h2><span>3 commits</span></div><ol class="st-list" role="list">
+<li><span class="st-n" aria-hidden="true">1</span><div class="st-c"><div class="st-top"><h3><span class="g-sr">Step 1 of 3. </span>Read the three commits</h3><span class="st-fact">since Sep 12</span></div><p>With no pull requests, the commits are the whole history, and each is a short read.</p><a class="g-link st-a" href="?q=What+changed+recently">What changed recently?</a></div></li>
+<li><span class="st-n" aria-hidden="true">2</span><div class="st-c"><div class="st-top"><h3><span class="g-sr">Step 2 of 3. </span>Find the busiest files</h3><span class="st-fact">11 files</span></div><p>Even three commits show which files the author keeps coming back to.</p><a class="g-link st-a" href="?q=Which+files+change+the+most">Which files change most?</a></div></li>
+<li><span class="st-n" aria-hidden="true">3</span><div class="st-c"><div class="st-top"><h3><span class="g-sr">Step 3 of 3. </span>Ask again after a tag</h3><span class="st-fact">no tags yet</span></div><p>Release questions need a release to measure. Once a version is tagged, ask this again.</p><a class="g-link st-a" href="https://github.com/ellie-hart/tidycsv/releases" target="_blank" rel="noopener">Watch releases on GitHub<span class="g-sr"> (opens GitHub)</span><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 3H9v4.5"/><path d="M9 3 3 9"/></svg></a></div></li>
+</ol></section>
+</div>
+
+<footer class="sc-strip" aria-label="Build receipt">
+<span>read <b>6 GitHub endpoints</b> · 6 live</span>
+<span>fetch <b>0.48&#160;s</b> · compose <b>0.88&#160;s</b> · render <b>0.21&#160;s</b></span>
+<span>composed in <b>1.6&#160;s</b></span>
+<button class="g-link sc-strip-end" type="button" aria-expanded="false">How this was built</button>
+</footer>
+
+</main>
+
+<footer class="sc-wrap sc-foot">Public repos only · nothing is stored beyond a cache of GitHub's public stats · no account needed</footer>
+
+<form class="sc-tray" role="search" aria-label="Ask about ellie-hart/tidycsv">
+<label class="sc-ask"><span class="g-sr">Ask another question about ellie-hart/tidycsv</span><input type="text" placeholder="Ask another question about ellie-hart/tidycsv"></label>
+<button class="sc-send" type="submit" aria-label="Ask" aria-disabled="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13V3"/><path d="M4 7l4-4 4 4"/></svg></button>
+<span class="sc-tray-rule" aria-hidden="true"></span>
+<div class="sc-density" role="radiogroup" aria-label="Density"><button class="sc-seg" type="button" role="radio" aria-checked="false">Compact</button><button class="sc-seg" type="button" role="radio" aria-checked="true">Comfortable</button><button class="sc-seg" type="button" role="radio" aria-checked="false">Spacious</button></div>
+</form>
+
+</div>
+
+</body>
+</html>

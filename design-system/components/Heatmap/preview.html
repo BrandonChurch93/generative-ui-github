@@ -1,0 +1,168 @@
+<!-- @dsCard group="Data" height=1124 width=1256 subtitle="punch card · full, sparse · skeleton, empty, error, warming" -->
+<style>
+body{margin:0;padding:16px;background:var(--bg);color:var(--ink);font-family:var(--font-sans);font-variant-numeric:tabular-nums}
+[data-density]{--inset:var(--space-5);--card-y:var(--space-4);--row-y:var(--space-3);--hm-r:4px;--hm-lgap:var(--space-3);--hm-foot:var(--space-4)}
+[data-density="compact"]{--inset:var(--space-4);--card-y:var(--space-3);--row-y:var(--space-2);--hm-r:3px;--hm-lgap:var(--space-2);--hm-foot:var(--space-3)}
+[data-density="spacious"]{--inset:var(--space-6);--card-y:var(--space-5);--row-y:var(--space-4);--hm-lgap:var(--space-4);--hm-foot:var(--space-5)}
+.rows{display:grid;gap:20px}
+.row{display:grid;gap:8px}
+.row>h3{margin:0;font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.pair{display:grid;grid-template-columns:600px 600px;gap:var(--space-4);align-items:start}
+.pair.mixed{grid-template-columns:540px 668px}
+.stack{display:grid;gap:var(--space-4)}
+.cell{display:grid;gap:8px;align-content:start}
+.cell>h4{margin:0;font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.card{position:relative;overflow:hidden;background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius-lg);box-shadow:var(--card)}
+.head{display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-3);padding:var(--card-y) var(--inset) var(--row-y);border-bottom:1px solid var(--line-soft)}
+.head h2{margin:0;font-size:13px;line-height:1.3;font-weight:600;letter-spacing:.01em}
+.head>span{font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.mark{position:relative;flex-shrink:0;box-sizing:border-box;width:10px;height:10px;border-radius:50%;border:1.5px solid var(--good-fill)}
+.mark.neutral,.mark.unavailable{border-color:var(--muted)}
+.mark.unavailable::after{content:"";position:absolute;left:50%;top:-1.5px;bottom:-1.5px;width:1.5px;margin-left:-.75px;background:var(--muted);transform:rotate(45deg)}
+.mark.warming{border-color:var(--line)}
+.mark.warming::after{content:"";position:absolute;inset:-1.5px;border-radius:50%;border:1.5px solid transparent;border-top-color:var(--accent);border-right-color:var(--accent)}
+.retry{flex-shrink:0;white-space:nowrap;margin:0;padding:0;border:0;background:none;font:500 13px/1.3 var(--font-sans);color:var(--accent-text);cursor:pointer;text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--accent-text) 35%,transparent);text-underline-offset:3px}
+.retry:hover{text-decoration-color:currentColor}
+.retry:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.progress{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--line-soft)}
+.progress>span{position:absolute;left:0;top:0;bottom:0;border-radius:0 var(--radius-pill) var(--radius-pill) 0;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+.bl{display:block;border-radius:var(--radius-sm);background:var(--line-soft)}
+.hm-plot{display:grid;grid-template-columns:20px minmax(0,1fr);column-gap:var(--hm-lgap);row-gap:var(--space-2);padding:var(--card-y) var(--inset) 0}
+.hm-days{display:grid;grid-template-rows:repeat(7,minmax(0,1fr));row-gap:2px;font:400 10.5px/1 var(--font-mono);color:var(--muted)}
+.hm-days>span{display:flex;align-items:center}
+.hm-days>.on{color:var(--ink);font-weight:500}
+.hm-field{min-width:0;container-type:inline-size}
+.hm-grid{position:relative;display:grid;grid-template-columns:repeat(24,minmax(0,1fr));grid-auto-rows:calc((100cqw - 46px) / 24);gap:2px}
+:where(.hm-grid,.hm-sw)>:where(i,button){display:block;margin:0;padding:0;border:0;border-radius:var(--hm-r);background:var(--heat-0)}
+.c1{background:var(--heat-1)}.c2{background:var(--heat-2)}.c3{background:var(--heat-3)}.c4{background:var(--heat-4)}.c5{background:var(--heat-5)}
+.pk{position:relative}
+.pk::after{content:"";position:absolute;left:50%;top:50%;width:4px;height:4px;margin:-2px 0 0 -2px;border-radius:50%;background:var(--accent-ink)}
+.hm-grid>.is-hover,.hm-grid>.is-focus,.hm-grid>button:focus-visible{position:relative;z-index:2;transform:scale(1.2);box-shadow:0 0 0 2px var(--surface)}
+.hm-grid>.is-focus,.hm-grid>button:focus-visible{box-shadow:0 0 0 5px var(--surface);outline:2px solid var(--focus);outline-offset:2px}
+.hm-tip{position:absolute;z-index:3;left:calc((100% - 46px) / 24 * (var(--x) + .5) + var(--x) * 2px);top:calc((100% - 12px) / 7 * var(--y) + var(--y) * 2px - var(--space-2));transform:translate(-50%,-100%);display:grid;gap:2px;padding:var(--space-2) var(--space-3);background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius-md);box-shadow:var(--card);white-space:nowrap}
+.hm-tip>b{display:flex;align-items:center;gap:var(--space-2);font-size:13px;line-height:1.3;font-weight:600;color:var(--ink)}
+.hm-tip>b>i{flex-shrink:0;width:10px;height:10px;border-radius:3px}
+.hm-tip>b>em{font-style:normal;font-weight:400;color:var(--muted)}
+.hm-tip>span{padding-left:18px;font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.hm-hours{grid-column:2;display:grid;grid-template-columns:repeat(24,minmax(0,1fr));column-gap:2px;font:400 10.5px/1 var(--font-mono);color:var(--muted)}
+.hm-hours>span{grid-column:span 3;width:calc((100% - 4px) / 3);text-align:center}
+[data-density="compact"] .hm-hours>span:nth-child(even){visibility:hidden}
+.hm-foot{display:flex;justify-content:space-between;align-items:center;gap:var(--space-3);padding:var(--hm-foot) var(--inset) var(--card-y);font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.hm-legend{display:flex;align-items:center;gap:var(--space-3)}
+.hm-lg{display:flex;align-items:center;gap:var(--space-1)}
+.hm-sw{display:flex;gap:2px}
+.hm-sw>i{width:12px;height:12px;border-radius:3px}
+.hm-pk{display:flex;align-items:center;gap:var(--space-2);white-space:nowrap}
+.hm-pk>i{flex-shrink:0;width:12px;height:12px;border-radius:3px}
+.hm-msg{display:flex;align-items:center;gap:var(--space-3);padding:var(--card-y) var(--inset)}
+.hm-msg>.mark{align-self:flex-start;margin-top:3.75px}
+.hm-t{flex-grow:1;min-width:0;display:grid;gap:2px}
+.hm-t>b{font-size:13.5px;line-height:1.3;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hm-t>b.quiet{color:var(--muted)}
+.hm-t>i{font:normal 400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hm-sk .head{align-items:center;height:17px}
+.hm-sk .hm-days .bl{width:19px;height:7px}
+.hm-skgrid{display:grid;grid-auto-rows:calc((100cqw - 46px) / 24);gap:2px}
+.hm-skgrid>.bl{border-radius:var(--hm-r)}
+.hm-sk .hm-hours>span{height:10.5px;display:flex;align-items:center;justify-content:center}
+.hm-sk .hm-hours .bl{width:12px;height:7px}
+.hm-sk .hm-foot{height:16px}
+</style>
+<div class="rows">
+  <section class="row" data-density="comfortable">
+    <h3>Comfortable · full with hover · sparse with keyboard focus</h3>
+    <div class="pair">
+      <div class="card"><div class="head"><h2>When reviews happen</h2><span>last 12 weeks · MDT</span></div>
+        <div class="hm-plot" role="group" aria-label="Reviews peak Tuesday at 14:00 and thin out after 19:00 and on weekends.">
+          <div class="hm-days" aria-hidden="true"><span>Mon</span><span class="on">Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
+          <div class="hm-field"><div class="hm-grid">
+<i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c2"></i><i class="c2"></i><i class="c2"></i><i class="c2"></i><i class="c3"></i><i class="c3"></i><i class="c4"></i><i class="c4"></i><i class="c3"></i><i class="c3"></i><i class="c4"></i><i class="c4"></i><i class="c3"></i><i class="c2"></i><i class="c2"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i></i><i></i><i class="c1"></i>
+<i class="c1"></i><i class="c1"></i><i class="c2"></i><i class="c2"></i><i class="c2"></i><i class="c3"></i><i class="c3"></i><i class="c3"></i><i class="c4"></i><i class="c4"></i><i class="c4"></i><i class="c4"></i><i class="c4"></i><i class="c5"></i><i class="c5 pk"></i><i class="c4"></i><i class="c3"></i><i class="c2"></i><i class="c2"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i></i><i></i>
+<i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c2"></i><i class="c2"></i><i class="c2"></i><i class="c3"></i><i class="c3"></i><i class="c4"></i><i class="c5"></i><i class="c4"></i><i class="c4"></i><i class="c3"></i><i class="c4"></i><i class="c4"></i><i class="c3"></i><i class="c3"></i><i class="c2"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i></i><i></i><i></i>
+<i class="c1"></i><i class="c1"></i><i class="c2"></i><i class="c2"></i><i class="c2"></i><i class="c2"></i><i class="c3"></i><i class="c3"></i><i class="c4"></i><i class="c4"></i><i class="c4 is-hover"></i><i class="c4"></i><i class="c3"></i><i class="c4"></i><i class="c5"></i><i class="c4"></i><i class="c3"></i><i class="c2"></i><i class="c2"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i></i><i class="c1"></i>
+<i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c2"></i><i class="c2"></i><i class="c2"></i><i class="c2"></i><i class="c3"></i><i class="c3"></i><i class="c3"></i><i class="c3"></i><i class="c3"></i><i class="c2"></i><i class="c3"></i><i class="c3"></i><i class="c2"></i><i class="c2"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i class="c1"></i><i></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c2"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c2"></i><i class="c1"></i><i class="c1"></i><i></i><i></i><i></i>
+<span class="hm-tip" role="tooltip" style="--x: 10; --y: 3"><b><i class="c4"></i>27 <em>reviews</em></b><span>Thu 10:00</span></span>
+          </div></div>
+          <div class="hm-hours" aria-hidden="true"><span>00</span><span>03</span><span>06</span><span>09</span><span>12</span><span>15</span><span>18</span><span>21</span></div>
+        </div>
+        <div class="hm-foot"><span class="hm-legend" aria-hidden="true"><span class="hm-lg">0<span class="hm-sw"><i></i></span></span><span class="hm-lg">1<span class="hm-sw"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i><i class="c5"></i></span>38</span></span><span class="hm-pk"><i class="c5 pk" aria-hidden="true"></i>Peak · Tue 14:00 · 38 reviews</span></div>
+      </div>
+      <div class="card"><div class="head"><h2>When commits land</h2><span>last 4 weeks · MDT</span></div>
+        <div class="hm-plot" role="group" aria-label="Most commits land Tuesday to Thursday between 09:00 and 11:00.">
+          <div class="hm-days" aria-hidden="true"><span>Mon</span><span>Tue</span><span class="on">Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
+          <div class="hm-field"><div class="hm-grid">
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="c2"></i><i></i><i></i><i></i><i></i><i class="c2"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="c2"></i><i class="c3"></i><i class="c4"></i><i></i><i></i><i></i><i></i><i class="c2"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="c3"></i><i class="c5 pk"></i><i class="c3"></i><i></i><i></i><i></i><i></i><i class="c2"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="c2"></i><i class="c4"></i><i class="c2"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="c2"></i><i></i><i></i><i class="c2"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><button class="c2 is-focus" type="button" aria-label="Sun 20:00 · 1 commit"></button><i></i><i></i><i></i>
+<span class="hm-tip" role="tooltip" style="--x: 20; --y: 6"><b><i class="c2"></i>1 <em>commit</em></b><span>Sun 20:00</span></span>
+          </div></div>
+          <div class="hm-hours" aria-hidden="true"><span>00</span><span>03</span><span>06</span><span>09</span><span>12</span><span>15</span><span>18</span><span>21</span></div>
+        </div>
+        <div class="hm-foot"><span class="hm-legend" aria-hidden="true"><span class="hm-lg">0<span class="hm-sw"><i></i></span></span><span class="hm-lg">1<span class="hm-sw"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i><i class="c5"></i></span>4</span></span><span class="hm-pk"><i class="c5 pk" aria-hidden="true"></i>Peak · Wed 10:00 · 4 commits</span></div>
+      </div>
+    </div>
+  </section>
+  <section class="row">
+    <h3>Compact · full · Spacious · sparse</h3>
+    <div class="pair mixed">
+      <div class="card" data-density="compact"><div class="head"><h2>When reviews happen</h2><span>last 12 weeks · MDT</span></div>
+        <div class="hm-plot" role="group" aria-label="Reviews peak Tuesday at 14:00 and thin out after 19:00 and on weekends.">
+          <div class="hm-days" aria-hidden="true"><span>Mon</span><span class="on">Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
+          <div class="hm-field"><div class="hm-grid">
+<i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c2"></i><i class="c2"></i><i class="c2"></i><i class="c2"></i><i class="c3"></i><i class="c3"></i><i class="c4"></i><i class="c4"></i><i class="c3"></i><i class="c3"></i><i class="c4"></i><i class="c4"></i><i class="c3"></i><i class="c2"></i><i class="c2"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i></i><i></i><i class="c1"></i>
+<i class="c1"></i><i class="c1"></i><i class="c2"></i><i class="c2"></i><i class="c2"></i><i class="c3"></i><i class="c3"></i><i class="c3"></i><i class="c4"></i><i class="c4"></i><i class="c4"></i><i class="c4"></i><i class="c4"></i><i class="c5"></i><i class="c5 pk"></i><i class="c4"></i><i class="c3"></i><i class="c2"></i><i class="c2"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i></i><i></i>
+<i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c2"></i><i class="c2"></i><i class="c2"></i><i class="c3"></i><i class="c3"></i><i class="c4"></i><i class="c5"></i><i class="c4"></i><i class="c4"></i><i class="c3"></i><i class="c4"></i><i class="c4"></i><i class="c3"></i><i class="c3"></i><i class="c2"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i></i><i></i><i></i>
+<i class="c1"></i><i class="c1"></i><i class="c2"></i><i class="c2"></i><i class="c2"></i><i class="c2"></i><i class="c3"></i><i class="c3"></i><i class="c4"></i><i class="c4"></i><i class="c4"></i><i class="c4"></i><i class="c3"></i><i class="c4"></i><i class="c5"></i><i class="c4"></i><i class="c3"></i><i class="c2"></i><i class="c2"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i></i><i class="c1"></i>
+<i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c2"></i><i class="c2"></i><i class="c2"></i><i class="c2"></i><i class="c3"></i><i class="c3"></i><i class="c3"></i><i class="c3"></i><i class="c3"></i><i class="c2"></i><i class="c3"></i><i class="c3"></i><i class="c2"></i><i class="c2"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i class="c1"></i><i></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c2"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c2"></i><i class="c1"></i><i class="c1"></i><i></i><i></i><i></i>
+          </div></div>
+          <div class="hm-hours" aria-hidden="true"><span>00</span><span>03</span><span>06</span><span>09</span><span>12</span><span>15</span><span>18</span><span>21</span></div>
+        </div>
+        <div class="hm-foot"><span class="hm-legend" aria-hidden="true"><span class="hm-lg">0<span class="hm-sw"><i></i></span></span><span class="hm-lg">1<span class="hm-sw"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i><i class="c5"></i></span>38</span></span><span class="hm-pk"><i class="c5 pk" aria-hidden="true"></i>Peak · Tue 14:00 · 38 reviews</span></div>
+      </div>
+      <div class="card" data-density="spacious"><div class="head"><h2>When commits land</h2><span>last 4 weeks · MDT</span></div>
+        <div class="hm-plot" role="group" aria-label="Most commits land Tuesday to Thursday between 09:00 and 11:00.">
+          <div class="hm-days" aria-hidden="true"><span>Mon</span><span>Tue</span><span class="on">Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
+          <div class="hm-field"><div class="hm-grid">
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="c2"></i><i></i><i></i><i></i><i></i><i class="c2"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="c2"></i><i class="c3"></i><i class="c4"></i><i></i><i></i><i></i><i></i><i class="c2"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="c3"></i><i class="c5 pk"></i><i class="c3"></i><i></i><i></i><i></i><i></i><i class="c2"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="c2"></i><i class="c4"></i><i class="c2"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="c2"></i><i></i><i></i><i class="c2"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="c2"></i><i></i><i></i><i></i>
+          </div></div>
+          <div class="hm-hours" aria-hidden="true"><span>00</span><span>03</span><span>06</span><span>09</span><span>12</span><span>15</span><span>18</span><span>21</span></div>
+        </div>
+        <div class="hm-foot"><span class="hm-legend" aria-hidden="true"><span class="hm-lg">0<span class="hm-sw"><i></i></span></span><span class="hm-lg">1<span class="hm-sw"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i><i class="c5"></i></span>4</span></span><span class="hm-pk"><i class="c5 pk" aria-hidden="true"></i>Peak · Wed 10:00 · 4 commits</span></div>
+      </div>
+    </div>
+  </section>
+  <section class="row" data-density="comfortable">
+    <h3>Comfortable · skeleton · empty, error, warming</h3>
+    <div class="pair">
+      <div class="card hm-sk" aria-busy="true"><span class="sr">Loading review times.</span>
+        <div class="head" aria-hidden="true"><span class="bl" style="width:140px;height:9px"></span><span class="bl" style="width:96px;height:7px"></span></div>
+        <div class="hm-plot" aria-hidden="true">
+          <div class="hm-days"><span><i class="bl"></i></span><span><i class="bl"></i></span><span><i class="bl"></i></span><span><i class="bl"></i></span><span><i class="bl"></i></span><span><i class="bl"></i></span><span><i class="bl"></i></span></div>
+          <div class="hm-field"><div class="hm-skgrid"><i class="bl"></i><i class="bl"></i><i class="bl"></i><i class="bl"></i><i class="bl"></i><i class="bl"></i><i class="bl"></i></div></div>
+          <div class="hm-hours"><span><i class="bl"></i></span><span><i class="bl"></i></span><span><i class="bl"></i></span><span><i class="bl"></i></span><span><i class="bl"></i></span><span><i class="bl"></i></span><span><i class="bl"></i></span><span><i class="bl"></i></span></div>
+        </div>
+        <div class="hm-foot" aria-hidden="true"><span class="bl" style="width:120px;height:10px"></span><span class="bl" style="width:176px;height:7px"></span></div>
+      </div>
+      <div class="stack">
+        <div class="card"><div class="head"><h2>When reviews happen</h2><span>last 12 weeks · MDT</span></div><div class="hm-msg"><span class="mark neutral" aria-hidden="true"></span><span class="hm-t"><b>No reviews in the last 12 weeks</b><i>anthropics/claude-code · 14 pull requests merged without one</i></span></div></div>
+        <div class="card"><div class="head"><h2>When reviews happen</h2><span>last 12 weeks · MDT</span></div><div class="hm-msg"><span class="mark unavailable" aria-hidden="true"></span><span class="hm-t"><b>Couldn't load review times</b><i>GitHub returned 502 · tried twice</i></span><button class="retry" type="button">Try again</button></div></div>
+        <div class="card" aria-busy="true"><div class="head"><h2>When commits land</h2><span>last 12 weeks · MDT</span></div><div class="hm-msg"><span class="mark warming" aria-hidden="true"></span><span class="hm-t"><b class="quiet">GitHub is counting commits by hour</b><i>usually under a minute · checking again in 12s</i></span></div><span class="progress" aria-hidden="true"><span style="width:38%"></span></span></div>
+      </div>
+    </div>
+  </section>
+</div>

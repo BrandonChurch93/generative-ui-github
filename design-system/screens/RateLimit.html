@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Rate limit</title>
+
+<link rel="stylesheet" href="genui.css">
+<link rel="stylesheet" href="shell.css">
+</head>
+<body>
+
+
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#fcfaf8}
+/* page: the lead takes the Insight slot, in WarmingUp's lead rhythm */
+[data-density]{--rl-gap:var(--space-2)}
+[data-density="compact"]{--rl-gap:var(--space-1)}
+[data-density="spacious"]{--rl-gap:var(--space-3)}
+.rl-lead{position:relative;display:flex;flex-direction:column;padding-left:calc(var(--inset) + 1px)}
+.rl-lead>.g-mark{position:absolute;left:0;top:calc((var(--insight) * 1.35 - 10px) / 2)}
+.rl-say{margin:0;max-width:60ch;font-size:var(--insight);line-height:1.35;font-weight:500;color:var(--ink);text-wrap:pretty}
+.rl-say code{font-family:var(--font-mono);font-size:.85em;font-weight:500}
+.rl-why{margin:var(--rl-gap) 0 0;max-width:68ch;font-size:14px;line-height:1.45;color:var(--muted);text-wrap:balance}
+.rl-when{margin:var(--space-2) 0 0;display:flex;flex-wrap:wrap;align-items:baseline;column-gap:var(--space-3);row-gap:var(--space-1);font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+/* page: the countdown card */
+.rl-reset{display:flex;flex-direction:column;padding:var(--card-y) var(--inset) calc(var(--card-y) + 3px)}
+.rl-count{font:500 var(--num)/1 var(--font-mono);letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--ink)}
+.rl-count-d{margin-top:var(--stack);font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.rl-again{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:var(--space-3);row-gap:var(--space-1);margin:var(--space-4) 0 0;padding-top:var(--space-3);border-top:1px solid var(--line-soft);font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.rl-again .g-retry{margin-left:auto}
+/* page: what still answers */
+.rl-cached{padding:var(--card-y) var(--inset) calc(var(--card-y) + 3px)}
+.rl-p{margin:0;max-width:60ch;font-size:14px;line-height:1.45;color:var(--muted);text-wrap:pretty}
+.rl-repos{display:flex;flex-wrap:wrap;gap:var(--space-2);margin:var(--space-4) 0 0;padding:0;list-style:none}
+.rl-repo{font:500 12.5px/1 var(--font-mono);letter-spacing:0}
+/* page: the tray's field while new questions wait */
+.rl-ask{cursor:not-allowed}
+.rl-ask>.g-mark{margin-left:var(--space-4)}
+.rl-ask input{padding-left:var(--space-2);cursor:not-allowed}
+.rl-ask input:disabled{color:var(--muted)}
+.sc-send:disabled{cursor:not-allowed}
+@media (max-width:639px){
+.rl-ask>.g-mark{display:none}
+.rl-ask input{padding-left:var(--space-4)}
+}
+</style>
+
+<div class="sc-page" data-density="comfortable">
+
+<header class="sc-wrap">
+<div class="sc-top">
+<a class="sc-wordmark" href="#">Generative UI</a>
+<nav class="sc-nav" aria-label="Site">
+<a href="#">Catalog</a>
+<a href="#">Evals</a>
+<a href="#">About</a>
+<a href="https://github.com/">GitHub<svg class="sc-ext" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8L8 4"/><path d="M4.5 4H8V7.5"/></svg></a>
+</nav>
+</div>
+</header>
+
+<main class="sc-wrap sc-main">
+
+<header class="sc-chrome">
+<div class="sc-chrome-top">
+<div>
+<div class="sc-eyebrow"><span class="sc-chip repo">vitejs/vite</span><span class="sc-chip">branch main</span><span class="sc-eyebrow-note">asked just now</span></div>
+<h1 class="sc-question">Is CI getting slower?</h1>
+</div>
+</div>
+</header>
+
+<section class="rl-lead" aria-labelledby="rl-say">
+<span class="g-mark unavailable" aria-hidden="true"></span>
+<p class="rl-say" id="rl-say" role="status">GitHub's hourly limit for this app is used up, so <code>vitejs/vite</code> can't be read right now.</p>
+<p class="rl-why">Everyone using this app shares one allowance from GitHub, and this hour's ran out at 17:41 UTC. Nothing is wrong with the repo or your question.</p>
+<p class="rl-when">GitHub answered 403 · rate limit exceeded</p>
+</section>
+
+<div class="sc-split is-level" style="--sc-split: minmax(0,2fr) minmax(0,3fr)">
+
+<section class="g-card" aria-labelledby="rl-reset-h">
+<div class="g-head"><h2 id="rl-reset-h">GitHub rate limit</h2><span>resets 17:58 UTC</span></div>
+<div class="rl-reset">
+<span class="g-sr">Resets in 12 minutes.</span>
+<span class="rl-count" aria-hidden="true">12:23</span>
+<span class="rl-count-d">until it resets · 0 of 5,000 requests left</span>
+<p class="rl-again"><span>asks again by itself then</span><button class="g-retry" type="button">Try again</button></p>
+</div>
+<span class="g-progress" aria-hidden="true"><span style="width: 79.4%"></span></span>
+</section>
+
+<section class="g-card" aria-labelledby="rl-cached-h">
+<div class="g-head"><h2 id="rl-cached-h">Still answering</h2><span>from cache · 5 repos</span></div>
+<div class="rl-cached">
+<p class="rl-p">These repos have a recent copy of GitHub's data and still answer right away. Pick one to ask the same question there.</p>
+<ul class="rl-repos">
+<li><a class="sc-qchip rl-repo" href="?repo=vercel/next.js&amp;q=Is+CI+getting+slower">vercel/next.js</a></li>
+<li><a class="sc-qchip rl-repo" href="?repo=facebook/react&amp;q=Is+CI+getting+slower">facebook/react</a></li>
+<li><a class="sc-qchip rl-repo" href="?repo=anthropics/claude-code&amp;q=Is+CI+getting+slower">anthropics/claude-code</a></li>
+<li><a class="sc-qchip rl-repo" href="?repo=tailwindlabs/tailwindcss&amp;q=Is+CI+getting+slower">tailwindlabs/tailwindcss</a></li>
+<li><a class="sc-qchip rl-repo" href="#">[small repo]</a></li>
+</ul>
+</div>
+</section>
+
+</div>
+
+</main>
+
+<footer class="sc-wrap sc-foot">Public repos only · nothing is stored beyond a cache of GitHub's public stats · no account needed</footer>
+
+<form class="sc-tray" role="search" aria-label="Ask about vitejs/vite">
+<label class="sc-ask rl-ask"><span class="g-mark unavailable" aria-hidden="true"></span><span class="g-sr">Ask another question about vitejs/vite. Unavailable until GitHub's limit resets at 17:58 UTC.</span><input type="text" disabled placeholder="New questions open at 17:58 UTC"></label>
+<button class="sc-send" type="submit" aria-label="Ask" disabled><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13V3"/><path d="M4 7l4-4 4 4"/></svg></button>
+<span class="sc-tray-rule" aria-hidden="true"></span>
+<div class="sc-density" role="radiogroup" aria-label="Density"><button class="sc-seg" type="button" role="radio" aria-checked="false">Compact</button><button class="sc-seg" type="button" role="radio" aria-checked="true">Comfortable</button><button class="sc-seg" type="button" role="radio" aria-checked="false">Spacious</button></div>
+</form>
+
+</div>
+
+</body>
+</html>

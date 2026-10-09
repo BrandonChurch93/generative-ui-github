@@ -1,0 +1,79 @@
+<!-- @dsCard group="Inputs" height=776 width=1300 subtitle="field at three densities · default, hover, focus, filled, error, disabled · hero repo field" -->
+<style>
+body{margin:0;padding:16px;background:var(--bg);color:var(--ink);font-family:var(--font-sans);--line-strong:color-mix(in srgb,var(--ink) 22%,transparent)}
+[data-density]{--inset:var(--space-5);--card-y:var(--space-4);--fld-h:40px;--fld-x:var(--space-3);--fld-gap:var(--space-2)}
+[data-density="compact"]{--inset:var(--space-4);--card-y:var(--space-3);--fld-h:36px;--fld-x:var(--space-3);--fld-gap:var(--space-1)}
+[data-density="spacious"]{--inset:var(--space-6);--card-y:var(--space-5);--fld-h:44px;--fld-x:var(--space-4);--fld-gap:var(--space-2)}
+.pv-rows{display:grid;gap:20px}
+.pv-row{display:grid;gap:8px}
+.pv-row>h3{margin:0;font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.pv-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-4);align-items:start}
+.pv-grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.pv-cell{display:grid;gap:8px;min-width:0}
+.pv-cap{font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.pv-card{display:flex;flex-direction:column;gap:var(--inset);padding:var(--card-y) var(--inset);background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius-lg);box-shadow:var(--card)}
+.pv-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.pv-mk{position:relative;flex-shrink:0;box-sizing:border-box;width:10px;height:10px;margin-top:3.75px;border-radius:50%;border:1.5px solid var(--muted)}
+.pv-mk.crit{border-color:var(--crit-fill);background:var(--crit-fill)}
+.pv-mk.unavailable::after{content:"";position:absolute;left:50%;top:-1.5px;bottom:-1.5px;width:1.5px;margin-left:-.75px;background:var(--muted);transform:rotate(45deg)}
+.pv-mk.warming{border-color:var(--line)}
+.pv-mk.warming::after{content:"";position:absolute;inset:-1.5px;border-radius:50%;border:1.5px solid transparent;border-top-color:var(--accent);border-right-color:var(--accent)}
+.pv-retry{flex-shrink:0;margin:0 0 0 auto;padding:0;border:0;border-radius:4px;background:none;font:500 12.5px/1.4 var(--font-sans);color:var(--accent-text);white-space:nowrap;cursor:pointer;text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--accent-text) 35%,transparent);text-underline-offset:3px}
+.pv-retry:hover{text-decoration-color:currentColor}
+.pv-retry:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.in-fact{font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.in-grp{display:flex;flex-direction:column;gap:var(--fld-gap);min-width:0}
+.in-lbl{font-size:13px;line-height:1.3;font-weight:500;color:var(--ink)}
+.in-lbl.off{color:var(--muted)}
+.in-box{position:relative}
+.in-f{box-sizing:border-box;width:100%;height:var(--fld-h);margin:0;padding:0 var(--fld-x);border:1px solid var(--line);border-radius:var(--radius-md);background:var(--surface);font:400 14px/1.45 var(--font-sans);color:var(--ink);caret-color:var(--accent);-webkit-appearance:none;appearance:none;outline:0 solid transparent}
+@media (prefers-contrast: more){.in-f:not(:disabled),.hx-f:not(.off){border-color:var(--muted)}}
+.in-f::placeholder{color:var(--muted);opacity:1}
+.in-f.id{font-family:var(--font-mono)}
+.in-f.id::placeholder{font-family:var(--font-sans)}
+.in-f:hover,.in-f.is-hover{border-color:var(--line-strong)}
+.in-f:focus-visible,.in-f.is-focus{outline:2px solid var(--focus);outline-offset:2px}
+.in-f[aria-invalid="true"]{border-color:var(--crit-fill)}
+.in-f:disabled{background:var(--bg);border-color:var(--line-soft);color:var(--muted);cursor:not-allowed}
+.in-caret{position:absolute;left:calc(var(--fld-x) - 1px);top:50%;width:1.5px;height:18px;margin-top:-9px;border-radius:1px;background:var(--accent)}
+.in-msg{margin:0;display:flex;align-items:flex-start;gap:var(--space-2);font:400 12.5px/1.4 var(--font-sans);color:var(--muted)}
+.in-msg.crit{color:var(--crit)}
+.in-ink{color:var(--ink)}
+.hx{display:flex;flex-direction:column;gap:var(--space-3)}
+.hx-f{box-sizing:border-box;display:flex;align-items:center;height:52px;padding:var(--space-1);background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--card)}
+.hx-f:hover{border-color:var(--line-strong)}
+.hx-f:has(.hx-in:focus-visible){outline:2px solid var(--focus);outline-offset:2px}
+.hx-f.bad{border-color:var(--crit-fill)}
+.hx-in{flex:1;min-width:0;align-self:stretch;margin:0;padding:0 var(--space-3);border:0;outline:0;background:transparent;font:400 16px/1 var(--font-mono);color:var(--ink);caret-color:var(--accent)}
+.hx-in::placeholder{font-family:var(--font-sans);font-size:16px;color:var(--muted);opacity:1}
+.hx-go{flex-shrink:0;height:44px;margin:0;padding:0 var(--space-5);border:0;border-radius:var(--radius-md);background:linear-gradient(135deg,var(--accent),var(--accent-2));color:var(--accent-ink);font:500 14px/1 var(--font-sans);white-space:nowrap;cursor:pointer}
+.hx-go:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.hx-msg{padding-left:calc(var(--space-4) + 1px)}
+@media (max-width: 479.98px){.in-f,.in-f.id{font-size:16px}}
+</style>
+<div class="pv-rows">
+  <section class="pv-row" data-density="comfortable">
+    <div class="pv-grid">
+      <div class="pv-cell"><span class="pv-cap">Comfortable · default</span><div class="pv-card"><div class="in-grp"><label class="in-lbl" for="t-1">Repository</label><input class="in-f id" id="t-1" type="text" placeholder="owner/name" aria-describedby="t-1-m"><p class="in-msg" id="t-1-m">Any public repo, as owner/name or a github.com link</p></div></div></div>
+      <div class="pv-cell"><span class="pv-cap">Comfortable · hover, line-strong border</span><div class="pv-card"><div class="in-grp"><label class="in-lbl" for="t-2">Repository</label><input class="in-f id is-hover" id="t-2" type="text" placeholder="owner/name" aria-describedby="t-2-m"><p class="in-msg" id="t-2-m">Any public repo, as owner/name or a github.com link</p></div></div></div>
+      <div class="pv-cell"><span class="pv-cap">Comfortable · focus, 2px ring at 2px</span><div class="pv-card"><div class="in-grp"><label class="in-lbl" for="t-3">Repository</label><div class="in-box"><input class="in-f id is-focus" id="t-3" type="text" placeholder="owner/name" aria-describedby="t-3-m"><span class="in-caret" aria-hidden="true"></span></div><p class="in-msg" id="t-3-m">Any public repo, as owner/name or a github.com link</p></div></div></div>
+      <div class="pv-cell"><span class="pv-cap">Comfortable · filled, identifier in mono</span><div class="pv-card"><div class="in-grp"><label class="in-lbl" for="t-4">Repository</label><input class="in-f id" id="t-4" type="text" value="vercel/next.js" aria-describedby="t-4-m"><p class="in-msg" id="t-4-m">Any public repo, as owner/name or a github.com link</p></div></div></div>
+      <div class="pv-cell"><span class="pv-cap">Comfortable · error, it blocks, so crit</span><div class="pv-card"><div class="in-grp"><label class="in-lbl" for="t-5">Repository</label><input class="in-f id" id="t-5" type="text" value="vercel/nextjs" aria-invalid="true" aria-describedby="t-5-m"><p class="in-msg crit" id="t-5-m"><span class="pv-mk crit" aria-hidden="true"></span><span>That repo is private or doesn't exist</span></p></div></div></div>
+      <div class="pv-cell"><span class="pv-cap">Comfortable · disabled, the helper says why</span><div class="pv-card"><div class="in-grp"><label class="in-lbl off" for="t-6">Repository</label><input class="in-f id" id="t-6" type="text" value="vercel/next.js" disabled aria-describedby="t-6-m"><p class="in-msg" id="t-6-m">Fixed by this screen · start over to change it</p></div></div></div>
+    </div>
+  </section>
+  <section class="pv-row">
+    <div class="pv-grid two">
+      <div class="pv-cell" data-density="compact"><span class="pv-cap">Compact · filled · 36px field</span><div class="pv-card"><div class="in-grp"><label class="in-lbl" for="t-7">Repository</label><input class="in-f id" id="t-7" type="text" value="vercel/next.js" aria-describedby="t-7-m"><p class="in-msg" id="t-7-m">Any public repo, as owner/name or a github.com link</p></div></div></div>
+      <div class="pv-cell" data-density="spacious"><span class="pv-cap">Spacious · filled · 44px field</span><div class="pv-card"><div class="in-grp"><label class="in-lbl" for="t-8">Repository</label><input class="in-f id" id="t-8" type="text" value="vercel/next.js" aria-describedby="t-8-m"><p class="in-msg" id="t-8-m">Any public repo, as owner/name or a github.com link</p></div></div></div>
+    </div>
+  </section>
+  <section class="pv-row">
+    <div class="pv-grid two">
+      <div class="pv-cell"><span class="pv-cap">Hero · default · one size at every density</span><form class="hx" action="#"><label class="pv-sr" for="t-h1">Public GitHub repository</label><div class="hx-f"><input class="hx-in" id="t-h1" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="Paste a public GitHub repo" aria-describedby="t-h1-m"><button class="hx-go" type="submit">Open repo</button></div><p class="in-msg hx-msg" id="t-h1-m">Public repos only, as owner/name or a github.com link</p></form></div>
+      <div class="pv-cell"><span class="pv-cap">Hero · checking</span><form class="hx" action="#" aria-busy="true"><label class="pv-sr" for="t-h2">Public GitHub repository</label><div class="hx-f"><input class="hx-in" id="t-h2" type="text" readonly value="https://github.com/vercel/next.js" aria-describedby="t-h2-m"><button class="hx-go" type="submit" aria-disabled="true">Open repo</button></div><p class="in-msg hx-msg" id="t-h2-m" aria-live="polite"><span class="pv-mk warming" aria-hidden="true"></span><span>Checking vercel/next.js on GitHub</span></p></form></div>
+      <div class="pv-cell"><span class="pv-cap">Hero · not found, crit</span><form class="hx" action="#"><label class="pv-sr" for="t-h3">Public GitHub repository</label><div class="hx-f bad"><input class="hx-in" id="t-h3" type="text" value="https://github.com/vercel/nextjs" aria-invalid="true" aria-describedby="t-h3-m"><button class="hx-go" type="submit">Open repo</button></div><p class="in-msg hx-msg crit" id="t-h3-m"><span class="pv-mk crit" aria-hidden="true"></span><span>That repo is private or doesn't exist</span></p></form></div>
+      <div class="pv-cell"><span class="pv-cap">Hero · GitHub unreachable, never crit</span><form class="hx" action="#"><label class="pv-sr" for="t-h4">Public GitHub repository</label><div class="hx-f"><input class="hx-in" id="t-h4" type="text" value="https://github.com/vercel/next.js" aria-describedby="t-h4-m"><button class="hx-go" type="submit">Open repo</button></div><p class="in-msg hx-msg" id="t-h4-m"><span class="pv-mk unavailable" aria-hidden="true"></span><span><span class="in-ink">Couldn't check this repo</span><span class="in-fact"> · GitHub returned 502</span></span><button class="pv-retry" type="button">Try again</button></p></form></div>
+    </div>
+  </section>
+</div>

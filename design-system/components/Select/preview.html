@@ -1,0 +1,75 @@
+<!-- @dsCard group="Inputs" height=660 width=1300 subtitle="closed and open at three densities · default, focus, filled, error, disabled" -->
+<style>
+body{margin:0;padding:16px;background:var(--bg);color:var(--ink);font-family:var(--font-sans);--line-strong:color-mix(in srgb,var(--ink) 22%,transparent)}
+[data-density]{--inset:var(--space-5);--card-y:var(--space-4);--fld-h:40px;--fld-x:var(--space-3);--fld-gap:var(--space-2);--opt-h:36px}
+[data-density="compact"]{--inset:var(--space-4);--card-y:var(--space-3);--fld-h:36px;--fld-x:var(--space-3);--fld-gap:var(--space-1);--opt-h:32px}
+[data-density="spacious"]{--inset:var(--space-6);--card-y:var(--space-5);--fld-h:44px;--fld-x:var(--space-4);--fld-gap:var(--space-2);--opt-h:44px}
+.pv-rows{display:grid;gap:20px}
+.pv-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-4);align-items:start}
+.pv-cell{display:grid;gap:8px;min-width:0}
+.pv-cap{font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.pv-card{display:flex;flex-direction:column;gap:var(--inset);padding:var(--card-y) var(--inset);background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius-lg);box-shadow:var(--card)}
+.pv-mk{position:relative;flex-shrink:0;box-sizing:border-box;width:10px;height:10px;margin-top:3.75px;border-radius:50%;border:1.5px solid var(--muted)}
+.pv-mk.crit{border-color:var(--crit-fill);background:var(--crit-fill)}
+.in-grp{display:flex;flex-direction:column;gap:var(--fld-gap);min-width:0}
+.in-lbl{font-size:13px;line-height:1.3;font-weight:500;color:var(--ink)}
+.in-lbl.off{color:var(--muted)}
+.in-box{position:relative}
+.in-f{box-sizing:border-box;display:flex;align-items:center;gap:var(--space-2);width:100%;height:var(--fld-h);margin:0;padding:0 var(--fld-x);border:1px solid var(--line);border-radius:var(--radius-md);background:var(--surface);font:400 14px/1.45 var(--font-sans);color:var(--ink);text-align:left;-webkit-appearance:none;appearance:none;outline:0 solid transparent;cursor:pointer}
+@media (prefers-contrast: more){.in-f:not(:disabled){border-color:var(--muted)}}
+.in-f:hover,.in-f.is-hover{border-color:var(--line-strong)}
+.in-f:focus-visible,.in-f.is-focus{outline:2px solid var(--focus);outline-offset:2px}
+.in-f[aria-invalid="true"]{border-color:var(--crit-fill)}
+.in-f:disabled{background:var(--bg);border-color:var(--line-soft);color:var(--muted);cursor:not-allowed}
+.in-v{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.in-v.ph{color:var(--muted)}
+.in-chev{flex-shrink:0;margin-right:-2px;color:var(--muted)}
+[aria-expanded="true"] .in-chev{transform:rotate(180deg)}
+.in-msg{margin:0;display:flex;align-items:flex-start;gap:var(--space-2);font:400 12.5px/1.4 var(--font-sans);color:var(--muted)}
+.in-msg.crit{color:var(--crit)}
+.sel-open{overflow:visible}
+.sel-menu{position:absolute;z-index:2;left:0;right:0;top:calc(100% + var(--space-1));margin:0;padding:var(--space-1);list-style:none;background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius-md);box-shadow:var(--card)}
+.sel-opt{display:flex;align-items:center;gap:var(--space-2);height:var(--opt-h);padding:0 calc(var(--fld-x) - var(--space-1));border-radius:var(--radius-sm);font:400 14px/1.45 var(--font-sans);color:var(--ink);cursor:pointer}
+.sel-opt.active{background:var(--surface-tint)}
+.sel-opt>span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sel-opt>i{flex-shrink:0;font:normal 400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.sel-ck{flex-shrink:0;margin-right:-2px;color:var(--accent)}
+.sel-ck.none{visibility:hidden}
+@media (max-width: 479.98px){.in-f,.sel-opt{font-size:16px}}
+.pv-roomc{padding-bottom:136px}
+.pv-room{padding-bottom:152px}
+.pv-rooms{padding-bottom:184px}
+</style>
+<div class="pv-rows">
+  <div class="pv-grid" data-density="comfortable">
+    <div class="pv-cell"><span class="pv-cap">Comfortable · default</span><div class="pv-card"><div class="in-grp"><label class="in-lbl" id="s-1-l" for="s-1">Milestone</label><button class="in-f" id="s-1" type="button" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="s-1-l s-1-v"><span class="in-v ph" id="s-1-v">Choose a milestone</span><svg class="in-chev" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></button></div></div></div>
+    <div class="pv-cell"><span class="pv-cap">Comfortable · hover</span><div class="pv-card"><div class="in-grp"><label class="in-lbl" id="s-2-l" for="s-2">Milestone</label><button class="in-f is-hover" id="s-2" type="button" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="s-2-l s-2-v"><span class="in-v ph" id="s-2-v">Choose a milestone</span><svg class="in-chev" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></button></div></div></div>
+    <div class="pv-cell"><span class="pv-cap">Comfortable · focus</span><div class="pv-card"><div class="in-grp"><label class="in-lbl" id="s-3-l" for="s-3">Milestone</label><button class="in-f is-focus" id="s-3" type="button" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="s-3-l s-3-v"><span class="in-v ph" id="s-3-v">Choose a milestone</span><svg class="in-chev" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></button></div></div></div>
+    <div class="pv-cell"><span class="pv-cap">Comfortable · filled</span><div class="pv-card"><div class="in-grp"><label class="in-lbl" id="s-9-l" for="s-9">Milestone</label><button class="in-f" id="s-9" type="button" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="s-9-l s-9-v"><span class="in-v" id="s-9-v">v16.2</span><svg class="in-chev" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></button></div></div></div>
+    <div class="pv-cell"><span class="pv-cap">Comfortable · error</span><div class="pv-card"><div class="in-grp"><label class="in-lbl" id="s-4-l" for="s-4">Milestone</label><button class="in-f" id="s-4" type="button" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-invalid="true" aria-describedby="s-4-m" aria-labelledby="s-4-l s-4-v"><span class="in-v ph" id="s-4-v">Choose a milestone</span><svg class="in-chev" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></button><p class="in-msg crit" id="s-4-m"><span class="pv-mk crit" aria-hidden="true"></span><span>Pick a milestone to ask about</span></p></div></div></div>
+    <div class="pv-cell"><span class="pv-cap">Comfortable · disabled</span><div class="pv-card"><div class="in-grp"><label class="in-lbl off" id="s-5-l" for="s-5">Milestone</label><button class="in-f" id="s-5" type="button" role="combobox" aria-haspopup="listbox" aria-expanded="false" disabled aria-describedby="s-5-m" aria-labelledby="s-5-l s-5-v"><span class="in-v" id="s-5-v">Choose a milestone</span><svg class="in-chev" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></button><p class="in-msg" id="s-5-m">Milestones load once the repo checks out</p></div></div></div>
+  </div>
+  <div class="pv-grid">
+    <div class="pv-cell pv-roomc" data-density="compact"><span class="pv-cap">Compact · open, keyboard on v16.3</span><div class="pv-card sel-open"><div class="in-grp"><label class="in-lbl" id="s-6-l" for="s-6">Milestone</label><div class="in-box"><button class="in-f is-focus" id="s-6" type="button" role="combobox" aria-haspopup="listbox" aria-expanded="true" aria-controls="s-6-lb" aria-activedescendant="s-6-o2" aria-labelledby="s-6-l s-6-v"><span class="in-v" id="s-6-v">v16.2</span><svg class="in-chev" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></button>
+      <ul class="sel-menu" id="s-6-lb" role="listbox" aria-labelledby="s-6-l">
+        <li class="sel-opt" id="s-6-o1" role="option" aria-selected="true"><span>v16.2</span><i>7 open</i><svg class="sel-ck" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg></li>
+        <li class="sel-opt active" id="s-6-o2" role="option" aria-selected="false"><span>v16.3</span><i>3 open</i><svg class="sel-ck none" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"></svg></li>
+        <li class="sel-opt" id="s-6-o3" role="option" aria-selected="false"><span>v17.0</span><i>12 open</i><svg class="sel-ck none" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"></svg></li>
+        <li class="sel-opt" id="s-6-o4" role="option" aria-selected="false"><span>No milestone</span><i>41 open</i><svg class="sel-ck none" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"></svg></li>
+      </ul></div></div></div></div>
+    <div class="pv-cell pv-room" data-density="comfortable"><span class="pv-cap">Comfortable · open, keyboard on v16.3</span><div class="pv-card sel-open"><div class="in-grp"><label class="in-lbl" id="s-7-l" for="s-7">Milestone</label><div class="in-box"><button class="in-f is-focus" id="s-7" type="button" role="combobox" aria-haspopup="listbox" aria-expanded="true" aria-controls="s-7-lb" aria-activedescendant="s-7-o2" aria-labelledby="s-7-l s-7-v"><span class="in-v" id="s-7-v">v16.2</span><svg class="in-chev" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></button>
+      <ul class="sel-menu" id="s-7-lb" role="listbox" aria-labelledby="s-7-l">
+        <li class="sel-opt" id="s-7-o1" role="option" aria-selected="true"><span>v16.2</span><i>7 open</i><svg class="sel-ck" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg></li>
+        <li class="sel-opt active" id="s-7-o2" role="option" aria-selected="false"><span>v16.3</span><i>3 open</i><svg class="sel-ck none" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"></svg></li>
+        <li class="sel-opt" id="s-7-o3" role="option" aria-selected="false"><span>v17.0</span><i>12 open</i><svg class="sel-ck none" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"></svg></li>
+        <li class="sel-opt" id="s-7-o4" role="option" aria-selected="false"><span>No milestone</span><i>41 open</i><svg class="sel-ck none" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"></svg></li>
+      </ul></div></div></div></div>
+    <div class="pv-cell pv-rooms" data-density="spacious"><span class="pv-cap">Spacious · open, keyboard on v16.3</span><div class="pv-card sel-open"><div class="in-grp"><label class="in-lbl" id="s-8-l" for="s-8">Milestone</label><div class="in-box"><button class="in-f is-focus" id="s-8" type="button" role="combobox" aria-haspopup="listbox" aria-expanded="true" aria-controls="s-8-lb" aria-activedescendant="s-8-o2" aria-labelledby="s-8-l s-8-v"><span class="in-v" id="s-8-v">v16.2</span><svg class="in-chev" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></button>
+      <ul class="sel-menu" id="s-8-lb" role="listbox" aria-labelledby="s-8-l">
+        <li class="sel-opt" id="s-8-o1" role="option" aria-selected="true"><span>v16.2</span><i>7 open</i><svg class="sel-ck" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg></li>
+        <li class="sel-opt active" id="s-8-o2" role="option" aria-selected="false"><span>v16.3</span><i>3 open</i><svg class="sel-ck none" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"></svg></li>
+        <li class="sel-opt" id="s-8-o3" role="option" aria-selected="false"><span>v17.0</span><i>12 open</i><svg class="sel-ck none" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"></svg></li>
+        <li class="sel-opt" id="s-8-o4" role="option" aria-selected="false"><span>No milestone</span><i>41 open</i><svg class="sel-ck none" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"></svg></li>
+      </ul></div></div></div></div>
+  </div>
+</div>

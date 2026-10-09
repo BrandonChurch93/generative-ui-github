@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Landing</title>
+
+<link rel="stylesheet" href="genui.css">
+<link rel="stylesheet" href="shell.css">
+</head>
+<body>
+
+
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#fcfaf8}
+/* Insight (insight-canvas States, code rule from the DS preview) */
+.in{position:relative;display:flex;flex-direction:column;gap:var(--space-2);padding-left:calc(var(--inset) + 1px);font-size:var(--insight)}
+[data-density="compact"] .in{gap:var(--space-1)}
+[data-density="spacious"] .in{gap:var(--space-3)}
+.in-rule{position:absolute;left:0;top:.34em;bottom:4px;width:3px;border-radius:var(--radius-pill);background:linear-gradient(180deg,var(--accent),var(--accent-2))}
+.in p{margin:0}
+.in-text{max-width:60ch;text-wrap:pretty;font-size:var(--insight);line-height:1.35;font-weight:500;color:var(--ink)}
+.in-text code{font-family:var(--font-mono);font-size:.85em;font-weight:500}
+.in-src{display:flex;align-items:baseline;gap:var(--space-3);font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+/* Metric (DS preview) */
+.mt{position:relative;overflow:hidden;display:flex;flex-direction:column;padding:var(--card-y) var(--inset) calc(var(--card-y) + 3px);background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius-lg);box-shadow:var(--card)}
+.mt-l{font-size:13px;line-height:1.3;font-weight:500;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mt-v{margin-top:var(--space-1);display:flex;align-items:baseline;gap:var(--space-2);font-size:var(--num);line-height:1;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.mt-v small{font:400 var(--suffix)/1 var(--font-mono);letter-spacing:0;color:var(--muted)}
+.mt-d{margin-top:var(--stack);display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-3);font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.mt-d.crit{color:var(--crit)}.mt-d.good{color:var(--good)}
+.mt-bar{position:absolute;left:0;right:var(--inset);bottom:0;height:3px;border-radius:0 var(--radius-pill) var(--radius-pill) 0;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+.mt.hot{border-color:color-mix(in srgb,var(--crit-fill) 35%,transparent);box-shadow:var(--card-hot)}
+.mt-hotmark{position:absolute;top:calc(var(--card-y) + 3.5px);right:var(--inset);width:10px;height:10px;border-radius:50%;background:var(--crit-fill)}
+/* Sparkline (Sparkline sheet, in a Metric) */
+.sp-svg{display:block;flex-shrink:0;overflow:visible}
+.sp-svg path{fill:none;stroke:var(--data-ref);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sp-svg path.now{stroke:var(--accent)}
+.sp-svg circle{fill:var(--accent)}
+.sp-svg circle.ring{fill:var(--surface)}
+.mt-v .sp-svg{margin-left:auto}
+/* Hero repo field (Inputs sheet, Hero) */
+.in-msg{margin:0;display:flex;align-items:flex-start;gap:var(--space-2);font:400 12.5px/1.4 var(--font-sans);color:var(--muted)}
+.in-msg>.g-mark{margin-top:3.75px}
+.in-msg.crit{color:var(--crit)}
+.in-msg .ink{color:var(--ink)}
+.in-msg>span:not(.g-mark){min-width:0}
+.in-msg .g-retry{margin-left:auto;font-size:12.5px;line-height:1.4}
+.in-fact{font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+@media (prefers-contrast: more){.hx-f:not(.off){border-color:var(--muted)}}
+.hx{display:flex;flex-direction:column;gap:var(--space-3)}
+.hx-f{box-sizing:border-box;display:flex;align-items:center;height:52px;padding:var(--space-1);background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--card)}
+.hx-f.is-hover,.hx-f:hover{border-color:var(--line-strong)}
+.hx-f.is-focus,.hx-f:has(.hx-in:focus-visible){outline:2px solid var(--focus);outline-offset:2px}
+.hx-f.bad{border-color:var(--crit-fill)}
+.hx-f.off{background:var(--bg);border-color:var(--line-soft);box-shadow:none}
+.hx-box{position:relative;flex:1;min-width:0;align-self:stretch;display:flex}
+.hx-in{flex:1;min-width:0;margin:0;padding:0 var(--space-3);border:0;outline:0;background:transparent;font:400 15px/1 var(--font-mono);color:var(--ink);caret-color:var(--accent)}
+.hx-in::placeholder{font-family:var(--font-sans);font-size:16px;color:var(--muted);opacity:1}
+.hx-in:disabled{color:var(--muted);cursor:not-allowed}
+.hx-caret{position:absolute;left:calc(var(--space-3) - 2px);top:50%;width:1.5px;height:20px;margin-top:-10px;border-radius:1px;background:var(--accent)}
+.hx-go{flex-shrink:0;box-sizing:border-box;height:44px;margin:0;padding:0 var(--space-5);border:0;border-radius:var(--radius-md);background:linear-gradient(135deg,var(--accent),var(--accent-2));color:var(--accent-ink);font:500 14px/1 var(--font-sans);white-space:nowrap;cursor:pointer}
+.hx-go:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.hx-go:disabled{background:var(--line-soft);color:var(--muted);cursor:not-allowed}
+.hx-msg{padding-left:calc(var(--space-4) + 1px)}
+/* page: landing */
+.lp{--line-strong:color-mix(in srgb,var(--ink) 22%,transparent)}
+.lp-warm{--sc-mx:560px;--sc-my:300px}
+.lp.sc-page{padding-bottom:var(--space-7)}
+.lp-hero{padding-top:var(--space-8)}
+.lp-title{max-width:none}
+.lp-title span{display:block;color:var(--muted)}
+.lp-start{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start;column-gap:var(--space-8);margin-top:var(--space-7)}
+.lp-samples{display:flex;flex-direction:column;gap:var(--space-3);margin-top:var(--space-6);padding-inline:var(--sc-edge)}
+.lp-samples-l{margin:0;font-size:13px;line-height:1.3;font-weight:500;color:var(--muted)}
+.lp-samples .sc-qchips{margin:0}
+.sc-qchip.lp-repo{font:500 12.5px/1 var(--font-mono);letter-spacing:0}
+.lp-fig{display:flex;flex-direction:column;gap:var(--space-3);margin:0;min-width:0}
+.lp-shot{--lp-nw:1200px;--lp-ar:1200 / 463;position:relative;display:block;container-type:inline-size;aspect-ratio:var(--lp-ar);overflow:hidden;background:var(--bg);border:1px solid var(--line-soft);border-radius:var(--radius-lg);box-shadow:var(--card);color:var(--ink);text-decoration:none;transition:box-shadow .25s cubic-bezier(.25,1,.5,1),transform .25s cubic-bezier(.25,1,.5,1)}
+.lp-shot:hover{box-shadow:var(--card-hover);transform:translateY(-1px)}
+.lp-shot:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+/* the thumbnail is Main laid out at --lp-nw and scaled to its frame: 100cqw / --lp-nw, as a number via tan(atan2()) */
+.lp-shot-in{position:absolute;left:0;top:0;box-sizing:border-box;width:var(--lp-nw);padding:36px 40px;transform-origin:0 0;transform:scale(tan(atan2(100cqw,var(--lp-nw))));pointer-events:none}
+.lp-shot .sc-main{padding-top:0}
+.lp-shot .sc-question{font-size:44px}
+.lp-shot .sc-metrics{grid-template-columns:repeat(4,minmax(0,1fr))}
+.lp-cap{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--space-2) var(--space-5);padding-inline:var(--sc-edge);font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.lp-cap b{font-weight:500;color:var(--ink)}
+.lp-cap .g-link{margin-left:auto}
+.lp-qs{margin-top:var(--space-8)}
+.lp-qs-head{padding:0 var(--sc-edge) var(--space-5)}
+.lp-qs-head h2{margin:0;font-size:15px;line-height:1.25;font-weight:600}
+.lp-qs-head p{margin:var(--space-1) 0 0;font-size:14px;line-height:1.45;color:var(--muted)}
+.lp-qs-head code{font-family:var(--font-mono);font-size:.85em;font-weight:500;color:var(--ink)}
+.lp-groups{margin:0;padding:0;list-style:none}
+.lp-group{display:grid;grid-template-columns:264px minmax(0,1fr);align-items:baseline;column-gap:var(--space-6);padding:var(--space-5) var(--sc-edge) var(--space-3);border-top:1px solid var(--line)}
+.lp-group h3{margin:0;font-size:13.5px;line-height:1.3;font-weight:500}
+.lp-group p{margin:2px 0 0;font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.lp-group .sc-qchips{margin:0}
+@media (max-width:1023px){
+.lp-start{grid-template-columns:minmax(0,1fr);row-gap:var(--space-7)}
+.lp-group{grid-template-columns:minmax(0,1fr);row-gap:var(--space-3);padding-bottom:var(--space-5)}
+}
+@media (max-width:639px){
+.lp-warm{--sc-mx:300px;--sc-my:330px}
+.lp-hero{padding-top:var(--space-5)}
+.lp-cap .g-link{margin-left:0}
+.lp-shot{--lp-nw:640px;--lp-ar:640 / 625}
+.lp-shot-in{padding:28px 24px}
+.lp-shot .sc-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+.lp-qs{margin-top:var(--space-7)}
+}
+</style>
+
+<div class="sc-page lp" data-density="comfortable">
+<div class="sc-warmth lp-warm" aria-hidden="true"></div>
+
+<header class="sc-wrap">
+<div class="sc-top">
+<a class="sc-wordmark" href="#">Generative UI</a>
+<nav class="sc-nav" aria-label="Site">
+<a href="#">Catalog</a>
+<a href="#">Evals</a>
+<a href="#">About</a>
+<a href="https://github.com/">GitHub<svg class="sc-ext" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8L8 4"/><path d="M4.5 4H8V7.5"/></svg></a>
+</nav>
+</div>
+</header>
+
+<main class="sc-wrap">
+
+<div class="lp-hero">
+<div class="sc-chrome"><h1 class="sc-question lp-title"><span>Paste a GitHub repo, ask a question,</span> and an agent composes the interface that answers it.</h1></div>
+<div class="lp-start">
+<div class="lp-lead">
+<form class="hx" action="#"><label class="g-sr" for="lp-repo">Public GitHub repository</label><div class="hx-f"><div class="hx-box"><input class="hx-in" id="lp-repo" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="Paste a public GitHub repo" aria-describedby="lp-repo-m"></div><button class="hx-go" type="submit">Open repo</button></div><p class="in-msg hx-msg" id="lp-repo-m">Public repos only, as owner/name or a github.com link</p></form>
+<div class="lp-samples">
+<p class="lp-samples-l" id="lp-samples-l">Or try a sample</p>
+<nav class="sc-qchips" aria-labelledby="lp-samples-l">
+<a class="sc-qchip lp-repo" href="#" aria-current="true">vercel/next.js</a>
+<a class="sc-qchip lp-repo" href="#">facebook/react</a>
+<a class="sc-qchip lp-repo" href="#">anthropics/claude-code</a>
+<a class="sc-qchip lp-repo" href="#">tailwindlabs/tailwindcss</a>
+<a class="sc-qchip lp-repo" href="#">[small repo]</a>
+</nav>
+</div>
+</div>
+
+<figure class="lp-fig">
+<a class="lp-shot" href="#" aria-label="Open the sample answer to What's blocking the next release? on vercel/next.js">
+<div class="lp-shot-in" aria-hidden="true">
+<div class="sc-main">
+<div class="sc-chrome">
+<div class="sc-chrome-top">
+<div>
+<div class="sc-eyebrow"><span class="sc-chip repo">vercel/next.js</span><span class="sc-chip">milestone v16.2</span><span class="sc-eyebrow-note">asked just now</span></div>
+<p class="sc-question">What's blocking the next release?</p>
+</div>
+<div class="sc-built">
+<span class="sc-built-num">1.8<small>s</small></span>
+<span class="sc-built-meta">composed by Haiku · 8 components</span>
+<span class="sc-built-meta">template release-blockers</span>
+</div>
+</div>
+</div>
+<div class="in"><span class="in-rule"></span><p class="in-text">Three pull requests waiting on review and two failing checks on <code>canary</code> are holding v16.2, which closes in 4 days.</p><p class="in-src">from 7 open PRs, 19 milestone issues, 14 check runs</p></div>
+<div class="sc-metrics">
+<div class="mt"><span class="mt-l">Open PRs on milestone</span><span class="mt-v">7</span><span class="mt-d">2 merged this week</span><span class="mt-bar"></span></div>
+<div class="mt hot"><span class="mt-hotmark"></span><span class="mt-l">Failing checks</span><span class="mt-v">2<small>of 14</small></span><span class="mt-d crit">both on canary</span><span class="mt-bar"></span></div>
+<div class="mt"><span class="mt-l">Milestone issues closed</span><span class="mt-v">12<small>of 19</small></span><span class="mt-d">7 open · closes in 4 days</span><span class="mt-bar"></span></div>
+<div class="mt"><span class="mt-l">Median review wait</span><span class="mt-v">19.6<small>h</small><svg class="sp-svg" width="120" height="28" viewBox="0 0 120 28"><path d="M1 25 L11.5 22.9 L22.1 23.8 L32.6 20.1 L43.2 21.3 L53.7 19.5 L64.3 16.8 L74.8 17.7 L85.4 13.1 L95.9 10.3 L106.5 6.7"></path><path class="now" d="M106.5 6.7 L117 3"></path><circle class="ring" cx="117" cy="3" r="5"></circle><circle cx="117" cy="3" r="3"></circle></svg></span><span class="mt-d crit">up from 14.2h in August</span><span class="mt-bar"></span></div>
+</div>
+</div>
+</div>
+</a>
+<figcaption class="lp-cap"><span>an answer for <b>vercel/next.js</b></span><span>composed in <b>1.8&#160;s</b></span><button class="g-link" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="lp-how">How this works</button></figcaption>
+</figure>
+</div>
+</div>
+
+<section class="lp-qs" aria-labelledby="lp-qs-h">
+<div class="lp-qs-head"><h2 id="lp-qs-h">Questions to try</h2><p>Each kind of question composes a different screen for <code>vercel/next.js</code>.</p></div>
+<ul class="lp-groups">
+<li class="lp-group"><div><h3>Shipping</h3><p>status lists · timelines · diffs</p></div><div class="sc-qchips"><a class="sc-qchip" href="#">What's blocking the next release?</a><a class="sc-qchip" href="#">What merged this week?</a><a class="sc-qchip" href="#">What changed in the last release?</a></div></li>
+<li class="lp-group"><div><h3>Health</h3><p>line charts · comparisons</p></div><div class="sc-qchips"><a class="sc-qchip" href="#">Is CI getting slower?</a><a class="sc-qchip" href="#">Which checks are failing on canary?</a><a class="sc-qchip" href="#">Is review wait better or worse than last month?</a></div></li>
+<li class="lp-group"><div><h3>People</h3><p>contributor ranks · heatmaps</p></div><div class="sc-qchips"><a class="sc-qchip" href="#">Who's carrying this repo?</a><a class="sc-qchip" href="#">When does this team work?</a><a class="sc-qchip" href="#">Who should review this PR?</a></div></li>
+<li class="lp-group"><div><h3>Getting started</h3><p>steps · file trees · distributions</p></div><div class="sc-qchips"><a class="sc-qchip" href="#">Where would a new contributor start?</a><a class="sc-qchip" href="#">How long until a maintainer reviews my PR?</a><a class="sc-qchip" href="#">Which files change the most?</a></div></li>
+</ul>
+</section>
+
+</main>
+
+<footer class="sc-wrap sc-foot">Public repos only · nothing is stored beyond a cache of GitHub's public stats · no account needed</footer>
+
+</div>
+
+</body>
+</html>

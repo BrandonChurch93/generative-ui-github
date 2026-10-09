@@ -1,0 +1,96 @@
+<!-- @dsCard group="Inputs" height=404 width=1200 subtitle="single and multi with counts · hover, focus, overflow, counts loading, disabled · three densities" -->
+<style>
+body{margin:0;padding:16px;background:var(--bg);color:var(--ink);font-family:var(--font-sans);--line-strong:color-mix(in srgb,var(--ink) 22%,transparent)}
+[data-density]{--chip-h:32px;--chip-x:var(--space-3)}
+[data-density="compact"]{--chip-h:28px;--chip-x:var(--space-3)}
+[data-density="spacious"]{--chip-h:36px;--chip-x:var(--space-4)}
+.pv-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:40px;row-gap:20px;align-items:start}
+.pv-cell{display:grid;gap:8px;min-width:0}
+.pv-cap{font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.pv-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.pv-stack{display:flex;flex-direction:column;gap:var(--space-3)}
+.fc{display:flex;flex-wrap:wrap;gap:var(--space-2)}
+.fc-chip{position:relative;box-sizing:border-box;display:inline-flex;align-items:center;gap:var(--space-2);height:var(--chip-h);margin:0;padding:0 var(--chip-x);border:1px solid var(--line);border-radius:var(--radius-pill);background:var(--surface);font:500 13px/1.3 var(--font-sans);color:var(--muted);white-space:nowrap;cursor:pointer}
+@media (prefers-contrast: more){.fc-chip:not(:disabled){border-color:var(--muted)}}
+[data-density="spacious"] .fc-chip::after{content:"";position:absolute;left:0;right:0;top:-4px;bottom:-4px}
+.fc-n{font:500 11px/1.3 var(--font-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.fc-chip:hover,.fc-chip.is-hover{color:var(--ink);border-color:var(--line-strong)}
+.fc-chip:focus-visible,.fc-chip.is-focus{outline:2px solid var(--focus);outline-offset:2px}
+.fc-chip[aria-checked="true"],.fc-chip[aria-pressed="true"]{color:var(--ink);background:var(--surface-tint);border-color:var(--accent)}
+.fc-ck{flex-shrink:0;margin-right:calc(-1 * var(--space-1));color:var(--accent)}
+.fc-chip:disabled{color:var(--muted);background:transparent;border-color:var(--line-soft);cursor:not-allowed}
+.fc-chip[aria-pressed="true"]:disabled{background:var(--surface-tint);border-color:var(--line-soft)}
+.fc-chip:disabled .fc-ck{color:var(--muted)}
+.fc-more{gap:var(--space-1);background:transparent;color:var(--ink)}
+.fc-sk{display:block;width:14px;height:7px;border-radius:var(--radius-sm);background:var(--line-soft)}
+</style>
+<div class="pv-grid" data-density="comfortable">
+  <div class="pv-cell"><span class="pv-cap">Comfortable · single · merged pull requests</span>
+    <div class="fc" role="radiogroup" aria-label="Merged pull requests in the last">
+      <button class="fc-chip" type="button" role="radio" aria-checked="false" tabindex="-1">7 days<span class="fc-n">46</span></button>
+      <button class="fc-chip" type="button" role="radio" aria-checked="true"><svg class="fc-ck" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.25l2.25 2.25 4.75-5"/></svg>30 days<span class="fc-n">188</span></button>
+      <button class="fc-chip" type="button" role="radio" aria-checked="false" tabindex="-1">90 days<span class="fc-n">521</span></button>
+    </div></div>
+  <div class="pv-cell"><span class="pv-cap">Comfortable · multi · v16.2 by area</span>
+    <div class="fc" role="group" aria-label="Filter v16.2 pull requests by area">
+      <button class="fc-chip" type="button" aria-pressed="true"><svg class="fc-ck" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.25l2.25 2.25 4.75-5"/></svg>Turbopack<span class="fc-n">3</span></button>
+      <button class="fc-chip" type="button" aria-pressed="true"><svg class="fc-ck" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.25l2.25 2.25 4.75-5"/></svg>Router<span class="fc-n">2</span></button>
+      <button class="fc-chip" type="button" aria-pressed="false">Cache<span class="fc-n">1</span></button>
+      <button class="fc-chip" type="button" aria-pressed="false">Docs<span class="fc-n">1</span></button>
+    </div></div>
+  <div class="pv-cell"><span class="pv-cap">Comfortable · hover on Router · focus on Cache</span>
+    <div class="fc" role="group" aria-label="Filter v16.2 pull requests by area">
+      <button class="fc-chip" type="button" aria-pressed="true"><svg class="fc-ck" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.25l2.25 2.25 4.75-5"/></svg>Turbopack<span class="fc-n">3</span></button>
+      <button class="fc-chip is-hover" type="button" aria-pressed="false">Router<span class="fc-n">2</span></button>
+      <button class="fc-chip is-focus" type="button" aria-pressed="false">Cache<span class="fc-n">1</span></button>
+      <button class="fc-chip" type="button" aria-pressed="false">Docs<span class="fc-n">1</span></button>
+    </div></div>
+  <div class="pv-cell"><span class="pv-cap">Comfortable · counts loading</span>
+    <div class="fc" role="group" aria-label="Filter v16.2 pull requests by area" aria-busy="true"><span class="pv-sr">Counting pull requests by area.</span>
+      <button class="fc-chip" type="button" aria-pressed="true"><svg class="fc-ck" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.25l2.25 2.25 4.75-5"/></svg>Turbopack<span class="fc-sk" aria-hidden="true"></span></button>
+      <button class="fc-chip" type="button" aria-pressed="false">Router<span class="fc-sk" aria-hidden="true"></span></button>
+      <button class="fc-chip" type="button" aria-pressed="false">Cache<span class="fc-sk" aria-hidden="true"></span></button>
+      <button class="fc-chip" type="button" aria-pressed="false">Docs<span class="fc-sk" aria-hidden="true"></span></button>
+    </div></div>
+  <div class="pv-cell"><span class="pv-cap">Comfortable · overflow, closed then open</span>
+    <div class="pv-stack">
+      <div class="fc" role="group" aria-label="Filter milestone issues by label">
+        <button class="fc-chip" type="button" aria-pressed="true"><svg class="fc-ck" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.25l2.25 2.25 4.75-5"/></svg>bug<span class="fc-n">8</span></button>
+        <button class="fc-chip" type="button" aria-pressed="false">Turbopack<span class="fc-n">5</span></button>
+        <button class="fc-chip" type="button" aria-pressed="false">App Router<span class="fc-n">4</span></button>
+        <button class="fc-chip" type="button" aria-pressed="false">Caching<span class="fc-n">3</span></button>
+        <button class="fc-chip fc-more" type="button" aria-expanded="false"><span class="fc-n">+3</span>more</button>
+      </div>
+      <div class="fc" role="group" aria-label="Filter milestone issues by label">
+        <button class="fc-chip" type="button" aria-pressed="true"><svg class="fc-ck" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.25l2.25 2.25 4.75-5"/></svg>bug<span class="fc-n">8</span></button>
+        <button class="fc-chip" type="button" aria-pressed="false">Turbopack<span class="fc-n">5</span></button>
+        <button class="fc-chip" type="button" aria-pressed="false">App Router<span class="fc-n">4</span></button>
+        <button class="fc-chip" type="button" aria-pressed="false">Caching<span class="fc-n">3</span></button>
+        <button class="fc-chip" type="button" aria-pressed="false">Documentation<span class="fc-n">3</span></button>
+        <button class="fc-chip" type="button" aria-pressed="false">Pages Router<span class="fc-n">2</span></button>
+        <button class="fc-chip" type="button" aria-pressed="false">Linting<span class="fc-n">1</span></button>
+        <button class="fc-chip fc-more" type="button" aria-expanded="true">Show less</button>
+      </div>
+    </div></div>
+  <div class="pv-cell"><span class="pv-cap">Comfortable · disabled while the list rewrites</span>
+    <div class="fc" role="group" aria-label="Filter v16.2 pull requests by area">
+      <button class="fc-chip" type="button" aria-pressed="true" disabled><svg class="fc-ck" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.25l2.25 2.25 4.75-5"/></svg>Turbopack<span class="fc-n">3</span></button>
+      <button class="fc-chip" type="button" aria-pressed="false" disabled>Router<span class="fc-n">2</span></button>
+      <button class="fc-chip" type="button" aria-pressed="false" disabled>Cache<span class="fc-n">1</span></button>
+      <button class="fc-chip" type="button" aria-pressed="false" disabled>Docs<span class="fc-n">1</span></button>
+    </div></div>
+  <div class="pv-cell" data-density="compact"><span class="pv-cap">Compact · multi · 28px chips</span>
+    <div class="fc" role="group" aria-label="Filter v16.2 pull requests by area">
+      <button class="fc-chip" type="button" aria-pressed="true"><svg class="fc-ck" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.25l2.25 2.25 4.75-5"/></svg>Turbopack<span class="fc-n">3</span></button>
+      <button class="fc-chip" type="button" aria-pressed="true"><svg class="fc-ck" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.25l2.25 2.25 4.75-5"/></svg>Router<span class="fc-n">2</span></button>
+      <button class="fc-chip" type="button" aria-pressed="false">Cache<span class="fc-n">1</span></button>
+      <button class="fc-chip" type="button" aria-pressed="false">Docs<span class="fc-n">1</span></button>
+    </div></div>
+  <div class="pv-cell" data-density="spacious"><span class="pv-cap">Spacious · multi · 36px chips, 44px hit area</span>
+    <div class="fc" role="group" aria-label="Filter v16.2 pull requests by area">
+      <button class="fc-chip" type="button" aria-pressed="true"><svg class="fc-ck" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.25l2.25 2.25 4.75-5"/></svg>Turbopack<span class="fc-n">3</span></button>
+      <button class="fc-chip" type="button" aria-pressed="true"><svg class="fc-ck" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.25l2.25 2.25 4.75-5"/></svg>Router<span class="fc-n">2</span></button>
+      <button class="fc-chip" type="button" aria-pressed="false">Cache<span class="fc-n">1</span></button>
+      <button class="fc-chip" type="button" aria-pressed="false">Docs<span class="fc-n">1</span></button>
+    </div></div>
+</div>

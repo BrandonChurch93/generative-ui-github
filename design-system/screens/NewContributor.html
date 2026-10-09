@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>New contributor</title>
+
+<link rel="stylesheet" href="genui.css">
+<link rel="stylesheet" href="shell.css">
+</head>
+<body>
+
+
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#fcfaf8}
+/* Insight (insight-canvas States) */
+.in{position:relative;display:flex;flex-direction:column;gap:var(--space-2);padding-left:calc(var(--inset) + 1px);font-size:var(--insight)}
+[data-density="compact"] .in{gap:var(--space-1)}
+[data-density="spacious"] .in{gap:var(--space-3)}
+.in-rule{position:absolute;left:0;top:.34em;bottom:4px;width:3px;border-radius:var(--radius-pill);background:linear-gradient(180deg,var(--accent),var(--accent-2))}
+.in p{margin:0}
+.in-text{max-width:60ch;text-wrap:pretty;font-size:var(--insight);line-height:1.35;font-weight:500;color:var(--ink)}
+.in-text code{font-family:var(--font-mono);font-size:.85em;font-weight:500}
+.in-src{display:flex;align-items:baseline;gap:var(--space-3);font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+/* Metric (DS preview) */
+.mt{position:relative;overflow:hidden;display:flex;flex-direction:column;padding:var(--card-y) var(--inset) calc(var(--card-y) + 3px);background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius-lg);box-shadow:var(--card)}
+.mt-l{font-size:13px;line-height:1.3;font-weight:500;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mt-v{margin-top:var(--space-1);display:flex;align-items:baseline;gap:var(--space-2);font-size:var(--num);line-height:1;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.mt-v small{font:400 var(--suffix)/1 var(--font-mono);letter-spacing:0;color:var(--muted)}
+.mt-d{margin-top:var(--stack);display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-3);font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.mt-d.crit{color:var(--crit)}.mt-d.good{color:var(--good)}
+.mt-bar{position:absolute;left:0;right:var(--inset);bottom:0;height:3px;border-radius:0 var(--radius-pill) var(--radius-pill) 0;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+/* Steps (Steps sheet) */
+[data-density]{--st-gap:var(--space-5);--st-link:var(--space-2)}
+[data-density="compact"]{--st-gap:var(--space-4);--st-link:var(--space-2)}
+[data-density="spacious"]{--st-gap:var(--space-6);--st-link:var(--space-3)}
+.st-list{margin:0;padding:var(--st-gap) 0;list-style:none;display:flex;flex-direction:column;gap:var(--st-gap)}
+.st-list>li{position:relative;display:flex;align-items:flex-start;gap:var(--space-3);padding:0 var(--inset)}
+.st-list>li:not(:last-child)::after{content:"";position:absolute;left:calc(var(--inset) + 10px);top:26px;bottom:calc(var(--space-1) - var(--st-gap) - 1px);width:1px;background:var(--line)}
+.st-n{flex-shrink:0;box-sizing:border-box;width:21px;height:21px;margin-top:1px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font:500 11px/1 var(--font-mono);color:var(--muted)}
+.st-list>li:first-child .st-n{border-color:var(--accent);color:var(--accent-text)}
+.st-c{flex-grow:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start}
+.st-top{align-self:stretch;display:flex;align-items:baseline;justify-content:space-between;gap:var(--space-3);min-width:0}
+.st-top h3{margin:0;min-width:0;font-size:15px;line-height:21px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.st-fact{flex-shrink:0;font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap}
+.st-c p{margin:var(--space-1) 0 0;max-width:62ch;font-size:14px;line-height:1.45;color:var(--muted);text-wrap:pretty}
+.st-c code{margin:0 .1em;font-family:var(--font-mono);font-size:.85em;font-weight:500;color:var(--ink);white-space:nowrap}
+.st-c .st-a{position:relative;margin-top:var(--st-link);display:inline-flex;align-items:center;gap:var(--space-1)}
+.st-c .st-a svg{flex-shrink:0;display:block}
+.st-c .st-a:hover svg{transform:translate(1px,-1px)}
+/* Distribution (Distribution sheet) */
+[data-density]{--dx-plot:136px}
+[data-density="compact"]{--dx-plot:112px}
+[data-density="spacious"]{--dx-plot:160px}
+.dx{--dx-g:var(--space-5)}
+.dx.narrow{--dx-g:0px}
+.dx-fig{margin:0;padding:var(--card-y) var(--inset)}
+.dx-area{position:relative;padding-top:calc(20px + var(--space-2))}
+.dx-plot{position:relative;height:var(--dx-plot);margin-left:var(--dx-g);border-bottom:1px solid var(--line)}
+.dx-grid{position:absolute;left:0;right:0;height:1px;background:var(--line-soft)}
+.dx-grid i{position:absolute;left:calc(-1 * var(--dx-g));top:.5px;transform:translateY(-50%);font:normal 400 10.5px/1 var(--font-mono);color:var(--muted)}
+.dx-p90{position:absolute;z-index:1;top:0;bottom:0;width:1px;margin-left:-.5px;background:var(--data-ref)}
+.dx-p90 i{position:absolute;left:var(--space-2);top:0;font:normal 400 10.5px/1 var(--font-mono);color:var(--muted);white-space:nowrap}
+.dx-bins{position:absolute;inset:0;display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}
+.dx-bin{position:relative;display:flex;align-items:flex-end;justify-content:center;min-width:0;height:100%;margin:0;padding:0;border:0;border-radius:var(--radius-sm) var(--radius-sm) 0 0;background:none;cursor:pointer}
+.dx-bin>span{position:relative;z-index:2;display:block;width:min(24px,calc(100% - 2px));border-radius:4px 4px 0 0;background:var(--data-1)}
+.dx-bin:hover::before{content:"";position:absolute;z-index:0;top:0;bottom:0;left:max(var(--space-1),calc(50% - 12px - var(--space-2)));right:max(var(--space-1),calc(50% - 12px - var(--space-2)));border-radius:var(--radius-md) var(--radius-md) 0 0;background:var(--surface-tint)}
+.dx-bin:focus-visible{outline:none}
+.dx-bin:focus-visible>span{outline:2px solid var(--focus);outline-offset:2px}
+.dx-mk{position:absolute;z-index:1;top:10px;bottom:1px;width:2px;margin-left:-1px;background:var(--ink)}
+.dx-mk::before{content:"";position:absolute;left:-3px;top:-4px;width:8px;height:8px;border-radius:50%;background:var(--ink);box-shadow:0 0 0 2px var(--surface)}
+.dx-ml{position:absolute;left:11px;top:0;transform:translateY(-50%);white-space:nowrap;font-size:13px;line-height:1.3;font-weight:500;color:var(--ink)}
+.dx-ml i{font-style:normal;color:var(--muted)}
+.dx-ml b{font-weight:700}
+.dx-x{position:relative;height:20px;margin-left:var(--dx-g)}
+.dx-x span{position:absolute;top:0;transform:translateX(-50%);padding-top:calc(4px + var(--space-1));font:400 10.5px/1 var(--font-mono);color:var(--muted);white-space:nowrap}
+.dx-x span::before{content:"";position:absolute;left:50%;top:0;width:1px;height:4px;margin-left:-.5px;background:var(--line)}
+.dx-x span:nth-child(1){left:14.286%}
+.dx-x span:nth-child(2){left:28.571%}
+.dx-x span:nth-child(3){left:42.857%}
+.dx-x span:nth-child(4){left:57.143%}
+.dx-x span:nth-child(5){left:71.429%}
+.dx-x span:nth-child(6){left:85.714%}
+.dx-src{margin-top:var(--stack);height:16px;font:400 11.5px/16px var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* FilterChips (Inputs-States sheet) */
+[data-density]{--chip-h:32px;--chip-x:var(--space-3)}
+[data-density="compact"]{--chip-h:28px;--chip-x:var(--space-3)}
+[data-density="spacious"]{--chip-h:36px;--chip-x:var(--space-4)}
+.fc{display:flex;flex-wrap:wrap;gap:var(--space-2)}
+.fc-chip{position:relative;box-sizing:border-box;display:inline-flex;align-items:center;gap:var(--space-2);height:var(--chip-h);margin:0;padding:0 var(--chip-x);border:1px solid var(--line);border-radius:var(--radius-pill);background:var(--surface);font:500 13px/1.3 var(--font-sans);color:var(--muted);white-space:nowrap;cursor:pointer}
+[data-density="spacious"] .fc-chip::after{content:"";position:absolute;left:0;right:0;top:-4px;bottom:-4px}
+.fc-n{font:500 11px/1.3 var(--font-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.fc-chip:hover{color:var(--ink);border-color:var(--line-strong)}
+.fc-chip:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.fc-chip[aria-pressed="true"]{color:var(--ink);background:var(--surface-tint);border-color:var(--accent)}
+.fc-ck{flex-shrink:0;margin-right:calc(-1 * var(--space-1));color:var(--accent)}
+.fc-more{gap:var(--space-1);background:transparent;color:var(--ink)}
+/* StatusList (Timeline-States) */
+.sl ul{margin:0;padding:0;list-style:none}
+.sl li{position:relative;display:flex;align-items:center;gap:var(--space-3);padding:var(--row-y) var(--inset)}
+.sl li+li::before{content:"";position:absolute;left:var(--inset);right:var(--inset);top:0;height:1px;background:var(--line)}
+.sl .g-mark{align-self:flex-start;margin-top:3.75px}
+.sl-t{flex-grow:1;min-width:0;display:grid;gap:2px}
+.sl-t b{font-size:13.5px;line-height:1.3;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sl-t i{font:normal 400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* page: the hover border token the Inputs sheet defines on its own board */
+.sc-page{--line-strong:color-mix(in srgb,var(--ink) 22%,transparent)}
+/* page: chips sit on the ground directly above the list they filter, tighter than the region gap */
+.nc-filtered{display:flex;flex-direction:column;gap:var(--space-2)}
+.nc-narrow,.nc-more{display:none}
+@media (max-width:639px){
+/* page: the renderer measures one line of chips; at 390 two fit before +3 more */
+.nc-filtered .nc-fold{display:none}
+.nc-filtered .nc-more{display:inline-flex}
+/* page: Distribution under 480px of card takes its narrow form */
+.nc-dx{--dx-g:0px}
+.nc-dx .dx-grid,.nc-dx .dx-p90,.nc-dx .nc-wide{display:none}
+.nc-dx .nc-narrow{display:inline}
+/* page: StatusList narrow rule proposed on Main · title full width, meta and tag share the second line */
+.nc-iss li{display:grid;grid-template-columns:10px minmax(0,1fr) auto;column-gap:var(--space-3);row-gap:2px;align-items:center}
+.nc-iss .sl-t{display:contents}
+.nc-iss .sl-t b{grid-column:2 / -1}
+.nc-iss .sl-t i{grid-column:2}
+.nc-iss .g-mark{grid-row:1}
+.nc-iss .g-tag{grid-column:3;grid-row:2}
+}
+</style>
+
+<div class="sc-page" data-density="compact">
+
+<header class="sc-wrap">
+<div class="sc-top">
+<a class="sc-wordmark" href="#">Generative UI</a>
+<nav class="sc-nav" aria-label="Site">
+<a href="#">Catalog</a>
+<a href="#">Evals</a>
+<a href="#">About</a>
+<a href="https://github.com/">GitHub<svg class="sc-ext" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8L8 4"/><path d="M4.5 4H8V7.5"/></svg></a>
+</nav>
+</div>
+</header>
+
+<main class="sc-wrap sc-main">
+
+<header class="sc-chrome">
+<div class="sc-chrome-top">
+<div>
+<div class="sc-eyebrow"><span class="sc-chip repo">tailwindlabs/tailwindcss</span><span class="sc-chip">first-time contributors</span><span class="sc-eyebrow-note">asked just now</span></div>
+<h1 class="sc-question">Where would a new contributor start?</h1>
+</div>
+<div class="sc-built">
+<span class="sc-built-num">1.7<small>s</small></span>
+<span class="sc-built-meta">composed by Haiku · 9 components</span>
+<span class="sc-built-meta">template first-contribution</span>
+</div>
+</div>
+<nav class="sc-qchips" aria-label="Ask next">
+<a class="sc-qchip" href="#">How long until a maintainer reviews my PR?</a>
+<a class="sc-qchip" href="#">Who's carrying this repo?</a>
+<a class="sc-qchip" href="#">What merged this week?</a>
+<a class="sc-qchip" href="#">Which files change the most?</a>
+</nav>
+</header>
+
+<div class="in"><span class="in-rule" aria-hidden="true"></span><p class="in-text">Start with one of 6 unclaimed good first issues; first-time pull requests here get a first review in about 9 hours.</p><p class="in-src">from 9 good first issues and 64 first-time PRs · last 90 days</p></div>
+
+<section class="sc-metrics" aria-label="Key numbers">
+<div class="mt"><span class="mt-l">Good first issues</span><span class="mt-v">9</span><span class="mt-d">6 unclaimed · 3 with a PR</span><span class="mt-bar" aria-hidden="true"></span></div>
+<div class="mt"><span class="mt-l">Median first review</span><span class="mt-v">9.2<small>h</small></span><span class="mt-d">first-time PRs · 90 days</span><span class="mt-bar" aria-hidden="true"></span></div>
+<div class="mt"><span class="mt-l">First PRs merged</span><span class="mt-v">41<small>of 64</small></span><span class="mt-d">17 closed · 6 still open</span><span class="mt-bar" aria-hidden="true"></span></div>
+<div class="mt"><span class="mt-l">Reviewers · 90 days</span><span class="mt-v">3</span><span class="mt-d">RobinMalfait does 61%</span><span class="mt-bar" aria-hidden="true"></span></div>
+</section>
+
+<div class="sc-split is-level" style="--sc-split: minmax(0,3fr) minmax(0,2fr)">
+<div class="g-card"><div class="g-head"><h2>Where to start</h2><span>tailwindlabs/tailwindcss</span></div><ol class="st-list" role="list">
+<li><span class="st-n" aria-hidden="true">1</span><div class="st-c"><div class="st-top"><h3><span class="g-sr">Step 1 of 3. </span>Read the contributing guide</h3><span class="st-fact">updated 9d ago</span></div><p>It covers the monorepo layout, the test setup and what reviewers check.</p><a class="g-link st-a" href="https://github.com/tailwindlabs/tailwindcss/blob/main/.github/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing guide<span class="g-sr"> (opens GitHub)</span><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 3H9v4.5"/><path d="M9 3 3 9"/></svg></a></div></li>
+<li><span class="st-n" aria-hidden="true">2</span><div class="st-c"><div class="st-top"><h3><span class="g-sr">Step 2 of 3. </span>Pick a good first issue</h3><span class="st-fact">6 unclaimed</span></div><p>Each one is triaged and labeled by area, so you can start in the part you know.</p></div></li>
+<li><span class="st-n" aria-hidden="true">3</span><div class="st-c"><div class="st-top"><h3><span class="g-sr">Step 3 of 3. </span>Build once, then test as you go</h3><span class="st-fact">Rust and pnpm</span></div><p>Run <code>pnpm build</code> once, then keep <code>pnpm test</code> running while you work.</p></div></li>
+</ol></div>
+
+<div class="g-card dx nc-dx"><div class="g-head"><h2>Time to first review</h2><span>last 90 days</span></div>
+<figure class="dx-fig" role="group" aria-label="Half of first-time contributors got a first review within 9 hours. 1 in 10 waited more than 5 days.">
+<div class="dx-area">
+<div class="dx-plot">
+<span class="dx-grid" style="bottom: 33.333%" aria-hidden="true"><i>6</i></span>
+<span class="dx-grid" style="bottom: 66.667%" aria-hidden="true"><i>12</i></span>
+<span class="dx-p90" style="left: 78.571%" aria-hidden="true"><i>90% by 5d</i></span>
+<div class="dx-bins">
+<button class="dx-bin" type="button" aria-label="6 PRs reviewed in under 1 hour"><span style="height: 33.333%"></span></button>
+<button class="dx-bin" type="button" aria-label="11 PRs reviewed in 1 to 4 hours"><span style="height: 61.111%"></span></button>
+<button class="dx-bin" type="button" aria-label="16 PRs reviewed in 4 to 12 hours"><span style="height: 88.889%"></span></button>
+<button class="dx-bin" type="button" aria-label="12 PRs reviewed in 12 to 24 hours"><span style="height: 66.667%"></span></button>
+<button class="dx-bin" type="button" aria-label="9 PRs reviewed in 1 to 3 days"><span style="height: 50%"></span></button>
+<button class="dx-bin" type="button" aria-label="6 PRs reviewed in 3 to 7 days"><span style="height: 33.333%"></span></button>
+<button class="dx-bin" type="button" aria-label="4 PRs waited over 7 days"><span style="height: 22.222%"></span></button>
+</div>
+</div>
+<span class="dx-mk" style="left: calc(var(--dx-g) + (100% - var(--dx-g)) * .35714)"><span class="dx-ml"><span class="nc-wide">You would wait here</span><span class="nc-narrow">Your wait</span> <i>·</i> about <b>9h</b></span></span>
+</div>
+<div class="dx-x" aria-hidden="true"><span>1h</span><span>4h</span><span>12h</span><span>24h</span><span>3d</span><span>7d</span></div>
+<figcaption class="dx-src"><span class="nc-wide">from 64 PRs by first-time contributors · bots excluded</span><span class="nc-narrow">90% reviewed by 5d · from 64 PRs</span></figcaption>
+</figure></div>
+</div>
+
+<section class="nc-filtered" aria-label="Good first issues">
+<div class="fc" role="group" aria-label="Filter good first issues by area">
+<button class="fc-chip" type="button" aria-pressed="false">Core<span class="fc-n">3</span></button>
+<button class="fc-chip" type="button" aria-pressed="false">Upgrade tool<span class="fc-n">2</span></button>
+<button class="fc-chip nc-fold" type="button" aria-pressed="false">Vite plugin<span class="fc-n">2</span></button>
+<button class="fc-chip nc-fold" type="button" aria-pressed="false">Oxide<span class="fc-n">1</span></button>
+<button class="fc-chip nc-fold" type="button" aria-pressed="false">CLI<span class="fc-n">1</span></button>
+<button class="fc-chip fc-more nc-more" type="button" aria-expanded="false"><span class="fc-n">+3</span>more</button>
+</div>
+<div class="g-card sl nc-iss"><div class="g-head"><h2>Good first issues</h2><span>9 open · 6 unclaimed</span></div><ul>
+<li><span class="g-mark" aria-hidden="true"></span><span class="sl-t"><b>Keep comments when the upgrade tool migrates a JS config</b><i>#19412 · upgrade tool · opened 3d ago</i></span><span class="g-tag good">unclaimed</span></li>
+<li><span class="g-mark" aria-hidden="true"></span><span class="sl-t"><b>Warn when the Vite plugin is registered twice</b><i>#19398 · vite plugin · opened 5d ago</i></span><span class="g-tag good">unclaimed</span></li>
+<li><span class="g-mark" aria-hidden="true"></span><span class="sl-t"><b>Errors from spacing() should name the source file</b><i>#19391 · core · opened 6d ago</i></span><span class="g-tag good">unclaimed</span></li>
+<li><span class="g-mark neutral" aria-hidden="true"></span><span class="sl-t"><b>Watch mode misses files created after start on Windows</b><i>#19377 · cli · opened 1w ago · PR #19402</i></span><span class="g-tag quiet">PR open</span></li>
+<li><span class="g-mark" aria-hidden="true"></span><span class="sl-t"><b>Skip git folders when scanning nested workspaces</b><i>#19360 · oxide · opened 1w ago</i></span><span class="g-tag good">unclaimed</span></li>
+<li><span class="g-mark neutral" aria-hidden="true"></span><span class="sl-t"><b>Sort arbitrary variants after named variants</b><i>#19344 · core · opened 2w ago · PR #19370</i></span><span class="g-tag quiet">PR open</span></li>
+<li><span class="g-mark" aria-hidden="true"></span><span class="sl-t"><b>Migrate theme() calls inside @apply</b><i>#19331 · upgrade tool · opened 2w ago</i></span><span class="g-tag good">unclaimed</span></li>
+<li><span class="g-mark" aria-hidden="true"></span><span class="sl-t"><b>Reload when a source file outside the Vite root changes</b><i>#19317 · vite plugin · opened 3w ago</i></span><span class="g-tag good">unclaimed</span></li>
+<li><span class="g-mark neutral" aria-hidden="true"></span><span class="sl-t"><b>Clearer error for an unknown @utility name</b><i>#19298 · core · opened 3w ago · PR #19341</i></span><span class="g-tag quiet">PR open</span></li>
+</ul></div>
+</section>
+
+<footer class="sc-strip" aria-label="Build receipt">
+<span>read <b>5 GitHub endpoints</b> · 2 live · 3 cached</span>
+<span>fetch <b>0.58&#160;s</b> · compose <b>0.88&#160;s</b> · render <b>0.24&#160;s</b></span>
+<span>composed in <b>1.7&#160;s</b></span>
+<button class="g-link sc-strip-end" type="button" aria-expanded="false">How this was built</button>
+</footer>
+
+</main>
+
+<footer class="sc-wrap sc-foot">Public repos only · nothing is stored beyond a cache of GitHub's public stats · no account needed</footer>
+
+<form class="sc-tray" role="search" aria-label="Ask about tailwindlabs/tailwindcss">
+<label class="sc-ask"><span class="g-sr">Ask another question about tailwindlabs/tailwindcss</span><input type="text" placeholder="Ask another question about tailwindlabs/tailwindcss"></label>
+<button class="sc-send" type="submit" aria-label="Ask" aria-disabled="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13V3"/><path d="M4 7l4-4 4 4"/></svg></button>
+<span class="sc-tray-rule" aria-hidden="true"></span>
+<div class="sc-density" role="radiogroup" aria-label="Density"><button class="sc-seg" type="button" role="radio" aria-checked="true">Compact</button><button class="sc-seg" type="button" role="radio" aria-checked="false">Comfortable</button><button class="sc-seg" type="button" role="radio" aria-checked="false">Spacious</button></div>
+</form>
+
+</div>
+
+</body>
+</html>

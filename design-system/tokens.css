@@ -1,0 +1,130 @@
+:root {
+  /* color */
+  --bg: #fcfaf8;
+  --surface: #ffffff;
+  --surface-tint: #fcf5f3;
+  --ink: #23201e;
+  --muted: #6a635e;
+  --line: #23201e1a;
+  --line-soft: #23201e0f;
+  --line-strong: #23201e38;
+  --accent: #c4492f;
+  --accent-2: #9e3a9a;
+  --accent-ink: #ffffff;
+  --accent-text: #b6462f;
+  --focus: #35302c;
+  --good: #157448;
+  --good-fill: #1f8f5a;
+  --warn: #945607;
+  --warn-fill: #c97a12;
+  --crit: #a41b3d;
+  --crit-fill: #b21f43;
+  --data-1: var(--accent);
+  --data-2: #3b6ea5;
+  --data-ref: #958c85;
+  --heat-0: #f3efec;
+  --heat-1: #ffcec2;
+  --heat-2: #f5ac9c;
+  --heat-3: #e88671;
+  --heat-4: #d4614a;
+  --heat-5: #b44029;
+  --diff-add: #ecf4f0;
+  --diff-del: #f8edef;
+  --diff-add-word: #dae9e2;
+  --diff-del-word: #f0dbe0;
+  --glow-a: #f16b4e24;
+  --glow-b: #c24bb614;
+  --scrim: #23201e1a;
+  /* spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 28px;
+  --space-7: 40px;
+  --space-8: 64px;
+  /* radius */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+  /* shadow */
+  --card: 0 12px 40px #e2606212, 0 1px 3px #23201e0d;
+  --card-hover: 0 16px 44px #e2606221, 0 1px 3px #23201e0d;
+  --card-hot: 0 12px 40px #d4445e1a, 0 1px 3px #23201e0d;
+  --bloom: 0 16px 48px #e2606233;
+  --tray: 0 10px 36px #0000001f;
+  --sheet: 0 24px 64px #23201e24, 0 2px 6px #23201e14;
+  /* type families */
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  /* type styles: size / leading / weight / tracking */
+  --text-question-size: 44px;
+  --text-question-leading: 1.08;
+  --text-question-weight: 700;
+  --text-question-tracking: -0.02em;
+  --text-metric-size: 38px;
+  --text-metric-leading: 1;
+  --text-metric-weight: 700;
+  --text-metric-tracking: -0.02em;
+  --text-built-size: 28px;
+  --text-built-leading: 1;
+  --text-built-weight: 700;
+  --text-built-tracking: -0.01em;
+  --text-insight-size: 19px;
+  --text-insight-leading: 1.35;
+  --text-insight-weight: 500;
+  --text-body-size: 14px;
+  --text-body-leading: 1.45;
+  --text-body-weight: 400;
+  --text-row-title-size: 13.5px;
+  --text-row-title-leading: 1.3;
+  --text-row-title-weight: 500;
+  --text-card-title-size: 13px;
+  --text-card-title-leading: 1.3;
+  --text-card-title-weight: 600;
+  --text-card-title-tracking: 0.01em;
+  --text-label-size: 13px;
+  --text-label-leading: 1.3;
+  --text-label-weight: 500;
+  --text-action-size: 15px;
+  --text-action-leading: 1.25;
+  --text-action-weight: 600;
+  --text-value-size: 13.5px;
+  --text-value-leading: 1.3;
+  --text-value-weight: 600;
+  --text-hint-size: 12.5px;
+  --text-hint-leading: 1.4;
+  --text-hint-weight: 400;
+  --text-section-size: 19px;
+  --text-section-leading: 1.25;
+  --text-section-weight: 600;
+  --text-lead-size: 22px;
+  --text-lead-leading: 1.3;
+  --text-lead-weight: 500;
+  --text-meta-size: 11.5px;
+  --text-meta-leading: 1.4;
+  --text-meta-weight: 400;
+  --text-meta-tracking: 0.02em;
+  --text-suffix-size: 14px;
+  --text-suffix-leading: 1;
+  --text-suffix-weight: 400;
+  --text-tag-size: 11px;
+  --text-tag-leading: 1.3;
+  --text-tag-weight: 500;
+  --text-axis-size: 10.5px;
+  --text-axis-leading: 1;
+  --text-axis-weight: 400;
+  --text-code-size: 12px;
+  --text-code-leading: 1.5;
+  --text-code-weight: 400;
+  --text-handle-size: 13px;
+  --text-handle-leading: 1.3;
+  --text-handle-weight: 500;
+}
+:root { --inset: 20px; --card-y: 16px; --row-y: 12px; --region-gap: 28px; --metric-size: 38px; --suffix-size: 14px; --insight-size: 19px; --control-h: 40px; --plot-h: 200px; --code-leading: 20px; }
+[data-density="compact"] { --inset: 16px; --card-y: 12px; --row-y: 8px; --region-gap: 16px; --metric-size: 30px; --suffix-size: 12px; --insight-size: 16px; --control-h: 36px; --plot-h: 160px; --code-leading: 18px; }
+[data-density="spacious"] { --inset: 28px; --card-y: 20px; --row-y: 16px; --region-gap: 40px; --metric-size: 46px; --suffix-size: 16px; --insight-size: 22px; --control-h: 44px; --plot-h: 240px; --code-leading: 22px; }
+@media (max-width: 639px) { [data-density="spacious"] { --inset: 20px; --card-y: 16px; --row-y: 12px; --region-gap: 28px; --metric-size: 38px; --suffix-size: 14px; --insight-size: 19px; --control-h: 40px; --plot-h: 200px; --code-leading: 20px; } }

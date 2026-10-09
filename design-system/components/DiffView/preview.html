@@ -1,0 +1,139 @@
+<!-- @dsCard group="Code" height=916 width=1400 subtitle="unified diff for one file · small, large folded, over the limit · skeleton, empty, error" -->
+<style>
+body{margin:0;padding:16px;background:var(--bg);color:var(--ink);font-family:var(--font-sans)}
+[data-density]{--inset:var(--space-5);--card-y:var(--space-4);--row-y:var(--space-3);--code:12px;--code-lh:20px}
+[data-density="compact"]{--inset:var(--space-4);--card-y:var(--space-3);--row-y:var(--space-2);--code-lh:18px}
+[data-density="spacious"]{--inset:var(--space-6);--card-y:var(--space-5);--row-y:var(--space-4);--code-lh:22px}
+.rows{display:grid;gap:20px}
+.row{display:grid;gap:8px}
+.row>h3{margin:0;font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-4);align-items:start}
+.stack{display:grid;gap:var(--space-4)}
+.card{position:relative;overflow:hidden;background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius-lg);box-shadow:var(--card)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.sk{display:block;border-radius:var(--radius-sm);background:var(--line-soft)}
+.sk-i{display:inline-block;vertical-align:middle}
+.mark{position:relative;flex-shrink:0;box-sizing:border-box;width:10px;height:10px;border-radius:50%;border:1.5px solid var(--muted);align-self:flex-start;margin-top:3.75px}
+.mark.unavailable::after{content:"";position:absolute;left:50%;top:-1.5px;bottom:-1.5px;width:1.5px;margin-left:-.75px;background:var(--muted);transform:rotate(45deg)}
+.retry{flex-shrink:0;white-space:nowrap;margin:0;padding:0;border:0;border-radius:var(--radius-sm);background:none;font:500 13px/1.3 var(--font-sans);color:var(--accent-text);cursor:pointer;text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--accent-text) 35%,transparent);text-underline-offset:3px}
+.retry:hover{text-decoration-color:currentColor}
+.retry:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.chev{flex-shrink:0;width:12px;height:12px;color:var(--muted);transform:rotate(90deg)}
+.shut .chev{transform:none}
+.st{flex-shrink:0;display:flex;gap:1ch;margin-left:auto;font:500 11px/1.3 var(--font-mono);white-space:nowrap}
+.a{color:var(--good)}.d{color:var(--crit)}.z{color:var(--muted)}
+.msg{display:flex;align-items:center;gap:var(--space-3);padding:var(--row-y) var(--inset)}
+.txt{flex-grow:1;min-width:0;display:grid;gap:2px}
+.txt b{font-size:13.5px;line-height:1.3;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.txt i{font:normal 400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dv-head{display:flex;align-items:center;gap:var(--space-3);padding:var(--card-y) var(--inset) var(--row-y);border-bottom:1px solid var(--line-soft)}
+.shut .dv-head{padding-bottom:var(--card-y);border-bottom:0}
+.dv-head.sk-h{height:17px;box-sizing:content-box;justify-content:space-between}
+.dv-tog{display:flex;align-items:center;gap:var(--space-2);min-width:0;margin:0;padding:0;border:0;border-radius:var(--radius-sm);background:none;color:var(--muted);font:400 var(--code)/1.3 var(--font-mono);text-align:left;cursor:pointer}
+.dv-tog:focus-visible,.dv-tog.fv{outline:2px solid var(--focus);outline-offset:2px}
+.dv-tog:hover .chev,.dv-tog.hv .chev{color:var(--ink)}
+.dv-tog:hover b,.dv-tog.hv b{text-decoration:underline;text-decoration-color:var(--muted);text-underline-offset:3px}
+.dv-path{min-width:0;overflow:hidden;white-space:nowrap;line-height:17px}
+.dv-path b{font-weight:500;color:var(--ink)}
+.dv-b{padding-bottom:var(--row-y)}
+.dv-t{width:100%;border-collapse:collapse;font:400 var(--code)/var(--code-lh) var(--font-mono);font-feature-settings:"calt" 0,"liga" 0;color:var(--ink)}
+.dv-t td{padding:0;vertical-align:baseline}
+.dv-t .dv-h td{padding:var(--row-y) var(--inset) var(--space-1);font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:pre-wrap}
+.dv-t tbody+tbody .dv-h td{border-top:1px solid var(--line-soft);padding-top:var(--space-2)}
+.dv-t .n{width:1%;padding-left:var(--space-3);white-space:nowrap;text-align:right;font-size:11.5px;color:var(--muted);user-select:none}
+.dv-t .n:first-child{padding-left:var(--inset)}
+.n::before{content:attr(data-n);display:inline-block;min-width:3ch}
+.dv-t .s{width:1%;padding:0 var(--space-2) 0 var(--space-3);text-align:center;user-select:none}
+.s::before{content:attr(data-s);display:inline-block;min-width:1ch}
+.dv-t .c{padding:0 var(--inset) 0 calc((var(--i, 0) + 2) * 1ch);text-indent:-2ch;white-space:pre-wrap;overflow-wrap:anywhere}
+.add>td{background:var(--diff-add)}
+.del>td{background:var(--diff-del)}
+.dv-t mark{color:inherit;border-radius:var(--radius-sm)}
+.add mark{background:var(--diff-add-word)}
+.del mark{background:var(--diff-del-word)}
+.more{display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);padding:var(--row-y) var(--inset);border-top:1px solid var(--line-soft);font-size:13px;line-height:1.3;font-weight:500;color:var(--muted)}
+.skt td{vertical-align:middle}
+.sk-n{width:2ch;height:7px;margin-left:1ch}
+.sk-c{height:8px}
+</style>
+<div class="rows">
+  <section class="row" data-density="comfortable">
+    <h3>Comfortable · small diff · large diff, folded after the first hunk</h3>
+    <div class="grid">
+      <section class="card"><div class="dv-head"><button class="dv-tog" type="button" aria-expanded="true"><svg class="chev" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg><span class="dv-path">packages/next/src/server/app-render/<b>get-css-inlined-link-tags.tsx</b></span></button><span class="st"><span class="a">+2</span><span class="d">−1</span><span class="sr">2 additions, 1 deletion</span></span></div>
+        <div class="dv-b"><table class="dv-t"><caption class="sr">Changes to get-css-inlined-link-tags.tsx</caption>
+          <tbody>
+            <tr class="dv-h"><td colspan="4">@@ -13,6 +13,7 @@ export function getLinkAndScriptTags(</td></tr>
+            <tr><td class="n" data-n="13"></td><td class="n" data-n="13"></td><td class="s"></td><td class="c">): { styles: string[]; scripts: string[] } {</td></tr>
+            <tr><td class="n" data-n="14"></td><td class="n" data-n="14"></td><td class="s"></td><td class="c" style="--i: 2">const filePathWithoutExt = filePath.replace(/\.[^.]+$/, '')</td></tr>
+            <tr><td class="n" data-n="15"></td><td class="n" data-n="15"></td><td class="s"></td><td class="c" style="--i: 2">const cssChunks = new Set&lt;string&gt;()</td></tr>
+            <tr class="add"><td class="n"></td><td class="n" data-n="16"></td><td class="s" data-s="+"><span class="sr">added</span></td><td class="c" style="--i: 2">const cssOrder = clientReferenceManifest.cssChunkOrder ?? []</td></tr>
+            <tr><td class="n" data-n="16"></td><td class="n" data-n="17"></td><td class="s"></td><td class="c" style="--i: 2">const jsChunks = new Set&lt;string&gt;()</td></tr>
+            <tr><td class="n" data-n="17"></td><td class="n" data-n="18"></td><td class="s"></td><td class="c"></td></tr>
+            <tr><td class="n" data-n="18"></td><td class="n" data-n="19"></td><td class="s"></td><td class="c" style="--i: 2">const entryCSSFiles =</td></tr>
+          </tbody>
+          <tbody>
+            <tr class="dv-h"><td colspan="4">@@ -21,7 +22,7 @@ export function getLinkAndScriptTags(</td></tr>
+            <tr><td class="n" data-n="21"></td><td class="n" data-n="22"></td><td class="s"></td><td class="c" style="--i: 4">clientReferenceManifest.entryJSFiles?.[filePathWithoutExt] ?? []</td></tr>
+            <tr><td class="n" data-n="22"></td><td class="n" data-n="23"></td><td class="s"></td><td class="c"></td></tr>
+            <tr><td class="n" data-n="23"></td><td class="n" data-n="24"></td><td class="s"></td><td class="c" style="--i: 2">if (entryCSSFiles) {</td></tr>
+            <tr class="del"><td class="n" data-n="24"></td><td class="n"></td><td class="s" data-s="−"><span class="sr">removed</span></td><td class="c" style="--i: 4">for (const css of entryCSSFiles) {</td></tr>
+            <tr class="add"><td class="n"></td><td class="n" data-n="25"></td><td class="s" data-s="+"><span class="sr">added</span></td><td class="c" style="--i: 4">for (const css of <mark>sortByChunkOrder(</mark>entryCSSFiles<mark>, cssOrder)</mark>) {</td></tr>
+            <tr><td class="n" data-n="25"></td><td class="n" data-n="26"></td><td class="s"></td><td class="c" style="--i: 6">if (!injectedCSS.has(css.path)) {</td></tr>
+            <tr><td class="n" data-n="26"></td><td class="n" data-n="27"></td><td class="s"></td><td class="c" style="--i: 8">if (collectNewImports) {</td></tr>
+            <tr><td class="n" data-n="27"></td><td class="n" data-n="28"></td><td class="s"></td><td class="c" style="--i: 10">injectedCSS.add(css.path)</td></tr>
+          </tbody></table></div></section>
+      <section class="card"><div class="dv-head"><button class="dv-tog" type="button" aria-expanded="true"><svg class="chev" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg><span class="dv-path">crates/next-core/src/next_app/<b>app_client_references_chunks.rs</b></span></button><span class="st"><span class="a">+118</span><span class="d">−61</span></span></div>
+        <div class="dv-b"><table class="dv-t"><tbody>
+          <tr class="dv-h"><td colspan="4">@@ -96,10 +96,11 @@ pub async fn get_app_client_references_chunks(</td></tr>
+          <tr><td class="n" data-n="96"></td><td class="n" data-n="96"></td><td class="s"></td><td class="c" style="--i: 8">let mut client_chunks = Vec::new();</td></tr>
+          <tr><td class="n" data-n="97"></td><td class="n" data-n="97"></td><td class="s"></td><td class="c" style="--i: 8">let mut ssr_chunks = Vec::new();</td></tr>
+          <tr><td class="n" data-n="98"></td><td class="n" data-n="98"></td><td class="s"></td><td class="c"></td></tr>
+          <tr class="del"><td class="n" data-n="99"></td><td class="n"></td><td class="s" data-s="−"></td><td class="c" style="--i: 8">for server_component in server_components.iter() {</td></tr>
+          <tr class="add"><td class="n"></td><td class="n" data-n="99"></td><td class="s" data-s="+"></td><td class="c" style="--i: 8">let ordered = sort_by_layout_depth(server_components).await?;</td></tr>
+          <tr class="add"><td class="n"></td><td class="n" data-n="100"></td><td class="s" data-s="+"></td><td class="c" style="--i: 8">for server_component in ordered.iter() {</td></tr>
+          <tr><td class="n" data-n="100"></td><td class="n" data-n="101"></td><td class="s"></td><td class="c" style="--i: 12">let entry = client_references_by_server_component</td></tr>
+          <tr><td class="n" data-n="101"></td><td class="n" data-n="102"></td><td class="s"></td><td class="c" style="--i: 16">.get(server_component)</td></tr>
+          <tr class="del"><td class="n" data-n="102"></td><td class="n"></td><td class="s" data-s="−"></td><td class="c" style="--i: 16">.<mark>copied</mark>()</td></tr>
+          <tr class="del"><td class="n" data-n="103"></td><td class="n"></td><td class="s" data-s="−"></td><td class="c" style="--i: 16">.<mark>unwrap_or_default</mark>();</td></tr>
+          <tr class="add"><td class="n"></td><td class="n" data-n="103"></td><td class="s" data-s="+"></td><td class="c" style="--i: 16">.<mark>cloned</mark>()</td></tr>
+          <tr class="add"><td class="n"></td><td class="n" data-n="104"></td><td class="s" data-s="+"></td><td class="c" style="--i: 16">.<mark>unwrap_or_else</mark>(<mark>ClientReferences::empty</mark>);</td></tr>
+          <tr><td class="n" data-n="104"></td><td class="n" data-n="105"></td><td class="s"></td><td class="c"></td></tr>
+          <tr><td class="n" data-n="105"></td><td class="n" data-n="106"></td><td class="s"></td><td class="c" style="--i: 12">let chunks = entry.chunk_group(chunking_context, ChunkGroupKind::Layout).await?;</td></tr>
+        </tbody></table></div>
+        <div class="more"><span>202 more lines hidden in 5 hunks</span><button class="retry" type="button">Show all</button></div></section>
+    </div>
+  </section>
+  <section class="row" data-density="compact">
+    <h3>Compact · folded with hover, with focus · over the limit · skeleton</h3>
+    <div class="grid">
+      <div class="stack">
+        <section class="card shut"><div class="dv-head"><button class="dv-tog hv" type="button" aria-expanded="false"><svg class="chev" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg><span class="dv-path">packages/next/src/server/app-render/<b>get-layer-assets.tsx</b></span></button><span class="st"><span class="a">+45</span><span class="d">−19</span></span></div></section>
+        <section class="card shut"><div class="dv-head"><button class="dv-tog fv" type="button" aria-expanded="false"><svg class="chev" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg><span class="dv-path">crates/next-api/src/<b>app.rs</b></span></button><span class="st"><span class="a">+24</span><span class="d">−9</span></span></div></section>
+        <section class="card"><div class="dv-head"><button class="dv-tog" type="button" aria-expanded="true"><svg class="chev" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg><span class="dv-path"><b>pnpm-lock.yaml</b></span></button><span class="st"><span class="a">+1,206</span><span class="d">−1,148</span></span></div>
+          <div class="msg"><span class="mark" aria-hidden="true"></span><span class="txt"><b>Too large to show here</b><i>2,354 changed lines · the limit is 1,000</i></span><a class="retry" href="https://github.com/vercel/next.js/pulls">View on GitHub</a></div></section>
+      </div>
+      <section class="card" aria-busy="true"><span class="sr">Loading the diff.</span>
+        <div class="dv-head sk-h" aria-hidden="true"><span class="sk" style="width: 300px; height: 9px"></span><span class="sk" style="width: 52px; height: 7px"></span></div>
+        <div class="dv-b" aria-hidden="true"><table class="dv-t skt"><tbody>
+          <tr class="dv-h"><td colspan="4"><span class="sk sk-i" style="width: 280px; height: 7px"></span></td></tr>
+          <tr><td class="n"><span class="sk sk-i sk-n"></span></td><td class="n"><span class="sk sk-i sk-n"></span></td><td class="s"></td><td class="c"><span class="sk sk-i sk-c" style="width: 31ch"></span></td></tr>
+          <tr><td class="n"><span class="sk sk-i sk-n"></span></td><td class="n"><span class="sk sk-i sk-n"></span></td><td class="s"></td><td class="c" style="--i: 2"><span class="sk sk-i sk-c" style="width: 44ch"></span></td></tr>
+          <tr><td class="n"><span class="sk sk-i sk-n"></span></td><td class="n"><span class="sk sk-i sk-n"></span></td><td class="s"></td><td class="c" style="--i: 2"><span class="sk sk-i sk-c" style="width: 26ch"></span></td></tr>
+          <tr><td class="n"><span class="sk sk-i sk-n"></span></td><td class="n"><span class="sk sk-i sk-n"></span></td><td class="s"></td><td class="c" style="--i: 2"><span class="sk sk-i sk-c" style="width: 52ch"></span></td></tr>
+          <tr><td class="n"><span class="sk sk-i sk-n"></span></td><td class="n"><span class="sk sk-i sk-n"></span></td><td class="s"></td><td class="c" style="--i: 2"><span class="sk sk-i sk-c" style="width: 28ch"></span></td></tr>
+          <tr><td class="n"><span class="sk sk-i sk-n"></span></td><td class="n"><span class="sk sk-i sk-n"></span></td><td class="s"></td><td class="c"></td></tr>
+          <tr><td class="n"><span class="sk sk-i sk-n"></span></td><td class="n"><span class="sk sk-i sk-n"></span></td><td class="s"></td><td class="c" style="--i: 4"><span class="sk sk-i sk-c" style="width: 46ch"></span></td></tr>
+        </tbody></table></div></section>
+    </div>
+  </section>
+  <section class="row" data-density="spacious">
+    <h3>Spacious · empty, neutral tone · error</h3>
+    <div class="grid">
+      <section class="card"><div class="dv-head"><button class="dv-tog" type="button" aria-expanded="true"><svg class="chev" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg><span class="dv-path">test/e2e/app-dir/css-order/<b>next.config.js</b></span></button><span class="st"><span class="z">+0</span><span class="z">−0</span></span></div>
+        <div class="msg"><span class="mark" aria-hidden="true"></span><span class="txt"><b>Renamed without changes</b><i>was next.config.mjs · 14 lines, identical</i></span></div></section>
+      <section class="card"><div class="dv-head"><button class="dv-tog" type="button" aria-expanded="true"><svg class="chev" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg><span class="dv-path">crates/next-api/src/<b>app.rs</b></span></button></div>
+        <div class="msg"><span class="mark unavailable" aria-hidden="true"></span><span class="txt"><b>Couldn't load this diff</b><i>GitHub returned 502 · tried twice</i></span><button class="retry" type="button">Try again</button></div></section>
+    </div>
+  </section>
+</div>

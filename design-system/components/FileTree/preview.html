@@ -1,0 +1,145 @@
+<!-- @dsCard group="Code" height=712 width=1100 subtitle="files a pull request touches, or a folder overview · selected, collapsed, hover, focus · skeleton, empty, error" -->
+<style>
+body{margin:0;padding:16px;background:var(--bg);color:var(--ink);font-family:var(--font-sans)}
+[data-density]{--inset:var(--space-5);--card-y:var(--space-4);--row-y:var(--space-3);--code:12px;--ft-h:30px}
+[data-density="compact"]{--inset:var(--space-4);--card-y:var(--space-3);--row-y:var(--space-2);--ft-h:26px}
+[data-density="spacious"]{--inset:var(--space-6);--card-y:var(--space-5);--row-y:var(--space-4);--ft-h:34px}
+.rows{display:grid;gap:20px}
+.row{display:grid;gap:8px}
+.row>h3{margin:0;font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.grid{display:grid;grid-template-columns:360px 280px minmax(0,1fr);gap:var(--space-4);align-items:start}
+.stack{display:grid;gap:var(--space-4)}
+.card{position:relative;overflow:hidden;background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius-lg);box-shadow:var(--card)}
+.head{display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-3);padding:var(--card-y) var(--inset) var(--row-y);border-bottom:1px solid var(--line-soft)}
+.head h2{margin:0;font-size:13px;line-height:1.3;font-weight:600;letter-spacing:.01em}
+.head>span{display:flex;align-items:baseline;gap:var(--space-3);font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.head.sk-h{align-items:center;height:17px;box-sizing:content-box}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.sk{display:block;border-radius:var(--radius-sm);background:var(--line-soft)}
+.mark{position:relative;flex-shrink:0;box-sizing:border-box;width:10px;height:10px;border-radius:50%;border:1.5px solid var(--muted);align-self:flex-start;margin-top:3.75px}
+.mark.unavailable::after{content:"";position:absolute;left:50%;top:-1.5px;bottom:-1.5px;width:1.5px;margin-left:-.75px;background:var(--muted);transform:rotate(45deg)}
+.retry{flex-shrink:0;white-space:nowrap;margin:0;padding:0;border:0;border-radius:var(--radius-sm);background:none;font:500 13px/1.3 var(--font-sans);color:var(--accent-text);cursor:pointer;text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--accent-text) 35%,transparent);text-underline-offset:3px}
+.retry:hover{text-decoration-color:currentColor}
+.retry:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.msg{display:flex;align-items:center;gap:var(--space-3);padding:var(--row-y) var(--inset)}
+.txt{flex-grow:1;min-width:0;display:grid;gap:2px}
+.txt b{font-size:13.5px;line-height:1.3;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.txt i{font:normal 400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.st{flex-shrink:0;display:flex;gap:1ch;font:500 11px/1.3 var(--font-mono);white-space:nowrap}
+.st>span:first-child{min-width:4ch;text-align:right}
+.st>span:last-child{min-width:3ch;text-align:right}
+.a{color:var(--good)}.d{color:var(--crit)}.z{color:var(--muted)}
+.chev{flex-shrink:0;width:12px;height:12px;margin-right:var(--space-1);color:var(--muted)}
+.chev.open{transform:rotate(90deg)}
+ul{margin:0;padding:0;list-style:none}
+.tb{padding:var(--space-2) 0}
+.grp{position:relative}
+.grp::before{content:"";position:absolute;top:0;bottom:0;left:calc(var(--inset) + var(--pd, 0) * 16px + 6px);width:1px;background:var(--line)}
+.r{position:relative;z-index:0;box-sizing:border-box;display:flex;align-items:center;width:100%;height:var(--ft-h);margin:0;padding:0 var(--inset) 0 calc(var(--inset) + var(--d, 0) * 16px);border:0;background:none;font:400 var(--code)/1.3 var(--font-mono);color:var(--ink);text-align:left;text-decoration:none;cursor:pointer}
+.r::before{content:"";position:absolute;z-index:-1;top:1px;bottom:1px;left:var(--space-2);right:var(--space-2);border-radius:var(--radius-md)}
+.sp{flex-shrink:0;width:12px;margin-right:var(--space-1)}
+.ico{flex-shrink:0;width:16px;height:16px;margin-right:var(--space-2);color:var(--muted)}
+.nm{flex-grow:1;min-width:0;white-space:nowrap;overflow:hidden}
+.dir .nm{color:var(--muted)}
+.nm i{font-style:normal;color:var(--muted)}
+.r .st,.cnt{margin-left:var(--space-3)}
+.cnt{flex-shrink:0;font:500 11px/1.3 var(--font-mono);color:var(--muted)}
+.r:hover::before,.r.hv::before{background:var(--surface-tint)}
+.r.on::before{background:var(--surface-tint);box-shadow:inset 0 0 0 1px var(--accent)}
+.r.on .ico{color:var(--accent)}
+.r.on .nm{font-weight:500}
+.r:focus-visible{outline:0}
+.r:focus-visible::before,.r.fv::before{outline:2px solid var(--focus);outline-offset:2px}
+.sk .r,.skr{cursor:default}
+.sk-ico{flex-shrink:0;width:16px;height:12px;margin-right:var(--space-2)}
+.sk-nm{height:8px}
+.sk-st{flex-shrink:0;width:52px;height:7px;margin-left:auto}
+</style>
+<div class="rows">
+  <section class="row" data-density="comfortable">
+    <h3>Comfortable · files changed, one folder collapsed, one file selected · folder overview with hover and focus · empty, error</h3>
+    <div class="grid">
+      <nav class="card" aria-label="Files changed"><div class="head"><h2>Files changed</h2><span>9 files<span class="st"><span class="a">+412</span><span class="d">−96</span></span></span></div>
+        <ul class="tb">
+          <li><button class="r dir" type="button" style="--d: 0" aria-expanded="false"><svg class="chev" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.25 4.25a1 1 0 0 1 1-1h2.9l1.5 1.5h5.1a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-9.5a1 1 0 0 1-1-1z"/></svg><span class="nm">crates</span><span class="st"><span class="a">+142</span><span class="d">−70</span></span></button></li>
+          <li><button class="r dir" type="button" style="--d: 0" aria-expanded="true"><svg class="chev open" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.25 4.25a1 1 0 0 1 1-1h2.9l1.5 1.5h5.1a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-9.5a1 1 0 0 1-1-1z"/></svg><span class="nm">packages/next/src/server/app-render</span></button>
+            <ul class="grp" style="--pd: 0">
+              <li><a class="r" href="#create-component-tree" style="--d: 1"><span class="sp"></span><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.25 2.25h4.5l3 3v8.5h-7.5z"/><path d="M8.75 2.25v3h3"/></svg><span class="nm">create-component-tree.tsx</span><span class="st"><span class="a">+14</span><span class="d">−6</span></span></a></li>
+              <li><a class="r on" href="#get-css-inlined-link-tags" style="--d: 1" aria-current="true"><span class="sp"></span><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.25 2.25h4.5l3 3v8.5h-7.5z"/><path d="M8.75 2.25v3h3"/></svg><span class="nm" title="get-css-inlined-link-tags.tsx"><span aria-hidden="true">get-css-<i>…</i>-link-tags.tsx</span><span class="sr">get-css-inlined-link-tags.tsx</span></span><span class="st"><span class="a">+2</span><span class="d">−1</span></span></a></li>
+              <li><a class="r" href="#get-layer-assets" style="--d: 1"><span class="sp"></span><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.25 2.25h4.5l3 3v8.5h-7.5z"/><path d="M8.75 2.25v3h3"/></svg><span class="nm">get-layer-assets.tsx</span><span class="st"><span class="a">+45</span><span class="d">−19</span></span></a></li>
+            </ul></li>
+          <li><button class="r dir" type="button" style="--d: 0" aria-expanded="true"><svg class="chev open" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.25 4.25a1 1 0 0 1 1-1h2.9l1.5 1.5h5.1a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-9.5a1 1 0 0 1-1-1z"/></svg><span class="nm">test/e2e/app-dir/css-order</span></button>
+            <ul class="grp" style="--pd: 0">
+              <li><button class="r dir" type="button" style="--d: 1" aria-expanded="true"><svg class="chev open" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.25 4.25a1 1 0 0 1 1-1h2.9l1.5 1.5h5.1a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-9.5a1 1 0 0 1-1-1z"/></svg><span class="nm">app/nested</span></button>
+                <ul class="grp" style="--pd: 1">
+                  <li><a class="r" href="#layout" style="--d: 2"><span class="sp"></span><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.25 2.25h4.5l3 3v8.5h-7.5z"/><path d="M8.75 2.25v3h3"/></svg><span class="nm">layout.tsx</span><span class="st"><span class="a">+18</span><span class="z">−0</span></span></a></li>
+                  <li><a class="r" href="#nested-module" style="--d: 2"><span class="sp"></span><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.25 2.25h4.5l3 3v8.5h-7.5z"/><path d="M8.75 2.25v3h3"/></svg><span class="nm">nested.module.css</span><span class="st"><span class="a">+15</span><span class="z">−0</span></span></a></li>
+                  <li><a class="r" href="#page" style="--d: 2"><span class="sp"></span><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.25 2.25h4.5l3 3v8.5h-7.5z"/><path d="M8.75 2.25v3h3"/></svg><span class="nm">page.tsx</span><span class="st"><span class="a">+12</span><span class="z">−0</span></span></a></li>
+                </ul></li>
+              <li><a class="r" href="#css-order-test" style="--d: 1"><span class="sp"></span><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.25 2.25h4.5l3 3v8.5h-7.5z"/><path d="M8.75 2.25v3h3"/></svg><span class="nm">css-order.test.ts</span><span class="st"><span class="a">+164</span><span class="z">−0</span></span></a></li>
+            </ul></li>
+        </ul></nav>
+      <nav class="card" aria-label="Next.js source"><div class="head"><h2>Next.js source</h2><span>files</span></div>
+        <ul class="tb">
+          <li><button class="r dir" type="button" style="--d: 0" aria-expanded="true"><svg class="chev open" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.25 4.25a1 1 0 0 1 1-1h2.9l1.5 1.5h5.1a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-9.5a1 1 0 0 1-1-1z"/></svg><span class="nm">packages/next/src</span></button>
+            <ul class="grp" style="--pd: 0">
+              <li><button class="r dir" type="button" style="--d: 1" aria-expanded="false"><svg class="chev" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.25 4.25a1 1 0 0 1 1-1h2.9l1.5 1.5h5.1a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-9.5a1 1 0 0 1-1-1z"/></svg><span class="nm">build</span><span class="cnt">318</span></button></li>
+              <li><button class="r dir" type="button" style="--d: 1" aria-expanded="false"><svg class="chev" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.25 4.25a1 1 0 0 1 1-1h2.9l1.5 1.5h5.1a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-9.5a1 1 0 0 1-1-1z"/></svg><span class="nm">client</span><span class="cnt">264</span></button></li>
+              <li><button class="r dir" type="button" style="--d: 1" aria-expanded="true"><svg class="chev open" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.25 4.25a1 1 0 0 1 1-1h2.9l1.5 1.5h5.1a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-9.5a1 1 0 0 1-1-1z"/></svg><span class="nm">server</span></button>
+                <ul class="grp" style="--pd: 1">
+                  <li><button class="r dir hv" type="button" style="--d: 2" aria-expanded="false"><svg class="chev" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.25 4.25a1 1 0 0 1 1-1h2.9l1.5 1.5h5.1a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-9.5a1 1 0 0 1-1-1z"/></svg><span class="nm">app-render</span><span class="cnt">58</span></button></li>
+                  <li><button class="r dir fv" type="button" style="--d: 2" aria-expanded="false"><svg class="chev" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.25 4.25a1 1 0 0 1 1-1h2.9l1.5 1.5h5.1a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-9.5a1 1 0 0 1-1-1z"/></svg><span class="nm">lib</span><span class="cnt">142</span></button></li>
+                  <li><button class="r dir" type="button" style="--d: 2" aria-expanded="false"><svg class="chev" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.25 4.25a1 1 0 0 1 1-1h2.9l1.5 1.5h5.1a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-9.5a1 1 0 0 1-1-1z"/></svg><span class="nm">route-modules</span><span class="cnt">46</span></button></li>
+                  <li><a class="r" href="#base-server" style="--d: 2"><span class="sp"></span><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.25 2.25h4.5l3 3v8.5h-7.5z"/><path d="M8.75 2.25v3h3"/></svg><span class="nm">base-server.ts</span></a></li>
+                  <li><a class="r" href="#next-server" style="--d: 2"><span class="sp"></span><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.25 2.25h4.5l3 3v8.5h-7.5z"/><path d="M8.75 2.25v3h3"/></svg><span class="nm">next-server.ts</span></a></li>
+                </ul></li>
+              <li><button class="r dir" type="button" style="--d: 1" aria-expanded="false"><svg class="chev" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.25 4.25a1 1 0 0 1 1-1h2.9l1.5 1.5h5.1a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-9.5a1 1 0 0 1-1-1z"/></svg><span class="nm">shared</span><span class="cnt">171</span></button></li>
+            </ul></li>
+        </ul></nav>
+      <div class="stack">
+        <div class="card"><div class="head"><h2>Files changed</h2><span>0 files</span></div>
+          <div class="msg"><span class="mark" aria-hidden="true"></span><span class="txt"><b>No files changed</b><i>head matches canary · #84211</i></span></div></div>
+        <div class="card"><div class="head"><h2>Files changed</h2><span>#84120</span></div>
+          <div class="msg"><span class="mark unavailable" aria-hidden="true"></span><span class="txt"><b>Couldn't load files</b><i>GitHub returned 502</i></span><button class="retry" type="button">Try again</button></div></div>
+      </div>
+    </div>
+  </section>
+  <section class="row">
+    <h3>Compact · every folder open, middle truncation · skeleton · spacious · files changed</h3>
+    <div class="grid">
+      <nav class="card" data-density="compact" aria-label="Turbopack changes"><div class="head"><h2>Turbopack changes</h2><span>2 files<span class="st"><span class="a">+142</span><span class="d">−70</span></span></span></div>
+        <ul class="tb">
+          <li><button class="r dir" type="button" style="--d: 0" aria-expanded="true"><svg class="chev open" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.25 4.25a1 1 0 0 1 1-1h2.9l1.5 1.5h5.1a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-9.5a1 1 0 0 1-1-1z"/></svg><span class="nm">crates</span></button>
+            <ul class="grp" style="--pd: 0">
+              <li><button class="r dir" type="button" style="--d: 1" aria-expanded="true"><svg class="chev open" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.25 4.25a1 1 0 0 1 1-1h2.9l1.5 1.5h5.1a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-9.5a1 1 0 0 1-1-1z"/></svg><span class="nm">next-api/src</span></button>
+                <ul class="grp" style="--pd: 1">
+                  <li><a class="r" href="#app" style="--d: 2"><span class="sp"></span><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.25 2.25h4.5l3 3v8.5h-7.5z"/><path d="M8.75 2.25v3h3"/></svg><span class="nm">app.rs</span><span class="st"><span class="a">+24</span><span class="d">−9</span></span></a></li>
+                </ul></li>
+              <li><button class="r dir" type="button" style="--d: 1" aria-expanded="true"><svg class="chev open" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.25 4.25a1 1 0 0 1 1-1h2.9l1.5 1.5h5.1a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-9.5a1 1 0 0 1-1-1z"/></svg><span class="nm">next-core/src/next_app</span></button>
+                <ul class="grp" style="--pd: 1">
+                  <li><a class="r on" href="#app-client-references-chunks" style="--d: 2" aria-current="true"><span class="sp"></span><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.25 2.25h4.5l3 3v8.5h-7.5z"/><path d="M8.75 2.25v3h3"/></svg><span class="nm" title="app_client_references_chunks.rs"><span aria-hidden="true">app_client_<i>…</i>_chunks.rs</span><span class="sr">app_client_references_chunks.rs</span></span><span class="st"><span class="a">+118</span><span class="d">−61</span></span></a></li>
+                </ul></li>
+            </ul></li>
+        </ul></nav>
+      <div class="card" data-density="compact" aria-busy="true"><span class="sr">Loading changed files.</span>
+        <div class="head sk-h" aria-hidden="true"><span class="sk" style="width: 104px; height: 9px"></span><span class="sk" style="width: 84px; height: 7px"></span></div>
+        <div class="tb" aria-hidden="true">
+          <div class="r skr" style="--d: 0"><span class="sp"></span><span class="sk sk-ico"></span><span class="sk sk-nm" style="width: 12ch"></span></div>
+          <div class="r skr" style="--d: 1"><span class="sp"></span><span class="sk sk-ico"></span><span class="sk sk-nm" style="width: 15ch"></span><span class="sk sk-st"></span></div>
+          <div class="r skr" style="--d: 1"><span class="sp"></span><span class="sk sk-ico"></span><span class="sk sk-nm" style="width: 11ch"></span><span class="sk sk-st"></span></div>
+          <div class="r skr" style="--d: 0"><span class="sp"></span><span class="sk sk-ico"></span><span class="sk sk-nm" style="width: 18ch"></span></div>
+          <div class="r skr" style="--d: 1"><span class="sp"></span><span class="sk sk-ico"></span><span class="sk sk-nm" style="width: 9ch"></span></div>
+          <div class="r skr" style="--d: 2"><span class="sp"></span><span class="sk sk-ico"></span><span class="sk sk-nm" style="width: 10ch"></span><span class="sk sk-st"></span></div>
+        </div></div>
+      <nav class="card" data-density="spacious" aria-label="Render changes"><div class="head"><h2>Render changes</h2><span>3 files<span class="st"><span class="a">+61</span><span class="d">−26</span></span></span></div>
+        <ul class="tb">
+          <li><button class="r dir" type="button" style="--d: 0" aria-expanded="true"><svg class="chev open" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.25 4.25a1 1 0 0 1 1-1h2.9l1.5 1.5h5.1a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-9.5a1 1 0 0 1-1-1z"/></svg><span class="nm">packages/next/src/server/app-render</span></button>
+            <ul class="grp" style="--pd: 0">
+              <li><a class="r" href="#create-component-tree" style="--d: 1"><span class="sp"></span><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.25 2.25h4.5l3 3v8.5h-7.5z"/><path d="M8.75 2.25v3h3"/></svg><span class="nm">create-component-tree.tsx</span><span class="st"><span class="a">+14</span><span class="d">−6</span></span></a></li>
+              <li><a class="r on" href="#get-css-inlined-link-tags" style="--d: 1" aria-current="true"><span class="sp"></span><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.25 2.25h4.5l3 3v8.5h-7.5z"/><path d="M8.75 2.25v3h3"/></svg><span class="nm">get-css-inlined-link-tags.tsx</span><span class="st"><span class="a">+2</span><span class="d">−1</span></span></a></li>
+              <li><a class="r" href="#get-layer-assets" style="--d: 1"><span class="sp"></span><svg class="ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.25 2.25h4.5l3 3v8.5h-7.5z"/><path d="M8.75 2.25v3h3"/></svg><span class="nm">get-layer-assets.tsx</span><span class="st"><span class="a">+45</span><span class="d">−19</span></span></a></li>
+            </ul></li>
+        </ul></nav>
+    </div>
+  </section>
+</div>

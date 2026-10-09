@@ -1,0 +1,58 @@
+<!-- @dsCard group="Data" height=720 width=1200 subtitle="three densities · default, hot, with suffix, skeleton · empty, error, warming" -->
+<style>
+body{margin:0;padding:16px;background:var(--bg);color:var(--ink);font-family:var(--font-sans)}
+[data-density]{--inset:var(--space-5);--card-y:var(--space-4);--num:38px;--suffix:14px;--stack:var(--space-3)}
+[data-density="compact"]{--inset:var(--space-4);--card-y:var(--space-3);--num:30px;--suffix:12px;--stack:var(--space-2)}
+[data-density="spacious"]{--inset:var(--space-6);--card-y:var(--space-5);--num:46px;--suffix:16px;--stack:var(--space-4)}
+.rows{display:grid;gap:20px}
+.row{display:grid;gap:8px}
+.row>h3{margin:0;font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-4);align-items:start}
+.mt{position:relative;overflow:hidden;display:flex;flex-direction:column;padding:var(--card-y) var(--inset) calc(var(--card-y) + 3px);background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius-lg);box-shadow:var(--card)}
+.mt-l{font-size:13px;line-height:1.3;font-weight:500;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mt-v{margin-top:var(--space-1);display:flex;align-items:baseline;gap:var(--space-2);font-size:var(--num);line-height:1;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.mt-v small{font:400 var(--suffix)/1 var(--font-mono);letter-spacing:0;color:var(--muted)}
+.mt-d{margin-top:var(--stack);display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-3);font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.mt-d.crit{color:var(--crit)}.mt-d.good{color:var(--good)}
+.mt-bar{position:absolute;left:0;right:var(--inset);bottom:0;height:3px;border-radius:0 var(--radius-pill) var(--radius-pill) 0;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+.mt-bar.track{background:var(--line-soft)}
+.mt-bar.track>span{position:absolute;left:0;top:0;bottom:0;border-radius:inherit;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+.mt.hot{border-color:color-mix(in srgb,var(--crit-fill) 35%,transparent);box-shadow:var(--card-hot)}
+.mt-hotmark{position:absolute;top:calc(var(--card-y) + 3.5px);right:var(--inset);width:10px;height:10px;border-radius:50%;background:var(--crit-fill)}
+.mt-msg{margin-top:var(--space-1);height:var(--num);display:flex;align-items:center;gap:var(--space-2);font-size:14px;line-height:1.3;font-weight:500}
+.mt-msg.quiet{color:var(--muted)}
+.mk{position:relative;flex-shrink:0;box-sizing:border-box;width:10px;height:10px;border-radius:50%;border:1.5px solid var(--muted)}
+.mk.unavailable::after{content:"";position:absolute;left:50%;top:-1.5px;bottom:-1.5px;width:1.5px;margin-left:-.75px;background:var(--muted);transform:rotate(45deg)}
+.mk.warming{border-color:var(--line)}
+.mk.warming::after{content:"";position:absolute;inset:-1.5px;border-radius:50%;border:1.5px solid transparent;border-top-color:var(--accent);border-right-color:var(--accent)}
+.mt-d>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.retry{flex-shrink:0;white-space:nowrap;margin:0;padding:0;border:0;background:none;font:500 12.5px/1.3 var(--font-sans);color:var(--accent-text);text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--accent-text) 35%,transparent);text-underline-offset:3px;cursor:pointer;border-radius:4px}
+.retry:hover{text-decoration-color:currentColor}.retry:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.sk{display:block;border-radius:var(--radius-sm);background:var(--line-soft)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+</style>
+<div class="rows">
+  <section class="row" data-density="compact"><h3>Compact</h3><div class="grid">
+    <div class="mt"><span class="mt-l">Open PRs on milestone</span><span class="mt-v">7</span><span class="mt-d">2 merged this week</span><span class="mt-bar" aria-hidden="true"></span></div>
+    <div class="mt hot"><span class="sr">Blocking.</span><span class="mt-hotmark" aria-hidden="true"></span><span class="mt-l">Failing checks</span><span class="mt-v">2</span><span class="mt-d crit">both on canary</span><span class="mt-bar" aria-hidden="true"></span></div>
+    <div class="mt"><span class="mt-l">Milestone issues closed</span><span class="mt-v">12<small>of 19</small></span><span class="mt-d">7 open · closes in 4 days</span><span class="mt-bar" aria-hidden="true"></span></div>
+    <div class="mt" aria-busy="true"><span class="sr">Loading metric.</span><span class="sk" style="width:58%;height:9px;margin:4px 0"></span><span class="sk" style="width:38%;height:calc(var(--num)*.72);margin-top:calc(var(--space-1) + var(--num)*.14);margin-bottom:calc(var(--num)*.14)"></span><span class="sk" style="width:52%;height:8px;margin-top:calc(var(--stack) + 4px)"></span></div>
+  </div></section>
+  <section class="row" data-density="comfortable"><h3>Comfortable</h3><div class="grid">
+    <div class="mt"><span class="mt-l">Open PRs on milestone</span><span class="mt-v">7</span><span class="mt-d">2 merged this week</span><span class="mt-bar" aria-hidden="true"></span></div>
+    <div class="mt hot"><span class="sr">Blocking.</span><span class="mt-hotmark" aria-hidden="true"></span><span class="mt-l">Failing checks</span><span class="mt-v">2</span><span class="mt-d crit">both on canary</span><span class="mt-bar" aria-hidden="true"></span></div>
+    <div class="mt"><span class="mt-l">Milestone issues closed</span><span class="mt-v">12<small>of 19</small></span><span class="mt-d">7 open · closes in 4 days</span><span class="mt-bar" aria-hidden="true"></span></div>
+    <div class="mt" aria-busy="true"><span class="sr">Loading metric.</span><span class="sk" style="width:58%;height:9px;margin:4px 0"></span><span class="sk" style="width:38%;height:calc(var(--num)*.72);margin-top:calc(var(--space-1) + var(--num)*.14);margin-bottom:calc(var(--num)*.14)"></span><span class="sk" style="width:52%;height:8px;margin-top:calc(var(--stack) + 4px)"></span></div>
+  </div></section>
+  <section class="row" data-density="spacious"><h3>Spacious</h3><div class="grid">
+    <div class="mt"><span class="mt-l">Open PRs on milestone</span><span class="mt-v">7</span><span class="mt-d">2 merged this week</span><span class="mt-bar" aria-hidden="true"></span></div>
+    <div class="mt hot"><span class="sr">Blocking.</span><span class="mt-hotmark" aria-hidden="true"></span><span class="mt-l">Failing checks</span><span class="mt-v">2</span><span class="mt-d crit">both on canary</span><span class="mt-bar" aria-hidden="true"></span></div>
+    <div class="mt"><span class="mt-l">Milestone issues closed</span><span class="mt-v">12<small>of 19</small></span><span class="mt-d">7 open · closes in 4 days</span><span class="mt-bar" aria-hidden="true"></span></div>
+    <div class="mt" aria-busy="true"><span class="sr">Loading metric.</span><span class="sk" style="width:58%;height:9px;margin:4px 0"></span><span class="sk" style="width:38%;height:calc(var(--num)*.72);margin-top:calc(var(--space-1) + var(--num)*.14);margin-bottom:calc(var(--num)*.14)"></span><span class="sk" style="width:52%;height:8px;margin-top:calc(var(--stack) + 4px)"></span></div>
+  </div></section>
+  <section class="row" data-density="comfortable"><h3>Comfortable · empty, error, warming</h3><div class="grid">
+    <div class="mt"><span class="mt-l">Median time to first review</span><span class="mt-msg quiet"><span class="mk" aria-hidden="true"></span>No reviews yet</span><span class="mt-d">window · last 30 days</span></div>
+    <div class="mt"><span class="mt-l">Failing checks</span><span class="mt-msg"><span class="mk unavailable" aria-hidden="true"></span>Couldn't load</span><span class="mt-d"><span>GitHub returned 502</span><button class="retry" type="button">Try again</button></span></div>
+    <div class="mt" aria-busy="true"><span class="mt-l">Median time to merge</span><span class="mt-msg quiet"><span class="mk warming" aria-hidden="true"></span>GitHub is counting</span><span class="mt-d">usually under a minute</span><span class="mt-bar track" aria-hidden="true"><span style="width:42%"></span></span></div>
+  </div></section>
+</div>

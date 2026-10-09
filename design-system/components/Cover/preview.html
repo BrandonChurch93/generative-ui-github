@@ -1,0 +1,30 @@
+<!-- @dsCard height=288 -->
+<style>
+body{margin:0;background:var(--bg)}
+.cover{position:relative;width:960px;height:288px;overflow:hidden;font-family:var(--font-sans)}
+.cover svg{position:absolute;left:0;top:0;display:block}
+.brand{fill:var(--accent)}.violet{fill:var(--accent-2)}.ink{fill:var(--ink)}.tint{fill:var(--surface-tint)}.ground{fill:var(--bg)}
+.name{position:absolute;left:32px;top:136px;font-size:64px;line-height:.95;font-weight:700;letter-spacing:-.02em;color:var(--ink);max-width:440px}
+.tag{position:absolute;left:32px;top:212px;font-size:13px;line-height:1.4;color:var(--muted);max-width:440px}
+</style>
+<div class="cover">
+  <!--
+    blocks: accent 400x104 · accent-2 240x104 · ink 180x104 · surface-tint 140x104, a strip of unequal bands across the top (top-band skeleton: the name is wider than 440px at 64px)
+    arrangement: flush left to right, bleeding off the top and both sides, the way a composition streams in
+    pattern: pills, from "soft, friendly, large radii" and the extend move: five ground-colored bars of unequal length cut out of the blocks, like metric bars that extended into place; heights space-2, gaps space-4
+    scales: space-2 (8) pill height, space-4 (16) pitch and inset, radius-pill (half the short side, 4) on pills
+  -->
+  <svg width="960" height="104" viewBox="0 0 960 104" aria-hidden="true">
+    <rect class="brand" x="0" y="0" width="400" height="104"/>
+    <rect class="violet" x="400" y="0" width="240" height="104"/>
+    <rect class="ink" x="640" y="0" width="180" height="104"/>
+    <rect class="tint" x="820" y="0" width="140" height="104"/>
+    <rect class="ground" x="24" y="24" width="232" height="8" rx="4"/>
+    <rect class="ground" x="24" y="48" width="136" height="8" rx="4"/>
+    <rect class="ground" x="24" y="72" width="304" height="8" rx="4"/>
+    <rect class="ground" x="424" y="48" width="160" height="8" rx="4"/>
+    <rect class="ground" x="664" y="72" width="96" height="8" rx="4"/>
+  </svg>
+  <div class="name">Generative UI</div>
+  <div class="tag">Model decides, code renders.</div>
+</div>

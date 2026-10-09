@@ -1,0 +1,186 @@
+<!-- @dsCard group="Data" height=1528 width=1280 subtitle="the load-bearing wall · 8 people, 3 people, risk · spread out, hover, focus · skeleton, empty, error, warming" -->
+<style>
+body{margin:0;padding:16px;background:var(--bg);color:var(--ink);font-family:var(--font-sans)}
+[data-density]{--inset:var(--space-5);--card-y:var(--space-4);--row-y:var(--space-3);--cr-gap:var(--space-2)}
+[data-density="compact"]{--inset:var(--space-4);--card-y:var(--space-3);--row-y:var(--space-2);--cr-gap:var(--space-1)}
+[data-density="spacious"]{--inset:var(--space-6);--card-y:var(--space-5);--row-y:var(--space-4);--cr-gap:var(--space-2)}
+.rows{display:grid;gap:20px}
+.row{display:grid;gap:8px}
+.row>h3{margin:0;font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-4);align-items:start}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-4);align-items:start}
+.stack{display:grid;gap:var(--space-4)}
+.cr{position:relative;overflow:hidden;background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius-lg);box-shadow:var(--card)}
+.cr-head{display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-3);padding:var(--card-y) var(--inset) var(--row-y);border-bottom:1px solid var(--line-soft)}
+.cr-head h2{margin:0;font-size:13px;line-height:1.3;font-weight:600;letter-spacing:.01em}
+.cr-head>span{font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap}
+.cr ol{margin:0;padding:0;list-style:none}
+.cr li{position:relative;padding:0 var(--space-2)}
+.cr li+li::before{content:"";position:absolute;left:var(--inset);right:var(--inset);top:0;height:1px;background:var(--line)}
+.cr-row{box-sizing:border-box;display:grid;grid-template-areas:"who" "bar";gap:var(--cr-gap);width:100%;margin:0;padding:var(--row-y) calc(var(--inset) - var(--space-2));border:0;border-radius:var(--radius-md);background:none;color:inherit;font:inherit;text-align:left}
+.cr-row::after{content:"";grid-area:bar;height:var(--space-2);border-radius:0 var(--radius-sm) var(--radius-sm) 0;background:var(--line-soft)}
+button.cr-row{cursor:pointer}
+.cr-who{grid-area:who;display:flex;align-items:baseline;gap:var(--space-3);min-width:0;height:18px}
+.cr-id{flex-grow:1;min-width:0;display:flex;align-items:baseline;gap:var(--space-2);white-space:nowrap;overflow:hidden}
+.cr-id b{flex-shrink:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;font:500 13px/1.35 var(--font-mono);color:var(--ink)}
+.cr-id span{min-width:0;overflow:hidden;text-overflow:ellipsis;font-size:13px;line-height:1.35;color:var(--muted)}
+.cr-n{flex-shrink:0;width:40px;text-align:right;font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.cr-pct{flex-shrink:0;width:36px;text-align:right;font-size:13.5px;line-height:1.3;font-weight:600;font-variant-numeric:tabular-nums}
+.cr-bar{grid-area:bar;position:relative;z-index:1;display:block;min-width:var(--space-2);height:var(--space-2);border-radius:0 var(--radius-sm) var(--radius-sm) 0;background:var(--data-ref)}
+.cr-bar.wall{background:var(--data-1)}
+.cr-wall{display:flex;align-items:flex-start;gap:var(--space-2);padding:var(--row-y) var(--inset)}
+.cr-key{flex-shrink:0;width:var(--space-3);height:var(--space-2);margin-top:4.5px;border-radius:0 var(--radius-sm) var(--radius-sm) 0;background:var(--data-1)}
+.cr-key.ref{background:var(--data-ref)}
+.cr-wall p{min-width:0;margin:0;font-size:13px;line-height:1.3;color:var(--muted);text-wrap:pretty}
+.cr-wall p b{font-weight:500;color:var(--ink)}
+.cr-rule{flex:1 0 var(--space-4);height:1px;margin:8px 0 0 var(--space-1);background:var(--line)}
+.cr-foot{position:relative;padding:var(--row-y) var(--inset);font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.cr-foot::before{content:"";position:absolute;left:var(--inset);right:var(--inset);top:0;height:1px;background:var(--line)}
+.cr-wall+.cr-foot::before{display:none}
+.cr li.is-hover::before,.cr li.is-hover+li::before,.cr li.is-focus::before,.cr li.is-focus+li::before,.cr li:has(>.cr-row:focus-visible)::before,.cr li:has(>.cr-row:focus-visible)+li::before{opacity:0}
+.cr li.is-hover .cr-row{background:var(--surface-tint)}
+.cr .cr-row.is-focus,.cr button.cr-row:focus-visible,.cr-retry:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.cr-tip{position:absolute;z-index:2;top:calc(var(--row-y) + 18px + var(--cr-gap) + var(--space-1));display:grid;grid-template-columns:var(--space-3) auto;align-items:center;column-gap:var(--space-2);row-gap:2px;padding:var(--space-2) var(--space-3);background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius-md);box-shadow:var(--card);white-space:nowrap;transform:translateY(-50%);pointer-events:none}
+.cr-tip>i{height:2px;border-radius:var(--radius-pill);background:var(--data-ref)}
+.cr-tip b{font-size:13.5px;line-height:1.3;font-weight:600;font-variant-numeric:tabular-nums}
+.cr-tip b span{font-weight:400;color:var(--muted)}
+.cr-tip em{grid-column:2;font:normal 400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.cr-mark{position:relative;flex-shrink:0;box-sizing:border-box;width:10px;height:10px;border-radius:50%;border:1.5px solid var(--good-fill)}
+.cr-mark.warn{border-style:dashed;border-color:var(--warn-fill)}
+.cr-mark.neutral,.cr-mark.unavailable{border-color:var(--muted)}
+.cr-mark.unavailable::after{content:"";position:absolute;left:50%;top:-1.5px;bottom:-1.5px;width:1.5px;margin-left:-.75px;background:var(--muted);transform:rotate(45deg)}
+.cr-mark.warming{border-color:var(--line)}
+.cr-mark.warming::after{content:"";position:absolute;inset:-1.5px;border-radius:50%;border:1.5px solid transparent;border-top-color:var(--accent);border-right-color:var(--accent)}
+.cr-wall .cr-mark{margin:3.5px 1px 0}
+.cr-tag{flex-shrink:0;margin:-1.5px 0 0 var(--space-1);padding:3px 8px;border-radius:var(--radius-pill);font:500 11px/1.3 var(--font-mono);white-space:nowrap;color:var(--warn);background:color-mix(in srgb,currentColor 10%,transparent)}
+.cr-msg{display:flex;align-items:center;gap:var(--space-3);padding:var(--row-y) var(--inset)}
+.cr-msg .cr-mark{align-self:flex-start;margin-top:3.75px}
+.cr-t{flex-grow:1;min-width:0;display:grid;gap:2px}
+.cr-t b{font-size:13.5px;line-height:1.3;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cr-t b.quiet{color:var(--muted)}
+.cr-t i{font:normal 400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cr-retry{flex-shrink:0;white-space:nowrap;margin:0;padding:0;border:0;background:none;font:500 13px/1.3 var(--font-sans);color:var(--accent-text);cursor:pointer;text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--accent-text) 35%,transparent);text-underline-offset:3px;border-radius:4px}
+.cr-progress{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--line-soft)}
+.cr-progress>span{position:absolute;left:0;top:0;bottom:0;border-radius:0 var(--radius-pill) var(--radius-pill) 0;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+.cr-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.cr-sk .cr-head{align-items:center;height:17px}
+.cr-sk li::before,.cr-sk .cr-row::after{display:none}
+.cr-sk .cr-who,.cr-sk .cr-id{align-items:center}
+.cr-sk .cr-n,.cr-sk .cr-pct{display:flex;justify-content:flex-end}
+.cr-sk .cr-bar{background:var(--line-soft)}
+.sk{display:block;flex-shrink:0;border-radius:var(--radius-sm);background:var(--line-soft)}
+</style>
+<div class="rows">
+
+  <section class="row" data-density="comfortable">
+    <h3>Comfortable · 8 people, 3 people, marked as risk</h3>
+    <div class="grid2">
+      <div class="cr" aria-label="Two people, ijjk and huozhi, carry 52% of merged commits in the last 90 days"><div class="cr-head"><h2>Merged commits by author</h2><span>last 90 days · 868 commits</span></div>
+        <ol>
+          <li><div class="cr-row"><span class="cr-who"><span class="cr-id"><b>ijjk</b><span>JJ Kasper</span></span><span class="cr-n">268</span><span class="cr-pct">31%</span></span><span class="cr-bar wall" style="width:100%" aria-hidden="true"></span></div></li>
+          <li><div class="cr-row"><span class="cr-who"><span class="cr-id"><b>huozhi</b><span>Jiachi Liu</span></span><span class="cr-n">184</span><span class="cr-pct">21%</span></span><span class="cr-bar wall" style="width:68.66%" aria-hidden="true"></span></div></li>
+        </ol>
+        <div class="cr-wall"><span class="cr-key" aria-hidden="true"></span><p><b>Bus factor 2</b> · these two carry 52% of merged commits</p><span class="cr-rule" aria-hidden="true"></span></div>
+        <ol start="3">
+          <li><div class="cr-row"><span class="cr-who"><span class="cr-id"><b>timneutkens</b><span>Tim Neutkens</span></span><span class="cr-n">104</span><span class="cr-pct">12%</span></span><span class="cr-bar" style="width:38.81%" aria-hidden="true"></span></div></li>
+          <li><div class="cr-row"><span class="cr-who"><span class="cr-id"><b>sokra</b><span>Tobias Koppers</span></span><span class="cr-n">78</span><span class="cr-pct">9%</span></span><span class="cr-bar" style="width:29.1%" aria-hidden="true"></span></div></li>
+          <li><div class="cr-row"><span class="cr-who"><span class="cr-id"><b>eps1lon</b><span>Sebastian Silbermann</span></span><span class="cr-n">61</span><span class="cr-pct">7%</span></span><span class="cr-bar" style="width:22.76%" aria-hidden="true"></span></div></li>
+          <li><div class="cr-row"><span class="cr-who"><span class="cr-id"><b>acdlite</b><span>Andrew Clark</span></span><span class="cr-n">43</span><span class="cr-pct">5%</span></span><span class="cr-bar" style="width:16.04%" aria-hidden="true"></span></div></li>
+          <li><div class="cr-row"><span class="cr-who"><span class="cr-id"><b>delbaoliveira</b><span>Delba de Oliveira</span></span><span class="cr-n">35</span><span class="cr-pct">4%</span></span><span class="cr-bar" style="width:13.06%" aria-hidden="true"></span></div></li>
+          <li><div class="cr-row"><span class="cr-who"><span class="cr-id"><b>lubieowoce</b></span><span class="cr-n">17</span><span class="cr-pct">2%</span></span><span class="cr-bar" style="width:6.34%" aria-hidden="true"></span></div></li>
+        </ol>
+        <div class="cr-foot">41 more authors share the other 9% · 78 commits</div>
+      </div>
+      <div class="stack">
+        <div class="cr" aria-label="One person, RobinMalfait, carries 61% of reviews on merged pull requests in the last 90 days"><div class="cr-head"><h2>Reviews on merged pull requests</h2><span>last 90 days · 351 reviews</span></div>
+          <ol>
+            <li><div class="cr-row"><span class="cr-who"><span class="cr-id"><b>RobinMalfait</b><span>Robin Malfait</span></span><span class="cr-n">214</span><span class="cr-pct">61%</span></span><span class="cr-bar wall" style="width:100%" aria-hidden="true"></span></div></li>
+          </ol>
+          <div class="cr-wall"><span class="cr-key" aria-hidden="true"></span><p><b>Bus factor 1</b> · one person carries 61% of reviews</p><span class="cr-rule" aria-hidden="true"></span></div>
+          <ol start="2">
+            <li><div class="cr-row"><span class="cr-who"><span class="cr-id"><b>thecrypticace</b><span>Jordan Pittman</span></span><span class="cr-n">95</span><span class="cr-pct">27%</span></span><span class="cr-bar" style="width:44.39%" aria-hidden="true"></span></div></li>
+            <li><div class="cr-row"><span class="cr-who"><span class="cr-id"><b>philipp-spiess</b><span>Philipp Spiess</span></span><span class="cr-n">42</span><span class="cr-pct">12%</span></span><span class="cr-bar" style="width:19.63%" aria-hidden="true"></span></div></li>
+          </ol>
+        </div>
+        <div class="cr" aria-label="At risk: one person, RobinMalfait, carries 61% of reviews on merged pull requests in the last 90 days"><div class="cr-head"><h2>Reviews on merged pull requests</h2><span>last 90 days · 351 reviews</span></div>
+          <ol>
+            <li><div class="cr-row"><span class="cr-who"><span class="cr-id"><b>RobinMalfait</b><span>Robin Malfait</span></span><span class="cr-n">214</span><span class="cr-pct">61%</span></span><span class="cr-bar wall" style="width:100%" aria-hidden="true"></span></div></li>
+          </ol>
+          <div class="cr-wall"><span class="cr-mark warn" aria-hidden="true"></span><p><b>Bus factor 1</b> · one person carries 61% of reviews</p><span class="cr-rule" aria-hidden="true"></span><span class="cr-tag">at risk</span></div>
+          <ol start="2">
+            <li><div class="cr-row"><span class="cr-who"><span class="cr-id"><b>thecrypticace</b><span>Jordan Pittman</span></span><span class="cr-n">95</span><span class="cr-pct">27%</span></span><span class="cr-bar" style="width:44.39%" aria-hidden="true"></span></div></li>
+            <li><div class="cr-row"><span class="cr-who"><span class="cr-id"><b>philipp-spiess</b><span>Philipp Spiess</span></span><span class="cr-n">42</span><span class="cr-pct">12%</span></span><span class="cr-bar" style="width:19.63%" aria-hidden="true"></span></div></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="row" data-density="compact">
+    <h3>Compact · spread out, no wall in view · hover on a row</h3>
+    <div class="grid2">
+      <div class="cr" aria-label="No small group carries half the work: the top five carry 41% of merged commits in the last 90 days"><div class="cr-head"><h2>Merged commits by author</h2><span>last 90 days · 412 commits</span></div>
+        <ol>
+          <li><div class="cr-row"><span class="cr-who"><span class="cr-id"><b>eps1lon</b><span>Sebastian Silbermann</span></span><span class="cr-n">52</span><span class="cr-pct">13%</span></span><span class="cr-bar" style="width:100%" aria-hidden="true"></span></div></li>
+          <li><div class="cr-row"><span class="cr-who"><span class="cr-id"><b>sebmarkbage</b><span>Sebastian Markbåge</span></span><span class="cr-n">41</span><span class="cr-pct">10%</span></span><span class="cr-bar" style="width:78.85%" aria-hidden="true"></span></div></li>
+          <li><div class="cr-row"><span class="cr-who"><span class="cr-id"><b>acdlite</b><span>Andrew Clark</span></span><span class="cr-n">30</span><span class="cr-pct">7%</span></span><span class="cr-bar" style="width:57.69%" aria-hidden="true"></span></div></li>
+          <li><div class="cr-row"><span class="cr-who"><span class="cr-id"><b>poteto</b><span>Lauren Tan</span></span><span class="cr-n">25</span><span class="cr-pct">6%</span></span><span class="cr-bar" style="width:48.08%" aria-hidden="true"></span></div></li>
+          <li><div class="cr-row"><span class="cr-who"><span class="cr-id"><b>gaearon</b><span>Dan Abramov</span></span><span class="cr-n">21</span><span class="cr-pct">5%</span></span><span class="cr-bar" style="width:40.38%" aria-hidden="true"></span></div></li>
+        </ol>
+        <div class="cr-wall"><span class="cr-key ref" aria-hidden="true"></span><p><b>Bus factor above 5</b> · the top five carry 41% of merged commits</p><span class="cr-rule" aria-hidden="true"></span></div>
+        <div class="cr-foot">46 more authors share the other 59% · 243 commits</div>
+      </div>
+      <div class="cr" aria-label="One person, RobinMalfait, carries 61% of reviews on merged pull requests in the last 90 days"><div class="cr-head"><h2>Reviews on merged pull requests</h2><span>last 90 days · 351 reviews</span></div>
+        <ol>
+          <li><button class="cr-row" type="button"><span class="cr-who"><span class="cr-id"><b>RobinMalfait</b><span>Robin Malfait</span></span><span class="cr-n">214</span><span class="cr-pct">61%</span></span><span class="cr-bar wall" style="width:100%" aria-hidden="true"></span></button></li>
+        </ol>
+        <div class="cr-wall"><span class="cr-key" aria-hidden="true"></span><p><b>Bus factor 1</b> · one person carries 61% of reviews</p><span class="cr-rule" aria-hidden="true"></span></div>
+        <ol start="2">
+          <li class="is-hover"><button class="cr-row" type="button"><span class="cr-who"><span class="cr-id"><b>thecrypticace</b><span>Jordan Pittman</span></span><span class="cr-n">95</span><span class="cr-pct">27%</span></span><span class="cr-bar" style="width:44.39%" aria-hidden="true"></span></button><span class="cr-tip" role="tooltip" style="left:calc(var(--inset) + (100% - 2 * var(--inset)) * 0.4439 + var(--space-3))"><i aria-hidden="true"></i><b>95 <span>reviews</span></b><em>last review 1d ago</em></span></li>
+          <li><button class="cr-row" type="button"><span class="cr-who"><span class="cr-id"><b>philipp-spiess</b><span>Philipp Spiess</span></span><span class="cr-n">42</span><span class="cr-pct">12%</span></span><span class="cr-bar" style="width:19.63%" aria-hidden="true"></span></button></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="row" data-density="spacious">
+    <h3>Spacious · keyboard focus on a row · skeleton</h3>
+    <div class="grid2">
+      <div class="cr" aria-label="One person, RobinMalfait, carries 61% of reviews on merged pull requests in the last 90 days"><div class="cr-head"><h2>Reviews on merged pull requests</h2><span>last 90 days · 351 reviews</span></div>
+        <ol>
+          <li><button class="cr-row" type="button"><span class="cr-who"><span class="cr-id"><b>RobinMalfait</b><span>Robin Malfait</span></span><span class="cr-n">214</span><span class="cr-pct">61%</span></span><span class="cr-bar wall" style="width:100%" aria-hidden="true"></span></button></li>
+        </ol>
+        <div class="cr-wall"><span class="cr-key" aria-hidden="true"></span><p><b>Bus factor 1</b> · one person carries 61% of reviews</p><span class="cr-rule" aria-hidden="true"></span></div>
+        <ol start="2">
+          <li class="is-focus"><button class="cr-row is-focus" type="button"><span class="cr-who"><span class="cr-id"><b>thecrypticace</b><span>Jordan Pittman</span></span><span class="cr-n">95</span><span class="cr-pct">27%</span></span><span class="cr-bar" style="width:44.39%" aria-hidden="true"></span></button></li>
+          <li><button class="cr-row" type="button"><span class="cr-who"><span class="cr-id"><b>philipp-spiess</b><span>Philipp Spiess</span></span><span class="cr-n">42</span><span class="cr-pct">12%</span></span><span class="cr-bar" style="width:19.63%" aria-hidden="true"></span></button></li>
+        </ol>
+      </div>
+      <div class="cr cr-sk" aria-busy="true"><span class="cr-sr">Loading commit authors.</span>
+        <div class="cr-head" aria-hidden="true"><span class="sk" style="width:168px;height:9px"></span><span class="sk" style="width:128px;height:7px"></span></div>
+        <ol aria-hidden="true">
+          <li><div class="cr-row"><span class="cr-who"><span class="cr-id"><span class="sk" style="width:56px;height:9px"></span><span class="sk" style="width:84px;height:9px"></span></span><span class="cr-n"><span class="sk" style="width:24px;height:7px"></span></span><span class="cr-pct"><span class="sk" style="width:28px;height:9px"></span></span></span><span class="cr-bar" style="width:100%"></span></div></li>
+          <li><div class="cr-row"><span class="cr-who"><span class="cr-id"><span class="sk" style="width:72px;height:9px"></span><span class="sk" style="width:64px;height:9px"></span></span><span class="cr-n"><span class="sk" style="width:24px;height:7px"></span></span><span class="cr-pct"><span class="sk" style="width:28px;height:9px"></span></span></span><span class="cr-bar" style="width:66%"></span></div></li>
+          <li><div class="cr-row"><span class="cr-who"><span class="cr-id"><span class="sk" style="width:48px;height:9px"></span><span class="sk" style="width:96px;height:9px"></span></span><span class="cr-n"><span class="sk" style="width:16px;height:7px"></span></span><span class="cr-pct"><span class="sk" style="width:20px;height:9px"></span></span></span><span class="cr-bar" style="width:41%"></span></div></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="row" data-density="comfortable">
+    <h3>Comfortable · empty, error, warming</h3>
+    <div class="grid3">
+      <div class="cr"><div class="cr-head"><h2>Merged commits by author</h2><span>v3 branch · last 90 days</span></div>
+        <div class="cr-msg"><span class="cr-mark neutral" aria-hidden="true"></span><span class="cr-t"><b>Nothing merged on v3 in the last 90 days</b><i>last merge 5 months ago · v3.4.17</i></span></div>
+      </div>
+      <div class="cr"><div class="cr-head"><h2>Merged commits by author</h2><span>last 90 days</span></div>
+        <div class="cr-msg"><span class="cr-mark unavailable" aria-hidden="true"></span><span class="cr-t"><b>Couldn't load commit authors</b><i>GitHub returned 502 · tried twice</i></span><button class="cr-retry" type="button">Try again</button></div>
+      </div>
+      <div class="cr" aria-busy="true"><div class="cr-head"><h2>Merged commits by author</h2><span>last 90 days</span></div>
+        <div class="cr-msg"><span class="cr-mark warming" aria-hidden="true"></span><span class="cr-t"><b class="quiet">GitHub is counting contributors</b><i>usually under a minute · checking again in 12s</i></span></div>
+        <span class="cr-progress" aria-hidden="true"><span style="width:38%"></span></span>
+      </div>
+    </div>
+  </section>
+
+</div>

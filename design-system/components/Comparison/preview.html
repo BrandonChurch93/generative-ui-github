@@ -1,0 +1,155 @@
+<!-- @dsCard group="Data" height=1040 width=1200 subtitle="two periods with signed deltas · 4 and 2 pairs · hover · skeleton, empty, error, warming" -->
+<style>
+body{margin:0;padding:16px;background:var(--bg);color:var(--ink);font-family:var(--font-sans)}
+[data-density]{--inset:var(--space-5);--card-y:var(--space-4);--row-y:var(--space-3)}
+[data-density="compact"]{--inset:var(--space-4);--card-y:var(--space-3);--row-y:var(--space-2)}
+[data-density="spacious"]{--inset:var(--space-6);--card-y:var(--space-5);--row-y:var(--space-4)}
+.pv-rows{display:grid;gap:20px}
+.pv-sec{display:grid;gap:8px}
+.pv-sec>h3{margin:0;font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.pv-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-4);align-items:start}
+.pv-stack{display:grid;gap:var(--space-4)}
+.pv-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.cp{--cp-name:156px;--cp-delta:96px;--cp-tip:64px;--cp-ln:18px;position:relative;overflow:hidden;background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius-lg);box-shadow:var(--card)}
+.cp ul{margin:0;padding:0;list-style:none}
+.cp li{position:relative}
+.cp li+li::before{content:"";position:absolute;left:var(--inset);right:var(--inset);top:0;height:1px;background:var(--line)}
+.cp-head{display:flex;justify-content:space-between;align-items:center;gap:var(--space-3);padding:var(--card-y) var(--inset) var(--row-y);border-bottom:1px solid var(--line-soft)}
+.cp-head h2{margin:0;font-size:13px;line-height:1.3;font-weight:600;letter-spacing:.01em}
+.cp-head>span{font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.cp-legend{display:flex;align-items:center;gap:var(--space-3);font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap}
+.cp-legend>span{display:flex;align-items:center;gap:var(--space-2)}
+.cp-legend>span::before{content:"";width:12px;height:8px;border-radius:0 4px 4px 0;background:var(--data-1)}
+.cp-legend>span.prev::before{background:var(--data-ref)}
+.cp-row{box-sizing:border-box;display:grid;grid-template-columns:var(--cp-name) minmax(0,1fr) var(--cp-delta);column-gap:var(--space-4);align-items:center;padding:var(--row-y) var(--inset)}
+.cp.is-live li{padding:var(--space-1) 0}
+button.cp-row{width:calc(100% - var(--space-4));margin:0 var(--space-2);padding:calc(var(--row-y) - var(--space-1)) calc(var(--inset) - var(--space-2));border:0;border-radius:var(--radius-md);background:none;font:inherit;color:inherit;letter-spacing:inherit;text-align:left;cursor:pointer}
+button.cp-row:hover{background:var(--surface-tint)}
+button.cp-row:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.cp-name{display:grid;row-gap:var(--space-1);min-width:0}
+.cp-name b{font-size:13.5px;line-height:var(--cp-ln);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cp-name i{font:normal 400 11.5px/var(--cp-ln) var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cp-bars{position:relative;display:grid;row-gap:var(--space-1);min-width:0}
+.cp-bars::before{content:"";position:absolute;left:0;top:0;bottom:0;width:1px;background:var(--line)}
+.cp-ln{display:flex;align-items:center;gap:var(--space-2);height:var(--cp-ln);white-space:nowrap}
+.cp-bar{flex-shrink:0;height:8px;width:calc((100% - var(--cp-tip)) * var(--k));border-radius:0 4px 4px 0;background:var(--data-1)}
+.cp-ln.prev .cp-bar{background:var(--data-ref)}
+.cp-v{font-size:13px;line-height:1;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink)}
+.cp-v small{margin-left:var(--space-1);font:400 11px/1 var(--font-mono);color:var(--muted)}
+.cp-ln.prev .cp-v{font-weight:500;color:var(--muted)}
+.cp-delta{display:grid;row-gap:var(--space-1);justify-items:end;white-space:nowrap}
+.cp-delta b{font-size:15px;line-height:var(--cp-ln);font-weight:700;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.cp-delta b small{margin-left:var(--space-1);font:500 11px/1 var(--font-mono);letter-spacing:0}
+.cp-delta>span{font:500 11.5px/var(--cp-ln) var(--font-mono);letter-spacing:.02em}
+.cp-delta.worse{color:var(--crit)}
+.cp-delta.better{color:var(--good)}
+.cp-delta.steady{color:var(--muted)}
+.cp-foot{display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-3);padding:var(--row-y) var(--inset) var(--card-y);border-top:1px solid var(--line-soft);font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap}
+.cp li.is-hover::before,.cp li.is-hover+li::before{opacity:0}
+.cp li.is-hover>.cp-row{background:var(--surface-tint)}
+.cp-tip{--cp-w:calc(100% - 2 * var(--inset) - var(--cp-name) - var(--cp-delta) - 2 * var(--space-4));position:absolute;z-index:2;top:50%;left:calc(var(--inset) + var(--cp-name) + var(--space-4) + (var(--cp-w) - var(--cp-tip)) * var(--k) + var(--space-2));transform:translateY(-50%);display:grid;grid-template-columns:12px auto auto auto;align-items:center;column-gap:var(--space-2);row-gap:var(--space-1);padding:var(--space-2) var(--space-3);background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius-md);box-shadow:var(--card);white-space:nowrap}
+.cp-tip i{width:12px;height:3px;border-radius:var(--radius-pill);background:var(--data-1)}
+.cp-tip i.prev{background:var(--data-ref)}
+.cp-tip b,.cp-tip strong{font-size:13px;line-height:16px;font-weight:600;font-variant-numeric:tabular-nums}
+.cp-tip small{margin-left:var(--space-1);font:400 11px/1 var(--font-mono)}
+.cp-tip b small{color:var(--muted)}
+.cp-tip em{font:normal 400 11.5px/16px var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.cp-tip strong,.cp-tip span{justify-self:end;padding-left:var(--space-1)}
+.cp-tip span{font:500 11.5px/16px var(--font-mono);letter-spacing:.02em}
+.cp-tip.worse strong,.cp-tip.worse span{color:var(--crit)}
+.cp-tip.better strong,.cp-tip.better span{color:var(--good)}
+.cp-tip.steady strong,.cp-tip.steady span{color:var(--muted)}
+.cp-msg{display:flex;align-items:center;gap:var(--space-3);padding:var(--row-y) var(--inset)}
+.cp-mk{position:relative;align-self:flex-start;flex-shrink:0;box-sizing:border-box;width:10px;height:10px;margin-top:3.75px;border-radius:50%;border:1.5px solid var(--muted)}
+.cp-mk.unavailable::after{content:"";position:absolute;left:50%;top:-1.5px;bottom:-1.5px;width:1.5px;margin-left:-.75px;background:var(--muted);transform:rotate(45deg)}
+.cp-mk.warming{border-color:var(--line)}
+.cp-mk.warming::after{content:"";position:absolute;inset:-1.5px;border-radius:50%;border:1.5px solid transparent;border-top-color:var(--accent);border-right-color:var(--accent)}
+.cp-t{flex-grow:1;min-width:0;display:grid;gap:2px}
+.cp-t b{font-size:13.5px;line-height:1.3;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cp-t b.quiet{color:var(--muted)}
+.cp-t i{font:normal 400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cp-retry{flex-shrink:0;white-space:nowrap;margin:0;padding:0;border:0;background:none;font:500 13px/1.3 var(--font-sans);color:var(--accent-text);cursor:pointer;text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--accent-text) 35%,transparent);text-underline-offset:3px;border-radius:4px}
+.cp-retry:hover{text-decoration-color:currentColor}
+.cp-retry:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.cp-progress{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--line-soft)}
+.cp-progress>span{position:absolute;left:0;top:0;bottom:0;border-radius:0 var(--radius-pill) var(--radius-pill) 0;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+.cp-sk{display:flex;align-items:center;height:var(--cp-ln)}
+.cp-sk>span,.cp-skh>span{display:block;border-radius:var(--radius-sm);background:var(--line-soft)}
+.cp-delta .cp-sk{justify-content:flex-end}
+.cp-foot .cp-sk{height:16px}
+.cp-skh{align-items:center;height:17px}
+.cp.is-sk li+li::before,.cp-bars.sk::before{display:none}
+.cp-bar.sk{background:var(--line-soft);border-radius:var(--radius-sm)}
+</style>
+<div class="pv-rows">
+
+  <section class="pv-sec" data-density="comfortable">
+    <h3>Comfortable · 4 pairs · 2 pairs · empty</h3>
+    <div class="pv-grid">
+      <div class="cp" role="figure" aria-label="Review wait rose 38% in September while failing checks fell 2.2 points">
+        <div class="cp-head"><h2>Review and CI health</h2><div class="cp-legend"><span>September</span><span class="prev">August</span></div></div>
+        <ul>
+          <li><div class="cp-row"><span class="cp-name"><b>Median review wait</b><i>time to first review</i></span><span class="cp-bars" aria-hidden="true"><span class="cp-ln"><span class="cp-bar" style="--k:1"></span><span class="cp-v">19.6<small>h</small></span></span><span class="cp-ln prev"><span class="cp-bar" style="--k:.724"></span><span class="cp-v">14.2<small>h</small></span></span></span><span class="pv-sr">19.6 hours in September, 14.2 in August.</span><span class="cp-delta worse"><b>+38%</b><span>worse</span></span></div></li>
+          <li><div class="cp-row"><span class="cp-name"><b>PRs merged</b><i>into canary</i></span><span class="cp-bars" aria-hidden="true"><span class="cp-ln"><span class="cp-bar" style="--k:1"></span><span class="cp-v">214</span></span><span class="cp-ln prev"><span class="cp-bar" style="--k:.869"></span><span class="cp-v">186</span></span></span><span class="pv-sr">214 in September, 186 in August.</span><span class="cp-delta better"><b>+15%</b><span>better</span></span></div></li>
+          <li><div class="cp-row"><span class="cp-name"><b>CI p50 duration</b><i>all workflows</i></span><span class="cp-bars" aria-hidden="true"><span class="cp-ln"><span class="cp-bar" style="--k:.975"></span><span class="cp-v">11.5<small>min</small></span></span><span class="cp-ln prev"><span class="cp-bar" style="--k:1"></span><span class="cp-v">11.8<small>min</small></span></span></span><span class="pv-sr">11.5 minutes in September, 11.8 in August.</span><span class="cp-delta steady"><b>−3%</b><span>steady</span></span></div></li>
+          <li><div class="cp-row"><span class="cp-name"><b>Failing check rate</b><i>of all check runs</i></span><span class="cp-bars" aria-hidden="true"><span class="cp-ln"><span class="cp-bar" style="--k:.651"></span><span class="cp-v">4.1%</span></span><span class="cp-ln prev"><span class="cp-bar" style="--k:1"></span><span class="cp-v">6.3%</span></span></span><span class="pv-sr">4.1% in September, 6.3% in August.</span><span class="cp-delta better"><b>−2.2<small>pts</small></b><span>better</span></span></div></li>
+        </ul>
+        <div class="cp-foot"><span>from 214 merged PRs · 3,480 check runs</span><span>2 better · 1 worse · 1 steady</span></div>
+      </div>
+      <div class="pv-stack">
+        <div class="cp" role="figure" aria-label="Review wait rose 38% in September even as merges rose 15%">
+          <div class="cp-head"><h2>Review throughput</h2><div class="cp-legend"><span>September</span><span class="prev">August</span></div></div>
+          <ul>
+            <li><div class="cp-row"><span class="cp-name"><b>Median review wait</b><i>time to first review</i></span><span class="cp-bars" aria-hidden="true"><span class="cp-ln"><span class="cp-bar" style="--k:1"></span><span class="cp-v">19.6<small>h</small></span></span><span class="cp-ln prev"><span class="cp-bar" style="--k:.724"></span><span class="cp-v">14.2<small>h</small></span></span></span><span class="pv-sr">19.6 hours in September, 14.2 in August.</span><span class="cp-delta worse"><b>+38%</b><span>worse</span></span></div></li>
+            <li><div class="cp-row"><span class="cp-name"><b>PRs merged</b><i>into canary</i></span><span class="cp-bars" aria-hidden="true"><span class="cp-ln"><span class="cp-bar" style="--k:1"></span><span class="cp-v">214</span></span><span class="cp-ln prev"><span class="cp-bar" style="--k:.869"></span><span class="cp-v">186</span></span></span><span class="pv-sr">214 in September, 186 in August.</span><span class="cp-delta better"><b>+15%</b><span>better</span></span></div></li>
+          </ul>
+          <div class="cp-foot"><span>from 214 merged PRs · 1,962 reviews</span><span>1 better · 1 worse</span></div>
+        </div>
+        <div class="cp"><div class="cp-head"><h2>Docs review wait</h2><span>September vs August</span></div><div class="cp-msg"><span class="cp-mk" aria-hidden="true"></span><span class="cp-t"><b>No docs PRs were reviewed in either month</b><i>a median needs at least one review</i></span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pv-sec">
+    <h3>Compact · hover · spacious · 2 pairs</h3>
+    <div class="pv-grid">
+      <div class="cp is-live" role="figure" aria-label="Review wait rose 38% in September while failing checks fell 2.2 points" data-density="compact">
+        <div class="cp-head"><h2>Review and CI health</h2><div class="cp-legend"><span>September</span><span class="prev">August</span></div></div>
+        <ul>
+          <li class="is-hover"><button class="cp-row" type="button" aria-label="Median review wait, 19.6 hours in September, up 38% from 14.2 in August, worse"><span class="cp-name"><b>Median review wait</b><i>time to first review</i></span><span class="cp-bars" aria-hidden="true"><span class="cp-ln"><span class="cp-bar" style="--k:1"></span><span class="cp-v">19.6<small>h</small></span></span><span class="cp-ln prev"><span class="cp-bar" style="--k:.724"></span><span class="cp-v">14.2<small>h</small></span></span></span><span class="cp-delta worse"><b>+38%</b><span>worse</span></span></button><div class="cp-tip worse" role="tooltip" style="--k:1"><i></i><b>19.6<small>h</small></b><em>Sep</em><strong>+5.4<small>h</small></strong><i class="prev"></i><b>14.2<small>h</small></b><em>Aug</em><span>worse</span></div></li>
+          <li><button class="cp-row" type="button" aria-label="PRs merged, 214 in September, up 15% from 186 in August, better"><span class="cp-name"><b>PRs merged</b><i>into canary</i></span><span class="cp-bars" aria-hidden="true"><span class="cp-ln"><span class="cp-bar" style="--k:1"></span><span class="cp-v">214</span></span><span class="cp-ln prev"><span class="cp-bar" style="--k:.869"></span><span class="cp-v">186</span></span></span><span class="cp-delta better"><b>+15%</b><span>better</span></span></button></li>
+          <li><button class="cp-row" type="button" aria-label="CI p50 duration, 11.5 minutes in September, down 3% from 11.8 in August, steady"><span class="cp-name"><b>CI p50 duration</b><i>all workflows</i></span><span class="cp-bars" aria-hidden="true"><span class="cp-ln"><span class="cp-bar" style="--k:.975"></span><span class="cp-v">11.5<small>min</small></span></span><span class="cp-ln prev"><span class="cp-bar" style="--k:1"></span><span class="cp-v">11.8<small>min</small></span></span></span><span class="cp-delta steady"><b>−3%</b><span>steady</span></span></button></li>
+          <li><button class="cp-row" type="button" aria-label="Failing check rate, 4.1% in September, down 2.2 points from 6.3% in August, better"><span class="cp-name"><b>Failing check rate</b><i>of all check runs</i></span><span class="cp-bars" aria-hidden="true"><span class="cp-ln"><span class="cp-bar" style="--k:.651"></span><span class="cp-v">4.1%</span></span><span class="cp-ln prev"><span class="cp-bar" style="--k:1"></span><span class="cp-v">6.3%</span></span></span><span class="cp-delta better"><b>−2.2<small>pts</small></b><span>better</span></span></button></li>
+        </ul>
+        <div class="cp-foot"><span>from 214 merged PRs · 3,480 check runs</span><span>2 better · 1 worse · 1 steady</span></div>
+      </div>
+      <div class="cp" role="figure" aria-label="Review wait rose 38% in September even as merges rose 15%" data-density="spacious">
+        <div class="cp-head"><h2>Review throughput</h2><div class="cp-legend"><span>September</span><span class="prev">August</span></div></div>
+        <ul>
+          <li><div class="cp-row"><span class="cp-name"><b>Median review wait</b><i>time to first review</i></span><span class="cp-bars" aria-hidden="true"><span class="cp-ln"><span class="cp-bar" style="--k:1"></span><span class="cp-v">19.6<small>h</small></span></span><span class="cp-ln prev"><span class="cp-bar" style="--k:.724"></span><span class="cp-v">14.2<small>h</small></span></span></span><span class="pv-sr">19.6 hours in September, 14.2 in August.</span><span class="cp-delta worse"><b>+38%</b><span>worse</span></span></div></li>
+          <li><div class="cp-row"><span class="cp-name"><b>PRs merged</b><i>into canary</i></span><span class="cp-bars" aria-hidden="true"><span class="cp-ln"><span class="cp-bar" style="--k:1"></span><span class="cp-v">214</span></span><span class="cp-ln prev"><span class="cp-bar" style="--k:.869"></span><span class="cp-v">186</span></span></span><span class="pv-sr">214 in September, 186 in August.</span><span class="cp-delta better"><b>+15%</b><span>better</span></span></div></li>
+        </ul>
+        <div class="cp-foot"><span>from 214 merged PRs · 1,962 reviews</span><span>1 better · 1 worse</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pv-sec" data-density="comfortable">
+    <h3>Comfortable · skeleton · error · warming</h3>
+    <div class="pv-grid">
+      <div class="cp is-sk" aria-busy="true"><span class="pv-sr">Loading the comparison.</span>
+        <div class="cp-head cp-skh" aria-hidden="true"><span style="width:144px;height:9px"></span><span style="width:152px;height:7px"></span></div>
+        <ul aria-hidden="true">
+          <li><div class="cp-row"><span class="cp-name"><span class="cp-sk"><span style="width:78%;height:9px"></span></span><span class="cp-sk"><span style="width:58%;height:7px"></span></span></span><span class="cp-bars sk"><span class="cp-ln"><span class="cp-bar sk" style="--k:.92"></span></span><span class="cp-ln"><span class="cp-bar sk" style="--k:.68"></span></span></span><span class="cp-delta"><span class="cp-sk"><span style="width:44px;height:9px"></span></span><span class="cp-sk"><span style="width:36px;height:7px"></span></span></span></div></li>
+          <li><div class="cp-row"><span class="cp-name"><span class="cp-sk"><span style="width:56%;height:9px"></span></span><span class="cp-sk"><span style="width:44%;height:7px"></span></span></span><span class="cp-bars sk"><span class="cp-ln"><span class="cp-bar sk" style="--k:.74"></span></span><span class="cp-ln"><span class="cp-bar sk" style="--k:.86"></span></span></span><span class="cp-delta"><span class="cp-sk"><span style="width:40px;height:9px"></span></span><span class="cp-sk"><span style="width:40px;height:7px"></span></span></span></div></li>
+        </ul>
+        <div class="cp-foot" aria-hidden="true"><span class="cp-sk"><span style="width:220px;height:7px"></span></span><span class="cp-sk"><span style="width:112px;height:7px"></span></span></div>
+      </div>
+      <div class="pv-stack">
+        <div class="cp"><div class="cp-head"><h2>Review and CI health</h2><span>September vs August</span></div><div class="cp-msg"><span class="cp-mk unavailable" aria-hidden="true"></span><span class="cp-t"><b>Couldn't load check runs</b><i>GitHub returned 502 · tried twice</i></span><button class="cp-retry" type="button">Try again</button></div></div>
+        <div class="cp" aria-busy="true"><div class="cp-head"><h2>Commit activity</h2><span>September vs August</span></div><div class="cp-msg"><span class="cp-mk warming" aria-hidden="true"></span><span class="cp-t"><b class="quiet">GitHub is counting commits for both months</b><i>usually under a minute · checking again in 12s</i></span></div><span class="cp-progress" aria-hidden="true"><span style="width:38%"></span></span></div>
+      </div>
+    </div>
+  </section>
+
+</div>

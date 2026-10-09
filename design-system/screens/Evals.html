@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Eval results</title>
+
+<link rel="stylesheet" href="genui.css">
+<link rel="stylesheet" href="shell.css">
+</head>
+<body>
+
+
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#fcfaf8}
+/* Metric (DS preview) */
+.mt{position:relative;overflow:hidden;display:flex;flex-direction:column;padding:var(--card-y) var(--inset) calc(var(--card-y) + 3px);background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius-lg);box-shadow:var(--card)}
+.mt-l{font-size:13px;line-height:1.3;font-weight:500;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mt-v{margin-top:var(--space-1);display:flex;align-items:baseline;gap:var(--space-2);font-size:var(--num);line-height:1;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.mt-v small{font:400 var(--suffix)/1 var(--font-mono);letter-spacing:0;color:var(--muted)}
+.mt-d{margin-top:var(--stack);display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-3);font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.mt-d.crit{color:var(--crit)}.mt-d.good{color:var(--good)}
+.mt-bar{position:absolute;left:0;right:var(--inset);bottom:0;height:3px;border-radius:0 var(--radius-pill) var(--radius-pill) 0;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+/* LineChart (LineChart sheet) */
+[data-density]{--lc-h:200px;--lc-strip:40px}
+[data-density="compact"]{--lc-h:160px;--lc-strip:32px}
+[data-density="spacious"]{--lc-h:240px;--lc-strip:48px}
+.lc-body{padding:var(--card-y) var(--inset)}
+.lc-legend{display:flex;flex-wrap:wrap;gap:var(--space-1) var(--space-4);margin-bottom:var(--card-y)}
+.lc-legend>span{display:flex;align-items:center;gap:var(--space-2);font-size:13px;line-height:1.3;font-weight:500;color:var(--muted);white-space:nowrap}
+.lc-key{flex-shrink:0;display:block;width:16px;height:2px;border-radius:var(--radius-pill);background:var(--data-1)}
+.lc-key.col{width:8px;height:12px;border-radius:2px 2px 0 0;background:var(--crit-fill)}
+.lc-chart{position:relative;padding:6px 0 0 20px}
+.lc-plot{position:relative;height:var(--lc-h)}
+.lc-grid{position:absolute;left:0;right:0;height:1px;background:var(--line-soft)}
+.lc-grid.base{background:var(--line)}
+.lc-y{position:absolute;right:calc(100% + var(--space-2));transform:translateY(-50%);font:400 10.5px/1 var(--font-mono);color:var(--muted);white-space:nowrap}
+.lc-svg{position:absolute;left:0;top:0;overflow:visible}
+.lc-svg path{fill:none;stroke:var(--data-1);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.lc-dot{position:absolute;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:var(--data-1);box-shadow:0 0 0 2px var(--surface)}
+.lc-end{position:absolute;margin-left:var(--space-3);transform:translateY(-50%);display:flex;align-items:baseline;gap:var(--space-1);white-space:nowrap}
+.lc-end b{font-size:13px;line-height:1;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink)}
+.lc-end i{font:normal 400 10.5px/1 var(--font-mono);color:var(--muted)}
+.lc-x{position:relative;height:11px;margin-top:var(--space-2)}
+.lc-x>span{position:absolute;top:0;transform:translateX(-50%);font:400 10.5px/1 var(--font-mono);color:var(--muted);white-space:nowrap}
+.lc-strip{position:relative;height:calc(var(--lc-strip) + 16px);margin-top:var(--card-y);border-bottom:1px solid var(--line)}
+.lc-col{position:absolute;bottom:0;border-radius:4px 4px 0 0;background:var(--crit-fill)}
+.lc-n{position:absolute;transform:translateX(-50%);font:400 10.5px/1 var(--font-mono);color:var(--muted)}
+
+/* page: evals */
+.sc-page.ev-page{padding-bottom:var(--space-7)}
+.ev-lede{margin:var(--space-4) 0 0;max-width:62ch;font-size:15px;line-height:1.5;color:var(--muted);text-wrap:pretty}
+.ev-lede b{font-weight:600;color:var(--ink)}
+.ev-lede code{font-family:var(--font-mono);font-size:.85em;font-weight:500;color:var(--ink)}
+
+/* the chart's run geometry is a fraction of the plot so it reflows, as on Main; a three digit axis needs the wider gutter */
+.ev-chart .lc-chart{padding-left:28px}
+.ev-chart .lc-col{width:16px;margin-left:-8px}
+
+/* scoring card */
+.ev-how ul{margin:0;padding:0;list-style:none}
+.ev-how li{position:relative;display:grid;gap:2px;padding:var(--row-y) var(--inset)}
+.ev-how li+li::before{content:"";position:absolute;left:var(--inset);right:var(--inset);top:0;height:1px;background:var(--line)}
+.ev-how b{font-size:13.5px;line-height:1.3;font-weight:500}
+.ev-how i{font:normal 400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.ev-how h3{margin:0;padding:var(--card-y) var(--inset) var(--space-1);border-top:1px solid var(--line-soft);font:500 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.ev-out li{display:flex;align-items:baseline;gap:var(--space-3);padding:var(--space-2) var(--inset)}
+.ev-out li+li::before{display:none}
+.ev-out li:last-child{padding-bottom:var(--card-y)}
+.ev-out .g-mark{align-self:flex-start;margin-top:3.75px}
+.ev-out b{flex-shrink:0;width:8ch;font:500 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.ev-out b.warn{color:var(--warn)}.ev-out b.crit{color:var(--crit)}
+.ev-out span{font-size:13.5px;line-height:1.3;color:var(--ink)}
+
+/* results table: one grid, rows are subgrids so the detail checks line up under the repo columns */
+.ev-scroll{margin:0 var(--space-2);overflow-x:auto;overscroll-behavior-x:contain;border-radius:var(--radius-md)}
+.ev-scroll:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.ev-table{--ev-pad:calc(var(--inset) - var(--space-2));display:grid;grid-template-columns:minmax(260px,1fr) repeat(4,128px) 64px 56px minmax(12px,auto);column-gap:var(--space-4);padding:var(--space-2) 0}
+.ev-row,.ev-detail,.ev-dcell,.ev-checks,.ev-check{display:grid;grid-column:1 / -1;grid-template-columns:subgrid;align-items:center}
+.ev-row{position:relative;padding:var(--row-y) var(--ev-pad);border-radius:var(--radius-md)}
+.ev-row+.ev-row::before{content:"";position:absolute;left:var(--ev-pad);right:var(--ev-pad);top:0;height:1px;background:var(--line)}
+.ev-th{padding-top:var(--space-1)}
+.ev-th>span{font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap}
+.ev-th .ev-repo{display:grid}
+.ev-th .ev-repo b{font-weight:500;color:var(--ink)}
+.ev-num{justify-self:end;text-align:right}
+.ev-q{display:grid;gap:2px;min-width:0;margin:0;padding:0;border:0;background:none;font:inherit;color:inherit;text-align:left;cursor:pointer}
+.ev-q::after{content:"";position:absolute;inset:0;border-radius:var(--radius-md)}
+.ev-q b{font-size:13.5px;line-height:1.3;font-weight:500;color:var(--ink);text-wrap:pretty}
+.ev-q i,.ev-check>span:first-child i{font:normal 400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.ev-q:focus-visible{outline:none}
+.ev-row:has(.ev-q:focus-visible),.ev-row.is-focus{outline:2px solid var(--focus);outline-offset:2px}
+.ev-row:hover,.ev-row.is-hover,.ev-row.is-open{background:var(--surface-tint)}
+.ev-row:hover::before,.ev-row:hover+.ev-row::before,.ev-row.is-hover::before,.ev-row.is-hover+.ev-row::before,.ev-row.is-open::before,.ev-detail+.ev-row::before{opacity:0}
+.ev-th:hover{background:none}
+.ev-row.is-open{border-radius:var(--radius-md) var(--radius-md) 0 0}
+.ev-row>[role="cell"],.ev-check>[role="cell"]{display:flex;align-items:center;min-width:0}
+.ev-id{white-space:nowrap}
+.ev-res{display:inline-flex;align-items:center;gap:var(--space-2);font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap}
+.ev-res.warn{font-weight:500;color:var(--warn)}
+.ev-res.crit{font-weight:500;color:var(--crit)}
+.ev-cell-num{justify-self:end;font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--ink);white-space:nowrap;font-variant-numeric:tabular-nums}
+.ev-chev{color:var(--muted)}
+.is-open .ev-chev{transform:rotate(90deg)}
+
+.ev-detail{padding:0 var(--ev-pad) var(--space-5);background:var(--surface-tint);border-radius:0 0 var(--radius-md) var(--radius-md)}
+.ev-dcell{position:relative;padding-top:var(--space-4)}
+.ev-dcell::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:var(--line)}
+.ev-dh{grid-column:1 / -1;margin:0 0 var(--space-1);font-size:13px;line-height:1.3;font-weight:600;letter-spacing:.01em}
+.ev-check{padding:var(--space-2) 0}
+.ev-check>span:first-child{display:grid;gap:2px;min-width:0}
+.ev-check>span:first-child b{font-size:13px;line-height:1.3;font-weight:500}
+.ev-note{grid-column:1 / span 5;margin-top:var(--space-4);max-width:72ch}
+.ev-note p{margin:0}
+.ev-note .ev-who{font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.ev-note .ev-who b{font-weight:500;color:var(--ink)}
+.ev-note .ev-why{margin-top:var(--space-1);font-size:14px;line-height:1.45;color:var(--ink);text-wrap:pretty}
+.ev-links{display:flex;flex-wrap:wrap;gap:var(--space-2) var(--space-5);margin-top:var(--space-3)}
+
+@media (max-width:639px){
+.ev-lede{font-size:14px;line-height:1.45}
+.ev-chart .lc-col{width:8px;margin-left:-4px}
+.ev-chart .ev-thin{display:none}
+.ev-table{grid-template-columns:188px repeat(4,96px) 56px 48px minmax(12px,auto)}
+.ev-row>:first-child,.ev-check>:first-child,.ev-dh{position:sticky;z-index:1;left:var(--ev-pad);background:var(--surface);box-shadow:calc(-1 * var(--ev-pad)) 0 0 var(--surface)}
+.ev-row>:first-child{align-self:stretch;display:flex;align-items:center}
+.ev-row>:first-child,.ev-check>:first-child{padding-right:var(--space-3)}
+.ev-row.is-open>:first-child,.ev-check>:first-child,.ev-dh{background:var(--surface-tint);box-shadow:calc(-1 * var(--ev-pad)) 0 0 var(--surface-tint)}
+.ev-dh{justify-self:start;padding-right:var(--space-4)}
+.ev-note{grid-column:1 / -1;position:sticky;left:var(--ev-pad);max-width:calc(100vw - 2 * var(--sc-gutter) - 2 * var(--sc-edge))}
+}
+</style>
+
+<div class="sc-page ev-page" data-density="comfortable">
+
+<header class="sc-wrap">
+<div class="sc-top">
+<a class="sc-wordmark" href="#">Generative UI</a>
+<nav class="sc-nav" aria-label="Site">
+<a href="#">Catalog</a>
+<a href="#" aria-current="page">Evals</a>
+<a href="#">About</a>
+<a href="https://github.com/">GitHub<svg class="sc-ext" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8L8 4"/><path d="M4.5 4H8V7.5"/></svg></a>
+</nav>
+</div>
+</header>
+
+<main class="sc-wrap sc-main">
+
+<header class="sc-chrome">
+<div class="sc-eyebrow"><span class="sc-chip repo">run 40</span><span class="sc-chip">12 questions</span><span class="sc-chip">4 repos</span><span class="sc-eyebrow-note">finished Oct 8 · 14:12</span></div>
+<h1 class="sc-question">How often the composer gets it right</h1>
+<p class="ev-lede"><b>Sample run.</b> The twelve golden questions on four sample repos, each answer checked four ways; <code>[small repo]</code> joins once it is chosen. The numbers are illustrative until the eval set is final.</p>
+</header>
+
+<section class="sc-metrics" aria-label="Summary">
+<div class="mt"><span class="mt-l">Pass rate</span><span class="mt-v">79<small>%</small></span><span class="mt-d good">38 of 48 · up 6 points</span><span class="mt-bar" aria-hidden="true"></span></div>
+<div class="mt"><span class="mt-l">Template path · median</span><span class="mt-v">1.8<small>s</small></span><span class="mt-d">claude-haiku-4-5 · 31 of 36 pass</span><span class="mt-bar" aria-hidden="true"></span></div>
+<div class="mt"><span class="mt-l">Off-template path · median</span><span class="mt-v">6.2<small>s</small></span><span class="mt-d">claude-sonnet-4-5 · 7 of 12 pass</span><span class="mt-bar" aria-hidden="true"></span></div>
+<div class="mt"><span class="mt-l">Last run</span><span class="mt-v">14:12<small>Oct 8</small></span><span class="mt-d">run 40 · took 4 min 12 s</span><span class="mt-bar" aria-hidden="true"></span></div>
+</section>
+
+<div class="sc-split is-level" style="--sc-split: minmax(0,3fr) minmax(0,2fr)">
+
+<div class="g-card ev-chart"><div class="g-head"><h2>Pass rate</h2><span>last 10 runs · 48 answers each</span></div>
+<div class="lc-body"><div class="lc-legend"><span><i class="lc-key"></i>Pass rate</span><span><i class="lc-key col"></i>Failed answers</span></div>
+<div class="lc-chart" role="img" aria-label="Pass rate rose from 58% to 79% over the last 10 runs as failed answers fell from 9 to 3.">
+<div class="lc-plot">
+<span class="lc-grid" style="top: 0px"></span><span class="lc-grid" style="top: 50px"></span><span class="lc-grid" style="top: 100px"></span><span class="lc-grid" style="top: 150px"></span><span class="lc-grid base" style="top: 200px"></span>
+<span class="lc-y" style="top: 0px">100</span><span class="lc-y" style="top: 50px">75</span><span class="lc-y" style="top: 100px">50</span><span class="lc-y" style="top: 150px">25</span><span class="lc-y" style="top: 200px">0</span>
+<svg class="lc-svg" style="width: calc(100% - 64px); height: 200px" viewBox="0 0 950 200" preserveAspectRatio="none"><path vector-effect="non-scaling-stroke" d="M50 84 L150 80 L250 74 L350 74 L450 70 L550 62 L650 66 L750 58 L850 54 L950 42"></path></svg>
+<span class="lc-dot" style="left: calc(100% - 64px); top: 42px"></span>
+<span class="lc-end" style="left: calc(100% - 64px); top: 42px"><b>79</b><i>%</i></span>
+</div>
+<div class="lc-strip">
+<span class="lc-col" style="left: calc((100% - 64px) * 0.0526); height: 40px"></span><span class="lc-col" style="left: calc((100% - 64px) * 0.1579); height: 35.6px"></span><span class="lc-col" style="left: calc((100% - 64px) * 0.2632); height: 35.6px"></span><span class="lc-col" style="left: calc((100% - 64px) * 0.3684); height: 35.6px"></span><span class="lc-col" style="left: calc((100% - 64px) * 0.4737); height: 31.1px"></span><span class="lc-col" style="left: calc((100% - 64px) * 0.5789); height: 26.7px"></span><span class="lc-col" style="left: calc((100% - 64px) * 0.6842); height: 26.7px"></span><span class="lc-col" style="left: calc((100% - 64px) * 0.7895); height: 22.2px"></span><span class="lc-col" style="left: calc((100% - 64px) * 0.8947); height: 22.2px"></span><span class="lc-col" style="left: calc(100% - 64px); height: 13.3px"></span>
+<span class="lc-n" style="left: calc((100% - 64px) * 0.0526); bottom: 44px">9</span><span class="lc-n ev-thin" style="left: calc((100% - 64px) * 0.1579); bottom: 39.6px">8</span><span class="lc-n ev-thin" style="left: calc((100% - 64px) * 0.2632); bottom: 39.6px">8</span><span class="lc-n ev-thin" style="left: calc((100% - 64px) * 0.3684); bottom: 39.6px">8</span><span class="lc-n ev-thin" style="left: calc((100% - 64px) * 0.4737); bottom: 35.1px">7</span><span class="lc-n ev-thin" style="left: calc((100% - 64px) * 0.5789); bottom: 30.7px">6</span><span class="lc-n ev-thin" style="left: calc((100% - 64px) * 0.6842); bottom: 30.7px">6</span><span class="lc-n ev-thin" style="left: calc((100% - 64px) * 0.7895); bottom: 26.2px">5</span><span class="lc-n ev-thin" style="left: calc((100% - 64px) * 0.8947); bottom: 26.2px">5</span><span class="lc-n" style="left: calc(100% - 64px); bottom: 17.3px">3</span>
+</div>
+<div class="lc-x"><span style="left: calc((100% - 64px) * 0.1579)">run 32</span><span class="ev-thin" style="left: calc((100% - 64px) * 0.3684)">run 34</span><span style="left: calc((100% - 64px) * 0.5789)">run 36</span><span class="ev-thin" style="left: calc((100% - 64px) * 0.7895)">run 38</span><span style="left: calc(100% - 64px)">run 40</span></div>
+</div></div></div>
+
+<section class="g-card ev-how" aria-labelledby="ev-how-h"><div class="g-head"><h2 id="ev-how-h">How an answer is scored</h2><span>4 checks</span></div>
+<ul>
+<li><b>Right components chosen</b><i>code check · the composition against an expected set</i></li>
+<li><b>Numbers match GitHub</b><i>code check · every number against the cached response</i></li>
+<li><b>Insight grounded in the source line</b><i>judged by claude-sonnet-4-5 · sentence against source</i></li>
+<li><b>No raw style values sent</b><i>schema check · no color, size or spacing in the JSON</i></li>
+</ul>
+<h3>Outcome</h3>
+<ul class="ev-out">
+<li><span class="g-mark" aria-hidden="true"></span><b>pass</b><span>All four checks hold</span></li>
+<li><span class="g-mark warn" aria-hidden="true"></span><b class="warn">partial</b><span>Numbers right, a component or the wording off</span></li>
+<li><span class="g-mark crit" aria-hidden="true"></span><b class="crit">fail</b><span>A wrong number, an ungrounded insight or a style value</span></li>
+</ul>
+</section>
+
+</div>
+
+<section class="g-card" aria-labelledby="ev-res-h"><div class="g-head"><h2 id="ev-res-h">Results by question</h2><span>12 questions · 4 repos</span></div>
+<div class="ev-scroll" role="region" aria-label="Results, scrolls sideways on small screens" tabindex="0">
+<div class="ev-table" role="table" aria-label="Run 40 results by question and repo">
+
+<div class="ev-row ev-th" role="row"><span role="columnheader">Question</span><span class="ev-repo" role="columnheader"><span>vercel/</span><b>next.js</b></span><span class="ev-repo" role="columnheader"><span>facebook/</span><b>react</b></span><span class="ev-repo" role="columnheader"><span>anthropics/</span><b>claude-code</b></span><span class="ev-repo" role="columnheader"><span>tailwindlabs/</span><b>tailwindcss</b></span><span class="ev-num" role="columnheader">passed</span><span class="ev-num" role="columnheader">p50</span><span aria-hidden="true"></span></div>
+
+<div class="ev-row is-open" role="row"><span role="rowheader"><button class="ev-q" type="button" aria-expanded="true" aria-controls="ev-d1"><b>What's blocking the next release?</b><i>template <span class="ev-id">release-blockers</span></i></button></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span role="cell"><span class="ev-res warn"><span class="g-mark warn" aria-hidden="true"></span>partial</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span class="ev-cell-num" role="cell">3 of 4</span><span class="ev-cell-num" role="cell">1.8&#160;s</span><svg class="ev-chev" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg></div>
+
+<div class="ev-detail" id="ev-d1" role="row"><div class="ev-dcell" role="cell" aria-colspan="8">
+<p class="ev-dh">What the judge checked</p>
+<div class="ev-checks" role="table" aria-label="Checks for What's blocking the next release?">
+<div class="ev-check" role="row"><span role="rowheader"><b>Right components chosen</b><i>code check</i></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>8 of 8</span></span><span role="cell"><span class="ev-res warn"><span class="g-mark warn" aria-hidden="true"></span>7 of 8</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>8 of 8</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>8 of 8</span></span><span class="ev-cell-num" role="cell">3 of 4</span></div>
+<div class="ev-check" role="row"><span role="rowheader"><b>Numbers match GitHub</b><i>code check</i></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>16 of 16</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>14 of 14</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>12 of 12</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>15 of 15</span></span><span class="ev-cell-num" role="cell">4 of 4</span></div>
+<div class="ev-check" role="row"><span role="rowheader"><b>Insight grounded in the source line</b><i>judged by <span class="ev-id">claude-sonnet-4-5</span></i></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>grounded</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>grounded</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>grounded</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>grounded</span></span><span class="ev-cell-num" role="cell">4 of 4</span></div>
+<div class="ev-check" role="row"><span role="rowheader"><b>No raw style values sent</b><i>schema check</i></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>none sent</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>none sent</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>none sent</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>none sent</span></span><span class="ev-cell-num" role="cell">4 of 4</span></div>
+</div>
+<div class="ev-note">
+<p class="ev-who"><b>facebook/react</b> · right components chosen · 7 of 8</p>
+<p class="ev-why">Picked a Timeline for the open pull requests where the template expects a StatusList: the question asks what state each one is in, not when it merged.</p>
+<div class="ev-links"><a class="g-link" href="#">Open this answer</a><a class="g-link" href="#">View the JSON</a></div>
+</div>
+</div></div>
+
+<div class="ev-row" role="row"><span role="rowheader"><button class="ev-q" type="button" aria-expanded="false"><b>Which checks are failing on canary?</b><i>template <span class="ev-id">failing-checks</span></i></button></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span role="cell"><span class="ev-res warn"><span class="g-mark warn" aria-hidden="true"></span>partial</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span class="ev-cell-num" role="cell">3 of 4</span><span class="ev-cell-num" role="cell">1.6&#160;s</span><svg class="ev-chev" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg></div>
+
+<div class="ev-row" role="row"><span role="rowheader"><button class="ev-q" type="button" aria-expanded="false"><b>Who's carrying this repo?</b><i>template <span class="ev-id">bus-factor</span></i></button></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span class="ev-cell-num" role="cell">4 of 4</span><span class="ev-cell-num" role="cell">1.9&#160;s</span><svg class="ev-chev" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg></div>
+
+<div class="ev-row" role="row"><span role="rowheader"><button class="ev-q" type="button" aria-expanded="false"><b>Is CI getting slower?</b><i>template <span class="ev-id">ci-trend</span></i></button></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span role="cell"><span class="ev-res crit"><span class="g-mark crit" aria-hidden="true"></span>fail</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span class="ev-cell-num" role="cell">3 of 4</span><span class="ev-cell-num" role="cell">1.7&#160;s</span><svg class="ev-chev" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg></div>
+
+<div class="ev-row" role="row"><span role="rowheader"><button class="ev-q" type="button" aria-expanded="false"><b>Where would a new contributor start?</b><i>off-template</i></button></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span role="cell"><span class="ev-res warn"><span class="g-mark warn" aria-hidden="true"></span>partial</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span class="ev-cell-num" role="cell">3 of 4</span><span class="ev-cell-num" role="cell">6.4&#160;s</span><svg class="ev-chev" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg></div>
+
+<div class="ev-row" role="row"><span role="rowheader"><button class="ev-q" type="button" aria-expanded="false"><b>How long until a maintainer reviews my PR?</b><i>template <span class="ev-id">review-wait</span></i></button></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span class="ev-cell-num" role="cell">4 of 4</span><span class="ev-cell-num" role="cell">1.8&#160;s</span><svg class="ev-chev" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg></div>
+
+<div class="ev-row" role="row"><span role="rowheader"><button class="ev-q" type="button" aria-expanded="false"><b>What merged this week?</b><i>template <span class="ev-id">merged-window</span></i></button></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span class="ev-cell-num" role="cell">4 of 4</span><span class="ev-cell-num" role="cell">1.5&#160;s</span><svg class="ev-chev" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg></div>
+
+<div class="ev-row" role="row"><span role="rowheader"><button class="ev-q" type="button" aria-expanded="false"><b>When does this team work?</b><i>template <span class="ev-id">punch-card</span></i></button></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span role="cell"><span class="ev-res warn"><span class="g-mark warn" aria-hidden="true"></span>partial</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span class="ev-cell-num" role="cell">3 of 4</span><span class="ev-cell-num" role="cell">2.0&#160;s</span><svg class="ev-chev" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg></div>
+
+<div class="ev-row" role="row"><span role="rowheader"><button class="ev-q" type="button" aria-expanded="false"><b>Is review wait better or worse than last month?</b><i>template <span class="ev-id">compare-periods</span></i></button></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span role="cell"><span class="ev-res warn"><span class="g-mark warn" aria-hidden="true"></span>partial</span></span><span class="ev-cell-num" role="cell">3 of 4</span><span class="ev-cell-num" role="cell">1.9&#160;s</span><svg class="ev-chev" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg></div>
+
+<div class="ev-row" role="row"><span role="rowheader"><button class="ev-q" type="button" aria-expanded="false"><b>What changed in the last release?</b><i>off-template</i></button></span><span role="cell"><span class="ev-res warn"><span class="g-mark warn" aria-hidden="true"></span>partial</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span role="cell"><span class="ev-res crit"><span class="g-mark crit" aria-hidden="true"></span>fail</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span class="ev-cell-num" role="cell">2 of 4</span><span class="ev-cell-num" role="cell">5.9&#160;s</span><svg class="ev-chev" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg></div>
+
+<div class="ev-row" role="row"><span role="rowheader"><button class="ev-q" type="button" aria-expanded="false"><b>Which files change the most?</b><i>off-template</i></button></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span role="cell"><span class="ev-res warn"><span class="g-mark warn" aria-hidden="true"></span>partial</span></span><span role="cell"><span class="ev-res crit"><span class="g-mark crit" aria-hidden="true"></span>fail</span></span><span class="ev-cell-num" role="cell">2 of 4</span><span class="ev-cell-num" role="cell">6.2&#160;s</span><svg class="ev-chev" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg></div>
+
+<div class="ev-row" role="row"><span role="rowheader"><button class="ev-q" type="button" aria-expanded="false"><b>Who should review this PR?</b><i>template <span class="ev-id">suggest-reviewers</span></i></button></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span role="cell"><span class="ev-res"><span class="g-mark" aria-hidden="true"></span>pass</span></span><span class="ev-cell-num" role="cell">4 of 4</span><span class="ev-cell-num" role="cell">1.7&#160;s</span><svg class="ev-chev" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg></div>
+
+</div>
+</div>
+</section>
+
+<footer class="sc-strip" aria-label="Run receipt">
+<span>judged <b>48 answers</b> · <b>192 checks</b></span>
+<span>GitHub responses cached at <b>14:08</b> · every answer read the same copy</span>
+<button class="g-link sc-strip-end" type="button">Download results</button>
+</footer>
+
+</main>
+
+<footer class="sc-wrap sc-foot">Public repos only · nothing is stored beyond a cache of GitHub's public stats · no account needed</footer>
+
+</div>
+
+</body>
+</html>

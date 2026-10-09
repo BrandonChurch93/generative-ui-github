@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CI slower</title>
+
+<link rel="stylesheet" href="genui.css">
+<link rel="stylesheet" href="shell.css">
+</head>
+<body>
+
+
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#fcfaf8}
+/* Insight (insight-canvas States) */
+.in{position:relative;display:flex;flex-direction:column;gap:var(--space-2);padding-left:calc(var(--inset) + 1px);font-size:var(--insight)}
+[data-density="compact"] .in{gap:var(--space-1)}
+[data-density="spacious"] .in{gap:var(--space-3)}
+.in-rule{position:absolute;left:0;top:.34em;bottom:4px;width:3px;border-radius:var(--radius-pill);background:linear-gradient(180deg,var(--accent),var(--accent-2))}
+.in p{margin:0}
+.in-text{max-width:60ch;text-wrap:pretty;font-size:var(--insight);line-height:1.35;font-weight:500;color:var(--ink)}
+.in-text code{font-family:var(--font-mono);font-size:.85em;font-weight:500}
+.in-src{display:flex;align-items:baseline;gap:var(--space-3);font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+/* Metric (DS preview) */
+.mt{position:relative;overflow:hidden;display:flex;flex-direction:column;padding:var(--card-y) var(--inset) calc(var(--card-y) + 3px);background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius-lg);box-shadow:var(--card)}
+.mt-l{font-size:13px;line-height:1.3;font-weight:500;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mt-v{margin-top:var(--space-1);display:flex;align-items:baseline;gap:var(--space-2);font-size:var(--num);line-height:1;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.mt-v small{font:400 var(--suffix)/1 var(--font-mono);letter-spacing:0;color:var(--muted)}
+.mt-d{margin-top:var(--stack);display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-3);font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.mt-d.crit{color:var(--crit)}.mt-d.good{color:var(--good)}
+.mt-bar{position:absolute;left:0;right:var(--inset);bottom:0;height:3px;border-radius:0 var(--radius-pill) var(--radius-pill) 0;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+/* Sparkline (Sparkline sheet: in a Metric and in a list row) */
+[data-density]{--sp-h:28px}
+[data-density="compact"]{--sp-h:24px}
+[data-density="spacious"]{--sp-h:32px}
+.sp-svg{display:block;flex-shrink:0;overflow:visible}
+.sp-svg path{fill:none;stroke:var(--data-ref);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sp-svg path.now{stroke:var(--accent)}
+.sp-svg circle{fill:var(--accent)}
+.sp-svg circle.ring{fill:var(--surface)}
+.mt-v .sp-svg{margin-left:auto}
+.sp-list{box-sizing:border-box}
+.sp-list ul{margin:0;padding:0;list-style:none}
+.sp-list li{position:relative;display:flex;align-items:center;gap:var(--space-3);padding:var(--row-y) var(--inset)}
+.sp-list li+li::before{content:"";position:absolute;left:var(--inset);right:var(--inset);top:0;height:1px;background:var(--line)}
+.sp-list li>.g-mark{align-self:flex-start;margin-top:3.75px}
+.sp-t{flex-grow:1;min-width:0;display:grid;gap:2px}
+.sp-t b{font-size:13.5px;line-height:1.3;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sp-t i{font:normal 400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sp-slot{flex-shrink:0;width:80px;height:var(--sp-h);display:flex;align-items:center;justify-content:center}
+.sp-v{flex-shrink:0;width:56px;text-align:right;font:500 11px/1.3 var(--font-mono);color:var(--ink)}
+/* LineChart (LineChart sheet) */
+[data-density]{--lc-h:200px;--lc-strip:40px}
+[data-density="compact"]{--lc-h:160px;--lc-strip:32px}
+[data-density="spacious"]{--lc-h:240px;--lc-strip:48px}
+.lc-body{padding:var(--card-y) var(--inset)}
+.lc-legend{display:flex;flex-wrap:wrap;gap:var(--space-1) var(--space-4);margin-bottom:var(--card-y)}
+.lc-legend>span{display:flex;align-items:center;gap:var(--space-2);font-size:13px;line-height:1.3;font-weight:500;color:var(--muted);white-space:nowrap}
+.lc-key{flex-shrink:0;display:block;width:16px;height:2px;border-radius:var(--radius-pill);background:var(--data-1)}
+.lc-key.d2{background:var(--data-2)}
+.lc-key.col{width:8px;height:12px;border-radius:2px 2px 0 0;background:var(--crit-fill)}
+.lc-chart{position:relative;padding:6px 0 0 20px}
+.lc-plot{position:relative;height:var(--lc-h)}
+.lc-grid{position:absolute;left:0;right:0;height:1px;background:var(--line-soft)}
+.lc-grid.base{background:var(--line)}
+.lc-y{position:absolute;right:calc(100% + var(--space-2));transform:translateY(-50%);font:400 10.5px/1 var(--font-mono);color:var(--muted);white-space:nowrap}
+.lc-svg{position:absolute;left:0;top:0;overflow:visible}
+.lc-svg path{fill:none;stroke:var(--data-1);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.lc-svg path.d2{stroke:var(--data-2)}
+.lc-dot{position:absolute;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:var(--data-1);box-shadow:0 0 0 2px var(--surface)}
+.lc-dot.d2{background:var(--data-2)}
+.lc-end{position:absolute;margin-left:var(--space-3);transform:translateY(-50%);display:flex;align-items:baseline;gap:var(--space-1);white-space:nowrap}
+.lc-end b{font-size:13px;line-height:1;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink)}
+.lc-end i{font:normal 400 10.5px/1 var(--font-mono);color:var(--muted)}
+.lc-x{position:relative;height:11px;margin-top:var(--space-2)}
+.lc-x>span{position:absolute;top:0;transform:translateX(-50%);font:400 10.5px/1 var(--font-mono);color:var(--muted);white-space:nowrap}
+.lc-strip{position:relative;height:calc(var(--lc-strip) + 16px);margin-top:var(--card-y);border-bottom:1px solid var(--line)}
+.lc-col{position:absolute;bottom:0;border-radius:4px 4px 0 0;background:var(--crit-fill)}
+.lc-n{position:absolute;transform:translateX(-50%);font:400 10.5px/1 var(--font-mono);color:var(--muted)}
+/* Comparison (Comparison sheet) */
+.cp{--cp-name:156px;--cp-delta:96px;--cp-tip:64px;--cp-ln:18px}
+.cp ul{margin:0;padding:0;list-style:none}
+.cp li{position:relative}
+.cp li+li::before{content:"";position:absolute;left:var(--inset);right:var(--inset);top:0;height:1px;background:var(--line)}
+.cp .g-head{align-items:center}
+.cp-legend{display:flex;align-items:center;gap:var(--space-3);font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap}
+.cp-legend>span{display:flex;align-items:center;gap:var(--space-2)}
+.cp-legend>span::before{content:"";width:12px;height:8px;border-radius:0 4px 4px 0;background:var(--data-1)}
+.cp-legend>span.prev::before{background:var(--data-ref)}
+.cp-row{box-sizing:border-box;display:grid;grid-template-columns:var(--cp-name) minmax(0,1fr) var(--cp-delta);column-gap:var(--space-4);align-items:center;padding:var(--row-y) var(--inset)}
+.cp-name{display:grid;row-gap:var(--space-1);min-width:0}
+.cp-name b{font-size:13.5px;line-height:var(--cp-ln);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cp-name i{font:normal 400 11.5px/var(--cp-ln) var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cp-bars{position:relative;display:grid;row-gap:var(--space-1);min-width:0}
+.cp-bars::before{content:"";position:absolute;left:0;top:0;bottom:0;width:1px;background:var(--line)}
+.cp-ln{display:flex;align-items:center;gap:var(--space-2);height:var(--cp-ln);white-space:nowrap}
+.cp-bar{flex-shrink:0;height:8px;width:calc((100% - var(--cp-tip)) * var(--k));border-radius:0 4px 4px 0;background:var(--data-1)}
+.cp-ln.prev .cp-bar{background:var(--data-ref)}
+.cp-v{font-size:13px;line-height:1;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink)}
+.cp-v small{margin-left:var(--space-1);font:400 11px/1 var(--font-mono);color:var(--muted)}
+.cp-ln.prev .cp-v{font-weight:500;color:var(--muted)}
+.cp-delta{display:grid;row-gap:var(--space-1);justify-items:end;white-space:nowrap}
+.cp-delta b{font-size:15px;line-height:var(--cp-ln);font-weight:700;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.cp-delta b small{margin-left:var(--space-1);font:500 11px/1 var(--font-mono);letter-spacing:0}
+.cp-delta>span{font:500 11.5px/var(--cp-ln) var(--font-mono);letter-spacing:.02em}
+.cp-delta.worse{color:var(--crit)}
+.cp-delta.better{color:var(--good)}
+.cp-delta.steady{color:var(--muted)}
+.cp-foot{display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-3);padding:var(--row-y) var(--inset) var(--card-y);border-top:1px solid var(--line-soft);font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap}
+/* DiffView and FileTree (Code sheet) */
+[data-density]{--code:12px;--code-lh:20px;--ft-h:30px}
+[data-density="compact"]{--code:12px;--code-lh:18px;--ft-h:26px}
+[data-density="spacious"]{--code:12px;--code-lh:22px;--ft-h:34px}
+.c-chev{flex-shrink:0;width:12px;height:12px;color:var(--muted)}
+.c-chev.open{transform:rotate(90deg)}
+.c-st{flex-shrink:0;display:flex;gap:1ch;font:500 11px/1.3 var(--font-mono);white-space:nowrap}
+.c-a{color:var(--good)}.c-d{color:var(--crit)}.c-z{color:var(--muted)}
+.dv-head{display:flex;align-items:center;gap:var(--space-3);padding:var(--card-y) var(--inset) var(--row-y);border-bottom:1px solid var(--line-soft)}
+.dv-tog{display:flex;align-items:center;gap:var(--space-2);min-width:0;margin:0;padding:0;border:0;border-radius:var(--radius-sm);background:none;color:var(--muted);font:400 var(--code)/1.3 var(--font-mono);text-align:left;cursor:pointer}
+.dv-tog .c-chev{transform:rotate(90deg)}
+.dv-tog:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.dv-tog:hover .c-chev{color:var(--ink)}
+.dv-tog:hover b{text-decoration:underline;text-decoration-color:var(--muted);text-underline-offset:3px}
+.dv-path{min-width:0;overflow:hidden;white-space:nowrap;line-height:17px}
+.dv-path b{font-weight:500;color:var(--ink)}
+.dv-head .c-st{margin-left:auto}
+.dv-b{padding-bottom:var(--row-y)}
+.dv-t{width:100%;border-collapse:collapse;font:400 var(--code)/var(--code-lh) var(--font-mono);font-feature-settings:"calt" 0,"liga" 0;color:var(--ink)}
+.dv-t td{padding:0;vertical-align:baseline}
+.dv-t .dv-h td{padding:var(--row-y) var(--inset) var(--space-1);font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:pre-wrap}
+.dv-t tbody+tbody .dv-h td{border-top:1px solid var(--line-soft);padding-top:var(--space-2)}
+.dv-t .dv-n{width:1%;padding-left:var(--space-3);white-space:nowrap;text-align:right;font-size:11.5px;color:var(--muted);user-select:none}
+.dv-t .dv-n:first-child{padding-left:var(--inset)}
+.dv-n::before{content:attr(data-n);display:inline-block;min-width:3ch}
+.dv-t .dv-s{width:1%;padding:0 var(--space-2) 0 var(--space-3);text-align:center;user-select:none}
+.dv-s::before{content:attr(data-s)}
+.dv-t .dv-c{padding:0 var(--inset) 0 calc((var(--i, 0) + 2) * 1ch);text-indent:-2ch;white-space:pre-wrap;overflow-wrap:anywhere}
+.dv-a>td{background:var(--diff-add)}
+.dv-r>td{background:var(--diff-del)}
+.dv-t mark{color:inherit;border-radius:var(--radius-sm)}
+.dv-a mark{background:var(--diff-add-word)}
+.dv-r mark{background:var(--diff-del-word)}
+.ft ul{margin:0;padding:0;list-style:none}
+.ft-b{padding:var(--space-2) 0}
+.ft-g{position:relative}
+.ft-g::before{content:"";position:absolute;top:0;bottom:0;left:calc(var(--inset) + var(--pd, 0) * 16px + 6px);width:1px;background:var(--line)}
+.ft-r{position:relative;z-index:0;box-sizing:border-box;display:flex;align-items:center;width:100%;height:var(--ft-h);margin:0;padding:0 var(--inset) 0 calc(var(--inset) + var(--d, 0) * 16px);border:0;background:none;font:400 var(--code)/1.3 var(--font-mono);color:var(--ink);text-align:left;text-decoration:none;cursor:pointer}
+.ft-r::before{content:"";position:absolute;z-index:-1;top:1px;bottom:1px;left:var(--space-2);right:var(--space-2);border-radius:var(--radius-md)}
+.ft-r .c-chev,.ft-sp{margin-right:var(--space-1)}
+.ft-sp{flex-shrink:0;width:12px}
+.ft-ico{flex-shrink:0;width:16px;height:16px;margin-right:var(--space-2);color:var(--muted)}
+.ft-nm{flex-grow:1;min-width:0;white-space:nowrap;overflow:hidden}
+.ft-dir .ft-nm{color:var(--muted)}
+.ft-nm i{font-style:normal;color:var(--muted)}
+.ft .c-st{margin-left:var(--space-3)}
+.ft .c-st>span:first-child{min-width:var(--aw, 4ch);text-align:right}
+.ft .c-st>span:last-child{min-width:var(--dw, 3ch);text-align:right}
+.ft-r:hover::before{background:var(--surface-tint)}
+.ft-r.on::before{background:var(--surface-tint);box-shadow:inset 0 0 0 1px var(--accent)}
+.ft-r.on .ft-ico{color:var(--accent)}
+.ft-r.on .ft-nm{font-weight:500}
+.ft-r:focus-visible{outline:0}
+.ft-r:focus-visible::before{outline:2px solid var(--focus);outline-offset:2px}
+.ft .g-head .c-st{align-self:center}
+.ft-hs{display:flex;align-items:baseline;gap:var(--space-3)}
+/* page: week geometry is a fraction of the plot so the full width chart reflows; the renderer computes the same in px */
+.cs-chart .lc-col{width:24px;margin-left:-12px}
+@media (max-width:1023px){
+.cs-chart .lc-col{width:16px;margin-left:-8px}
+.cs-chart .cs-k2{display:none}
+}
+@media (max-width:639px){
+.cs-chart .lc-col{width:8px;margin-left:-4px}
+.cs-chart .cs-k4,.cs-chart .cs-mid{display:none}
+/* page, proposed Comparison narrow rule: under 640 the bar column would fall to 32px, so the name takes its own line */
+.cs-cp .cp-row{grid-template-columns:minmax(0,1fr) var(--cp-delta);grid-template-areas:"name name" "bars delta";row-gap:var(--space-2)}
+.cs-cp .cp-name{grid-area:name;display:flex;align-items:baseline;gap:var(--space-2)}
+.cs-cp .cp-bars{grid-area:bars}
+.cs-cp .cp-delta{grid-area:delta}
+.cs-cp .cp-foot{flex-wrap:wrap;white-space:normal}
+}
+</style>
+
+<div class="sc-page" data-density="comfortable">
+
+<header class="sc-wrap">
+<div class="sc-top">
+<a class="sc-wordmark" href="#">Generative UI</a>
+<nav class="sc-nav" aria-label="Site">
+<a href="#">Catalog</a>
+<a href="#">Evals</a>
+<a href="#">About</a>
+<a href="https://github.com/">GitHub<svg class="sc-ext" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8L8 4"/><path d="M4.5 4H8V7.5"/></svg></a>
+</nav>
+</div>
+</header>
+
+<main class="sc-wrap sc-main">
+
+<header class="sc-chrome">
+<div class="sc-chrome-top">
+<div>
+<div class="sc-eyebrow"><span class="sc-chip repo">vercel/next.js</span><span class="sc-chip">branch canary</span><span class="sc-eyebrow-note">asked just now</span></div>
+<h1 class="sc-question">Is CI getting slower?</h1>
+</div>
+<div class="sc-built">
+<span class="sc-built-num">6.2<small>s</small></span>
+<span class="sc-built-meta">composed by Sonnet · 10 components</span>
+<span class="sc-built-meta">off-template · change point found</span>
+</div>
+</div>
+<nav class="sc-qchips" aria-label="Ask next">
+<a class="sc-qchip" href="#">Which checks are failing on canary?</a>
+<a class="sc-qchip" href="#">What changed in the last release?</a>
+<a class="sc-qchip" href="#">Which files change the most?</a>
+<a class="sc-qchip" href="#">What's blocking the next release?</a>
+</nav>
+</header>
+
+<div class="in"><span class="in-rule" aria-hidden="true"></span><p class="in-text">CI is 39% slower than in July, and the biggest jump came right after <code>#83942</code> put both bundlers in every integration run.</p><p class="in-src">from 4,906 runs of build-and-test over 12 weeks · 1 workflow change</p></div>
+
+<section class="sc-metrics" aria-label="Key numbers">
+<div class="mt"><span class="mt-l">CI duration · p50</span><span class="mt-v">18.4<small>min</small><svg class="sp-svg" width="120" height="28" viewBox="0 0 120 28" role="img" aria-label="Up from 13.2 to 18.4 minutes over 12 weeks"><path d="M1 24.6 L11.5 22.9 L22.1 25 L32.6 21.3 L43.2 19.6 L53.7 20.8 L64.3 16.3 L74.8 13.8 L85.4 15 L95.9 9.2 L106.5 6.3"></path><path class="now" d="M106.5 6.3 L117 3"></path><circle class="ring" cx="117" cy="3" r="5"></circle><circle cx="117" cy="3" r="3"></circle></svg></span><span class="mt-d crit">+5.2 min since Jul 20</span><span class="mt-bar" aria-hidden="true"></span></div>
+<div class="mt"><span class="mt-l">CI duration · p90</span><span class="mt-v">37.2<small>min</small><svg class="sp-svg" width="120" height="28" viewBox="0 0 120 28" role="img" aria-label="Up from 24.1 to 37.2 minutes over 12 weeks"><path d="M1 24.5 L11.5 23 L22.1 25 L32.6 22 L43.2 20.9 L53.7 21.6 L64.3 17.4 L74.8 15.3 L85.4 16.3 L95.9 10.6 L106.5 6.9"></path><path class="now" d="M106.5 6.9 L117 3"></path><circle class="ring" cx="117" cy="3" r="5"></circle><circle cx="117" cy="3" r="3"></circle></svg></span><span class="mt-d crit">+13.1 min since Jul 20</span><span class="mt-bar" aria-hidden="true"></span></div>
+<div class="mt"><span class="mt-l">Failed runs this week</span><span class="mt-v">12<small>of 412</small><svg class="sp-svg" width="120" height="28" viewBox="0 0 120 28" role="img" aria-label="Up from 3 to 12 failed runs a week over 12 weeks"><path d="M1 22.8 L11.5 25 L22.1 20.6 L32.6 22.8 L43.2 18.4 L53.7 20.6 L64.3 16.2 L74.8 9.6 L85.4 14 L95.9 11.8 L106.5 5.2"></path><path class="now" d="M106.5 5.2 L117 3"></path><circle class="ring" cx="117" cy="3" r="5"></circle><circle cx="117" cy="3" r="3"></circle></svg></span><span class="mt-d crit">+9 since Jul 20</span><span class="mt-bar" aria-hidden="true"></span></div>
+<div class="mt"><span class="mt-l">Runner queue wait · p50</span><span class="mt-v">1.1<small>min</small><svg class="sp-svg" width="120" height="28" viewBox="0 0 120 28" role="img" aria-label="Steady near 1.1 minutes over 12 weeks"><path d="M1 9.2 L11.5 14.8 L22.1 11.6 L32.6 7.6 L43.2 17.2 L53.7 20.4 L64.3 14 L74.8 10 L85.4 16.4 L95.9 12.4 L106.5 15.6"></path><path class="now" d="M106.5 15.6 L117 10.8"></path><circle class="ring" cx="117" cy="10.8" r="5"></circle><circle cx="117" cy="10.8" r="3"></circle></svg></span><span class="mt-d">steady near 1 min</span><span class="mt-bar" aria-hidden="true"></span></div>
+</section>
+
+<div class="g-card cs-chart"><div class="g-head"><h2>CI duration</h2><span>build-and-test · canary · last 12 weeks</span></div>
+<div class="lc-body"><div class="lc-legend"><span><i class="lc-key"></i>p50</span><span><i class="lc-key d2"></i>p90</span><span><i class="lc-key col"></i>Failed runs</span></div>
+<div class="lc-chart" role="img" aria-label="build-and-test got 39% slower in 12 weeks: the median run went from 13.2 to 18.4 minutes and p90 from 24.1 to 37.2.">
+<div class="lc-plot">
+<span class="lc-grid" style="top: 0px"></span><span class="lc-grid" style="top: 50px"></span><span class="lc-grid" style="top: 100px"></span><span class="lc-grid" style="top: 150px"></span><span class="lc-grid base" style="top: 200px"></span>
+<span class="lc-y" style="top: 0px">40</span><span class="lc-y" style="top: 50px">30</span><span class="lc-y" style="top: 100px">20</span><span class="lc-y" style="top: 150px">10</span><span class="lc-y" style="top: 200px">0</span>
+<svg class="lc-svg" style="width: calc(100% - 64px); height: 200px" viewBox="0 0 1150 200" preserveAspectRatio="none"><path class="d2" vector-effect="non-scaling-stroke" d="M50 79.5 L150 75 L250 81 L350 72 L450 68.5 L550 70.5 L650 58 L750 51.5 L850 54.5 L950 37 L1050 26 L1150 14"></path><path vector-effect="non-scaling-stroke" d="M50 134 L150 132 L250 134.5 L350 130 L450 128 L550 129.5 L650 124 L750 121 L850 122.5 L950 115.5 L1050 112 L1150 108"></path></svg>
+<span class="lc-dot d2" style="left: calc(100% - 64px); top: 14px"></span><span class="lc-dot" style="left: calc(100% - 64px); top: 108px"></span>
+<span class="lc-end" style="left: calc(100% - 64px); top: 14px"><b>37.2</b><i>min</i></span><span class="lc-end" style="left: calc(100% - 64px); top: 108px"><b>18.4</b><i>min</i></span>
+</div>
+<div class="lc-strip">
+<span class="lc-col" style="left: calc((100% - 64px) * 0.0435); height: 10px"></span><span class="lc-col" style="left: calc((100% - 64px) * 0.1304); height: 6.7px"></span><span class="lc-col" style="left: calc((100% - 64px) * 0.2174); height: 13.3px"></span><span class="lc-col" style="left: calc((100% - 64px) * 0.3043); height: 10px"></span><span class="lc-col" style="left: calc((100% - 64px) * 0.3913); height: 16.7px"></span><span class="lc-col" style="left: calc((100% - 64px) * 0.4783); height: 13.3px"></span><span class="lc-col" style="left: calc((100% - 64px) * 0.5652); height: 20px"></span><span class="lc-col" style="left: calc((100% - 64px) * 0.6522); height: 30px"></span><span class="lc-col" style="left: calc((100% - 64px) * 0.7391); height: 23.3px"></span><span class="lc-col" style="left: calc((100% - 64px) * 0.8261); height: 26.7px"></span><span class="lc-col" style="left: calc((100% - 64px) * 0.9130); height: 36.7px"></span><span class="lc-col" style="left: calc(100% - 64px); height: 40px"></span>
+<span class="lc-n" style="left: calc((100% - 64px) * 0.0435); bottom: 14px">3</span><span class="lc-n cs-mid" style="left: calc((100% - 64px) * 0.1304); bottom: 10.7px">2</span><span class="lc-n cs-mid" style="left: calc((100% - 64px) * 0.2174); bottom: 17.3px">4</span><span class="lc-n cs-mid" style="left: calc((100% - 64px) * 0.3043); bottom: 14px">3</span><span class="lc-n cs-mid" style="left: calc((100% - 64px) * 0.3913); bottom: 20.7px">5</span><span class="lc-n cs-mid" style="left: calc((100% - 64px) * 0.4783); bottom: 17.3px">4</span><span class="lc-n cs-mid" style="left: calc((100% - 64px) * 0.5652); bottom: 24px">6</span><span class="lc-n cs-mid" style="left: calc((100% - 64px) * 0.6522); bottom: 34px">9</span><span class="lc-n cs-mid" style="left: calc((100% - 64px) * 0.7391); bottom: 27.3px">7</span><span class="lc-n cs-mid" style="left: calc((100% - 64px) * 0.8261); bottom: 30.7px">8</span><span class="lc-n cs-mid" style="left: calc((100% - 64px) * 0.9130); bottom: 40.7px">11</span><span class="lc-n" style="left: calc(100% - 64px); bottom: 44px">12</span>
+</div>
+<div class="lc-x"><span class="cs-k2 cs-k4" style="left: calc((100% - 64px) * 0.0435)">Jul 20</span><span class="cs-k4" style="left: calc((100% - 64px) * 0.1304)">Jul 27</span><span class="cs-k2 cs-k4" style="left: calc((100% - 64px) * 0.2174)">Aug 3</span><span style="left: calc((100% - 64px) * 0.3043)">Aug 10</span><span class="cs-k2 cs-k4" style="left: calc((100% - 64px) * 0.3913)">Aug 17</span><span class="cs-k4" style="left: calc((100% - 64px) * 0.4783)">Aug 24</span><span class="cs-k2 cs-k4" style="left: calc((100% - 64px) * 0.5652)">Aug 31</span><span style="left: calc((100% - 64px) * 0.6522)">Sep 7</span><span class="cs-k2 cs-k4" style="left: calc((100% - 64px) * 0.7391)">Sep 14</span><span class="cs-k4" style="left: calc((100% - 64px) * 0.8261)">Sep 21</span><span class="cs-k2 cs-k4" style="left: calc((100% - 64px) * 0.9130)">Sep 28</span><span style="left: calc(100% - 64px)">Oct 5</span></div>
+</div></div></div>
+
+<div class="sc-split is-level">
+<div class="g-card sp-list"><div class="g-head"><h2>Slowest workflows</h2><span>p50 · last 12 weeks</span></div><ul>
+<li><span class="g-mark crit" aria-hidden="true"></span><span class="sp-t"><b>e2e-turbopack</b><i>canary · failing since Tue</i></span><span class="sp-slot"><svg class="sp-svg" width="80" height="28" viewBox="0 0 80 28" role="img" aria-label="Up from 17.0 to 24.6 minutes over 12 weeks"><path d="M1 24.4 L7.9 23.3 L14.8 25 L21.7 21.3 L28.6 19.1 L35.5 17.1 L42.5 18.2 L49.4 14.8 L56.3 11.2 L63.2 9.5 L70.1 5"></path><path class="now" d="M70.1 5 L77 3"></path><circle class="ring" cx="77" cy="3" r="5"></circle><circle cx="77" cy="3" r="3"></circle></svg></span><span class="sp-v">24.6 min</span></li>
+<li><span class="g-mark" aria-hidden="true"></span><span class="sp-t"><b>build-and-test</b><i>canary · 412 runs this week</i></span><span class="sp-slot"><svg class="sp-svg" width="80" height="28" viewBox="0 0 80 28" role="img" aria-label="Up from 13.2 to 18.4 minutes over 12 weeks"><path d="M1 24.6 L7.9 22.9 L14.8 25 L21.7 21.3 L28.6 19.6 L35.5 20.8 L42.5 16.3 L49.4 13.8 L56.3 15 L63.2 9.2 L70.1 6.3"></path><path class="now" d="M70.1 6.3 L77 3"></path><circle class="ring" cx="77" cy="3" r="5"></circle><circle cx="77" cy="3" r="3"></circle></svg></span><span class="sp-v">18.4 min</span></li>
+<li><span class="g-mark" aria-hidden="true"></span><span class="sp-t"><b>e2e-webpack</b><i>canary · 405 runs this week</i></span><span class="sp-slot"><svg class="sp-svg" width="80" height="28" viewBox="0 0 80 28" role="img" aria-label="Up from 12.1 to 15.9 minutes over 12 weeks"><path d="M1 24.2 L7.9 23.1 L14.8 24.8 L21.7 21.5 L28.6 19.8 L35.5 20.9 L42.5 15.9 L49.4 13.7 L56.3 14.8 L63.2 8.7 L70.1 6"></path><path class="now" d="M70.1 6 L77 3.2"></path><circle class="ring" cx="77" cy="3.2" r="5"></circle><circle cx="77" cy="3.2" r="3"></circle></svg></span><span class="sp-v">15.9 min</span></li>
+<li><span class="g-mark" aria-hidden="true"></span><span class="sp-t"><b>test-windows</b><i>canary · nightly · 7 runs this week</i></span><span class="sp-slot"><svg class="sp-svg" width="80" height="28" viewBox="0 0 80 28" role="img" aria-label="Steady near 11.2 minutes over 12 weeks"><path d="M1 15.2 L7.9 12.8 L14.8 16 L21.7 13.6 L28.6 12 L35.5 15.2 L42.5 14.4 L49.4 12.8 L56.3 15.2 L63.2 13.6 L70.1 14.4"></path><path class="now" d="M70.1 14.4 L77 13.6"></path><circle class="ring" cx="77" cy="13.6" r="5"></circle><circle cx="77" cy="13.6" r="3"></circle></svg></span><span class="sp-v">11.2 min</span></li>
+<li><span class="g-mark" aria-hidden="true"></span><span class="sp-t"><b>lint-and-types</b><i>canary · 398 runs this week</i></span><span class="sp-slot"><svg class="sp-svg" width="80" height="28" viewBox="0 0 80 28" role="img" aria-label="Steady near 3.2 minutes over 12 weeks"><path d="M1 11.2 L7.9 14 L14.8 8.3 L21.7 16.8 L28.6 11.2 L35.5 14 L42.5 19.7 L49.4 16.8 L56.3 14 L63.2 16.8 L70.1 19.7"></path><path class="now" d="M70.1 19.7 L77 19.7"></path><circle class="ring" cx="77" cy="19.7" r="5"></circle><circle cx="77" cy="19.7" r="3"></circle></svg></span><span class="sp-v">3.1 min</span></li>
+</ul></div>
+
+<div class="g-card cp cs-cp" role="figure" aria-label="CI got 17% slower at the median and 28% slower at p90 in the last 30 days">
+<div class="g-head"><h2>Change in the last 30 days</h2><div class="cp-legend"><span>last 30 days</span><span class="prev">30 before</span></div></div>
+<ul>
+<li><div class="cp-row"><span class="cp-name"><b>CI p50 duration</b><i>median run</i></span><span class="cp-bars" aria-hidden="true"><span class="cp-ln"><span class="cp-bar" style="--k: 1"></span><span class="cp-v">17.1<small>min</small></span></span><span class="cp-ln prev"><span class="cp-bar" style="--k: .854"></span><span class="cp-v">14.6<small>min</small></span></span></span><span class="g-sr">17.1 minutes in the last 30 days, 14.6 in the 30 before.</span><span class="cp-delta worse"><b>+17%</b><span>worse</span></span></div></li>
+<li><div class="cp-row"><span class="cp-name"><b>CI p90 duration</b><i>slowest tenth of runs</i></span><span class="cp-bars" aria-hidden="true"><span class="cp-ln"><span class="cp-bar" style="--k: 1"></span><span class="cp-v">33.9<small>min</small></span></span><span class="cp-ln prev"><span class="cp-bar" style="--k: .779"></span><span class="cp-v">26.4<small>min</small></span></span></span><span class="g-sr">33.9 minutes in the last 30 days, 26.4 in the 30 before.</span><span class="cp-delta worse"><b>+28%</b><span>worse</span></span></div></li>
+<li><div class="cp-row"><span class="cp-name"><b>Failed runs</b><i>any job failing</i></span><span class="cp-bars" aria-hidden="true"><span class="cp-ln"><span class="cp-bar" style="--k: 1"></span><span class="cp-v">38</span></span><span class="cp-ln prev"><span class="cp-bar" style="--k: .632"></span><span class="cp-v">24</span></span></span><span class="g-sr">38 in the last 30 days, 24 in the 30 before.</span><span class="cp-delta worse"><b>+58%</b><span>worse</span></span></div></li>
+<li><div class="cp-row"><span class="cp-name"><b>Runs</b><i>every trigger</i></span><span class="cp-bars" aria-hidden="true"><span class="cp-ln"><span class="cp-bar" style="--k: 1"></span><span class="cp-v">1,731</span></span><span class="cp-ln prev"><span class="cp-bar" style="--k: .981"></span><span class="cp-v">1,698</span></span></span><span class="g-sr">1,731 in the last 30 days, 1,698 in the 30 before.</span><span class="cp-delta steady"><b>+2%</b><span>higher</span></span></div></li>
+</ul>
+<div class="cp-foot"><span>from 3,429 runs of build-and-test</span><span>3 worse · 1 higher</span></div>
+</div>
+</div>
+
+<div class="sc-split" style="--sc-split: minmax(0,360px) minmax(0,1fr)">
+<nav class="g-card ft" style="--aw: 3ch; --dw: 2ch" aria-label="Files in #83942"><div class="g-head"><h2>Files in #83942</h2><span class="ft-hs">4 files<span class="c-st"><span class="c-a">+34</span><span class="c-d">−8</span></span></span></div>
+<ul class="ft-b">
+<li><button class="ft-r ft-dir" type="button" style="--d: 0" aria-expanded="true"><svg class="c-chev open" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg><svg class="ft-ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.25 4.25a1 1 0 0 1 1-1h2.9l1.5 1.5h5.1a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-9.5a1 1 0 0 1-1-1z"/></svg><span class="ft-nm">.github/workflows</span></button>
+<ul class="ft-g" style="--pd: 0">
+<li><a class="ft-r on" href="#f-build-and-test" style="--d: 1" aria-current="true"><span class="ft-sp"></span><svg class="ft-ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.25 2.25h4.5l3 3v8.5h-7.5z"/><path d="M8.75 2.25v3h3"/></svg><span class="ft-nm">build_and_test.yml</span><span class="c-st"><span class="c-a">+3</span><span class="c-d">−2</span></span></a></li>
+<li><a class="ft-r" href="#f-build-reusable" style="--d: 1"><span class="ft-sp"></span><svg class="ft-ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.25 2.25h4.5l3 3v8.5h-7.5z"/><path d="M8.75 2.25v3h3"/></svg><span class="ft-nm">build_reusable.yml</span><span class="c-st"><span class="c-a">+4</span><span class="c-d">−1</span></span></a></li>
+</ul></li>
+<li><button class="ft-r ft-dir" type="button" style="--d: 0" aria-expanded="true"><svg class="c-chev open" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg><svg class="ft-ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.25 4.25a1 1 0 0 1 1-1h2.9l1.5 1.5h5.1a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-9.5a1 1 0 0 1-1-1z"/></svg><span class="ft-nm">test/lib/next-modes</span></button>
+<ul class="ft-g" style="--pd: 0">
+<li><a class="ft-r" href="#f-base" style="--d: 1"><span class="ft-sp"></span><svg class="ft-ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.25 2.25h4.5l3 3v8.5h-7.5z"/><path d="M8.75 2.25v3h3"/></svg><span class="ft-nm">base.ts</span><span class="c-st"><span class="c-a">+9</span><span class="c-d">−2</span></span></a></li>
+</ul></li>
+<li><a class="ft-r" href="#f-run-tests" style="--d: 0"><span class="ft-sp"></span><svg class="ft-ico" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.25 2.25h4.5l3 3v8.5h-7.5z"/><path d="M8.75 2.25v3h3"/></svg><span class="ft-nm">run-tests.js</span><span class="c-st"><span class="c-a">+18</span><span class="c-d">−3</span></span></a></li>
+</ul></nav>
+
+<section class="g-card dv"><div class="dv-head"><button class="dv-tog" type="button" aria-expanded="true" aria-controls="cs-diff"><svg class="c-chev" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5"/></svg><span class="dv-path">.github/workflows/<b>build_and_test.yml</b></span></button><span class="c-st"><span class="c-a">+3</span><span class="c-d">−2</span><span class="g-sr">3 additions, 2 deletions</span></span></div>
+<div class="dv-b" id="cs-diff"><table class="dv-t"><caption class="g-sr">Changes to build_and_test.yml in #83942</caption>
+<tbody>
+<tr class="dv-h"><td colspan="4">@@ -268,13 +268,14 @@ jobs:</td></tr>
+<tr><td class="dv-n" data-n="268"></td><td class="dv-n" data-n="268"></td><td class="dv-s"></td><td class="dv-c" style="--i: 2">test-integration:</td></tr>
+<tr><td class="dv-n" data-n="269"></td><td class="dv-n" data-n="269"></td><td class="dv-s"></td><td class="dv-c" style="--i: 4">name: test integration</td></tr>
+<tr><td class="dv-n" data-n="270"></td><td class="dv-n" data-n="270"></td><td class="dv-s"></td><td class="dv-c" style="--i: 4">needs: ['changes', 'build-native', 'build-next']</td></tr>
+<tr><td class="dv-n" data-n="271"></td><td class="dv-n" data-n="271"></td><td class="dv-s"></td><td class="dv-c" style="--i: 4">strategy:</td></tr>
+<tr><td class="dv-n" data-n="272"></td><td class="dv-n" data-n="272"></td><td class="dv-s"></td><td class="dv-c" style="--i: 6">fail-fast: false</td></tr>
+<tr><td class="dv-n" data-n="273"></td><td class="dv-n" data-n="273"></td><td class="dv-s"></td><td class="dv-c" style="--i: 6">matrix:</td></tr>
+<tr><td class="dv-n" data-n="274"></td><td class="dv-n" data-n="274"></td><td class="dv-s"></td><td class="dv-c" style="--i: 8">group: [1/6, 2/6, 3/6, 4/6, 5/6, 6/6]</td></tr>
+<tr><td class="dv-n" data-n="275"></td><td class="dv-n" data-n="275"></td><td class="dv-s"></td><td class="dv-c" style="--i: 4">uses: ./.github/workflows/build_reusable.yml</td></tr>
+<tr><td class="dv-n" data-n="276"></td><td class="dv-n" data-n="276"></td><td class="dv-s"></td><td class="dv-c" style="--i: 4">with:</td></tr>
+<tr class="dv-r"><td class="dv-n" data-n="277"></td><td class="dv-n"></td><td class="dv-s" data-s="−"><span class="g-sr">removed</span></td><td class="dv-c" style="--i: 6">afterBuild: node run-tests.js --type integration</td></tr>
+<tr class="dv-r"><td class="dv-n" data-n="278"></td><td class="dv-n"></td><td class="dv-s" data-s="−"><span class="g-sr">removed</span></td><td class="dv-c" style="--i: 6">timeout_minutes: <mark>30</mark></td></tr>
+<tr class="dv-a"><td class="dv-n"></td><td class="dv-n" data-n="277"></td><td class="dv-s" data-s="+"><span class="g-sr">added</span></td><td class="dv-c" style="--i: 6">afterBuild: node run-tests.js --type integration <mark>--bundlers turbopack,webpack</mark></td></tr>
+<tr class="dv-a"><td class="dv-n"></td><td class="dv-n" data-n="278"></td><td class="dv-s" data-s="+"><span class="g-sr">added</span></td><td class="dv-c" style="--i: 6">timeout_minutes: <mark>45</mark></td></tr>
+<tr><td class="dv-n" data-n="279"></td><td class="dv-n" data-n="279"></td><td class="dv-s"></td><td class="dv-c" style="--i: 6">stepName: 'test-integration'</td></tr>
+<tr class="dv-a"><td class="dv-n"></td><td class="dv-n" data-n="280"></td><td class="dv-s" data-s="+"><span class="g-sr">added</span></td><td class="dv-c" style="--i: 6">cacheKey: integration-both-bundlers</td></tr>
+<tr><td class="dv-n" data-n="280"></td><td class="dv-n" data-n="281"></td><td class="dv-s"></td><td class="dv-c" style="--i: 4">secrets: inherit</td></tr>
+</tbody></table></div></section>
+</div>
+
+<footer class="sc-strip" aria-label="Build receipt">
+<span>read <b>7 GitHub endpoints</b> · 2 live · 5 cached</span>
+<span>fetch <b>1.84&#160;s</b> · compose <b>4.12&#160;s</b> · render <b>0.24&#160;s</b></span>
+<span>composed in <b>6.2&#160;s</b></span>
+<button class="g-link sc-strip-end" type="button" aria-expanded="false">How this was built</button>
+</footer>
+
+</main>
+
+<footer class="sc-wrap sc-foot">Public repos only · nothing is stored beyond a cache of GitHub's public stats · no account needed</footer>
+
+<form class="sc-tray" role="search" aria-label="Ask about vercel/next.js">
+<label class="sc-ask"><span class="g-sr">Ask another question about vercel/next.js</span><input type="text" placeholder="Ask another question about vercel/next.js"></label>
+<button class="sc-send" type="submit" aria-label="Ask" aria-disabled="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13V3"/><path d="M4 7l4-4 4 4"/></svg></button>
+<span class="sc-tray-rule" aria-hidden="true"></span>
+<div class="sc-density" role="radiogroup" aria-label="Density"><button class="sc-seg" type="button" role="radio" aria-checked="false">Compact</button><button class="sc-seg" type="button" role="radio" aria-checked="true">Comfortable</button><button class="sc-seg" type="button" role="radio" aria-checked="false">Spacious</button></div>
+</form>
+
+</div>
+
+</body>
+</html>

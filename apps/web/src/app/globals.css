@@ -1,0 +1,26 @@
+/* next/font hashes the family names, so the token stacks are re-pointed at the loaded faces. The fallbacks stay the token's own. */
+:root:root {
+  --font-sans: var(--font-loaded-sans), system-ui, sans-serif;
+  --font-mono: var(--font-loaded-mono), ui-monospace, Menlo, monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-leading);
+  font-weight: var(--text-body-weight);
+  -webkit-font-smoothing: antialiased;
+}

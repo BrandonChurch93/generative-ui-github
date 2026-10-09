@@ -1,0 +1,103 @@
+<!-- @dsCard group="Inputs" height=1016 width=1240 subtitle="a small form in one card · filled, error · three densities" -->
+<style>
+body{margin:0;padding:16px;background:var(--bg);color:var(--ink);font-family:var(--font-sans);--line-strong:color-mix(in srgb,var(--ink) 22%,transparent)}
+[data-density]{--inset:var(--space-5);--card-y:var(--space-4);--row-y:var(--space-3);--fld-h:40px;--fld-x:var(--space-3);--fld-gap:var(--space-2);--chip-h:32px;--chip-x:var(--space-3);--btn-x:var(--space-4);--btn-t:13px}
+[data-density="compact"]{--inset:var(--space-4);--card-y:var(--space-3);--row-y:var(--space-2);--fld-h:36px;--fld-x:var(--space-3);--fld-gap:var(--space-1);--chip-h:28px;--chip-x:var(--space-3);--btn-x:var(--space-4);--btn-t:13px}
+[data-density="spacious"]{--inset:var(--space-6);--card-y:var(--space-5);--row-y:var(--space-4);--fld-h:44px;--fld-x:var(--space-4);--fld-gap:var(--space-2);--chip-h:36px;--chip-x:var(--space-4);--btn-x:var(--space-5);--btn-t:14px}
+.pv-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px var(--space-4);align-items:start}
+.pv-cell{display:grid;gap:8px;min-width:0}
+.pv-cap{font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.pv-mk{position:relative;flex-shrink:0;box-sizing:border-box;width:10px;height:10px;margin-top:3.75px;border-radius:50%;border:1.5px solid var(--muted)}
+.pv-mk.crit{border-color:var(--crit-fill);background:var(--crit-fill)}
+.fm{margin:0;overflow:hidden;background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius-lg);box-shadow:var(--card)}
+.fm-head{display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-3);padding:var(--card-y) var(--inset) var(--row-y);border-bottom:1px solid var(--line-soft)}
+.fm-head h2{margin:0;font-size:13px;line-height:1.3;font-weight:600;letter-spacing:.01em}
+.fm-head span{font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap}
+.fm-body{display:flex;flex-direction:column;gap:var(--inset);padding:var(--inset)}
+.fm-acts{display:flex;align-items:center;gap:var(--space-2);padding:var(--card-y) var(--inset);background:var(--surface-tint);border-top:1px solid var(--line-soft)}
+.fm-btn{box-sizing:border-box;display:inline-flex;align-items:center;height:var(--fld-h);margin:0;padding:0 var(--btn-x);border:1px solid var(--line);border-radius:var(--radius-md);background:var(--surface);color:var(--ink);font:500 var(--btn-t)/1 var(--font-sans);white-space:nowrap;cursor:pointer}
+.fm-btn.primary{border-color:transparent;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:var(--accent-ink)}
+.fm-btn:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.fm-note{flex:1;min-width:0;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.in-grp{display:flex;flex-direction:column;gap:var(--fld-gap);min-width:0}
+.in-lbl{font-size:13px;line-height:1.3;font-weight:500;color:var(--ink)}
+.in-lbl.off{color:var(--muted)}
+.in-f{box-sizing:border-box;display:flex;align-items:center;gap:var(--space-2);width:100%;height:var(--fld-h);margin:0;padding:0 var(--fld-x);border:1px solid var(--line);border-radius:var(--radius-md);background:var(--surface);font:400 14px/1.45 var(--font-sans);color:var(--ink);caret-color:var(--accent);text-align:left;-webkit-appearance:none;appearance:none;outline:0 solid transparent}
+@media (prefers-contrast: more){.in-f:not(:disabled),.fc-chip:not(:disabled){border-color:var(--muted)}}
+.in-f.id{font-family:var(--font-mono)}
+.in-f:hover{border-color:var(--line-strong)}
+.in-f:focus-visible,.in-f.is-focus{outline:2px solid var(--focus);outline-offset:2px}
+.in-f[aria-invalid="true"]{border-color:var(--crit-fill)}
+.in-f:disabled{background:var(--bg);border-color:var(--line-soft);color:var(--muted);cursor:not-allowed}
+.in-v{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.in-chev{flex-shrink:0;margin-right:-2px;color:var(--muted)}
+.in-msg{margin:0;display:flex;align-items:flex-start;gap:var(--space-2);font:400 12.5px/1.4 var(--font-sans);color:var(--muted)}
+.in-msg.crit{color:var(--crit)}
+.fc{display:flex;flex-wrap:wrap;gap:var(--space-2)}
+.fc-chip{position:relative;box-sizing:border-box;display:inline-flex;align-items:center;gap:var(--space-2);height:var(--chip-h);margin:0;padding:0 var(--chip-x);border:1px solid var(--line);border-radius:var(--radius-pill);background:var(--surface);font:500 13px/1.3 var(--font-sans);color:var(--muted);white-space:nowrap;cursor:pointer}
+[data-density="spacious"] .fc-chip::after{content:"";position:absolute;left:0;right:0;top:-4px;bottom:-4px}
+.fc-n{font:500 11px/1.3 var(--font-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.fc-chip:hover{color:var(--ink);border-color:var(--line-strong)}
+.fc-chip:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.fc-chip[aria-checked="true"]{color:var(--ink);background:var(--surface-tint);border-color:var(--accent)}
+@media (max-width: 479.98px){.in-f,.in-f.id{font-size:16px}}
+.fc-ck{flex-shrink:0;margin-right:calc(-1 * var(--space-1));color:var(--accent)}
+</style>
+<div class="pv-grid">
+  <div class="pv-cell" data-density="comfortable"><span class="pv-cap">Comfortable · filled, keyboard on Milestone</span>
+    <form class="fm" action="#" aria-labelledby="f-1-t">
+      <div class="fm-head"><h2 id="f-1-t">Change scope</h2><span>vercel/next.js · v16.2</span></div>
+      <div class="fm-body">
+        <div class="in-grp"><label class="in-lbl" for="f-1-r">Repository</label><input class="in-f id" id="f-1-r" type="text" value="vercel/next.js" aria-describedby="f-1-r-m"><p class="in-msg" id="f-1-r-m">Any public repo, as owner/name or a github.com link</p></div>
+        <div class="in-grp"><label class="in-lbl" id="f-1-ms-l" for="f-1-ms">Milestone</label><button class="in-f is-focus" id="f-1-ms" type="button" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="f-1-ms-l f-1-ms-v"><span class="in-v" id="f-1-ms-v">v16.2</span><svg class="in-chev" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></button></div>
+        <div class="in-grp"><span class="in-lbl" id="f-1-w">Window</span><div class="fc" role="radiogroup" aria-labelledby="f-1-w">
+          <button class="fc-chip" type="button" role="radio" aria-checked="false" tabindex="-1">7 days<span class="fc-n">46</span></button>
+          <button class="fc-chip" type="button" role="radio" aria-checked="true"><svg class="fc-ck" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.25l2.25 2.25 4.75-5"/></svg>30 days<span class="fc-n">188</span></button>
+          <button class="fc-chip" type="button" role="radio" aria-checked="false" tabindex="-1">90 days<span class="fc-n">521</span></button>
+        </div></div>
+      </div>
+      <div class="fm-acts"><button class="fm-btn primary" type="submit">Ask again</button><button class="fm-btn" type="reset">Reset</button><span class="fm-note">replaces this screen</span></div>
+    </form></div>
+  <div class="pv-cell" data-density="comfortable"><span class="pv-cap">Comfortable · error, focus moved to Repository</span>
+    <form class="fm" action="#" aria-labelledby="f-2-t">
+      <div class="fm-head"><h2 id="f-2-t">Change scope</h2><span>vercel/next.js · v16.2</span></div>
+      <div class="fm-body">
+        <div class="in-grp"><label class="in-lbl" for="f-2-r">Repository</label><input class="in-f id is-focus" id="f-2-r" type="text" value="vercel/nextjs" aria-invalid="true" aria-describedby="f-2-r-m"><p class="in-msg crit" id="f-2-r-m"><span class="pv-mk crit" aria-hidden="true"></span><span>That repo is private or doesn't exist</span></p></div>
+        <div class="in-grp"><label class="in-lbl off" id="f-2-ms-l" for="f-2-ms">Milestone</label><button class="in-f" id="f-2-ms" type="button" role="combobox" aria-haspopup="listbox" aria-expanded="false" disabled aria-describedby="f-2-ms-m" aria-labelledby="f-2-ms-l f-2-ms-v"><span class="in-v" id="f-2-ms-v">Choose a milestone</span><svg class="in-chev" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></button><p class="in-msg" id="f-2-ms-m">Milestones load once the repo checks out</p></div>
+        <div class="in-grp"><span class="in-lbl" id="f-2-w">Window</span><div class="fc" role="radiogroup" aria-labelledby="f-2-w">
+          <button class="fc-chip" type="button" role="radio" aria-checked="false" tabindex="-1">7 days<span class="fc-n">46</span></button>
+          <button class="fc-chip" type="button" role="radio" aria-checked="true"><svg class="fc-ck" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.25l2.25 2.25 4.75-5"/></svg>30 days<span class="fc-n">188</span></button>
+          <button class="fc-chip" type="button" role="radio" aria-checked="false" tabindex="-1">90 days<span class="fc-n">521</span></button>
+        </div></div>
+      </div>
+      <div class="fm-acts"><button class="fm-btn primary" type="submit">Ask again</button><button class="fm-btn" type="reset">Reset</button><span class="fm-note">replaces this screen</span></div>
+    </form></div>
+  <div class="pv-cell" data-density="compact"><span class="pv-cap">Compact · filled · 36px fields and buttons</span>
+    <form class="fm" action="#" aria-labelledby="f-3-t">
+      <div class="fm-head"><h2 id="f-3-t">Change scope</h2><span>vercel/next.js · v16.2</span></div>
+      <div class="fm-body">
+        <div class="in-grp"><label class="in-lbl" for="f-3-r">Repository</label><input class="in-f id" id="f-3-r" type="text" value="vercel/next.js" aria-describedby="f-3-r-m"><p class="in-msg" id="f-3-r-m">Any public repo, as owner/name or a github.com link</p></div>
+        <div class="in-grp"><label class="in-lbl" id="f-3-ms-l" for="f-3-ms">Milestone</label><button class="in-f" id="f-3-ms" type="button" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="f-3-ms-l f-3-ms-v"><span class="in-v" id="f-3-ms-v">v16.2</span><svg class="in-chev" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></button></div>
+        <div class="in-grp"><span class="in-lbl" id="f-3-w">Window</span><div class="fc" role="radiogroup" aria-labelledby="f-3-w">
+          <button class="fc-chip" type="button" role="radio" aria-checked="false" tabindex="-1">7 days<span class="fc-n">46</span></button>
+          <button class="fc-chip" type="button" role="radio" aria-checked="true"><svg class="fc-ck" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.25l2.25 2.25 4.75-5"/></svg>30 days<span class="fc-n">188</span></button>
+          <button class="fc-chip" type="button" role="radio" aria-checked="false" tabindex="-1">90 days<span class="fc-n">521</span></button>
+        </div></div>
+      </div>
+      <div class="fm-acts"><button class="fm-btn primary" type="submit">Ask again</button><button class="fm-btn" type="reset">Reset</button><span class="fm-note">replaces this screen</span></div>
+    </form></div>
+  <div class="pv-cell" data-density="spacious"><span class="pv-cap">Spacious · filled · 44px fields and buttons</span>
+    <form class="fm" action="#" aria-labelledby="f-4-t">
+      <div class="fm-head"><h2 id="f-4-t">Change scope</h2><span>vercel/next.js · v16.2</span></div>
+      <div class="fm-body">
+        <div class="in-grp"><label class="in-lbl" for="f-4-r">Repository</label><input class="in-f id" id="f-4-r" type="text" value="vercel/next.js" aria-describedby="f-4-r-m"><p class="in-msg" id="f-4-r-m">Any public repo, as owner/name or a github.com link</p></div>
+        <div class="in-grp"><label class="in-lbl" id="f-4-ms-l" for="f-4-ms">Milestone</label><button class="in-f" id="f-4-ms" type="button" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="f-4-ms-l f-4-ms-v"><span class="in-v" id="f-4-ms-v">v16.2</span><svg class="in-chev" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></button></div>
+        <div class="in-grp"><span class="in-lbl" id="f-4-w">Window</span><div class="fc" role="radiogroup" aria-labelledby="f-4-w">
+          <button class="fc-chip" type="button" role="radio" aria-checked="false" tabindex="-1">7 days<span class="fc-n">46</span></button>
+          <button class="fc-chip" type="button" role="radio" aria-checked="true"><svg class="fc-ck" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.25l2.25 2.25 4.75-5"/></svg>30 days<span class="fc-n">188</span></button>
+          <button class="fc-chip" type="button" role="radio" aria-checked="false" tabindex="-1">90 days<span class="fc-n">521</span></button>
+        </div></div>
+      </div>
+      <div class="fm-acts"><button class="fm-btn primary" type="submit">Ask again</button><button class="fm-btn" type="reset">Reset</button><span class="fm-note">replaces this screen</span></div>
+    </form></div>
+</div>

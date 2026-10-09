@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Carrying</title>
+
+<link rel="stylesheet" href="genui.css">
+<link rel="stylesheet" href="shell.css">
+</head>
+<body>
+
+
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#fcfaf8}
+/* Insight (insight-canvas States) */
+.in{position:relative;display:flex;flex-direction:column;gap:var(--space-2);padding-left:calc(var(--inset) + 1px);font-size:var(--insight)}
+[data-density="compact"] .in{gap:var(--space-1)}
+[data-density="spacious"] .in{gap:var(--space-3)}
+.in-rule{position:absolute;left:0;top:.34em;bottom:4px;width:3px;border-radius:var(--radius-pill);background:linear-gradient(180deg,var(--accent),var(--accent-2))}
+.in p{margin:0}
+.in-text{max-width:60ch;text-wrap:pretty;font-size:var(--insight);line-height:1.35;font-weight:500;color:var(--ink)}
+.in-text code{font-family:var(--font-mono);font-size:.85em;font-weight:500}
+.in-src{display:flex;align-items:baseline;gap:var(--space-3);font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+/* Metric (DS preview) */
+.mt{position:relative;overflow:hidden;display:flex;flex-direction:column;padding:var(--card-y) var(--inset) calc(var(--card-y) + 3px);background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius-lg);box-shadow:var(--card)}
+.mt-l{font-size:13px;line-height:1.3;font-weight:500;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mt-v{margin-top:var(--space-1);display:flex;align-items:baseline;gap:var(--space-2);font-size:var(--num);line-height:1;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.mt-v small{font:400 var(--suffix)/1 var(--font-mono);letter-spacing:0;color:var(--muted)}
+.mt-d{margin-top:var(--stack);display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-3);font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.mt-d.crit{color:var(--crit)}.mt-d.good{color:var(--good)}
+.mt-bar{position:absolute;left:0;right:var(--inset);bottom:0;height:3px;border-radius:0 var(--radius-pill) var(--radius-pill) 0;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+/* ContributorRank (ContributorRank sheet) */
+[data-density]{--cr-gap:var(--space-2)}
+[data-density="compact"]{--cr-gap:var(--space-1)}
+.cr ol{margin:0;padding:0;list-style:none}
+.cr li{position:relative;padding:0 var(--space-2)}
+.cr li+li::before{content:"";position:absolute;left:var(--inset);right:var(--inset);top:0;height:1px;background:var(--line)}
+.cr-row{box-sizing:border-box;display:grid;grid-template-areas:"who" "bar";gap:var(--cr-gap);width:100%;margin:0;padding:var(--row-y) calc(var(--inset) - var(--space-2));border:0;border-radius:var(--radius-md);background:none;color:inherit;font:inherit;text-align:left}
+.cr-row::after{content:"";grid-area:bar;height:var(--space-2);border-radius:0 var(--radius-sm) var(--radius-sm) 0;background:var(--line-soft)}
+button.cr-row{cursor:pointer}
+.cr-who{grid-area:who;display:flex;align-items:baseline;gap:var(--space-3);min-width:0;height:18px}
+.cr-id{flex-grow:1;min-width:0;display:flex;align-items:baseline;gap:var(--space-2);white-space:nowrap;overflow:hidden}
+.cr-id b{flex-shrink:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;font:500 13px/1.35 var(--font-mono);color:var(--ink)}
+.cr-id span{min-width:0;overflow:hidden;text-overflow:ellipsis;font-size:13px;line-height:1.35;color:var(--muted)}
+.cr-n{flex-shrink:0;width:40px;text-align:right;font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.cr-pct{flex-shrink:0;width:36px;text-align:right;font-size:13.5px;line-height:1.3;font-weight:600;font-variant-numeric:tabular-nums}
+.cr-bar{grid-area:bar;position:relative;z-index:1;display:block;min-width:var(--space-2);height:var(--space-2);border-radius:0 var(--radius-sm) var(--radius-sm) 0;background:var(--data-ref)}
+.cr-bar.wall{background:var(--data-1)}
+.cr-wall{display:flex;align-items:flex-start;gap:var(--space-2);padding:var(--row-y) var(--inset)}
+.cr-key{flex-shrink:0;width:var(--space-3);height:var(--space-2);margin-top:4.5px;border-radius:0 var(--radius-sm) var(--radius-sm) 0;background:var(--data-1)}
+.cr-wall .g-mark{margin:3.5px 1px 0}
+.cr-wall p{min-width:0;margin:0;font-size:13px;line-height:1.3;color:var(--muted);text-wrap:pretty}
+.cr-wall p b{font-weight:500;color:var(--ink)}
+.cr-rule{flex:1 0 var(--space-4);height:1px;margin:8px 0 0 var(--space-1);background:var(--line)}
+.cr-wall .g-tag{margin:-1.5px 0 0 var(--space-1)}
+.cr-foot{position:relative;padding:var(--row-y) var(--inset);font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.cr-foot::before{content:"";position:absolute;left:var(--inset);right:var(--inset);top:0;height:1px;background:var(--line)}
+/* Heatmap (Heatmap sheet) */
+[data-density]{--hm-r:4px;--hm-lgap:var(--space-3);--hm-foot:var(--space-4)}
+[data-density="compact"]{--hm-r:3px;--hm-lgap:var(--space-2);--hm-foot:var(--space-3)}
+[data-density="spacious"]{--hm-lgap:var(--space-4);--hm-foot:var(--space-5)}
+.hm-plot{display:grid;grid-template-columns:20px minmax(0,1fr);column-gap:var(--hm-lgap);row-gap:var(--space-2);padding:var(--card-y) var(--inset) 0}
+.hm-days{display:grid;grid-template-rows:repeat(7,minmax(0,1fr));row-gap:2px;font:400 10.5px/1 var(--font-mono);color:var(--muted)}
+.hm-days>span{display:flex;align-items:center}
+.hm-days>.on{color:var(--ink);font-weight:500}
+.hm-field{min-width:0;container-type:inline-size}
+.hm-grid{position:relative;display:grid;grid-template-columns:repeat(24,minmax(0,1fr));grid-auto-rows:calc((100cqw - 46px) / 24);gap:2px}
+:where(.hm-grid,.hm-sw)>:where(i,button){display:block;margin:0;padding:0;border:0;border-radius:var(--hm-r);background:var(--heat-0)}
+.c1{background:var(--heat-1)}.c2{background:var(--heat-2)}.c3{background:var(--heat-3)}.c4{background:var(--heat-4)}.c5{background:var(--heat-5)}
+.pk{position:relative}
+.pk::after{content:"";position:absolute;left:50%;top:50%;width:4px;height:4px;margin:-2px 0 0 -2px;border-radius:50%;background:var(--accent-ink)}
+.hm-hours{grid-column:2;display:grid;grid-template-columns:repeat(24,minmax(0,1fr));column-gap:2px;font:400 10.5px/1 var(--font-mono);color:var(--muted)}
+.hm-hours>span{grid-column:span 3;width:calc((100% - 4px) / 3);text-align:center}
+[data-density="compact"] .hm-hours>span:nth-child(even){visibility:hidden}
+.hm-foot{display:flex;justify-content:space-between;align-items:center;gap:var(--space-3);padding:var(--hm-foot) var(--inset) var(--card-y);font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.hm-legend{display:flex;align-items:center;gap:var(--space-3)}
+.hm-lg{display:flex;align-items:center;gap:var(--space-1)}
+.hm-sw{display:flex;gap:2px}
+.hm-sw>i{width:12px;height:12px;border-radius:3px}
+.hm-pk{display:flex;align-items:center;gap:var(--space-2);white-space:nowrap}
+.hm-pk>i{flex-shrink:0;width:12px;height:12px;border-radius:3px}
+/* Timeline (Timeline sheet) */
+.tl-body{position:relative}
+.tl-day h3{margin:0;padding:var(--card-y) var(--inset) var(--space-1) calc(var(--inset) + 22px);font:500 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.tl-day ol{margin:0;padding:0;list-style:none}
+.tl-day li{position:relative}
+.tl-row{display:block;margin:0 var(--space-2);padding:var(--row-y) calc(var(--inset) - var(--space-2)) var(--row-y) calc(var(--inset) - var(--space-2) + 22px);border-radius:var(--radius-md);color:inherit;text-decoration:none}
+.tl-line{display:flex;align-items:baseline;gap:var(--space-3)}
+.tl-title{flex-grow:1;min-width:0;font-size:13.5px;line-height:1.3;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tl-size{flex-shrink:0;display:flex;gap:var(--space-1);font:500 11px/1.3 var(--font-mono)}
+.tl-size .add{color:var(--good)}
+.tl-size .del{min-width:4ch;text-align:right;color:var(--crit)}
+.tl-meta{display:block;margin-top:2px;font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tl-node{position:absolute;z-index:1;left:calc(var(--inset) + 1.5px);top:calc(var(--row-y) + 5.775px);width:6px;height:6px;border-radius:50%;background:var(--muted);box-shadow:0 0 0 2px var(--surface)}
+.tl-node.now{left:calc(var(--inset) + .5px);top:calc(var(--row-y) + 4.775px);width:8px;height:8px;background:var(--accent)}
+.tl-spine{position:absolute;left:calc(var(--inset) + 4px);width:1px;top:calc(var(--card-y) + var(--space-1) + var(--row-y) + 24.875px);bottom:calc(var(--row-y) + 26.875px);background:var(--line)}
+/* page: a third card stacks under the chart card so the pair ends near level */
+.ca-col{display:flex;flex-direction:column;gap:var(--space-4);min-width:0}
+@media (max-width:639px){
+/* page: the punch card keeps a legible cell and scrolls inside its own card; days stay put */
+.ca-hm .hm-plot{grid-template-columns:20px minmax(430px,1fr);overflow-x:auto;overscroll-behavior-x:contain}
+.ca-hm .hm-days{position:sticky;left:0;z-index:1;box-shadow:calc(-1 * var(--inset)) 0 0 var(--surface);background:var(--surface)}
+.ca-hm .hm-foot{flex-direction:column;align-items:flex-start;gap:var(--space-2)}
+}
+</style>
+
+<div class="sc-page" data-density="spacious">
+
+<header class="sc-wrap">
+<div class="sc-top">
+<a class="sc-wordmark" href="#">Generative UI</a>
+<nav class="sc-nav" aria-label="Site">
+<a href="#">Catalog</a>
+<a href="#">Evals</a>
+<a href="#">About</a>
+<a href="https://github.com/">GitHub<svg class="sc-ext" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8L8 4"/><path d="M4.5 4H8V7.5"/></svg></a>
+</nav>
+</div>
+</header>
+
+<main class="sc-wrap sc-main">
+
+<header class="sc-chrome">
+<div class="sc-chrome-top">
+<div>
+<div class="sc-eyebrow"><span class="sc-chip repo">facebook/react</span><span class="sc-chip">branch main</span><span class="sc-eyebrow-note">asked just now</span></div>
+<h1 class="sc-question">Who's carrying this repo?</h1>
+</div>
+<div class="sc-built">
+<span class="sc-built-num">1.9<small>s</small></span>
+<span class="sc-built-meta">composed by Haiku · 7 components</span>
+<span class="sc-built-meta">template bus-factor</span>
+</div>
+</div>
+<nav class="sc-qchips" aria-label="Ask next">
+<a class="sc-qchip" href="#">Who should review this PR?</a>
+<a class="sc-qchip" href="#">Is review wait better or worse than last month?</a>
+<a class="sc-qchip" href="#">What merged this week?</a>
+<a class="sc-qchip" href="#">Which files change the most?</a>
+</nav>
+</header>
+
+<div class="in"><span class="in-rule" aria-hidden="true"></span><p class="in-text">Two people carry React: <code>sebmarkbage</code> and <code>josephsavona</code> merged 54% of the 412 commits to <code>main</code> in the last 90 days.</p><p class="in-src">from 412 merged commits by 34 authors · last 90 days</p></div>
+
+<section class="sc-metrics" style="--sc-cols: 3" aria-label="Key numbers">
+<div class="mt"><span class="mt-l">Active contributors · 90 days</span><span class="mt-v">34</span><span class="mt-d">8 with 10 or more commits</span><span class="mt-bar" aria-hidden="true"></span></div>
+<div class="mt"><span class="mt-l">Share of commits by top 2</span><span class="mt-v">54<small>%</small></span><span class="mt-d">223 of 412 commits</span><span class="mt-bar" aria-hidden="true"></span></div>
+<div class="mt"><span class="mt-l">Median review wait · core team</span><span class="mt-v">7.4<small>h</small></span><span class="mt-d crit">up from 5.1h the 90 days before</span><span class="mt-bar" aria-hidden="true"></span></div>
+</section>
+
+<div class="sc-split is-level">
+<section class="g-card cr" aria-label="Two people, sebmarkbage and josephsavona, carry 54% of merged commits in the last 90 days"><div class="g-head"><h2>Merged commits by author</h2><span>last 90 days · 412 commits</span></div>
+<ol>
+<li><div class="cr-row"><span class="cr-who"><span class="cr-id"><b>sebmarkbage</b><span>Sebastian Markbåge</span></span><span class="cr-n">128</span><span class="cr-pct">31%</span></span><span class="cr-bar wall" style="width: 100%" aria-hidden="true"></span></div></li>
+<li><div class="cr-row"><span class="cr-who"><span class="cr-id"><b>josephsavona</b><span>Joe Savona</span></span><span class="cr-n">95</span><span class="cr-pct">23%</span></span><span class="cr-bar wall" style="width: 74.22%" aria-hidden="true"></span></div></li>
+</ol>
+<div class="cr-wall"><span class="cr-key" aria-hidden="true"></span><p><b>Bus factor 2</b> · these two carry 54% of merged commits</p><span class="cr-rule" aria-hidden="true"></span></div>
+<ol start="3">
+<li><div class="cr-row"><span class="cr-who"><span class="cr-id"><b>eps1lon</b><span>Sebastian Silbermann</span></span><span class="cr-n">45</span><span class="cr-pct">11%</span></span><span class="cr-bar" style="width: 35.16%" aria-hidden="true"></span></div></li>
+<li><div class="cr-row"><span class="cr-who"><span class="cr-id"><b>poteto</b><span>Lauren Tan</span></span><span class="cr-n">33</span><span class="cr-pct">8%</span></span><span class="cr-bar" style="width: 25.78%" aria-hidden="true"></span></div></li>
+<li><div class="cr-row"><span class="cr-who"><span class="cr-id"><b>mofeiZ</b><span>Mofei Zhang</span></span><span class="cr-n">29</span><span class="cr-pct">7%</span></span><span class="cr-bar" style="width: 22.66%" aria-hidden="true"></span></div></li>
+<li><div class="cr-row"><span class="cr-who"><span class="cr-id"><b>acdlite</b><span>Andrew Clark</span></span><span class="cr-n">21</span><span class="cr-pct">5%</span></span><span class="cr-bar" style="width: 16.41%" aria-hidden="true"></span></div></li>
+<li><div class="cr-row"><span class="cr-who"><span class="cr-id"><b>rickhanlonii</b><span>Ricky Hanlon</span></span><span class="cr-n">13</span><span class="cr-pct">3%</span></span><span class="cr-bar" style="width: 10.16%" aria-hidden="true"></span></div></li>
+<li><div class="cr-row"><span class="cr-who"><span class="cr-id"><b>jackpope</b><span>Jack Pope</span></span><span class="cr-n">12</span><span class="cr-pct">3%</span></span><span class="cr-bar" style="width: 9.38%" aria-hidden="true"></span></div></li>
+</ol>
+<div class="cr-foot">26 more authors share the other 9% · 36 commits</div>
+</section>
+
+<div class="ca-col">
+<div class="g-card ca-hm"><div class="g-head"><h2>When commits land</h2><span>last 12 weeks · MDT</span></div>
+<div class="hm-plot" role="group" aria-label="Commits land most from 11:00 to 16:00 on weekdays, peaking Tuesday at 13:00, with a smaller early band from Europe.">
+<div class="hm-days" aria-hidden="true"><span>Mon</span><span class="on">Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
+<div class="hm-field"><div class="hm-grid">
+<i></i><i></i><i class="c1"></i><i class="c1"></i><i class="c2"></i><i class="c2"></i><i class="c1"></i><i class="c1"></i><i></i><i class="c2"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i><i class="c5"></i><i class="c4"></i><i class="c3"></i><i class="c2"></i><i class="c2"></i><i class="c1"></i><i></i><i class="c1"></i><i></i><i class="c1"></i><i></i>
+<i></i><i></i><i class="c1"></i><i class="c2"></i><i class="c2"></i><i class="c2"></i><i class="c2"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c5"></i><i class="c5 pk"></i><i class="c4"></i><i class="c4"></i><i class="c2"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i></i><i></i><i></i><i class="c1"></i>
+<i class="c1"></i><i></i><i class="c2"></i><i class="c1"></i><i class="c2"></i><i class="c2"></i><i class="c1"></i><i class="c1"></i><i></i><i class="c2"></i><i class="c3"></i><i class="c3"></i><i class="c4"></i><i class="c4"></i><i class="c4"></i><i class="c3"></i><i class="c2"></i><i class="c2"></i><i class="c1"></i><i class="c1"></i><i></i><i></i><i></i><i class="c1"></i>
+<i></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c2"></i><i class="c2"></i><i class="c1"></i><i class="c1"></i><i></i><i class="c1"></i><i class="c2"></i><i class="c4"></i><i class="c4"></i><i class="c4"></i><i class="c4"></i><i class="c4"></i><i class="c2"></i><i class="c2"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i></i><i></i>
+<i></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c3"></i><i class="c3"></i><i class="c4"></i><i class="c4"></i><i class="c3"></i><i class="c2"></i><i class="c1"></i><i class="c1"></i><i></i><i class="c1"></i><i class="c1"></i><i class="c1"></i><i class="c1"></i>
+<i></i><i></i><i></i><i class="c1"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="c1"></i><i></i><i class="c2"></i><i class="c1"></i><i></i><i></i><i></i><i></i><i></i><i class="c1"></i><i class="c1"></i>
+<i></i><i></i><i></i><i></i><i></i><i></i><i class="c1"></i><i></i><i></i><i class="c1"></i><i class="c1"></i><i></i><i class="c1"></i><i></i><i class="c1"></i><i class="c2"></i><i class="c1"></i><i class="c1"></i><i></i><i></i><i></i><i class="c1"></i><i></i><i class="c1"></i>
+</div></div>
+<div class="hm-hours" aria-hidden="true"><span>00</span><span>03</span><span>06</span><span>09</span><span>12</span><span>15</span><span>18</span><span>21</span></div>
+</div>
+<div class="hm-foot"><span class="hm-legend" aria-hidden="true"><span class="hm-lg">0<span class="hm-sw"><i></i></span></span><span class="hm-lg">1<span class="hm-sw"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i><i class="c5"></i></span>9</span></span><span class="hm-pk"><i class="c5 pk" aria-hidden="true"></i>Peak · Tue 13:00 · 9 commits</span></div>
+</div>
+
+<section class="g-card tl" aria-label="Latest merges by the top two"><div class="g-head"><h2>Latest merges by the top two</h2><span>last 7 days</span></div><div class="tl-body">
+<div class="tl-day"><h3>Today</h3><ol>
+<li><a class="tl-row" href="https://github.com/facebook/react/pull/35214"><span class="tl-node now" aria-hidden="true"></span><span class="tl-line"><span class="tl-title">[compiler] Hoist stable refs out of reactive scopes</span><span class="tl-size" aria-hidden="true"><span class="add">+142</span><span class="del">−38</span></span></span><span class="tl-meta">#35214 · josephsavona · merged 3h ago</span><span class="g-sr">142 lines added, 38 removed</span></a></li>
+</ol></div>
+<div class="tl-day"><h3>Yesterday</h3><ol>
+<li><a class="tl-row" href="https://github.com/facebook/react/pull/35209"><span class="tl-node" aria-hidden="true"></span><span class="tl-line"><span class="tl-title">[Fizz] Flush completed boundaries in document order</span><span class="tl-size" aria-hidden="true"><span class="add">+96</span><span class="del">−41</span></span></span><span class="tl-meta">#35209 · sebmarkbage · merged 1d ago</span><span class="g-sr">96 lines added, 41 removed</span></a></li>
+</ol></div>
+<div class="tl-day"><h3>Tue Oct 6</h3><ol>
+<li><a class="tl-row" href="https://github.com/facebook/react/pull/35198"><span class="tl-node" aria-hidden="true"></span><span class="tl-line"><span class="tl-title">[Flight] Dedupe server references across chunks</span><span class="tl-size" aria-hidden="true"><span class="add">+211</span><span class="del">−87</span></span></span><span class="tl-meta">#35198 · sebmarkbage · merged 2d ago</span><span class="g-sr">211 lines added, 87 removed</span></a></li>
+</ol></div>
+<span class="tl-spine" aria-hidden="true"></span>
+</div></section>
+</div>
+</div>
+
+<footer class="sc-strip" aria-label="Build receipt">
+<span>read <b>5 GitHub endpoints</b> · 1 live · 4 cached</span>
+<span>fetch <b>0.71&#160;s</b> · compose <b>0.95&#160;s</b> · render <b>0.24&#160;s</b></span>
+<span>composed in <b>1.9&#160;s</b></span>
+<button class="g-link sc-strip-end" type="button" aria-expanded="false">How this was built</button>
+</footer>
+
+</main>
+
+<footer class="sc-wrap sc-foot">Public repos only · nothing is stored beyond a cache of GitHub's public stats · no account needed</footer>
+
+<form class="sc-tray" role="search" aria-label="Ask about facebook/react">
+<label class="sc-ask"><span class="g-sr">Ask another question about facebook/react</span><input type="text" placeholder="Ask another question about facebook/react"></label>
+<button class="sc-send" type="submit" aria-label="Ask" aria-disabled="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13V3"/><path d="M4 7l4-4 4 4"/></svg></button>
+<span class="sc-tray-rule" aria-hidden="true"></span>
+<div class="sc-density" role="radiogroup" aria-label="Density"><button class="sc-seg" type="button" role="radio" aria-checked="false">Compact</button><button class="sc-seg" type="button" role="radio" aria-checked="false">Comfortable</button><button class="sc-seg" type="button" role="radio" aria-checked="true">Spacious</button></div>
+</form>
+
+</div>
+
+</body>
+</html>

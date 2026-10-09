@@ -1,0 +1,68 @@
+.page {
+  max-width: 72ch;
+  margin-inline: auto;
+  padding: var(--space-8) var(--inset);
+  display: grid;
+  gap: var(--space-6);
+}
+
+.title {
+  margin: 0;
+  max-width: 22ch;
+  text-wrap: balance;
+  font-family: var(--font-sans);
+  font-size: var(--text-question-size);
+  line-height: var(--text-question-leading);
+  font-weight: var(--text-question-weight);
+  letter-spacing: var(--text-question-tracking);
+  color: var(--ink);
+}
+
+.lead {
+  margin: 0;
+  font-size: var(--text-lead-size);
+  line-height: var(--text-lead-leading);
+  font-weight: var(--text-lead-weight);
+  color: var(--muted);
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--card);
+}
+
+.cardHeader {
+  padding: var(--card-y) var(--inset);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: var(--text-card-title-size);
+  line-height: var(--text-card-title-leading);
+  font-weight: var(--text-card-title-weight);
+  letter-spacing: var(--text-card-title-tracking);
+  color: var(--ink);
+}
+
+.cardBody {
+  padding: var(--card-y) var(--inset);
+  display: grid;
+  gap: var(--space-1);
+}
+
+.failed {
+  margin: 0;
+  color: var(--ink);
+}
+
+.meta {
+  margin: 0;
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+  color: var(--muted);
+}

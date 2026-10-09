@@ -1,0 +1,118 @@
+<!-- @dsCard group="Data" height=1240 width=1400 subtitle="three densities · states, empty and skeleton · error, warming" -->
+<style>
+body{margin:0;padding:16px;background:var(--bg);color:var(--ink);font-family:var(--font-sans);font-variant-numeric:tabular-nums}
+.rows{display:grid;gap:20px}
+.row{display:grid;gap:8px}
+.row>h3{margin:0;font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:var(--space-4);align-items:start}
+.stack{display:grid;gap:var(--space-4)}
+.sl{--inset:var(--space-5);--head-t:var(--space-4);--head-b:var(--space-3);--row-y:var(--space-3);position:relative;overflow:hidden;background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius-lg);box-shadow:var(--card)}
+[data-density="compact"] .sl{--inset:var(--space-4);--head-t:var(--space-3);--head-b:var(--space-2);--row-y:var(--space-2)}
+[data-density="spacious"] .sl{--inset:var(--space-6);--head-t:var(--space-5);--head-b:var(--space-4);--row-y:var(--space-4)}
+.head{display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-3);padding:var(--head-t) var(--inset) var(--head-b);border-bottom:1px solid var(--line-soft)}
+.head h2{margin:0;font-size:13px;line-height:1.3;font-weight:600;letter-spacing:.01em}
+.head>span{font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+ul{margin:0;padding:0;list-style:none}
+li{position:relative;display:flex;align-items:center;gap:var(--space-3);padding:var(--row-y) var(--inset)}
+li+li::before{content:"";position:absolute;left:var(--inset);right:var(--inset);top:0;height:1px;background:var(--line)}
+.mark{align-self:flex-start;flex-shrink:0;box-sizing:border-box;width:10px;height:10px;margin-top:3.75px;border-radius:50%;border:1.5px solid var(--good-fill)}
+.mark.warn{border-style:dashed;border-color:var(--warn-fill)}
+.mark.crit{border-color:var(--crit-fill);background:var(--crit-fill)}
+.mark.neutral,.mark.unavailable{border-color:var(--muted)}
+.mark{position:relative}
+.mark.unavailable::after{content:"";position:absolute;left:50%;top:-1.5px;bottom:-1.5px;width:1.5px;margin-left:-.75px;background:var(--muted);transform:rotate(45deg)}
+.mark.warming{border-color:var(--line)}
+.mark.warming::after{content:"";position:absolute;inset:-1.5px;border-radius:50%;border:1.5px solid transparent;border-top-color:var(--accent);border-right-color:var(--accent)}
+.t b.quiet{color:var(--muted)}
+.retry{flex-shrink:0;white-space:nowrap;margin:0;padding:0;border:0;background:none;font:500 13px/1.3 var(--font-sans);color:var(--accent-text);text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--accent-text) 35%,transparent);text-underline-offset:3px;cursor:pointer;border-radius:4px}
+.retry:hover{text-decoration-color:currentColor}.retry:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.progress{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--line-soft)}
+.progress>span{position:absolute;left:0;top:0;bottom:0;border-radius:0 var(--radius-pill) var(--radius-pill) 0;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-4);align-items:start}
+.t{flex-grow:1;min-width:0;display:grid;gap:2px}
+.t b{font-size:13.5px;line-height:1.3;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t i{font:normal 400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.size{flex-shrink:0;display:flex;gap:4px;font:500 11px/1.3 var(--font-mono)}
+.add{color:var(--good)}.del{color:var(--crit)}
+.tag{flex-shrink:0;padding:3px 8px;border-radius:var(--radius-pill);font:500 11px/1.3 var(--font-mono);white-space:nowrap;background:color-mix(in srgb,currentColor 10%,transparent)}
+.tag.good{color:var(--good)}.tag.warn{color:var(--warn)}.tag.crit{color:var(--crit)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.sk .head{align-items:center;height:17px}
+.sk .bl{display:block;border-radius:var(--radius-sm);background:var(--line-soft)}
+.sk .mk{align-self:flex-start;flex-shrink:0;width:10px;height:10px;margin-top:3.75px;border-radius:50%;background:var(--line-soft)}
+.sk .ln{flex-grow:1;min-width:0;display:grid;gap:2px}
+.sk .ln>span{height:17.5px;display:flex;align-items:center}
+.sk .ln>span+span{height:16px}
+.sk .ln>span::before{content:"";display:block;width:var(--w);height:9px;border-radius:var(--radius-sm);background:var(--line-soft)}
+.sk .ln>span+span::before{height:7px}
+.sk .pill{flex-shrink:0;width:96px;height:20px;border-radius:var(--radius-pill);background:var(--line-soft)}
+</style>
+<div class="rows">
+  <section class="row" data-density="compact">
+    <h3>Compact</h3>
+    <div class="grid">
+      <div class="sl"><div class="head"><h2>Milestone pull requests</h2><span>sorted by age</span></div><ul>
+        <li><span class="mark warn" aria-hidden="true"></span><span class="t"><b>Turbopack: fix CSS chunk ordering in app router</b><i>#84120 · sokra · opened 6d ago</i></span><span class="size"><span class="add">+412</span><span class="del">−96</span></span><span class="tag warn">review pending</span></li>
+        <li><span class="mark crit" aria-hidden="true"></span><span class="t"><b>Cache components: stale revalidation on nested layouts</b><i>#84077 · acdlite · opened 5d ago</i></span><span class="size"><span class="add">+218</span><span class="del">−140</span></span><span class="tag crit">changes requested</span></li>
+        <li><span class="mark crit" aria-hidden="true"></span><span class="t"><b>Router: prefetch drops search params on redirect</b><i>#84156 · huozhi · opened 4d ago</i></span><span class="size"><span class="add">+96</span><span class="del">−31</span></span><span class="tag crit">checks failing</span></li>
+        <li><span class="mark" aria-hidden="true"></span><span class="t"><b>Docs: app router migration guide, section 4</b><i>#84190 · delbaoliveira · opened 3d ago</i></span><span class="size"><span class="add">+540</span><span class="del">−0</span></span><span class="tag good">approved</span></li>
+      </ul></div>
+      <div class="stack">
+        <div class="sl"><div class="head"><h2>Milestone pull requests</h2><span>none open</span></div><ul><li><span class="mark" aria-hidden="true"></span><span class="t"><b>No open pull requests on v16.2</b><i>last merged 2h ago · #84112</i></span></li></ul></div>
+        <div class="sl"><div class="head"><h2>Releases on v16.x</h2><span>none yet</span></div><ul><li><span class="mark neutral" aria-hidden="true"></span><span class="t"><b>Nothing tagged on v16.x yet</b><i>latest release is v15.5 · 6 weeks ago</i></span></li></ul></div>
+      </div>
+      <div class="sl sk" aria-busy="true"><span class="sr">Loading pull requests.</span><div class="head" aria-hidden="true"><span class="bl" style="width:160px;height:9px"></span><span class="bl" style="width:72px;height:7px"></span></div><ul aria-hidden="true">
+        <li><span class="mk"></span><span class="ln"><span style="--w:68%"></span><span style="--w:38%"></span></span><span class="pill"></span></li>
+        <li><span class="mk"></span><span class="ln"><span style="--w:54%"></span><span style="--w:42%"></span></span><span class="pill"></span></li>
+        <li><span class="mk"></span><span class="ln"><span style="--w:61%"></span><span style="--w:34%"></span></span><span class="pill"></span></li>
+      </ul></div>
+    </div>
+  </section>
+  <section class="row" data-density="comfortable">
+    <h3>Comfortable</h3>
+    <div class="grid">
+      <div class="sl"><div class="head"><h2>Milestone pull requests</h2><span>sorted by age</span></div><ul>
+        <li><span class="mark warn" aria-hidden="true"></span><span class="t"><b>Turbopack: fix CSS chunk ordering in app router</b><i>#84120 · sokra · opened 6d ago</i></span><span class="size"><span class="add">+412</span><span class="del">−96</span></span><span class="tag warn">review pending</span></li>
+        <li><span class="mark crit" aria-hidden="true"></span><span class="t"><b>Cache components: stale revalidation on nested layouts</b><i>#84077 · acdlite · opened 5d ago</i></span><span class="size"><span class="add">+218</span><span class="del">−140</span></span><span class="tag crit">changes requested</span></li>
+        <li><span class="mark crit" aria-hidden="true"></span><span class="t"><b>Router: prefetch drops search params on redirect</b><i>#84156 · huozhi · opened 4d ago</i></span><span class="size"><span class="add">+96</span><span class="del">−31</span></span><span class="tag crit">checks failing</span></li>
+        <li><span class="mark" aria-hidden="true"></span><span class="t"><b>Docs: app router migration guide, section 4</b><i>#84190 · delbaoliveira · opened 3d ago</i></span><span class="size"><span class="add">+540</span><span class="del">−0</span></span><span class="tag good">approved</span></li>
+      </ul></div>
+      <div class="stack">
+        <div class="sl"><div class="head"><h2>Milestone pull requests</h2><span>none open</span></div><ul><li><span class="mark" aria-hidden="true"></span><span class="t"><b>No open pull requests on v16.2</b><i>last merged 2h ago · #84112</i></span></li></ul></div>
+        <div class="sl"><div class="head"><h2>Releases on v16.x</h2><span>none yet</span></div><ul><li><span class="mark neutral" aria-hidden="true"></span><span class="t"><b>Nothing tagged on v16.x yet</b><i>latest release is v15.5 · 6 weeks ago</i></span></li></ul></div>
+      </div>
+      <div class="sl sk" aria-busy="true"><span class="sr">Loading pull requests.</span><div class="head" aria-hidden="true"><span class="bl" style="width:160px;height:9px"></span><span class="bl" style="width:72px;height:7px"></span></div><ul aria-hidden="true">
+        <li><span class="mk"></span><span class="ln"><span style="--w:68%"></span><span style="--w:38%"></span></span><span class="pill"></span></li>
+        <li><span class="mk"></span><span class="ln"><span style="--w:54%"></span><span style="--w:42%"></span></span><span class="pill"></span></li>
+        <li><span class="mk"></span><span class="ln"><span style="--w:61%"></span><span style="--w:34%"></span></span><span class="pill"></span></li>
+      </ul></div>
+    </div>
+  </section>
+  <section class="row" data-density="spacious">
+    <h3>Spacious</h3>
+    <div class="grid">
+      <div class="sl"><div class="head"><h2>Milestone pull requests</h2><span>sorted by age</span></div><ul>
+        <li><span class="mark warn" aria-hidden="true"></span><span class="t"><b>Turbopack: fix CSS chunk ordering in app router</b><i>#84120 · sokra · opened 6d ago</i></span><span class="size"><span class="add">+412</span><span class="del">−96</span></span><span class="tag warn">review pending</span></li>
+        <li><span class="mark crit" aria-hidden="true"></span><span class="t"><b>Cache components: stale revalidation on nested layouts</b><i>#84077 · acdlite · opened 5d ago</i></span><span class="size"><span class="add">+218</span><span class="del">−140</span></span><span class="tag crit">changes requested</span></li>
+        <li><span class="mark crit" aria-hidden="true"></span><span class="t"><b>Router: prefetch drops search params on redirect</b><i>#84156 · huozhi · opened 4d ago</i></span><span class="size"><span class="add">+96</span><span class="del">−31</span></span><span class="tag crit">checks failing</span></li>
+        <li><span class="mark" aria-hidden="true"></span><span class="t"><b>Docs: app router migration guide, section 4</b><i>#84190 · delbaoliveira · opened 3d ago</i></span><span class="size"><span class="add">+540</span><span class="del">−0</span></span><span class="tag good">approved</span></li>
+      </ul></div>
+      <div class="stack">
+        <div class="sl"><div class="head"><h2>Milestone pull requests</h2><span>none open</span></div><ul><li><span class="mark" aria-hidden="true"></span><span class="t"><b>No open pull requests on v16.2</b><i>last merged 2h ago · #84112</i></span></li></ul></div>
+        <div class="sl"><div class="head"><h2>Releases on v16.x</h2><span>none yet</span></div><ul><li><span class="mark neutral" aria-hidden="true"></span><span class="t"><b>Nothing tagged on v16.x yet</b><i>latest release is v15.5 · 6 weeks ago</i></span></li></ul></div>
+      </div>
+      <div class="sl sk" aria-busy="true"><span class="sr">Loading pull requests.</span><div class="head" aria-hidden="true"><span class="bl" style="width:160px;height:9px"></span><span class="bl" style="width:72px;height:7px"></span></div><ul aria-hidden="true">
+        <li><span class="mk"></span><span class="ln"><span style="--w:68%"></span><span style="--w:38%"></span></span><span class="pill"></span></li>
+        <li><span class="mk"></span><span class="ln"><span style="--w:54%"></span><span style="--w:42%"></span></span><span class="pill"></span></li>
+        <li><span class="mk"></span><span class="ln"><span style="--w:61%"></span><span style="--w:34%"></span></span><span class="pill"></span></li>
+      </ul></div>
+    </div>
+  </section>
+  <section class="row" data-density="comfortable">
+    <h3>Comfortable · error, warming</h3>
+    <div class="pair">
+      <div class="sl"><div class="head"><h2>Milestone pull requests</h2><span>v16.2</span></div><ul><li><span class="mark unavailable" aria-hidden="true"></span><span class="t"><b>Couldn't load pull requests</b><i>GitHub returned 502 · tried twice</i></span><button class="retry" type="button">Try again</button></li></ul></div>
+      <div class="sl" aria-busy="true"><div class="head"><h2>Review wait by pull request</h2><span>last 30 days</span></div><ul><li><span class="mark warming" aria-hidden="true"></span><span class="t"><b class="quiet">GitHub is counting reviews</b><i>usually under a minute · checking again in 12s</i></span></li></ul><span class="progress" aria-hidden="true"><span style="width:38%"></span></span></div>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>About</title>
+
+<link rel="stylesheet" href="genui.css">
+<link rel="stylesheet" href="shell.css">
+</head>
+<body>
+
+
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#fcfaf8}
+/* page: About. No tray on this page, so the tray reserve is released. */
+.sc-page.ab{--ab-rail:340px;--ab-measure:31.5em;padding-bottom:var(--space-7)}
+.ab-main{display:flex;flex-direction:column;padding-top:var(--space-7)}
+.ab-hero{padding-bottom:var(--space-8)}
+.ab-by{margin:var(--space-5) 0 0;font-size:14px;line-height:1.45;color:var(--muted)}
+.ab-by b{font-weight:500;color:var(--ink)}
+
+.ab-sec{display:grid;grid-template-columns:var(--ab-rail) minmax(0,1fr);align-items:baseline;row-gap:var(--space-7);padding-top:var(--space-6);border-top:1px solid var(--line)}
+.ab-sec+.ab-sec{margin-top:var(--space-8)}
+.ab-h{grid-column:1;margin:0;padding-inline:var(--sc-edge);font-size:15px;line-height:1.25;font-weight:600;color:var(--ink)}
+.ab-body{grid-column:2;min-width:0}
+.ab-p{margin:0;padding-inline:var(--sc-edge);max-width:var(--ab-measure);font-size:14px;line-height:1.6;color:var(--ink);text-wrap:pretty}
+.ab-p+.ab-p{margin-top:var(--space-4)}
+.ab-p code{font-family:var(--font-mono);font-size:.86em;font-weight:500}
+
+/* architecture: five placed nodes on one spine, wires and forks drawn as hairline elements */
+.ab-flow{--ab-gut:40px;--ab-spine:calc(var(--card-y) + 10px);grid-column:1 / -1;display:grid;grid-template-columns:minmax(0,.95fr) var(--ab-gut) minmax(0,1.3fr) var(--ab-gut) minmax(0,1.25fr) var(--ab-gut) minmax(0,1.05fr) var(--ab-gut) minmax(0,.95fr);row-gap:var(--space-3);margin:0}
+.ab-band{display:flex;flex-direction:column;gap:var(--space-2);margin:0;grid-row:1}
+.ab-band span{padding-inline:var(--sc-edge);font-size:13px;line-height:1.3;font-weight:500;color:var(--ink)}
+.ab-band i{display:block;height:3px;border-radius:var(--radius-pill);background:var(--data-ref)}
+.ab-band.model i{background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+.ab-band.model{grid-column:3 / 6}
+.ab-band.code{grid-column:7 / 10}
+.ab-n1,.ab-n2,.ab-n3,.ab-n4,.ab-n5,.ab-wire{grid-row:2}
+.ab-n1{grid-column:1}.ab-w1{grid-column:2}.ab-n2{grid-column:3}.ab-w2{grid-column:4}.ab-n3{grid-column:5}.ab-w3{grid-column:6}.ab-n4{grid-column:7}.ab-w4{grid-column:8}.ab-n5{grid-column:9}
+.ab-node{box-sizing:border-box;padding:var(--card-y) var(--inset) calc(var(--card-y) + var(--space-1))}
+.ab-node h3{margin:0;font-size:15px;line-height:1.25;font-weight:600;color:var(--ink)}
+.ab-d{margin:var(--space-1) 0 0;font-size:14px;line-height:1.45;color:var(--muted);text-wrap:pretty}
+.ab-m{margin:var(--space-3) 0 0;font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.ab-node .sc-picks{margin-top:var(--space-4)}
+.ab-wire{position:relative;color:var(--data-ref)}
+.ab-wire::before{content:"";position:absolute;left:4px;right:5px;top:var(--ab-spine);height:1px;background:currentColor}
+.ab-wire svg{position:absolute;right:2px;top:calc(var(--ab-spine) - 4.5px)}
+.ab-fork{position:absolute;box-sizing:border-box;left:calc(var(--ab-gut) / 2);right:5px;top:var(--ab-spine);bottom:calc(50% - 9px - var(--ab-spine));border-left:1px solid currentColor;border-bottom:1px solid currentColor;border-bottom-left-radius:8px}
+.ab-wire svg.ab-fork-head{top:calc(50% + 8px + var(--ab-spine) - 4.5px)}
+.ab-n5{display:flex;flex-direction:column;gap:var(--space-4)}
+.ab-n5>.ab-node{flex:1}
+
+/* the composer's router, drawn as a small tree */
+.ab-route{margin-top:var(--space-4)}
+.ab-route-root{display:grid;row-gap:2px;margin:0}
+.ab-route-root b,.ab-tree b{font-size:13.5px;line-height:1.3;font-weight:500;color:var(--ink)}
+.ab-route-root i,.ab-tree i{font:normal 400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.ab-tree{margin:0;padding:0;list-style:none}
+.ab-tree li{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;column-gap:var(--space-2);row-gap:2px;padding:var(--space-3) 0 0 var(--space-5)}
+.ab-tree li i{grid-column:1 / -1}
+.ab-tree li::before{content:"";position:absolute;left:5px;top:0;width:10px;height:calc(var(--space-3) + 9px);box-sizing:border-box;border-left:1px solid var(--data-ref);border-bottom:1px solid var(--data-ref);border-bottom-left-radius:6px}
+.ab-tree li:not(:last-child)::after{content:"";position:absolute;left:5px;top:0;bottom:0;width:1px;background:var(--data-ref)}
+
+/* the composition payload: keys quiet, the meaning in ink */
+.ab-code{margin:var(--space-4) 0 0;padding:var(--space-3);border-radius:var(--radius-md);background:var(--bg);font:400 12px/1.5 var(--font-mono);font-variant-ligatures:none;color:var(--ink);white-space:pre;overflow:hidden}
+.ab-code i{font-style:normal;color:var(--muted)}
+
+/* principles and refusals */
+.ab-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-6) var(--space-7)}
+.ab-item{padding-inline:var(--sc-edge)}
+.ab-item h3,.ab-dl dt{margin:0;font-size:15px;line-height:1.25;font-weight:600;color:var(--ink)}
+.ab-item p,.ab-dl dd{margin:var(--space-1) 0 0;max-width:var(--ab-measure);font-size:14px;line-height:1.45;color:var(--muted);text-wrap:pretty}
+.ab-dl{margin:0}
+.ab-dl>div{display:grid;grid-template-columns:220px minmax(0,1fr);align-items:baseline;column-gap:var(--space-7);margin-inline:var(--sc-edge);padding:var(--space-4) 0}
+.ab-dl>div:first-child{padding-top:0}
+.ab-dl>div+div{border-top:1px solid var(--line-soft)}
+.ab-dl dd{margin:0}
+
+/* links: rows in one card, the system row hover */
+.ab-links{padding:var(--space-2) 0}
+.ab-link{position:relative;z-index:0;display:grid;grid-template-columns:240px minmax(0,1fr) 12px;align-items:baseline;column-gap:var(--space-5);padding:var(--row-y) var(--inset);color:var(--ink);text-decoration:none}
+.ab-link::before{content:"";position:absolute;z-index:-1;top:2px;bottom:2px;left:var(--space-2);right:var(--space-2);border-radius:var(--radius-md)}
+.ab-link+.ab-link::after{content:"";position:absolute;left:var(--inset);right:var(--inset);top:0;height:1px;background:var(--line)}
+.ab-link:hover::before{background:var(--surface-tint)}
+.ab-link:hover::after,.ab-link:hover+.ab-link::after{opacity:0}
+.ab-link:focus-visible{outline:0}
+.ab-link:focus-visible::before{outline:2px solid var(--focus);outline-offset:2px}
+.ab-link b{font-size:13.5px;line-height:1.3;font-weight:500}
+.ab-link span{min-width:0;font-size:14px;line-height:1.45;color:var(--muted)}
+.ab-link code{min-width:0;font:400 12px/1.5 var(--font-mono);font-variant-ligatures:none;color:var(--muted)}
+.ab-link svg{align-self:center;color:var(--muted)}
+
+@media (max-width:1199px){
+.ab-flow{grid-column:2;grid-template-columns:minmax(0,1fr);row-gap:0;max-width:560px}
+.ab-band.model,.ab-band.code,.ab-n1,.ab-n2,.ab-n3,.ab-n4,.ab-n5,.ab-wire{grid-column:1}
+.ab-n1{grid-row:1}.ab-w1{grid-row:2}.ab-n2{grid-row:3}.ab-w2{grid-row:4}.ab-n3{grid-row:5}.ab-w3{grid-row:6}.ab-n4{grid-row:7}.ab-w4{grid-row:8}.ab-n5{grid-row:9}
+.ab-band.model{grid-row:2}.ab-band.code{grid-row:6}
+.ab-band{flex-direction:row-reverse;justify-content:flex-end;align-items:center;align-self:center;gap:var(--space-2);margin-left:calc(var(--sc-edge) + var(--space-4))}
+.ab-band span{padding:0}
+.ab-band i{width:16px}
+.ab-wire{height:40px}
+.ab-wire::before{left:var(--sc-edge);right:auto;top:4px;bottom:5px;width:1px;height:auto}
+.ab-wire svg{right:auto;top:auto;left:calc(var(--sc-edge) - 4.5px);bottom:2px;transform:rotate(90deg)}
+.ab-fork{left:var(--sc-edge);right:auto;top:12px;bottom:5px;width:calc(50% + 9px);border-left:0;border-top:1px solid currentColor;border-bottom:0;border-right:1px solid currentColor;border-radius:0 8px 0 0}
+.ab-wire svg.ab-fork-head{top:auto;left:calc(50% + 8px + var(--sc-edge) - 4.5px)}
+.ab-n5{flex-direction:row}
+.ab-n5>.ab-node{flex:1 1 0;min-width:0}
+}
+@media (max-width:1023px){
+.ab-sec{grid-template-columns:minmax(0,1fr);row-gap:var(--space-4)}
+.ab-body,.ab-flow{grid-column:1}
+.ab-flow{margin-top:var(--space-3)}
+}
+@media (max-width:639px){
+.ab-hero{padding-bottom:var(--space-7)}
+.ab-sec+.ab-sec{margin-top:var(--space-7)}
+.ab-sec{padding-top:var(--space-5)}
+.ab-grid{grid-template-columns:minmax(0,1fr);gap:var(--space-5)}
+.ab-dl>div{grid-template-columns:minmax(0,1fr);row-gap:var(--space-1)}
+.ab-link{grid-template-columns:minmax(0,1fr) 12px;row-gap:2px}
+.ab-link b{grid-column:1}
+.ab-link span,.ab-link code{grid-column:1;grid-row:2}
+.ab-link svg{grid-column:2;grid-row:1 / span 2}
+}
+</style>
+
+<div class="sc-page ab" data-density="comfortable">
+
+<header class="sc-wrap">
+<div class="sc-top">
+<a class="sc-wordmark" href="#">Generative UI</a>
+<nav class="sc-nav" aria-label="Site">
+<a href="#">Catalog</a>
+<a href="#">Evals</a>
+<a href="#" aria-current="page">About</a>
+<a href="https://github.com/">GitHub<svg class="sc-ext" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8L8 4"/><path d="M4.5 4H8V7.5"/></svg></a>
+</nav>
+</div>
+</header>
+
+<main class="sc-wrap ab-main">
+
+<header class="sc-chrome ab-hero">
+<div class="sc-eyebrow"><span class="sc-eyebrow-note">about · how it was built</span></div>
+<h1 class="sc-question">Model decides, code renders.</h1>
+<p class="ab-by">Built by <b>Brandon Church</b>. Open source, MIT.</p>
+</header>
+
+<section class="ab-sec" aria-labelledby="ab-idea">
+<h2 class="ab-h" id="ab-idea">The idea</h2>
+<div class="ab-body">
+<p class="ab-p">Dashboards are drawn once, for the questions someone expected. This one is drawn for the question you ask. Paste a public GitHub repo, ask what you want to know, and an agent picks components from a fixed catalog and composes an interface around that repo's data. The model decides what to show and what matters most. Code renders it from the same finished pieces every time, so an answer nobody designed still looks designed.</p>
+</div>
+</section>
+
+<section class="ab-sec" aria-labelledby="ab-how">
+<h2 class="ab-h" id="ab-how">How it works</h2>
+<div class="ab-body">
+<p class="ab-p">Every question runs the same five steps, left to right, in the order the screen draws. The twelve common questions match a template, and Haiku fills it in about 1.8&#160;s. Anything else goes to Sonnet, which composes from the whole catalog in about 6&#160;s. Either way the model writes only a composition. Code draws every piece of it.</p>
+</div>
+
+<div class="ab-flow">
+<section class="g-card ab-node ab-n1" aria-labelledby="ab-n1">
+<h3 id="ab-n1">GitHub API</h3>
+<p class="ab-d">Public REST and GraphQL reads for the repo you paste.</p>
+<ul class="sc-picks">
+<li><b>Cache</b><i>public stats only</i></li>
+<li><b>Warming</b><i>a wait while GitHub counts</i></li>
+</ul>
+</section>
+
+<p class="ab-band model"><span>Model decides</span><i aria-hidden="true"></i></p>
+<span class="ab-wire ab-w1" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1l4 4-4 4"/></svg></span>
+
+<section class="g-card ab-node ab-n2" aria-labelledby="ab-n2">
+<h3 id="ab-n2">Composer agent</h3>
+<p class="ab-d">Reads the question and the repo's numbers, then picks and arranges components.</p>
+<div class="ab-route">
+<p class="ab-route-root"><b>Router</b><i>one of the twelve, or not</i></p>
+<ul class="ab-tree">
+<li><b>Template path</b><span class="g-tag quiet">Haiku</span><i>about 1.8 s · fixed layout</i></li>
+<li><b>Off-template path</b><span class="g-tag quiet">Sonnet</span><i>about 6 s · free composition</i></li>
+</ul>
+</div>
+</section>
+
+<span class="ab-wire ab-w2" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1l4 4-4 4"/></svg></span>
+
+<section class="g-card ab-node ab-n3" aria-labelledby="ab-n3">
+<h3 id="ab-n3">JSON composition</h3>
+<p class="ab-d">The project's own format. Meaning only, never a color or a size.</p>
+<pre class="ab-code"><code><i>{</i>
+  <i>"type":</i> "Metric",
+  <i>"id":</i> "failing-checks",
+  <i>"tone":</i> "crit",
+  <i>"emphasis":</i> "hot"
+<i>}</i></code></pre>
+<ul class="sc-picks">
+<li><b>A2UI adapter</b><i>the same tree, for hosts that speak A2UI</i></li>
+</ul>
+</section>
+
+<p class="ab-band code"><span>Code renders</span><i aria-hidden="true"></i></p>
+<span class="ab-wire ab-w3" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1l4 4-4 4"/></svg></span>
+
+<section class="g-card ab-node ab-n4" aria-labelledby="ab-n4">
+<h3 id="ab-n4">Renderer</h3>
+<p class="ab-d">Checks each piece against its schema, then draws it from the catalog.</p>
+<ul class="sc-picks">
+<li><b>Component catalog</b><i>one Zod schema each, read by the model</i></li>
+<li><b>Design tokens</b><i>tone, emphasis and density become values</i></li>
+</ul>
+</section>
+
+<span class="ab-wire ab-w4" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1l4 4-4 4"/></svg><span class="ab-fork"></span><svg class="ab-fork-head" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 1l4 4-4 4"/></svg></span>
+
+<div class="ab-n5">
+<section class="g-card ab-node" aria-labelledby="ab-n5a">
+<h3 id="ab-n5a">Web app</h3>
+<p class="ab-d">Paste a repo, ask, read the screen.</p>
+<p class="ab-m">Vercel free tier</p>
+</section>
+<section class="g-card ab-node" aria-labelledby="ab-n5b">
+<h3 id="ab-n5b">MCP App</h3>
+<p class="ab-d">The same renderer inside a chat host.</p>
+<p class="ab-m">compact density</p>
+</section>
+</div>
+</div>
+</section>
+
+<section class="ab-sec" aria-labelledby="ab-pr">
+<h2 class="ab-h" id="ab-pr">Principles</h2>
+<div class="ab-body ab-grid">
+<div class="ab-item"><h3>Meaning, not values</h3><p>The model sends tone, emphasis and density. Color, size and spacing come from the system, so one state always reads one way.</p></div>
+<div class="ab-item"><h3>Nothing appears without a cause</h3><p>Every piece draws, wipes, extends, slides, counts or blooms into place. Nothing fades in from nowhere.</p></div>
+<div class="ab-item"><h3>Every enter has a reverse</h3><p>A new answer runs its exits just ahead of its entrances. Pieces that survive morph in place.</p></div>
+<div class="ab-item"><h3>Warm, light, quiet</h3><p>One coral accent marks what the model chose. Everything else is warm ink on warm white.</p></div>
+</div>
+</section>
+
+<section class="ab-sec" aria-labelledby="ab-not">
+<h2 class="ab-h" id="ab-not">What it does not do</h2>
+<dl class="ab-body ab-dl">
+<div><dt>No persona toggle</dt><dd>The question already says who you are. A maintainer and a first-time contributor ask different things and get different screens.</dd></div>
+<div><dt>No chatbot</dt><dd>Answers are interfaces, not transcripts. The next question is a chip or one line in the tray.</dd></div>
+<div><dt>No private repos</dt><dd>Public data only, so there is nothing to authorize and nothing to leak.</dd></div>
+<div><dt>No accounts</dt><dd>Nothing to sign up for. The only thing kept is a cache of GitHub's public stats.</dd></div>
+</dl>
+</section>
+
+<section class="ab-sec" aria-labelledby="ab-links">
+<h2 class="ab-h" id="ab-links">Links</h2>
+<div class="ab-body">
+<nav class="g-card ab-links" aria-labelledby="ab-links">
+<a class="ab-link" href="https://github.com/"><b>Source on GitHub</b><code>github.com/[owner]/[repo]</code><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8L8 4"/><path d="M4.5 4H8V7.5"/></svg></a>
+<a class="ab-link" href="https://www.npmjs.com/"><b>npm package</b><code>npm install [package]</code><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8L8 4"/><path d="M4.5 4H8V7.5"/></svg></a>
+<a class="ab-link" href="#"><b>Component catalog</b><span>Every component, rendered from its sample JSON.</span><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6h7"/><path d="M6.5 3l3 3-3 3"/></svg></a>
+<a class="ab-link" href="#"><b>Eval results</b><span>The twelve golden questions, scored on every change.</span><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6h7"/><path d="M6.5 3l3 3-3 3"/></svg></a>
+<a class="ab-link" href="https://claude.ai/artifact/Hhiy29Myw7Yo3r3aAmJ2fm"><b>Design system</b><span>Tokens, components, motion and the decision log.</span><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8L8 4"/><path d="M4.5 4H8V7.5"/></svg></a>
+</nav>
+</div>
+</section>
+
+</main>
+
+<footer class="sc-wrap sc-foot">Public repos only · nothing is stored beyond a cache of GitHub's public stats · no account needed</footer>
+
+</div>
+
+</body>
+</html>

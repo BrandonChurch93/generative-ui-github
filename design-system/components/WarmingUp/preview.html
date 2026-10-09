@@ -1,0 +1,129 @@
+<!-- @dsCard group="States" height=1200 width=1200 subtitle="the GitHub 202 wait · retry at full width · partly ready and stopped in a narrow column" -->
+<style>
+body{margin:0;padding:16px;background:var(--bg);color:var(--ink);font-family:var(--font-sans)}
+[data-density]{--inset:var(--space-5);--card-y:var(--space-4);--row-y:var(--space-3);--region:var(--space-6);--say:19px;--wu-name:300px;--wu-status:96px;--wu-col:var(--space-5);--wu-gap:var(--space-2)}
+[data-density="compact"]{--inset:var(--space-4);--card-y:var(--space-3);--row-y:var(--space-2);--region:var(--space-4);--say:16px;--wu-name:280px;--wu-col:var(--space-4);--wu-gap:var(--space-1)}
+[data-density="spacious"]{--inset:var(--space-6);--card-y:var(--space-5);--row-y:var(--space-4);--region:var(--space-7);--say:22px;--wu-name:320px;--wu-col:var(--space-6);--wu-gap:var(--space-3)}
+.rows{display:grid;gap:28px}
+.row{display:grid;gap:8px;align-content:start}
+.row>h3{margin:0;font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;align-items:start}
+.wu{container-type:inline-size;display:flex;flex-direction:column;gap:var(--region);font-variant-numeric:tabular-nums}
+.wu-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.wu-lead{position:relative;display:flex;flex-direction:column;padding-left:calc(var(--inset) + 1px)}
+.wu-lead>.wu-mk{position:absolute;left:0;top:calc((var(--say) * 1.35 - 10px) / 2)}
+.wu-say{margin:0;max-width:60ch;font-size:var(--say);line-height:1.35;font-weight:500;color:var(--ink);text-wrap:pretty}
+.wu-say code{font-family:var(--font-mono);font-size:.85em;font-weight:500}
+.wu-why{margin:var(--wu-gap) 0 0;max-width:68ch;font-size:14px;line-height:1.45;color:var(--muted);text-wrap:balance}
+.wu-when{margin:var(--space-2) 0 0;display:flex;align-items:baseline;gap:var(--space-3);font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.wu-retry{flex-shrink:0;white-space:nowrap;margin:0;padding:0;border:0;background:none;font:500 13px/1.3 var(--font-sans);color:var(--accent-text);cursor:pointer;text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--accent-text) 35%,transparent);text-underline-offset:3px;border-radius:4px}
+.wu-retry:hover{text-decoration-color:currentColor}
+.wu-retry:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.wu-card{position:relative;overflow:hidden;background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius-lg);box-shadow:var(--card)}
+.wu-head{display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-3);padding:var(--card-y) var(--inset) var(--row-y);border-bottom:1px solid var(--line-soft)}
+.wu-head h2{margin:0;font-size:13px;line-height:1.3;font-weight:600;letter-spacing:.01em}
+.wu-head>span{font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap}
+.wu-plot{position:relative}
+.wu-grid{position:absolute;top:var(--row-y);bottom:0;left:calc(var(--inset) + var(--wu-name) + var(--wu-col));right:calc(var(--inset) + var(--wu-status) + var(--wu-col));pointer-events:none}
+.wu-grid>i{position:absolute;top:0;bottom:0;left:calc(var(--x) * 1%);width:1px;background:var(--line-soft)}
+.wu-list{margin:0;padding:var(--space-1) 0 0;list-style:none}
+.wu-row{display:grid;grid-template-columns:var(--wu-name) minmax(0,1fr) var(--wu-status);column-gap:var(--wu-col);align-items:center;padding:var(--row-y) var(--inset)}
+.wu-t{min-width:0;display:grid;gap:2px}
+.wu-t b{font-size:13.5px;line-height:1.3;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wu-t i{font:normal 400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wu-lane{position:relative;height:10px}
+.wu-lane::before{content:"";position:absolute;left:calc(var(--t) * 1%);right:0;top:4.5px;height:1px;background:var(--line)}
+.wu-row.settled .wu-lane::before{display:none}
+.wu-seg{position:absolute;top:4px;height:2px;border-radius:var(--radius-pill);background:var(--accent);left:calc(var(--a) * 1% + 1px);width:calc((var(--b) - var(--a)) * 1% - 2px)}
+.wu-row.settled .wu-seg{background:var(--line)}
+.wu-mk{position:relative;flex-shrink:0;box-sizing:border-box;width:10px;height:10px;border-radius:50%;border:1.5px solid var(--good-fill)}
+.wu-mk.neutral,.wu-mk.unavailable{border-color:var(--muted)}
+.wu-mk.unavailable::after{content:"";position:absolute;left:50%;top:-1.5px;bottom:-1.5px;width:1.5px;margin-left:-.75px;background:var(--muted);transform:rotate(45deg)}
+.wu-mk.warming{border-color:var(--line)}
+.wu-mk.warming::after{content:"";position:absolute;inset:-1.5px;border-radius:50%;border:1.5px solid transparent;border-top-color:var(--accent);border-right-color:var(--accent)}
+.wu-lane>.wu-mk{position:absolute;top:0;left:calc(var(--t) * 1%);margin-left:-5px;background:var(--surface)}
+.wu-st{justify-self:end;display:flex;align-items:center}
+.wu-now{padding:3px 0;font:400 11.5px/1.3 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap}
+.wu-tag{flex-shrink:0;padding:3px 8px;border-radius:var(--radius-pill);font:500 11px/1.3 var(--font-mono);white-space:nowrap;background:color-mix(in srgb,currentColor 10%,transparent)}
+.wu-tag.good{color:var(--good)}.wu-tag.quiet{color:var(--muted)}
+.wu-axis{display:grid;grid-template-columns:var(--wu-name) minmax(0,1fr) var(--wu-status);column-gap:var(--wu-col);align-items:baseline;padding:var(--space-2) var(--inset) calc(var(--card-y) + 3px)}
+.wu-axis>span{font:400 10.5px/1 var(--font-mono);color:var(--muted)}
+.wu-axis>div{position:relative;height:11px}
+.wu-axis>div>span{position:absolute;top:0;left:calc(var(--x) * 1%);transform:translateX(-50%);font:400 10.5px/1 var(--font-mono);color:var(--muted);white-space:nowrap}
+.wu-axis>div>span:first-child{transform:none}
+.wu-axis>div>span:last-child{transform:translateX(-100%)}
+.wu-progress{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--line-soft)}
+.wu-progress>span{position:absolute;left:0;top:0;bottom:0;border-radius:0 var(--radius-pill) var(--radius-pill) 0;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+@container (max-width: 760px){
+.wu-row{grid-template-columns:minmax(0,1fr) auto;row-gap:var(--space-2)}
+.wu-lane{grid-column:1 / -1;grid-row:2}
+.wu-st{grid-column:2;grid-row:1}
+.wu-grid{display:none}
+.wu-axis{grid-template-columns:minmax(0,1fr)}
+.wu-axis>span{display:none}
+}
+</style>
+<div class="rows">
+  <section class="row" data-density="comfortable">
+    <h3>Comfortable · retry · 33s in, attempt 5</h3>
+    <div class="wu" aria-busy="true" aria-label="Warming up">
+      <p class="wu-sr" role="status">Still counting vercel/next.js. Attempt 5. Checking again in 7 seconds.</p>
+      <div class="wu-lead"><span class="wu-mk warming" aria-hidden="true"></span><p class="wu-say">GitHub is still counting <code>vercel/next.js</code>.</p><p class="wu-why">Repos with a long history can take a minute or two the first time. You can leave this open; the answer composes in by itself.</p><p class="wu-when" aria-hidden="true">attempt 5 · checking again in 7s</p></div>
+      <div class="wu-card">
+        <div class="wu-head"><h2>What GitHub is counting</h2><span>0 of 4 ready</span></div>
+        <div class="wu-plot">
+          <div class="wu-grid" aria-hidden="true"><i style="--x:0"></i><i style="--x:25"></i><i style="--x:50"></i><i style="--x:75"></i><i style="--x:100"></i></div>
+          <ul class="wu-list">
+            <li class="wu-row"><span class="wu-t"><b>Contributors</b><i>stats/contributors · weekly, by author</i></span><span class="wu-lane" style="--t:55" aria-hidden="true"><span class="wu-seg" style="--a:0;--b:6.667"></span><span class="wu-seg" style="--a:6.667;--b:16.667"></span><span class="wu-seg" style="--a:16.667;--b:30"></span><span class="wu-seg" style="--a:30;--b:46.667"></span><span class="wu-seg" style="--a:46.667;--b:55"></span><span class="wu-mk warming"></span></span><span class="wu-st"><span class="wu-now">counting</span></span></li>
+            <li class="wu-row"><span class="wu-t"><b>Participation</b><i>stats/participation · owners vs all</i></span><span class="wu-lane" style="--t:55" aria-hidden="true"><span class="wu-seg" style="--a:0;--b:6.667"></span><span class="wu-seg" style="--a:6.667;--b:16.667"></span><span class="wu-seg" style="--a:16.667;--b:30"></span><span class="wu-seg" style="--a:30;--b:46.667"></span><span class="wu-seg" style="--a:46.667;--b:55"></span><span class="wu-mk warming"></span></span><span class="wu-st"><span class="wu-now">counting</span></span></li>
+            <li class="wu-row"><span class="wu-t"><b>Commit activity</b><i>stats/commit_activity · 52 weeks</i></span><span class="wu-lane" style="--t:55" aria-hidden="true"><span class="wu-seg" style="--a:0;--b:6.667"></span><span class="wu-seg" style="--a:6.667;--b:16.667"></span><span class="wu-seg" style="--a:16.667;--b:30"></span><span class="wu-seg" style="--a:30;--b:46.667"></span><span class="wu-seg" style="--a:46.667;--b:55"></span><span class="wu-mk warming"></span></span><span class="wu-st"><span class="wu-now">counting</span></span></li>
+            <li class="wu-row"><span class="wu-t"><b>Punch card</b><i>stats/punch_card · weekday by hour</i></span><span class="wu-lane" style="--t:55" aria-hidden="true"><span class="wu-seg" style="--a:0;--b:6.667"></span><span class="wu-seg" style="--a:6.667;--b:16.667"></span><span class="wu-seg" style="--a:16.667;--b:30"></span><span class="wu-seg" style="--a:30;--b:46.667"></span><span class="wu-seg" style="--a:46.667;--b:55"></span><span class="wu-mk warming"></span></span><span class="wu-st"><span class="wu-now">counting</span></span></li>
+          </ul>
+        </div>
+        <div class="wu-axis" aria-hidden="true"><span>since the first request</span><div><span style="--x:0">0s</span><span style="--x:25">15s</span><span style="--x:50">30s</span><span style="--x:75">45s</span><span style="--x:100">60s</span></div></div>
+        <span class="wu-progress" aria-hidden="true"><span style="width:0%"></span></span>
+      </div>
+    </div>
+  </section>
+  <div class="pair">
+    <section class="row" data-density="compact">
+      <h3>Compact · partly ready · narrow column</h3>
+      <div class="wu" aria-busy="true" aria-label="Warming up">
+        <p class="wu-sr" role="status">Commit activity and the punch card are ready. Still counting contributors and participation.</p>
+        <div class="wu-lead"><span class="wu-mk warming" aria-hidden="true"></span><p class="wu-say">GitHub is still counting contributors and participation.</p><p class="wu-why">Commit activity and the punch card are in, and their parts of the answer are below. The rest usually follows within a minute.</p><p class="wu-when" aria-hidden="true">attempt 4 · checking again in 6s</p></div>
+        <div class="wu-card">
+          <div class="wu-head"><h2>What GitHub is counting</h2><span>2 of 4 ready</span></div>
+          <div class="wu-plot">
+            <ul class="wu-list">
+              <li class="wu-row"><span class="wu-t"><b>Contributors</b><i>stats/contributors · weekly, by author</i></span><span class="wu-lane" style="--t:73.333" aria-hidden="true"><span class="wu-seg" style="--a:0;--b:13.333"></span><span class="wu-seg" style="--a:13.333;--b:33.333"></span><span class="wu-seg" style="--a:33.333;--b:60"></span><span class="wu-seg" style="--a:60;--b:73.333"></span><span class="wu-mk warming"></span></span><span class="wu-st"><span class="wu-now">counting</span></span></li>
+              <li class="wu-row"><span class="wu-t"><b>Participation</b><i>stats/participation · owners vs all</i></span><span class="wu-lane" style="--t:73.333" aria-hidden="true"><span class="wu-seg" style="--a:0;--b:13.333"></span><span class="wu-seg" style="--a:13.333;--b:33.333"></span><span class="wu-seg" style="--a:33.333;--b:60"></span><span class="wu-seg" style="--a:60;--b:73.333"></span><span class="wu-mk warming"></span></span><span class="wu-st"><span class="wu-now">counting</span></span></li>
+              <li class="wu-row settled"><span class="wu-t"><b>Commit activity</b><i>stats/commit_activity · 52 weeks</i></span><span class="wu-lane" style="--t:33.333" aria-hidden="true"><span class="wu-seg" style="--a:0;--b:13.333"></span><span class="wu-seg" style="--a:13.333;--b:33.333"></span><span class="wu-mk"></span></span><span class="wu-st"><span class="wu-tag good">ready</span></span></li>
+              <li class="wu-row settled"><span class="wu-t"><b>Punch card</b><i>stats/punch_card · weekday by hour</i></span><span class="wu-lane" style="--t:60" aria-hidden="true"><span class="wu-seg" style="--a:0;--b:13.333"></span><span class="wu-seg" style="--a:13.333;--b:33.333"></span><span class="wu-seg" style="--a:33.333;--b:60"></span><span class="wu-mk"></span></span><span class="wu-st"><span class="wu-tag good">ready</span></span></li>
+            </ul>
+          </div>
+          <div class="wu-axis" aria-hidden="true"><span>since the first request</span><div><span style="--x:0">0s</span><span style="--x:33.333">10s</span><span style="--x:66.667">20s</span><span style="--x:100">30s</span></div></div>
+          <span class="wu-progress" aria-hidden="true"><span style="width:50%"></span></span>
+        </div>
+      </div>
+    </section>
+    <section class="row" data-density="spacious">
+      <h3>Spacious · stopped after 2 minutes · narrow column</h3>
+      <div class="wu" aria-label="Warming up">
+        <p class="wu-sr" role="status">GitHub hasn't finished counting after 2 minutes. Contributors is shown from a copy counted 3 days ago. Participation is left out.</p>
+        <div class="wu-lead"><span class="wu-mk unavailable" aria-hidden="true"></span><p class="wu-say">GitHub hasn't finished counting <code>vercel/next.js</code> after 2 minutes.</p><p class="wu-why">Contributors is shown from a copy counted 3 days ago. Participation has no earlier copy, so it is left out until GitHub finishes.</p><p class="wu-when">stopped after 10 checks <button class="wu-retry" type="button">Try again</button></p></div>
+        <div class="wu-card">
+          <div class="wu-head"><h2>What GitHub is counting</h2><span>2 ready · 1 cached · 1 not ready</span></div>
+          <div class="wu-plot">
+            <ul class="wu-list">
+              <li class="wu-row settled"><span class="wu-t"><b>Contributors</b><i>stats/contributors · copy from Oct 5</i></span><span class="wu-lane" style="--t:100" aria-hidden="true"><span class="wu-seg" style="--a:0;--b:3.333"></span><span class="wu-seg" style="--a:3.333;--b:8.333"></span><span class="wu-seg" style="--a:8.333;--b:15"></span><span class="wu-seg" style="--a:15;--b:23.333"></span><span class="wu-seg" style="--a:23.333;--b:33.333"></span><span class="wu-seg" style="--a:33.333;--b:45"></span><span class="wu-seg" style="--a:45;--b:58.333"></span><span class="wu-seg" style="--a:58.333;--b:75"></span><span class="wu-seg" style="--a:75;--b:100"></span><span class="wu-mk neutral"></span></span><span class="wu-st"><span class="wu-tag quiet">cached</span></span></li>
+              <li class="wu-row settled"><span class="wu-t"><b>Participation</b><i>stats/participation · no earlier copy</i></span><span class="wu-lane" style="--t:100" aria-hidden="true"><span class="wu-seg" style="--a:0;--b:3.333"></span><span class="wu-seg" style="--a:3.333;--b:8.333"></span><span class="wu-seg" style="--a:8.333;--b:15"></span><span class="wu-seg" style="--a:15;--b:23.333"></span><span class="wu-seg" style="--a:23.333;--b:33.333"></span><span class="wu-seg" style="--a:33.333;--b:45"></span><span class="wu-seg" style="--a:45;--b:58.333"></span><span class="wu-seg" style="--a:58.333;--b:75"></span><span class="wu-seg" style="--a:75;--b:100"></span><span class="wu-mk unavailable"></span></span><span class="wu-st"><span class="wu-now">not ready</span></span></li>
+              <li class="wu-row settled"><span class="wu-t"><b>Commit activity</b><i>stats/commit_activity · 52 weeks</i></span><span class="wu-lane" style="--t:8.333" aria-hidden="true"><span class="wu-seg" style="--a:0;--b:3.333"></span><span class="wu-seg" style="--a:3.333;--b:8.333"></span><span class="wu-mk"></span></span><span class="wu-st"><span class="wu-tag good">ready</span></span></li>
+              <li class="wu-row settled"><span class="wu-t"><b>Punch card</b><i>stats/punch_card · weekday by hour</i></span><span class="wu-lane" style="--t:15" aria-hidden="true"><span class="wu-seg" style="--a:0;--b:3.333"></span><span class="wu-seg" style="--a:3.333;--b:8.333"></span><span class="wu-seg" style="--a:8.333;--b:15"></span><span class="wu-mk"></span></span><span class="wu-st"><span class="wu-tag good">ready</span></span></li>
+            </ul>
+          </div>
+          <div class="wu-axis" aria-hidden="true"><span>since the first request</span><div><span style="--x:0">0s</span><span style="--x:25">30s</span><span style="--x:50">60s</span><span style="--x:75">90s</span><span style="--x:100">120s</span></div></div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

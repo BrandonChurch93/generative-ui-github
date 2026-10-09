@@ -1,0 +1,204 @@
+<!-- @dsCard group="Data" height=1652 width=1200 subtitle="histogram with a you would wait here marker · wide, narrow, hover, focus · skeleton, empty, error, warming" -->
+<style>
+body{margin:0;padding:16px;background:var(--bg);color:var(--ink);font-family:var(--font-sans)}
+[data-density]{--inset:var(--space-5);--card-y:var(--space-4);--row-y:var(--space-3);--stack:var(--space-3);--plot-h:200px}
+[data-density="compact"]{--inset:var(--space-4);--card-y:var(--space-3);--row-y:var(--space-2);--stack:var(--space-2);--plot-h:160px}
+[data-density="spacious"]{--inset:var(--space-6);--card-y:var(--space-5);--row-y:var(--space-4);--stack:var(--space-4);--plot-h:240px}
+.rows{display:grid;gap:20px}
+.row{display:grid;gap:8px}
+.row>h3{margin:0;font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.pair{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:var(--space-4);align-items:start}
+.halves{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-4);align-items:start}
+.dx-card{--dx-g:var(--space-5);position:relative;overflow:hidden;background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius-lg);box-shadow:var(--card)}
+.dx-card.narrow{--dx-g:0px}
+.dx-head{display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-3);padding:var(--card-y) var(--inset) var(--row-y);border-bottom:1px solid var(--line-soft)}
+.dx-head h2{margin:0;font-size:13px;line-height:1.3;font-weight:600;letter-spacing:.01em}
+.dx-head>span{font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.dx-fig{margin:0;padding:var(--card-y) var(--inset)}
+.dx-area{position:relative;padding-top:calc(20px + var(--space-2))}
+.dx-plot{position:relative;height:var(--plot-h);margin-left:var(--dx-g);border-bottom:1px solid var(--line)}
+.dx-grid{position:absolute;left:0;right:0;height:1px;background:var(--line-soft)}
+.dx-grid i{position:absolute;left:calc(-1 * var(--dx-g));top:.5px;transform:translateY(-50%);font:normal 400 10.5px/1 var(--font-mono);color:var(--muted)}
+.dx-p90{position:absolute;z-index:1;top:0;bottom:0;width:1px;margin-left:-.5px;background:var(--data-ref)}
+.dx-p90 i{position:absolute;left:var(--space-2);top:0;font:normal 400 10.5px/1 var(--font-mono);color:var(--muted);white-space:nowrap}
+.dx-bins{position:absolute;inset:0;display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}
+.dx-bin{position:relative;display:flex;align-items:flex-end;justify-content:center;min-width:0;height:100%;margin:0;padding:0;border:0;border-radius:var(--radius-sm) var(--radius-sm) 0 0;background:none;cursor:pointer}
+.dx-bin>span{position:relative;z-index:2;display:block;width:min(24px,calc(100% - 2px));border-radius:4px 4px 0 0;background:var(--data-1)}
+.dx-bin.is-hover::before,.dx-bin:hover::before{content:"";position:absolute;z-index:0;top:0;bottom:0;left:max(var(--space-1),calc(50% - 12px - var(--space-2)));right:max(var(--space-1),calc(50% - 12px - var(--space-2)));border-radius:var(--radius-md) var(--radius-md) 0 0;background:var(--surface-tint)}
+.dx-bin:focus-visible{outline:none}
+.dx-bin:focus-visible>span,.dx-bin.is-focus>span{outline:2px solid var(--focus);outline-offset:2px}
+.dx-mk{position:absolute;z-index:1;top:10px;bottom:1px;width:2px;margin-left:-1px;background:var(--ink)}
+.dx-mk::before{content:"";position:absolute;left:-3px;top:-4px;width:8px;height:8px;border-radius:50%;background:var(--ink);box-shadow:0 0 0 2px var(--surface)}
+.dx-ml{position:absolute;left:11px;top:0;transform:translateY(-50%);white-space:nowrap;font-size:13px;line-height:1.3;font-weight:500;color:var(--ink)}
+.dx-ml i{font-style:normal;color:var(--muted)}
+.dx-ml b{font-weight:700}
+.dx-x{position:relative;height:20px;margin-left:var(--dx-g)}
+.dx-x span{position:absolute;top:0;transform:translateX(-50%);padding-top:calc(4px + var(--space-1));font:400 10.5px/1 var(--font-mono);color:var(--muted);white-space:nowrap}
+.dx-x span::before{content:"";position:absolute;left:50%;top:0;width:1px;height:4px;margin-left:-.5px;background:var(--line)}
+.dx-x span:nth-child(1){left:14.286%}
+.dx-x span:nth-child(2){left:28.571%}
+.dx-x span:nth-child(3){left:42.857%}
+.dx-x span:nth-child(4){left:57.143%}
+.dx-x span:nth-child(5){left:71.429%}
+.dx-x span:nth-child(6){left:85.714%}
+.dx-x span.on{color:var(--ink)}
+.dx-src{margin-top:var(--stack);height:16px;font:400 11.5px/16px var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dx-tip{position:absolute;z-index:3;display:grid;gap:2px;padding:var(--space-2) var(--space-3);background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius-md);box-shadow:var(--card);white-space:nowrap;pointer-events:none}
+.dx-tip b{display:flex;align-items:center;gap:var(--space-2);font-size:13px;line-height:1.3;font-weight:600;color:var(--ink)}
+.dx-tip b::before{content:"";width:12px;height:2px;border-radius:1px;background:var(--data-1)}
+.dx-tip i{padding-left:calc(12px + var(--space-2));font:normal 400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.dx-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.dx-sk{display:block;border-radius:var(--radius-sm);background:var(--line-soft)}
+.dx-skh{align-items:center;height:17px}
+.dx-skb{display:flex;align-items:flex-end;justify-content:center;min-width:0;height:100%}
+.dx-skb .dx-sk{width:min(24px,calc(100% - 2px));border-radius:4px 4px 0 0}
+.dx-plot.quiet{border-bottom-color:transparent}
+.dx-x.quiet span{top:10px;width:16px;height:7px;padding:0;margin-left:-8px;transform:none}
+.dx-x.quiet span::before{display:none}
+.dx-src.quiet{display:flex;align-items:center}
+.dx-state{box-sizing:border-box;display:flex;align-items:center;height:calc(var(--card-y) * 2 + 20px + var(--space-2) + var(--plot-h) + 1px + 20px + var(--stack) + 16px);padding:var(--card-y) var(--inset)}
+.dx-row{display:flex;align-items:center;gap:var(--space-3);width:100%}
+.dx-t{flex-grow:1;min-width:0;display:grid;gap:2px}
+.dx-t b{font-size:13.5px;line-height:1.3;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dx-t b.quiet{color:var(--muted)}
+.dx-t i{font:normal 400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mk{position:relative;align-self:flex-start;flex-shrink:0;box-sizing:border-box;width:10px;height:10px;margin-top:3.75px;border-radius:50%;border:1.5px solid var(--muted)}
+.mk.unavailable::after{content:"";position:absolute;left:50%;top:-1.5px;bottom:-1.5px;width:1.5px;margin-left:-.75px;background:var(--muted);transform:rotate(45deg)}
+.mk.warming{border-color:var(--line)}
+.mk.warming::after{content:"";position:absolute;inset:-1.5px;border-radius:50%;border:1.5px solid transparent;border-top-color:var(--accent);border-right-color:var(--accent)}
+.rt{flex-shrink:0;white-space:nowrap;margin:0;padding:0;border:0;border-radius:4px;background:none;font:500 13px/1.3 var(--font-sans);color:var(--accent-text);cursor:pointer;text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--accent-text) 35%,transparent);text-underline-offset:3px}
+.rt:hover{text-decoration-color:currentColor}
+.rt:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.pg{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--line-soft)}
+.pg>span{position:absolute;left:0;top:0;bottom:0;border-radius:0 var(--radius-pill) var(--radius-pill) 0;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+</style>
+<div class="rows">
+
+  <section class="row" data-density="comfortable"><h3>Comfortable · wide, and narrow with keyboard focus on over 7d</h3><div class="pair">
+    <div class="dx-card"><div class="dx-head"><h2>Time to first review</h2><span>last 90 days</span></div>
+      <figure class="dx-fig" role="group" aria-label="Half of first-time contributors got a first review within 19 hours. 1 in 10 waited more than 6 days.">
+        <div class="dx-area">
+          <div class="dx-plot">
+            <span class="dx-grid" style="bottom:33.333%" aria-hidden="true"><i>20</i></span>
+            <span class="dx-grid" style="bottom:66.667%" aria-hidden="true"><i>40</i></span>
+            <span class="dx-p90" style="left:78.571%" aria-hidden="true"><i>90% by 6d</i></span>
+            <div class="dx-bins">
+              <button class="dx-bin" type="button" aria-label="22 PRs reviewed in under 1 hour"><span style="height:36.667%"></span></button>
+              <button class="dx-bin" type="button" aria-label="32 PRs reviewed in 1 to 4 hours"><span style="height:53.333%"></span></button>
+              <button class="dx-bin" type="button" aria-label="38 PRs reviewed in 4 to 12 hours"><span style="height:63.333%"></span></button>
+              <button class="dx-bin" type="button" aria-label="48 PRs reviewed in 12 to 24 hours"><span style="height:80%"></span></button>
+              <button class="dx-bin" type="button" aria-label="50 PRs reviewed in 1 to 3 days"><span style="height:83.333%"></span></button>
+              <button class="dx-bin" type="button" aria-label="33 PRs reviewed in 3 to 7 days"><span style="height:55%"></span></button>
+              <button class="dx-bin" type="button" aria-label="17 PRs waited over 7 days"><span style="height:28.333%"></span></button>
+            </div>
+          </div>
+          <span class="dx-mk" style="left:calc(var(--dx-g) + (100% - var(--dx-g)) * .5)"><span class="dx-ml">You would wait here <i>·</i> about <b>19h</b></span></span>
+        </div>
+        <div class="dx-x" aria-hidden="true"><span>1h</span><span>4h</span><span>12h</span><span>24h</span><span>3d</span><span>7d</span></div>
+        <figcaption class="dx-src">from 240 PRs by first-time contributors · bots excluded</figcaption>
+        <table class="dx-sr"><caption>Time to first review for first-time contributors, last 90 days</caption><tr><th scope="col">Wait</th><th scope="col">PRs</th></tr><tr><td>under 1h</td><td>22</td></tr><tr><td>1 to 4h</td><td>32</td></tr><tr><td>4 to 12h</td><td>38</td></tr><tr><td>12 to 24h</td><td>48</td></tr><tr><td>1 to 3d</td><td>50</td></tr><tr><td>3 to 7d</td><td>33</td></tr><tr><td>over 7d</td><td>17</td></tr></table>
+      </figure>
+    </div>
+    <div class="dx-card narrow"><div class="dx-head"><h2>Time to first review</h2><span>last 90 days</span></div>
+      <figure class="dx-fig" role="group" aria-label="Half of first-time contributors got a first review within 19 hours. 1 in 10 waited more than 6 days.">
+        <div class="dx-area">
+          <div class="dx-plot">
+            <div class="dx-bins">
+              <button class="dx-bin" type="button" aria-label="22 PRs reviewed in under 1 hour"><span style="height:36.667%"></span></button>
+              <button class="dx-bin" type="button" aria-label="32 PRs reviewed in 1 to 4 hours"><span style="height:53.333%"></span></button>
+              <button class="dx-bin" type="button" aria-label="38 PRs reviewed in 4 to 12 hours"><span style="height:63.333%"></span></button>
+              <button class="dx-bin" type="button" aria-label="48 PRs reviewed in 12 to 24 hours"><span style="height:80%"></span></button>
+              <button class="dx-bin" type="button" aria-label="50 PRs reviewed in 1 to 3 days"><span style="height:83.333%"></span></button>
+              <button class="dx-bin" type="button" aria-label="33 PRs reviewed in 3 to 7 days"><span style="height:55%"></span></button>
+              <button class="dx-bin is-focus" type="button" aria-label="17 PRs waited over 7 days"><span style="height:28.333%"></span></button>
+            </div>
+            <div class="dx-tip" role="tooltip" style="right:0;bottom:calc(28.333% + var(--space-3))"><b>17 PRs</b><i>over 7d · 7%</i></div>
+          </div>
+          <span class="dx-mk" style="left:50%"><span class="dx-ml">Your wait <i>·</i> about <b>19h</b></span></span>
+        </div>
+        <div class="dx-x" aria-hidden="true"><span>1h</span><span>4h</span><span>12h</span><span>24h</span><span>3d</span><span class="on">7d</span></div>
+        <figcaption class="dx-src">90% reviewed by 6d · from 240 PRs</figcaption>
+      </figure>
+    </div>
+  </div></section>
+
+  <section class="row"><h3>Compact with hover on 1 to 4h · spacious</h3><div class="halves">
+    <div class="dx-card" data-density="compact"><div class="dx-head"><h2>Time to first review</h2><span>last 90 days</span></div>
+      <figure class="dx-fig" role="group" aria-label="Half of first-time contributors got a first review within 19 hours. 1 in 10 waited more than 6 days.">
+        <div class="dx-area">
+          <div class="dx-plot">
+            <span class="dx-grid" style="bottom:33.333%" aria-hidden="true"><i>20</i></span>
+            <span class="dx-grid" style="bottom:66.667%" aria-hidden="true"><i>40</i></span>
+            <span class="dx-p90" style="left:78.571%" aria-hidden="true"><i>90% by 6d</i></span>
+            <div class="dx-bins">
+              <button class="dx-bin" type="button" aria-label="22 PRs reviewed in under 1 hour"><span style="height:36.667%"></span></button>
+              <button class="dx-bin is-hover" type="button" aria-label="32 PRs reviewed in 1 to 4 hours"><span style="height:53.333%"></span></button>
+              <button class="dx-bin" type="button" aria-label="38 PRs reviewed in 4 to 12 hours"><span style="height:63.333%"></span></button>
+              <button class="dx-bin" type="button" aria-label="48 PRs reviewed in 12 to 24 hours"><span style="height:80%"></span></button>
+              <button class="dx-bin" type="button" aria-label="50 PRs reviewed in 1 to 3 days"><span style="height:83.333%"></span></button>
+              <button class="dx-bin" type="button" aria-label="33 PRs reviewed in 3 to 7 days"><span style="height:55%"></span></button>
+              <button class="dx-bin" type="button" aria-label="17 PRs waited over 7 days"><span style="height:28.333%"></span></button>
+            </div>
+            <div class="dx-tip" role="tooltip" style="left:21.429%;bottom:calc(53.333% + var(--space-3));transform:translateX(-50%)"><b>32 PRs</b><i>1 to 4h · 13%</i></div>
+          </div>
+          <span class="dx-mk" style="left:calc(var(--dx-g) + (100% - var(--dx-g)) * .5)"><span class="dx-ml">You would wait here <i>·</i> about <b>19h</b></span></span>
+        </div>
+        <div class="dx-x" aria-hidden="true"><span class="on">1h</span><span class="on">4h</span><span>12h</span><span>24h</span><span>3d</span><span>7d</span></div>
+        <figcaption class="dx-src">from 240 PRs by first-time contributors · bots excluded</figcaption>
+      </figure>
+    </div>
+    <div class="dx-card" data-density="spacious"><div class="dx-head"><h2>Time to first review</h2><span>last 90 days</span></div>
+      <figure class="dx-fig" role="group" aria-label="Half of first-time contributors got a first review within 19 hours. 1 in 10 waited more than 6 days.">
+        <div class="dx-area">
+          <div class="dx-plot">
+            <span class="dx-grid" style="bottom:33.333%" aria-hidden="true"><i>20</i></span>
+            <span class="dx-grid" style="bottom:66.667%" aria-hidden="true"><i>40</i></span>
+            <span class="dx-p90" style="left:78.571%" aria-hidden="true"><i>90% by 6d</i></span>
+            <div class="dx-bins">
+              <button class="dx-bin" type="button" aria-label="22 PRs reviewed in under 1 hour"><span style="height:36.667%"></span></button>
+              <button class="dx-bin" type="button" aria-label="32 PRs reviewed in 1 to 4 hours"><span style="height:53.333%"></span></button>
+              <button class="dx-bin" type="button" aria-label="38 PRs reviewed in 4 to 12 hours"><span style="height:63.333%"></span></button>
+              <button class="dx-bin" type="button" aria-label="48 PRs reviewed in 12 to 24 hours"><span style="height:80%"></span></button>
+              <button class="dx-bin" type="button" aria-label="50 PRs reviewed in 1 to 3 days"><span style="height:83.333%"></span></button>
+              <button class="dx-bin" type="button" aria-label="33 PRs reviewed in 3 to 7 days"><span style="height:55%"></span></button>
+              <button class="dx-bin" type="button" aria-label="17 PRs waited over 7 days"><span style="height:28.333%"></span></button>
+            </div>
+          </div>
+          <span class="dx-mk" style="left:calc(var(--dx-g) + (100% - var(--dx-g)) * .5)"><span class="dx-ml">You would wait here <i>·</i> about <b>19h</b></span></span>
+        </div>
+        <div class="dx-x" aria-hidden="true"><span>1h</span><span>4h</span><span>12h</span><span>24h</span><span>3d</span><span>7d</span></div>
+        <figcaption class="dx-src">from 240 PRs by first-time contributors · bots excluded</figcaption>
+      </figure>
+    </div>
+  </div></section>
+
+  <section class="row" data-density="comfortable"><h3>Comfortable · skeleton, empty, error, warming · each keeps the chart's height</h3><div class="halves">
+    <div class="dx-card" aria-busy="true"><span class="dx-sr">Loading review times.</span>
+      <div class="dx-head dx-skh" aria-hidden="true"><span class="dx-sk" style="width:148px;height:9px"></span><span class="dx-sk" style="width:80px;height:7px"></span></div>
+      <div class="dx-fig" aria-hidden="true">
+        <div class="dx-area"><div class="dx-plot quiet"><div class="dx-bins">
+          <span class="dx-skb"><span class="dx-sk" style="height:30%"></span></span>
+          <span class="dx-skb"><span class="dx-sk" style="height:46%"></span></span>
+          <span class="dx-skb"><span class="dx-sk" style="height:58%"></span></span>
+          <span class="dx-skb"><span class="dx-sk" style="height:70%"></span></span>
+          <span class="dx-skb"><span class="dx-sk" style="height:64%"></span></span>
+          <span class="dx-skb"><span class="dx-sk" style="height:44%"></span></span>
+          <span class="dx-skb"><span class="dx-sk" style="height:26%"></span></span>
+        </div></div></div>
+        <div class="dx-x quiet"><span class="dx-sk"></span><span class="dx-sk"></span><span class="dx-sk"></span><span class="dx-sk"></span><span class="dx-sk"></span><span class="dx-sk"></span></div>
+        <div class="dx-src quiet"><span class="dx-sk" style="width:300px;height:8px"></span></div>
+      </div>
+    </div>
+    <div class="dx-card"><div class="dx-head"><h2>Time to first review</h2><span>last 90 days</span></div>
+      <div class="dx-state"><div class="dx-row"><span class="mk" aria-hidden="true"></span><span class="dx-t"><b>No first-time contributor PRs reviewed yet</b><i>2 still open · oldest waiting 5d</i></span></div></div>
+    </div>
+    <div class="dx-card"><div class="dx-head"><h2>Time to first review</h2><span>last 90 days</span></div>
+      <div class="dx-state"><div class="dx-row"><span class="mk unavailable" aria-hidden="true"></span><span class="dx-t"><b>Couldn't load review times</b><i>GitHub returned 502 · tried twice</i></span><button class="rt" type="button">Try again</button></div></div>
+    </div>
+    <div class="dx-card" aria-busy="true"><div class="dx-head"><h2>Time to first review</h2><span>last 90 days</span></div>
+      <div class="dx-state"><div class="dx-row"><span class="mk warming" aria-hidden="true"></span><span class="dx-t"><b class="quiet">GitHub is counting review times</b><i>usually under a minute · checking again in 12s</i></span></div></div>
+      <span class="pg" aria-hidden="true"><span style="width:38%"></span></span>
+    </div>
+  </div></section>
+
+</div>

@@ -1,0 +1,123 @@
+<!-- @dsCard group="Data" height=1268 width=1200 subtitle="in a Metric and in a list row · three densities · skeleton, empty, failed and warming trends" -->
+<style>
+body{margin:0;padding:16px;background:var(--bg);color:var(--ink);font-family:var(--font-sans)}
+[data-density]{--inset:var(--space-5);--card-y:var(--space-4);--row-y:var(--space-3);--stack:var(--space-3);--num:38px;--suffix:14px;--sp-h:28px}
+[data-density="compact"]{--inset:var(--space-4);--card-y:var(--space-3);--row-y:var(--space-2);--stack:var(--space-2);--num:30px;--suffix:12px;--sp-h:24px}
+[data-density="spacious"]{--inset:var(--space-6);--card-y:var(--space-5);--row-y:var(--space-4);--stack:var(--space-4);--num:46px;--suffix:16px;--sp-h:32px}
+.sp-rows{display:grid;gap:20px}
+.sp-sec{display:grid;gap:8px}
+.sp-sec>h3{margin:0;font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.sp-grid{display:grid;grid-template-columns:560px 560px;gap:var(--space-4);align-items:start}
+.sp-pair{display:grid;grid-template-columns:repeat(2,272px);gap:var(--space-4);align-items:start}
+.sp-four{display:grid;grid-template-columns:repeat(4,272px);gap:var(--space-4);align-items:start}
+.g-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.g-card{position:relative;overflow:hidden;background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius-lg);box-shadow:var(--card)}
+.g-head{display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-3);padding:var(--card-y) var(--inset) var(--row-y);border-bottom:1px solid var(--line-soft)}
+.g-head h2{margin:0;font-size:13px;line-height:1.3;font-weight:600;letter-spacing:.01em}
+.g-head>span{font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.g-mark{position:relative;flex-shrink:0;box-sizing:border-box;width:10px;height:10px;border-radius:50%;border:1.5px solid var(--good-fill)}
+.g-mark.crit{border-color:var(--crit-fill);background:var(--crit-fill)}
+.g-mark.unavailable{border-color:var(--muted)}
+.g-mark.unavailable::after{content:"";position:absolute;left:50%;top:-1.5px;bottom:-1.5px;width:1.5px;margin-left:-.75px;background:var(--muted);transform:rotate(45deg)}
+.g-retry{flex-shrink:0;white-space:nowrap;margin:0;padding:0;border:0;background:none;font:500 12.5px/1.3 var(--font-sans);color:var(--accent-text);cursor:pointer;text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--accent-text) 35%,transparent);text-underline-offset:3px}
+.g-retry:hover{text-decoration-color:currentColor}
+.g-retry:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.g-sk{display:block;border-radius:var(--radius-sm);background:var(--line-soft)}
+.sp-svg{display:block;flex-shrink:0;overflow:visible}
+.sp-svg path{fill:none;stroke:var(--data-ref);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sp-svg path.now{stroke:var(--accent)}
+.sp-svg path.flat{stroke:var(--line-soft)}
+.sp-svg path.draw{stroke:var(--accent)}
+.sp-svg circle{fill:var(--accent)}
+.sp-svg circle.ring{fill:var(--surface)}
+.sp-m{position:relative;overflow:hidden;box-sizing:border-box;display:flex;flex-direction:column;padding:var(--card-y) var(--inset) calc(var(--card-y) + 3px);background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius-lg);box-shadow:var(--card)}
+.sp-ml{font-size:13px;line-height:1.3;font-weight:500;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sp-mv{margin-top:var(--space-1);display:flex;align-items:baseline;gap:var(--space-2);font-size:var(--num);line-height:1;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--ink)}
+.sp-mv small{font:400 var(--suffix)/1 var(--font-mono);letter-spacing:0;color:var(--muted)}
+.sp-mv .sp-svg,.sp-mslot{margin-left:auto}
+.sp-mslot{position:relative;flex-shrink:0}
+.sp-mslot>.g-mark{position:absolute;left:50%;top:50%;margin:-5px 0 0 -5px}
+.sp-md{margin-top:var(--stack);display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-3);font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.sp-md>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sp-bar{position:absolute;left:0;right:var(--inset);bottom:0;height:3px;border-radius:0 var(--radius-pill) var(--radius-pill) 0;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+.sp-skv{display:flex;align-items:flex-end;justify-content:space-between;margin-top:calc(var(--space-1) + var(--num) * .14);margin-bottom:calc(var(--num) * .14)}
+.sp-skv>.g-sk{height:calc(var(--num) * .72)}
+.sp-list ul{margin:0;padding:0;list-style:none}
+.sp-list li{position:relative;display:flex;align-items:center;gap:var(--space-3);padding:var(--row-y) var(--inset)}
+.sp-list li+li::before{content:"";position:absolute;left:var(--inset);right:var(--inset);top:0;height:1px;background:var(--line)}
+.sp-list li>.g-mark{align-self:flex-start;margin-top:3.75px}
+.sp-t{flex-grow:1;min-width:0;display:grid;gap:2px}
+.sp-t b{font-size:13.5px;line-height:1.3;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sp-t i{font:normal 400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sp-slot{flex-shrink:0;width:80px;height:var(--sp-h);display:flex;align-items:center;justify-content:center}
+.sp-v{flex-shrink:0;width:56px;text-align:right;font:500 11px/1.3 var(--font-mono);color:var(--ink)}
+.sp-sk .g-head{align-items:center;height:17px}
+.sp-sk li+li::before{display:none}
+.sp-sk .sp-slot{background:var(--line-soft);border-radius:var(--radius-sm)}
+.sp-sk .sp-v{display:flex;justify-content:flex-end}
+.sp-skm{align-self:flex-start;flex-shrink:0;width:10px;height:10px;margin-top:3.75px;border-radius:50%;background:var(--line-soft)}
+.sp-skl{flex-grow:1;min-width:0;display:grid;gap:2px}
+.sp-skl>span{height:17.5px;display:flex;align-items:center}
+.sp-skl>span+span{height:16px}
+.sp-skl>span::before{content:"";display:block;width:var(--w);height:9px;border-radius:var(--radius-sm);background:var(--line-soft)}
+.sp-skl>span+span::before{height:7px}
+</style>
+<div class="sp-rows">
+
+<section class="sp-sec" data-density="comfortable"><h3>Comfortable · in a Metric and in a list row</h3><div class="sp-grid">
+<div class="sp-pair">
+<div class="sp-m"><span class="sp-ml">CI duration · p50</span><span class="sp-mv">18.4<small>min</small><svg class="sp-svg" width="100" height="28" viewBox="0 0 100 28" role="img" aria-label="Up from 13.2 to 18.4 minutes over 12 weeks"><path d="M1 24.6 L9.7 22.9 L18.5 25 L27.2 21.3 L35.9 19.6 L44.6 20.8 L53.4 16.3 L62.1 13.8 L70.8 15 L79.5 9.2 L88.3 6.3"></path><path class="now" d="M88.3 6.3 L97 3"></path><circle class="ring" cx="97" cy="3" r="5"></circle><circle cx="97" cy="3" r="3"></circle></svg></span><span class="sp-md"><span>+5.2 min since Jul 20</span></span><span class="sp-bar" aria-hidden="true"></span></div>
+<div class="sp-m"><span class="sp-ml">Failed runs this week</span><span class="sp-mv">12<small>of 412</small><svg class="sp-svg" width="112" height="28" viewBox="0 0 112 28" role="img" aria-label="Up from 3 to 12 failed runs a week over 12 weeks"><path d="M1 22.8 L10.8 25 L20.6 20.6 L30.5 22.8 L40.3 18.4 L50.1 20.6 L59.9 16.2 L69.7 9.6 L79.5 14 L89.4 11.8 L99.2 5.2"></path><path class="now" d="M99.2 5.2 L109 3"></path><circle class="ring" cx="109" cy="3" r="5"></circle><circle cx="109" cy="3" r="3"></circle></svg></span><span class="sp-md"><span>+9 since Jul 20</span></span><span class="sp-bar" aria-hidden="true"></span></div>
+</div>
+<div class="g-card sp-list"><div class="g-head"><h2>Slowest workflows</h2><span>p50 · last 12 weeks</span></div><ul>
+<li><span class="g-mark crit" aria-hidden="true"></span><span class="sp-t"><b>e2e-turbopack</b><i>canary · failing since Tue</i></span><span class="sp-slot"><svg class="sp-svg" width="80" height="28" viewBox="0 0 80 28" role="img" aria-label="Up from 17.0 to 24.6 minutes over 12 weeks"><path d="M1 24.4 L7.9 23.3 L14.8 25 L21.7 21.3 L28.6 19.1 L35.5 17.1 L42.5 18.2 L49.4 14.8 L56.3 11.2 L63.2 9.5 L70.1 5"></path><path class="now" d="M70.1 5 L77 3"></path><circle class="ring" cx="77" cy="3" r="5"></circle><circle cx="77" cy="3" r="3"></circle></svg></span><span class="sp-v">24.6 min</span></li>
+<li><span class="g-mark" aria-hidden="true"></span><span class="sp-t"><b>build-and-test</b><i>canary · 412 runs this week</i></span><span class="sp-slot"><svg class="sp-svg" width="80" height="28" viewBox="0 0 80 28" role="img" aria-label="Up from 13.2 to 18.4 minutes over 12 weeks"><path d="M1 24.6 L7.9 22.9 L14.8 25 L21.7 21.3 L28.6 19.6 L35.5 20.8 L42.5 16.3 L49.4 13.8 L56.3 15 L63.2 9.2 L70.1 6.3"></path><path class="now" d="M70.1 6.3 L77 3"></path><circle class="ring" cx="77" cy="3" r="5"></circle><circle cx="77" cy="3" r="3"></circle></svg></span><span class="sp-v">18.4 min</span></li>
+<li><span class="g-mark" aria-hidden="true"></span><span class="sp-t"><b>lint-and-types</b><i>canary · 398 runs this week</i></span><span class="sp-slot"><svg class="sp-svg" width="80" height="28" viewBox="0 0 80 28" role="img" aria-label="Steady near 3.2 minutes over 12 weeks"><path d="M1 11.2 L7.9 14 L14.8 8.3 L21.7 16.8 L28.6 11.2 L35.5 14 L42.5 19.7 L49.4 16.8 L56.3 14 L63.2 16.8 L70.1 19.7"></path><path class="now" d="M70.1 19.7 L77 19.7"></path><circle class="ring" cx="77" cy="19.7" r="5"></circle><circle cx="77" cy="19.7" r="3"></circle></svg></span><span class="sp-v">3.1 min</span></li>
+</ul></div>
+</div></section>
+
+<section class="sp-sec" data-density="compact"><h3>Compact</h3><div class="sp-grid">
+<div class="sp-pair">
+<div class="sp-m"><span class="sp-ml">CI duration · p50</span><span class="sp-mv">18.4<small>min</small><svg class="sp-svg" width="120" height="24" viewBox="0 0 120 24" role="img" aria-label="Up from 13.2 to 18.4 minutes over 12 weeks"><path d="M1 20.7 L11.5 19.3 L22.1 21 L32.6 17.9 L43.2 16.6 L53.7 17.6 L64.3 13.9 L74.8 11.8 L85.4 12.8 L95.9 8.1 L106.5 5.7"></path><path class="now" d="M106.5 5.7 L117 3"></path><circle class="ring" cx="117" cy="3" r="5"></circle><circle cx="117" cy="3" r="3"></circle></svg></span><span class="sp-md"><span>+5.2 min since Jul 20</span></span><span class="sp-bar" aria-hidden="true"></span></div>
+<div class="sp-m"><span class="sp-ml">Failed runs this week</span><span class="sp-mv">12<small>of 412</small><svg class="sp-svg" width="120" height="24" viewBox="0 0 120 24" role="img" aria-label="Up from 3 to 12 failed runs a week over 12 weeks"><path d="M1 19.2 L11.5 21 L22.1 17.4 L32.6 19.2 L43.2 15.6 L53.7 17.4 L64.3 13.8 L74.8 8.4 L85.4 12 L95.9 10.2 L106.5 4.8"></path><path class="now" d="M106.5 4.8 L117 3"></path><circle class="ring" cx="117" cy="3" r="5"></circle><circle cx="117" cy="3" r="3"></circle></svg></span><span class="sp-md"><span>+9 since Jul 20</span></span><span class="sp-bar" aria-hidden="true"></span></div>
+</div>
+<div class="g-card sp-list"><div class="g-head"><h2>Slowest workflows</h2><span>p50 · last 12 weeks</span></div><ul>
+<li><span class="g-mark crit" aria-hidden="true"></span><span class="sp-t"><b>e2e-turbopack</b><i>canary · failing since Tue</i></span><span class="sp-slot"><svg class="sp-svg" width="80" height="24" viewBox="0 0 80 24" role="img" aria-label="Up from 17.0 to 24.6 minutes over 12 weeks"><path d="M1 20.5 L7.9 19.6 L14.8 21 L21.7 18 L28.6 16.2 L35.5 14.5 L42.5 15.5 L49.4 12.7 L56.3 9.7 L63.2 8.3 L70.1 4.6"></path><path class="now" d="M70.1 4.6 L77 3"></path><circle class="ring" cx="77" cy="3" r="5"></circle><circle cx="77" cy="3" r="3"></circle></svg></span><span class="sp-v">24.6 min</span></li>
+<li><span class="g-mark" aria-hidden="true"></span><span class="sp-t"><b>build-and-test</b><i>canary · 412 runs this week</i></span><span class="sp-slot"><svg class="sp-svg" width="80" height="24" viewBox="0 0 80 24" role="img" aria-label="Up from 13.2 to 18.4 minutes over 12 weeks"><path d="M1 20.7 L7.9 19.3 L14.8 21 L21.7 17.9 L28.6 16.6 L35.5 17.6 L42.5 13.9 L49.4 11.8 L56.3 12.8 L63.2 8.1 L70.1 5.7"></path><path class="now" d="M70.1 5.7 L77 3"></path><circle class="ring" cx="77" cy="3" r="5"></circle><circle cx="77" cy="3" r="3"></circle></svg></span><span class="sp-v">18.4 min</span></li>
+<li><span class="g-mark" aria-hidden="true"></span><span class="sp-t"><b>lint-and-types</b><i>canary · 398 runs this week</i></span><span class="sp-slot"><svg class="sp-svg" width="80" height="24" viewBox="0 0 80 24" role="img" aria-label="Steady near 3.2 minutes over 12 weeks"><path d="M1 9.7 L7.9 12 L14.8 7.4 L21.7 14.3 L28.6 9.7 L35.5 12 L42.5 16.6 L49.4 14.3 L56.3 12 L63.2 14.3 L70.1 16.6"></path><path class="now" d="M70.1 16.6 L77 16.6"></path><circle class="ring" cx="77" cy="16.6" r="5"></circle><circle cx="77" cy="16.6" r="3"></circle></svg></span><span class="sp-v">3.1 min</span></li>
+</ul></div>
+</div></section>
+
+<section class="sp-sec" data-density="spacious"><h3>Spacious · the Metric sparkline takes the room after the number, so it narrows</h3><div class="sp-grid">
+<div class="sp-pair">
+<div class="sp-m"><span class="sp-ml">CI duration · p50</span><span class="sp-mv">18.4<small>min</small><svg class="sp-svg" width="60" height="32" viewBox="0 0 60 32" role="img" aria-label="Up from 13.2 to 18.4 minutes over 12 weeks"><path d="M1 28.5 L6.1 26.5 L11.2 29 L16.3 24.6 L21.4 22.6 L26.5 24.1 L31.5 18.7 L36.6 15.8 L41.7 17.2 L46.8 10.4 L51.9 6.9"></path><path class="now" d="M51.9 6.9 L57 3"></path><circle class="ring" cx="57" cy="3" r="5"></circle><circle cx="57" cy="3" r="3"></circle></svg></span><span class="sp-md"><span>+5.2 min since Jul 20</span></span><span class="sp-bar" aria-hidden="true"></span></div>
+<div class="sp-m"><span class="sp-ml">Failed runs this week</span><span class="sp-mv">12<small>of 412</small><svg class="sp-svg" width="72" height="32" viewBox="0 0 72 32" role="img" aria-label="Up from 3 to 12 failed runs a week over 12 weeks"><path d="M1 26.4 L7.2 29 L13.4 23.8 L19.5 26.4 L25.7 21.2 L31.9 23.8 L38.1 18.6 L44.3 10.8 L50.5 16 L56.6 13.4 L62.8 5.6"></path><path class="now" d="M62.8 5.6 L69 3"></path><circle class="ring" cx="69" cy="3" r="5"></circle><circle cx="69" cy="3" r="3"></circle></svg></span><span class="sp-md"><span>+9 since Jul 20</span></span><span class="sp-bar" aria-hidden="true"></span></div>
+</div>
+<div class="g-card sp-list"><div class="g-head"><h2>Slowest workflows</h2><span>p50 · last 12 weeks</span></div><ul>
+<li><span class="g-mark crit" aria-hidden="true"></span><span class="sp-t"><b>e2e-turbopack</b><i>canary · failing since Tue</i></span><span class="sp-slot"><svg class="sp-svg" width="80" height="32" viewBox="0 0 80 32" role="img" aria-label="Up from 17.0 to 24.6 minutes over 12 weeks"><path d="M1 28.3 L7.9 27 L14.8 29 L21.7 24.7 L28.6 22 L35.5 19.7 L42.5 21 L49.4 17 L56.3 12.7 L63.2 10.7 L70.1 5.3"></path><path class="now" d="M70.1 5.3 L77 3"></path><circle class="ring" cx="77" cy="3" r="5"></circle><circle cx="77" cy="3" r="3"></circle></svg></span><span class="sp-v">24.6 min</span></li>
+<li><span class="g-mark" aria-hidden="true"></span><span class="sp-t"><b>build-and-test</b><i>canary · 412 runs this week</i></span><span class="sp-slot"><svg class="sp-svg" width="80" height="32" viewBox="0 0 80 32" role="img" aria-label="Up from 13.2 to 18.4 minutes over 12 weeks"><path d="M1 28.5 L7.9 26.5 L14.8 29 L21.7 24.6 L28.6 22.6 L35.5 24.1 L42.5 18.7 L49.4 15.8 L56.3 17.2 L63.2 10.4 L70.1 6.9"></path><path class="now" d="M70.1 6.9 L77 3"></path><circle class="ring" cx="77" cy="3" r="5"></circle><circle cx="77" cy="3" r="3"></circle></svg></span><span class="sp-v">18.4 min</span></li>
+<li><span class="g-mark" aria-hidden="true"></span><span class="sp-t"><b>lint-and-types</b><i>canary · 398 runs this week</i></span><span class="sp-slot"><svg class="sp-svg" width="80" height="32" viewBox="0 0 80 32" role="img" aria-label="Steady near 3.2 minutes over 12 weeks"><path d="M1 12.6 L7.9 16 L14.8 9.3 L21.7 19.4 L28.6 12.6 L35.5 16 L42.5 22.7 L49.4 19.4 L56.3 16 L63.2 19.4 L70.1 22.7"></path><path class="now" d="M70.1 22.7 L77 22.7"></path><circle class="ring" cx="77" cy="22.7" r="5"></circle><circle cx="77" cy="22.7" r="3"></circle></svg></span><span class="sp-v">3.1 min</span></li>
+</ul></div>
+</div></section>
+
+<section class="sp-sec" data-density="comfortable"><h3>Comfortable · trend states in a Metric: skeleton, empty, failed, warming</h3><div class="sp-four">
+<div class="sp-m" aria-busy="true"><span class="g-sr">Loading CI duration.</span><span class="g-sk" style="width:58%;height:9px;margin:4px 0"></span><span class="sp-skv" aria-hidden="true"><span class="g-sk" style="width:38%"></span><span class="g-sk" style="width:100px"></span></span><span class="g-sk" style="width:52%;height:8px;margin-top:calc(var(--stack) + 4px)"></span></div>
+<div class="sp-m"><span class="sp-ml">e2e-rspack duration · p50</span><span class="sp-mv">9.6<small>min</small><svg class="sp-svg" width="120" height="28" viewBox="0 0 120 28" aria-hidden="true"><path class="flat" d="M1 25 L119 25"></path></svg></span><span class="sp-md"><span>first point lands Oct 12</span></span><span class="sp-bar" aria-hidden="true"></span></div>
+<div class="sp-m"><span class="sp-ml">CI duration · p50</span><span class="sp-mv">18.4<small>min</small><span class="sp-mslot"><svg class="sp-svg" width="100" height="28" viewBox="0 0 100 28" aria-hidden="true"></svg><span class="g-mark unavailable" aria-hidden="true"></span></span></span><span class="sp-md"><span>trend unavailable</span><button class="g-retry" type="button">Try again</button></span><span class="sp-bar" aria-hidden="true"></span></div>
+<div class="sp-m" aria-busy="true"><span class="sp-ml">Commits to canary this week</span><span class="sp-mv">142<svg class="sp-svg" width="120" height="28" viewBox="0 0 120 28" aria-hidden="true"><path class="flat" d="M1 25 L119 25"></path><path class="draw" d="M1 25 L50.6 25"></path></svg></span><span class="sp-md"><span>GitHub is counting the trend</span></span><span class="sp-bar" aria-hidden="true"></span></div>
+</div></section>
+
+<section class="sp-sec" data-density="comfortable"><h3>Comfortable · trend states in a list: skeleton, then an empty and a failed trend beside a ready one</h3><div class="sp-grid">
+<div class="g-card sp-list sp-sk" aria-busy="true"><span class="g-sr">Loading workflows.</span><div class="g-head" aria-hidden="true"><span class="g-sk" style="width:140px;height:9px"></span><span class="g-sk" style="width:104px;height:7px"></span></div><ul aria-hidden="true">
+<li><span class="sp-skm"></span><span class="sp-skl"><span style="--w:46%"></span><span style="--w:58%"></span></span><span class="sp-slot"></span><span class="sp-v"><span class="g-sk" style="width:40px;height:7px"></span></span></li>
+<li><span class="sp-skm"></span><span class="sp-skl"><span style="--w:52%"></span><span style="--w:44%"></span></span><span class="sp-slot"></span><span class="sp-v"><span class="g-sk" style="width:40px;height:7px"></span></span></li>
+<li><span class="sp-skm"></span><span class="sp-skl"><span style="--w:40%"></span><span style="--w:50%"></span></span><span class="sp-slot"></span><span class="sp-v"><span class="g-sk" style="width:40px;height:7px"></span></span></li>
+</ul></div>
+<div class="g-card sp-list"><div class="g-head"><h2>Slowest workflows</h2><span>p50 · last 12 weeks</span></div><ul>
+<li><span class="g-mark crit" aria-hidden="true"></span><span class="sp-t"><b>e2e-turbopack</b><i>canary · failing since Tue</i></span><span class="sp-slot"><svg class="sp-svg" width="80" height="28" viewBox="0 0 80 28" role="img" aria-label="Up from 17.0 to 24.6 minutes over 12 weeks"><path d="M1 24.4 L7.9 23.3 L14.8 25 L21.7 21.3 L28.6 19.1 L35.5 17.1 L42.5 18.2 L49.4 14.8 L56.3 11.2 L63.2 9.5 L70.1 5"></path><path class="now" d="M70.1 5 L77 3"></path><circle class="ring" cx="77" cy="3" r="5"></circle><circle cx="77" cy="3" r="3"></circle></svg></span><span class="sp-v">24.6 min</span></li>
+<li><span class="g-mark" aria-hidden="true"></span><span class="sp-t"><b>e2e-rspack</b><i>added Oct 5 · first point lands Oct 12</i></span><span class="sp-slot"><svg class="sp-svg" width="80" height="28" viewBox="0 0 80 28" aria-hidden="true"><path class="flat" d="M1 25 L79 25"></path></svg></span><span class="sp-v">9.6 min</span></li>
+<li><span class="g-mark" aria-hidden="true"></span><span class="sp-t"><b>build-and-test</b><i>trend unavailable · GitHub returned 502</i></span><span class="sp-slot"><span class="g-mark unavailable" aria-hidden="true"></span><span class="g-sr">Trend unavailable.</span></span><span class="sp-v">18.4 min</span></li>
+</ul></div>
+</div></section>
+
+</div>

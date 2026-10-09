@@ -1,0 +1,115 @@
+<!-- @dsCard group="Guidance" height=1340 width=1200 subtitle="ringed numbers on a spine · links, inline code · skeleton, error, warming" -->
+<style>
+body{margin:0;padding:24px;background:var(--bg);color:var(--ink);font-family:var(--font-sans)}
+[data-density]{--inset:var(--space-5);--card-y:var(--space-4);--row-y:var(--space-3);--st-gap:var(--space-5);--st-link:var(--space-2)}
+[data-density="compact"]{--inset:var(--space-4);--card-y:var(--space-3);--row-y:var(--space-2);--st-gap:var(--space-4);--st-link:var(--space-2)}
+[data-density="spacious"]{--inset:var(--space-6);--card-y:var(--space-5);--row-y:var(--space-4);--st-gap:var(--space-6);--st-link:var(--space-3)}
+.rows{display:grid;gap:28px}
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px;align-items:start}
+.cell{display:grid;gap:10px;min-width:0}
+.cell>h4{margin:0;font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.stack{display:grid;gap:var(--space-4)}
+.card{position:relative;overflow:hidden;background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius-lg);box-shadow:var(--card)}
+.head{display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-3);padding:var(--card-y) var(--inset) var(--row-y);border-bottom:1px solid var(--line-soft)}
+.head h2{margin:0;font-size:13px;line-height:1.3;font-weight:600;letter-spacing:.01em}
+.head>span{font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted)}
+.st-list{margin:0;padding:var(--st-gap) 0;list-style:none;display:flex;flex-direction:column;gap:var(--st-gap)}
+.st-list>li{position:relative;display:flex;align-items:flex-start;gap:var(--space-3);padding:0 var(--inset)}
+.st-list>li:not(:last-child)::after{content:"";position:absolute;left:calc(var(--inset) + 10px);top:26px;bottom:calc(var(--space-1) - var(--st-gap) - 1px);width:1px;background:var(--line)}
+.st-n{flex-shrink:0;box-sizing:border-box;width:21px;height:21px;margin-top:1px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font:500 11px/1 var(--font-mono);color:var(--muted)}
+.st-list>li:first-child .st-n{border-color:var(--accent);color:var(--accent-text)}
+.st-c{flex-grow:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start}
+.st-top{align-self:stretch;display:flex;align-items:baseline;justify-content:space-between;gap:var(--space-3);min-width:0}
+.st-top h3{margin:0;min-width:0;font-size:15px;line-height:21px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.st-fact{flex-shrink:0;font:400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap}
+.st-c p{margin:var(--space-1) 0 0;max-width:62ch;font-size:14px;line-height:1.45;color:var(--muted);text-wrap:pretty}
+.st-c code{margin:0 .1em;font-family:var(--font-mono);font-size:.85em;font-weight:500;color:var(--ink);white-space:nowrap}
+.st-a{position:relative;margin-top:var(--st-link);display:inline-flex;align-items:center;gap:var(--space-1);white-space:nowrap;border-radius:4px;font:500 13px/1.3 var(--font-sans);color:var(--accent-text);text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--accent-text) 35%,transparent);text-underline-offset:3px;cursor:pointer}
+.st-a svg{flex-shrink:0;display:block}
+.st-a:hover,.st-a.is-hover{text-decoration-color:currentColor}
+.st-a:hover svg,.st-a.is-hover svg{transform:translate(1px,-1px)}
+.st-a:focus-visible,.st-a.is-focus,.retry:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.sk-head{align-items:center;height:17px}
+.sk{display:block;border-radius:var(--radius-sm);background:var(--line-soft)}
+.st-sk{margin:0;padding:var(--st-gap) 0;list-style:none;display:flex;flex-direction:column;gap:var(--st-gap)}
+.st-sk>li{display:flex;align-items:flex-start;gap:var(--space-3);padding:0 var(--inset)}
+.st-sk .disc{flex-shrink:0;width:21px;height:21px;margin-top:1px;border-radius:50%;background:var(--line-soft)}
+.st-sk .lines{flex-grow:1;min-width:0;display:flex;flex-direction:column}
+.st-sk .top{height:21px;display:flex;align-items:center;justify-content:space-between;gap:var(--space-3)}
+.st-sk .ln{height:20.3px;display:flex;align-items:center}
+.st-sk .top+.ln{margin-top:var(--space-1)}
+.st-sk .lk{margin-top:var(--st-link);height:17px;display:flex;align-items:center}
+.one{margin:0;padding:0;list-style:none}
+.one>li{display:flex;align-items:center;gap:var(--space-3);padding:var(--row-y) var(--inset)}
+.mark{position:relative;align-self:flex-start;flex-shrink:0;box-sizing:border-box;width:10px;height:10px;margin-top:3.75px;border-radius:50%;border:1.5px solid var(--muted)}
+.mark.unavailable::after{content:"";position:absolute;left:50%;top:-1.5px;bottom:-1.5px;width:1.5px;margin-left:-.75px;background:var(--muted);transform:rotate(45deg)}
+.mark.warming{border-color:var(--line)}
+.mark.warming::after{content:"";position:absolute;inset:-1.5px;border-radius:50%;border:1.5px solid transparent;border-top-color:var(--accent);border-right-color:var(--accent)}
+.t{flex-grow:1;min-width:0;display:grid;gap:2px}
+.t b{font-size:13.5px;line-height:1.3;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t b.quiet{color:var(--muted)}
+.t i{font:normal 400 11.5px/1.4 var(--font-mono);letter-spacing:.02em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.retry{flex-shrink:0;white-space:nowrap;margin:0;padding:0;border:0;background:none;font:500 13px/1.3 var(--font-sans);color:var(--accent-text);text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--accent-text) 35%,transparent);text-underline-offset:3px;border-radius:4px;cursor:pointer}
+.progress{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--line-soft)}
+.progress>span{position:absolute;left:0;top:0;bottom:0;border-radius:0 var(--radius-pill) var(--radius-pill) 0;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+</style>
+<div class="rows">
+  <section class="row" data-density="comfortable">
+    <div class="pair">
+      <div class="cell"><h4>Comfortable · 4 steps, with links</h4>
+        <div class="card"><div class="head"><h2>Where to start</h2><span>vercel/next.js</span></div><ol class="st-list" role="list">
+          <li><span class="st-n" aria-hidden="true">1</span><div class="st-c"><div class="st-top"><h3><span class="sr">Step 1 of 4. </span>Read the contributing guide</h3><span class="st-fact">updated 12d ago</span></div><p>It covers the canary branch, commit style and what reviewers check before they approve.</p><a class="st-a" href="https://github.com/vercel/next.js/blob/canary/contributing.md" target="_blank" rel="noopener">Contributing guide<span class="sr"> (opens GitHub)</span><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 3H9v4.5"/><path d="M9 3 3 9"/></svg></a></div></li>
+          <li><span class="st-n" aria-hidden="true">2</span><div class="st-c"><div class="st-top"><h3><span class="sr">Step 2 of 4. </span>Pick a good first issue</h3><span class="st-fact">12 open</span></div><p>Each one is small and already triaged, so nobody is waiting on a design decision before you start.</p><a class="st-a" href="?q=Show+the+good+first+issues">Show the 12 issues</a></div></li>
+          <li><span class="st-n" aria-hidden="true">3</span><div class="st-c"><div class="st-top"><h3><span class="sr">Step 3 of 4. </span>Run the tests locally</h3><span class="st-fact">pnpm test-dev</span></div><p>Build once, then run the suite that covers the files you changed.</p></div></li>
+          <li><span class="st-n" aria-hidden="true">4</span><div class="st-c"><div class="st-top"><h3><span class="sr">Step 4 of 4. </span>Ask in Discussions</h3><span class="st-fact">median reply 5h</span></div><p>Post in the Help category if you get stuck. Most threads get an answer the same day.</p><a class="st-a" href="https://github.com/vercel/next.js/discussions/categories/help" target="_blank" rel="noopener">Help discussions<span class="sr"> (opens GitHub)</span><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 3H9v4.5"/><path d="M9 3 3 9"/></svg></a></div></li>
+        </ol></div>
+      </div>
+      <div class="cell"><h4>Comfortable · with inline code</h4>
+        <div class="card"><div class="head"><h2>Run next.js locally</h2><span>canary</span></div><ol class="st-list" role="list">
+          <li><span class="st-n" aria-hidden="true">1</span><div class="st-c"><div class="st-top"><h3><span class="sr">Step 1 of 3. </span>Install the toolchain</h3><span class="st-fact">pnpm 9.15</span></div><p>Run <code>corepack enable</code> so the repo's pinned pnpm is used, then <code>pnpm install</code> from the root.</p></div></li>
+          <li><span class="st-n" aria-hidden="true">2</span><div class="st-c"><div class="st-top"><h3><span class="sr">Step 2 of 3. </span>Build once, then watch</h3><span class="st-fact">about 4 min</span></div><p><code>pnpm build</code> compiles every package. Leave <code>pnpm dev</code> running while you edit.</p></div></li>
+          <li><span class="st-n" aria-hidden="true">3</span><div class="st-c"><div class="st-top"><h3><span class="sr">Step 3 of 3. </span>Run only what you changed</h3><span class="st-fact">2,140 suites</span></div><p>Pass a path to <code>pnpm test-dev</code>, such as <code>test/e2e/app-dir/navigation</code>, to run one suite.</p><a class="st-a" href="https://github.com/vercel/next.js/blob/canary/contributing/core/testing.md" target="_blank" rel="noopener">Testing guide<span class="sr"> (opens GitHub)</span><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 3H9v4.5"/><path d="M9 3 3 9"/></svg></a></div></li>
+        </ol></div>
+      </div>
+    </div>
+  </section>
+  <section class="row">
+    <div class="pair">
+      <div class="cell" data-density="compact"><h4>Compact · 3 steps · link hover, focus</h4>
+        <div class="card"><div class="head"><h2>Where to start</h2><span>facebook/react</span></div><ol class="st-list" role="list">
+          <li><span class="st-n" aria-hidden="true">1</span><div class="st-c"><div class="st-top"><h3><span class="sr">Step 1 of 3. </span>Find an issue to fix</h3><span class="st-fact">8 open</span></div><p>Issues labeled good first issue are small and come with a reproduction.</p><a class="st-a is-hover" href="https://github.com/facebook/react/labels/good%20first%20issue" target="_blank" rel="noopener">Good first issues<span class="sr"> (opens GitHub)</span><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 3H9v4.5"/><path d="M9 3 3 9"/></svg></a></div></li>
+          <li><span class="st-n" aria-hidden="true">2</span><div class="st-c"><div class="st-top"><h3><span class="sr">Step 2 of 3. </span>Sign the contributor agreement</h3></div><p>Meta needs it once before any pull request can merge. It takes a minute.</p><a class="st-a is-focus" href="https://code.facebook.com/cla" target="_blank" rel="noopener">Contributor agreement<span class="sr"> (opens in a new tab)</span><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 3H9v4.5"/><path d="M9 3 3 9"/></svg></a></div></li>
+          <li><span class="st-n" aria-hidden="true">3</span><div class="st-c"><div class="st-top"><h3><span class="sr">Step 3 of 3. </span>Run the tests for your package</h3><span class="st-fact">yarn test</span></div><p>Then run lint and Flow, so the checks pass on your first push.</p></div></li>
+        </ol></div>
+      </div>
+      <div class="cell" data-density="spacious"><h4>Spacious · 3 steps</h4>
+        <div class="card"><div class="head"><h2>Where to start</h2><span>facebook/react</span></div><ol class="st-list" role="list">
+          <li><span class="st-n" aria-hidden="true">1</span><div class="st-c"><div class="st-top"><h3><span class="sr">Step 1 of 3. </span>Find an issue to fix</h3><span class="st-fact">8 open</span></div><p>Issues labeled good first issue are small and come with a reproduction.</p><a class="st-a" href="https://github.com/facebook/react/labels/good%20first%20issue" target="_blank" rel="noopener">Good first issues<span class="sr"> (opens GitHub)</span><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 3H9v4.5"/><path d="M9 3 3 9"/></svg></a></div></li>
+          <li><span class="st-n" aria-hidden="true">2</span><div class="st-c"><div class="st-top"><h3><span class="sr">Step 2 of 3. </span>Sign the contributor agreement</h3></div><p>Meta needs it once before any pull request can merge. It takes a minute.</p><a class="st-a" href="https://code.facebook.com/cla" target="_blank" rel="noopener">Contributor agreement<span class="sr"> (opens in a new tab)</span><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 3H9v4.5"/><path d="M9 3 3 9"/></svg></a></div></li>
+          <li><span class="st-n" aria-hidden="true">3</span><div class="st-c"><div class="st-top"><h3><span class="sr">Step 3 of 3. </span>Run the tests for your package</h3><span class="st-fact">yarn test</span></div><p>Then run lint and Flow, so the checks pass on your first push.</p></div></li>
+        </ol></div>
+      </div>
+    </div>
+  </section>
+  <section class="row" data-density="compact">
+    <div class="pair">
+      <div class="cell"><h4>Compact · skeleton</h4>
+      <div class="card" aria-busy="true"><span class="sr">Writing the steps.</span>
+        <div class="head sk-head" aria-hidden="true"><span class="sk" style="width:112px;height:9px"></span><span class="sk" style="width:88px;height:7px"></span></div>
+        <ol class="st-sk" aria-hidden="true">
+          <li><span class="disc"></span><div class="lines"><div class="top"><span class="sk" style="width:46%;height:10px"></span><span class="sk" style="width:88px;height:7px"></span></div><div class="ln"><span class="sk" style="width:94%;height:8px"></span></div><div class="ln"><span class="sk" style="width:36%;height:8px"></span></div><div class="lk"><span class="sk" style="width:124px;height:8px"></span></div></div></li>
+          <li><span class="disc"></span><div class="lines"><div class="top"><span class="sk" style="width:38%;height:10px"></span><span class="sk" style="width:56px;height:7px"></span></div><div class="ln"><span class="sk" style="width:82%;height:8px"></span></div><div class="lk"><span class="sk" style="width:108px;height:8px"></span></div></div></li>
+          <li><span class="disc"></span><div class="lines"><div class="top"><span class="sk" style="width:42%;height:10px"></span><span class="sk" style="width:96px;height:7px"></span></div><div class="ln"><span class="sk" style="width:74%;height:8px"></span></div></div></li>
+        </ol>
+      </div>
+      </div>
+      <div class="cell"><h4>Compact · error, warming</h4>
+      <div class="stack">
+        <div class="card"><div class="head"><h2>Where to start</h2><span>vercel/next.js</span></div><ul class="one"><li><span class="mark unavailable" aria-hidden="true"></span><span class="t"><b>Couldn't load the contributing guide</b><i>GitHub returned 502 · tried twice</i></span><button class="retry" type="button">Try again</button></li></ul></div>
+        <div class="card" aria-busy="true"><div class="head"><h2>Where to start</h2><span>vercel/next.js</span></div><ul class="one"><li><span class="mark warming" aria-hidden="true"></span><span class="t"><b class="quiet">GitHub is counting recent contributors</b><i>usually under a minute · checking again in 12s</i></span></li></ul><span class="progress" aria-hidden="true"><span style="width:38%"></span></span></div>
+      </div>
+      </div>
+    </div>
+  </section>
+</div>
