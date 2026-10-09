@@ -2,6 +2,10 @@
 
 Newest entry first. Written at every GATE and whenever a session ends mid-phase.
 
+## 2026-10-09 · GATE 3 deferred · continuing into Phase 6
+
+The owner still could not review and asked to continue. GATE 3's checks are box A.2 in the final audit before Phase 10, beside GATE 2's. Phase 6 starts now.
+
 ## 2026-10-09 · GATE 3 · the data layer and the composer
 
 Phases 4 and 5 are complete: 4.0 to 4.11 and 5.0 to 5.9 are ticked and verified. GATE 2 was deferred to the final audit (plan box A.1) at the owner's request. The session stops here for GATE 3.

@@ -142,7 +142,7 @@ Prompt: `prompts/05-composer.md`. Spec: `docs/composer.md`.
 - [x] 5.8 The built payload on every composition. Done when the route's final message carries every `Built` field.
 - [x] 5.9 `pnpm compositions:refresh`: runs the 60 golden compositions (12 × 5 samples) once with the fill step, validates them, writes them under `packages/composer/golden/`, and commits them. The route serves these with zero model calls. Done when the 60 files exist and the zero-call test in 5.7 passes against them.
 
-`GATE 3` · the owner runs the twelve golden questions on next.js locally and reads the compositions.
+`GATE 3` · deferred to the final audit before Phase 10 (owner, 2026-10-09): the owner could not review at the time. Continue into Phase 6 without stopping.
 
 ---
 
@@ -221,6 +221,11 @@ Checks the owner put off to one sitting before launch. Each one names the gate i
   - `?reduced`: every move is a short fade; `?density=compact` and `spacious`.
   - Answer the Phase 3 entries in `docs/questions.md` (3.1 bound props, 3.1 the 120-character cap, 3.5 the clock, 3.11 reduced offsets, 3.7 emphasis, 3.12 packing), if Phase 5 has not already needed them.
   - Executor reruns first: `pnpm e2e -- render.spec.ts` and `pnpm a11y`.
+- [ ] A.2 From GATE 3, the data layer and the composer. `pnpm dev`, then ask the twelve golden questions on vercel/next.js (in the app once Phase 6 is built, or `POST /api/compose`):
+  - Read each composition: the insight answers the question, every figure means what its sentence says (a real figure in the wrong frame passes the number check; see `docs/questions.md` 5.4), the metrics, lists and charts are the right ones for the question.
+  - Ask two paraphrases and one off-template question on a live repo that is not a sample; note the latency against `docs/composer.md`'s targets.
+  - Answer the Phase 4 and 5 entries in `docs/questions.md` (bound props, rule 4 and the golden layouts, pr-detail's checks, the punch card cap, first-time contributors, Upstash KV, golden answers in UTC, latency, the number check).
+  - Executor reruns first: `pnpm samples:refresh vitejs/vite` (vite's two stats GitHub was still counting), `pnpm compositions:refresh`, `pnpm test`.
 
 `GATE` · final audit: the owner works through every box above, then Phase 10 starts.
 
