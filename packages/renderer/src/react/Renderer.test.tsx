@@ -4,7 +4,9 @@ import { registry } from '@genui-github/ui'
 import { catalogEntry } from '@genui-github/ui/catalog'
 import { FIXTURES } from '../fixtures'
 import type { Composition, Piece } from '../format'
-import { Renderer } from './Renderer'
+import { PIECES } from '@genui-github/ui/pieces'
+import { Conductor } from './conductor'
+import { Renderer, REGION_FAILED } from './Renderer'
 
 afterEach(cleanup)
 
@@ -84,5 +86,39 @@ describe('Renderer', () => {
     })
     expect(container.querySelector('[data-piece-id="metric:open-prs"]')).toBeNull()
     expect(container.querySelector('[data-piece-id="metric:failing-checks"] [data-number]')?.textContent).toBe('2')
+  })
+})
+
+describe('Renderer error boundaries', () => {
+  it('draws every other region when a component throws inside one region', () => {
+    const real = PIECES.LineChart!.Component
+    PIECES.LineChart!.Component = (() => {
+      throw new Error('the chart broke')
+    }) as typeof real
+    try {
+      const { container } = render(<Renderer composition={one} reduced />)
+      const side = container.querySelector('[data-region="side"]')!
+      expect(side.querySelector('[data-piece-id="linechart:ci-p50"]')?.getAttribute('data-piece-id')).toBe('linechart:ci-p50')
+      expect(side.textContent).toContain("Couldn't")
+      for (const region of ['insight', 'metrics', 'main', 'action']) expect(container.querySelector(`[data-region="${region}"] [data-piece-id]`), region).not.toBeNull()
+    } finally {
+      PIECES.LineChart!.Component = real
+    }
+  })
+
+  it('draws every other region when a move throws in one region, and says so in the system words', () => {
+    const motion = Conductor.prototype.motion
+    const spy = vi.spyOn(Conductor.prototype, 'motion').mockImplementation(function (this: Conductor, ...args: Parameters<Conductor['motion']>) {
+      if (args[3]?.startsWith('linechart')) throw new Error('the move broke')
+      return motion.apply(this, args)
+    })
+    try {
+      const { container } = render(<Renderer composition={one} reduced />)
+      expect(container.querySelector('[data-region="side"]')!.textContent).toContain(REGION_FAILED)
+      expect(container.querySelector('[data-region="side"] [data-piece-id]')).toBeNull()
+      for (const region of ['insight', 'metrics', 'main', 'action']) expect(container.querySelector(`[data-region="${region}"] [data-piece-id]`), region).not.toBeNull()
+    } finally {
+      spy.mockRestore()
+    }
   })
 })

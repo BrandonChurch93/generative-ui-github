@@ -1,7 +1,8 @@
 'use client'
 
-import { useLayoutEffect, useRef, useState } from 'react'
+import { Component, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import { AnimatePresence, LayoutGroup, useReducedMotion } from 'motion/react'
+import { createLogger } from '@genui-github/core'
 import { StateRow, TextLink, type Density } from '@genui-github/ui'
 import { wipe } from '@genui-github/ui/motion'
 import { plan as makePlan, type Plan } from '../choreography'
@@ -77,14 +78,47 @@ function QuestionLine({ text, conductor, reduced }: { text: string; conductor: C
   )
 }
 
+const log = createLogger('renderer:region')
+
+/** The system's words when a whole region failed to draw. */
+export const REGION_FAILED = "Couldn't draw this part of the answer"
+
+/**
+ * A piece's own boundary catches a component that throws while rendering. This one catches what is left:
+ * a frame or a move that throws, so one region failing never takes the screen with it.
+ */
+class RegionBoundary extends Component<{ name: RegionName; ids: string; children: ReactNode }, { failed: boolean }> {
+  override state = { failed: false }
+
+  static getDerivedStateFromError() {
+    return { failed: true }
+  }
+
+  override componentDidCatch(error: Error) {
+    log.error('region threw while rendering', { region: this.props.name, error: error.message })
+  }
+
+  override componentDidUpdate(prev: { ids: string }) {
+    // A new composition in this region gets a fresh try.
+    if (this.state.failed && prev.ids !== this.props.ids) this.setState({ failed: false })
+  }
+
+  override render() {
+    if (!this.state.failed) return this.props.children
+    return <StateRow kind="error" title={REGION_FAILED} meta="A part of the renderer failed on this data" />
+  }
+}
+
 function Region({ name, nodes, label }: { name: RegionName; nodes: RenderNode[]; label?: string }) {
   return (
     <section className={styles[name]} data-region={name} data-count={nodes.length} aria-label={label}>
-      <AnimatePresence mode="popLayout">
-        {nodes.map(node => (
-          <PieceFrame key={node.id} node={node} />
-        ))}
-      </AnimatePresence>
+      <RegionBoundary name={name} ids={nodes.map(n => n.id).join(' ')}>
+        <AnimatePresence mode="popLayout">
+          {nodes.map(node => (
+            <PieceFrame key={node.id} node={node} />
+          ))}
+        </AnimatePresence>
+      </RegionBoundary>
     </section>
   )
 }
