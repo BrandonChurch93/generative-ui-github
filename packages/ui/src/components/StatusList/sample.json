@@ -1,0 +1,24 @@
+{
+  "props": {
+    "kind": "pull",
+    "title": "Milestone pull requests",
+    "meta": "sorted by age",
+    "items": [
+      { "id": "84120", "title": "Turbopack: fix CSS chunk ordering in app router", "meta": "#84120 · mira-dev · opened 6d ago", "state": "pending", "value": { "add": 412, "del": 96 } },
+      { "id": "84077", "title": "Cache components: stale revalidation on nested layouts", "meta": "#84077 · tkato · opened 5d ago", "state": "changes", "value": { "add": 218, "del": 140 } },
+      { "id": "84156", "title": "Router: prefetch drops search params on redirect", "meta": "#84156 · j-oduya · opened 4d ago", "state": "failing", "value": { "add": 96, "del": 31 } },
+      { "id": "84190", "title": "Docs: app router migration guide, section 4", "meta": "#84190 · lenaw · opened 3d ago", "state": "approved", "value": { "add": 540, "del": 0 } }
+    ]
+  },
+  "empty": {
+    "kind": "pull",
+    "title": "Milestone pull requests",
+    "meta": "none open",
+    "items": [],
+    "emptyTone": "good",
+    "empty": "No open pull requests on v16.2",
+    "emptyMeta": "last merged 2h ago · #84112"
+  },
+  "error": { "failed": "Couldn't load pull requests", "cause": "GitHub returned 502 · tried twice" },
+  "warming": { "counting": "GitHub is counting reviews", "nextCheck": "usually under a minute · checking again in 12s", "progress": 0.38 }
+}

@@ -52,15 +52,17 @@ export function CardFrame({
     >
       {hasHeader && (
         <header className={styles.head} data-card-head="">
-          <div className={styles.titles}>
-            {title !== undefined && (
-              <Heading id={titleId} className={styles.title}>
-                {title}
-              </Heading>
-            )}
-            {meta !== undefined && <span className={styles.meta}>{meta}</span>}
-          </div>
-          {headerEnd !== undefined && <div className={styles.end}>{headerEnd}</div>}
+          {title !== undefined && (
+            <Heading id={titleId} className={styles.title}>
+              {title}
+            </Heading>
+          )}
+          {(meta !== undefined || headerEnd !== undefined) && (
+            <div className={styles.end}>
+              {meta !== undefined && <span className={styles.meta}>{meta}</span>}
+              {headerEnd}
+            </div>
+          )}
         </header>
       )}
       {children}

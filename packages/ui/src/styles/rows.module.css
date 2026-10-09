@@ -10,20 +10,27 @@
   position: relative;
 }
 
-.item + .item::before {
-  content: "";
+/* A real element, not a pseudo-element, so it can extend on arrival. Only between rows. */
+.hairline {
   position: absolute;
+  z-index: 1;
   inset-inline: var(--inset);
   top: 0;
-  height: var(--hairline);
+  block-size: var(--hairline);
   background: var(--line);
+  transform-origin: left center;
+  pointer-events: none;
+}
+
+.item:first-child > .hairline {
+  display: none;
 }
 
 .row {
   position: relative;
   isolation: isolate;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: var(--space-3);
   padding: var(--row-y) var(--inset);
   color: inherit;
@@ -56,9 +63,43 @@
 }
 
 /* A lifted row hides the hairlines on either side of it. */
-.item:has(> :is(a, button).row:hover)::before,
-.item:has(> :is(a, button).row:hover) + .item::before {
+.item:has(> :is(a, button).row:hover) > .hairline,
+.item:has(> :is(a, button).row:hover) + .item > .hairline {
   opacity: 0;
+}
+
+/* Marks sit on the title line, whatever else the row centers. */
+.mark {
+  align-self: flex-start;
+  margin-top: calc((var(--text-row-title-size) * var(--text-row-title-leading) - var(--mark)) / 2);
+}
+
+.text {
+  display: grid;
+  gap: calc(var(--space-1) / 2);
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.title {
+  overflow: hidden;
+  font-size: var(--text-row-title-size);
+  line-height: var(--text-row-title-leading);
+  font-weight: var(--text-row-title-weight);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.meta {
+  overflow: hidden;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 :is(a, button).row:focus-visible {

@@ -57,32 +57,14 @@
   padding: var(--card-y) var(--inset);
 }
 
-.rowMark {
-  margin-top: calc((var(--text-row-title-size) * var(--text-row-title-leading) - var(--mark)) / 2);
-}
 
-.rowText {
-  display: grid;
-  gap: var(--space-1);
-  flex-grow: 1;
-  min-width: 0;
-}
 
-.rowTitle {
-  overflow: hidden;
-  font-size: var(--text-row-title-size);
-  line-height: var(--text-row-title-leading);
-  font-weight: var(--text-row-title-weight);
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
 
-.rowMeta {
-  color: var(--muted);
-  font-family: var(--font-mono);
-  font-size: var(--text-meta-size);
-  line-height: var(--text-meta-leading);
-  letter-spacing: var(--text-meta-tracking);
+
+.rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .skeleton {

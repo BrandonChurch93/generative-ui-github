@@ -11,11 +11,11 @@ import {
   SkeletonBlock,
   Spine,
   StateRow,
+  StatusRow,
   Tag,
   TextLink,
   type Density,
 } from '@genui-github/ui'
-import rows from '@genui-github/ui/rows.module.css'
 import styles from './parts.module.css'
 
 const ROWS = [
@@ -73,18 +73,18 @@ export function PartsGallery() {
       </CardFrame>
 
       <CardFrame title="Rows" meta="one hover, one focus ring">
-        <ul className={rows.list} id="rows">
+        <ul className={styles.rows} id="rows">
           {ROWS.map(row => (
-            <li key={row.title} className={rows.item}>
-              <a className={rows.row} href="#rows">
-                <Mark kind={row.tag.props.tone === 'crit' ? 'crit' : row.tag.props.tone === 'warn' ? 'warn' : 'good'} className={styles.rowMark} />
-                <span className={styles.rowText}>
-                  <span className={styles.rowTitle}>{row.title}</span>
-                  <span className={styles.rowMeta}>{row.meta}</span>
-                </span>
-                {row.tag}
-              </a>
-            </li>
+            <StatusRow
+              key={row.title}
+              id={row.title}
+              mark={row.tag.props.tone === 'crit' ? 'crit' : row.tag.props.tone === 'warn' ? 'warn' : 'good'}
+              title={row.title}
+              meta={row.meta}
+              url="#rows"
+            >
+              {row.tag}
+            </StatusRow>
           ))}
         </ul>
       </CardFrame>

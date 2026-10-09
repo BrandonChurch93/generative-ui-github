@@ -3,3 +3,4 @@ export { createRegistry, type ComponentSpec, type OmittedState, type Registry } 
 export { registry } from './specs'
 export * from './tokens'
 export * from './types'
+export { StatusRow, type StatusRowProps } from './components/StatusList/Row'

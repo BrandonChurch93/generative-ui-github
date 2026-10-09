@@ -36,16 +36,8 @@ button.card:hover {
   border-bottom: var(--hairline) solid var(--line-soft);
 }
 
-.titles {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  column-gap: var(--space-3);
-  row-gap: var(--space-1);
-  min-width: 0;
-}
-
 .title {
+  min-width: 0;
   margin: 0;
   color: var(--ink);
   font-family: var(--font-sans);
@@ -67,6 +59,7 @@ button.card:hover {
 .end {
   display: flex;
   flex-shrink: 0;
+  margin-inline-start: auto;
   align-items: baseline;
   gap: var(--space-3);
 }

@@ -1,0 +1,52 @@
+.size {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-tag-size);
+  line-height: var(--text-tag-leading);
+  font-weight: var(--text-tag-weight);
+}
+
+.sizeFigures {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.add {
+  color: var(--good);
+}
+
+.del {
+  color: var(--crit);
+}
+
+/* A red zero reads as a deletion. */
+.add[data-zero],
+.del[data-zero] {
+  color: var(--muted);
+}
+
+.count {
+  flex-shrink: 0;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-tag-size);
+  line-height: var(--text-tag-leading);
+  font-weight: var(--text-tag-weight);
+  white-space: nowrap;
+}
+
+.value {
+  flex-shrink: 0;
+  inline-size: var(--row-value);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-tag-size);
+  line-height: var(--text-tag-leading);
+  font-weight: var(--text-tag-weight);
+  text-align: end;
+  white-space: nowrap;
+}
+
+.pill {
+  border-radius: var(--radius-pill);
+}

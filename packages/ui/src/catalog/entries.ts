@@ -3,6 +3,10 @@ import { Metric } from '../components/Metric/Metric'
 import { metricMotion } from '../components/Metric/motion'
 import metricSample from '../components/Metric/sample.json'
 import type { MetricProps } from '../components/Metric/schema'
+import { statusListMotion } from '../components/StatusList/motion'
+import statusListSample from '../components/StatusList/sample.json'
+import type { StatusListProps } from '../components/StatusList/schema'
+import { StatusList } from '../components/StatusList/StatusList'
 import { sparklineMotion } from '../components/Sparkline/motion'
 import sparklineSample from '../components/Sparkline/sample.json'
 import { SparklineDemo } from '../components/Sparkline/SparklineDemo'
@@ -70,6 +74,18 @@ export const CATALOG: CatalogEntry[] = [
     sample: sparklineSample,
     sampleFile: 'Sparkline/sample.json',
     width: 'quarter',
+  }),
+  entry<StatusListProps>({
+    name: 'StatusList',
+    group: 'Data',
+    description:
+      'A titled list of items, each carrying a state the model picked, in the mark, title, meta, size and tag rhythm every list in the system shares.',
+    spec: specOf('StatusList'),
+    Component: StatusList,
+    motion: statusListMotion,
+    sample: statusListSample as CatalogSample<StatusListProps>,
+    sampleFile: 'StatusList/sample.json',
+    width: 'half',
   }),
 ]
 
