@@ -172,10 +172,10 @@ Prompt: `prompts/06-shell.md`. Reference renderings: `design-system/screens/*.ht
 
 Prompt: `prompts/07-evals.md`. Spec: `docs/evals.md`.
 
-- [ ] 7.1 Scorers with unit tests. Done when each scorer has a test.
+- [x] 7.1 Scorers with unit tests. Done when each scorer has a test.
 - [ ] 7.2 Runner: calls the composer directly (not the route, so limits and the cap do not apply), three runs each for `production`, `sonnet`, `haiku`, writes `packages/evals/results/<date>-<model>.json`. Done when one full run completes and every case has every score.
-- [ ] 7.3 Results page `/evals`: `screens/Evals.html`, composed from the catalog. Done when it renders the latest results.
-- [ ] 7.4 Regression gate `pnpm evals:check`: fails if template accuracy or bindings on the 60 golden cases drop below the last recorded `production` run. Done when a deliberately broken template fails it.
+- [x] 7.3 Results page `/evals`: `screens/Evals.html`, composed from the catalog. Done when it renders the latest results.
+- [x] 7.4 Regression gate `pnpm evals:check`: fails if template accuracy or bindings on the 60 golden cases drop below the last recorded `production` run. Done when a deliberately broken template fails it.
 - [ ] 7.5 Commit the first baseline results (override the gitignore for this one file set). Put the aggregate table in `docs/status.md`. Done when `git show --stat` lists the three results files and `docs/status.md` carries the table.
 
 Continue into Phase 8 without stopping.

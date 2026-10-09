@@ -2,6 +2,38 @@
 
 Newest entry first. Written at every GATE and whenever a session ends mid-phase.
 
+## 2026-10-09 · Phase 7 stopped · the Anthropic credit balance ran out
+
+Stopped mid-phase, not at a gate: every Anthropic call now answers 400 "Your credit balance is too low to access the Anthropic API." Live questions in the app fail the same way until credits are added; golden questions on the five samples still open (they call no model).
+
+**Done and verified**
+
+- 7.1 Scorers (template, components F1, hot, schema, bindings, numbers, rules, plus latency and cost) with unit tests; the runner calls `compose()` directly with eval levers (skip the golden set and answer cache, route everything off-template for `sonnet`, Haiku off-template for `haiku`) and taps for the context, the route and rule drops.
+- 7.3 `/evals` renders the newest results file per model from the catalog's Metric, Comparison and StatusList, a page-level latency chart and per-model tables.
+- 7.4 `pnpm evals:check` failed on two deliberately broken release-blockers templates (one that fails to compose, one bound to a milestone that does not exist) and passed on the restored one.
+- Along the way: the off-template path now streams pieces as they arrive (it sent everything at the end); rule 5 drops a metric's repeated words instead of the metric; 16 set expectations follow the sample data (`docs/questions.md`, 7.1 and 7.4).
+
+**The production baseline** (`packages/evals/results/2026-10-09-production.json`, committed): 99 cases × 3 runs, final scorers.
+
+| Scorer | Pass rate (mean, run spread, n) |
+| --- | --- |
+| template | 0.96 (0.96 to 0.96, 99) |
+| components | 1.00 (1.00 to 1.00, 83), mean F1 0.993 |
+| hot | 1.00 (10) |
+| schema | 1.00 (97) |
+| bindings | 1.00 (55) |
+| numbers | 1.00 (97) |
+| rules | 1.00 (97) |
+
+Done p50 6.1s, p90 8.4s; first piece p50 6.1s; $0.56 for 297 compositions, $0.0019 each. The four template misses are off-template questions the classifier routes to a template (off-02, off-03, off-04, off-06) and follow-06-source, in every run.
+
+**Open: 7.2 and 7.5 need credits**
+
+- `sonnet`: the first full run (before the final scorers) gave template 0.13 (by design: everything goes off-template), components 0.31 (F1 0.76), schema 0.91, rules 0.95, done p50 4.7s, first piece p50 2.6s, $3.99 for 297, $0.0137 each. Its file is in `packages/evals/results/` but not committed: it was scored before bindings became strict.
+- `haiku`: the first full run gave template 0.95, components 1.00, schema 0.997, done p50 6.0s, $0.19 for 297. The rerun failed on every call once credits ran out, and that file was deleted.
+- Spent on evals today: about $5.7 of the $15 budget.
+- To finish: add credits, then `pnpm evals:run --model sonnet --runs 3`, `pnpm evals:run --model haiku --runs 3` (about $4.2), commit the two files, put the three-model table here, tick 7.2 and 7.5, and continue into Phase 8.
+
 ## 2026-10-09 · GATE 4 passed · continuing into Phase 7
 
 The owner ran the app and it works as expected. They expect to want UI and UX changes; those are box A.3 in the final audit, beside A.1 and A.2. Phase 7 starts now.
