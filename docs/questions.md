@@ -94,3 +94,24 @@ No component reads `emphasis`, and the docs give it no appearance. Fixture 2 re-
 
 - Assumed: the KV backend uses `@upstash/redis` and switches on when `KV_REST_API_URL` and `KV_REST_API_TOKEN` are both set; otherwise memory. Entries store `{ value, cachedAt }` with Redis expiry for the TTL.
 - Check: that the production store is a Vercel-provisioned Upstash Redis (Phase 10 deploy checklist).
+
+## 4.7 · First-time contributors is an estimate
+
+GitHub reports `authorAssociation` as it is today, so a first merge already reads CONTRIBUTOR. The measure counts merged-PR authors in the window with no commits before it in `stats.contributors`, which lists only the top 100 authors. On a large repo, an occasional contributor outside the top 100 counts as first-time.
+
+- Assumed: keep the estimate; Phase 5 prose should not claim it as exact.
+- Check: whether to pay for an exact count (one commits query per candidate author, about 20 to 40 requests per repo) or drop the measure from `new-contributor`.
+
+## 4.5 · The punch card stops at 20,000 commits
+
+On next.js the punch card's cells sum to exactly 20,000. On smaller repos it is all-time (vite: 9,692 against 1,223 in the last 52 weeks).
+
+- Assumed: the punch card is all-time up to GitHub's 20,000-commit cap. The Heatmap's title stays "When commits land" (decision 45) and the system's meta line should say "all time" without a number.
+- Check: nothing unless the Heatmap copy should mention the cap.
+
+## 4.11 · facebook/react is now react/react
+
+GitHub answers `facebook/react` with 301 Moved Permanently to `react/react`. `docs/decisions.md` lists `facebook/react` as a sample.
+
+- Assumed: the sample is stored under the canonical `react/react`, and `facebook/react` is an alias, so a pasted old link still finds the sample (the resolver returns the canonical name from the API). The landing chip in Phase 6 shows `react/react`.
+- Check: that the landing should show the new name, and update the sample list in `docs/decisions.md` if so.

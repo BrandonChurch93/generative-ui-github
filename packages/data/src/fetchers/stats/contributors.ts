@@ -14,6 +14,8 @@ interface RawContributor {
  * repo); the shape keeps the last 52, like the other stats. `total` stays GitHub's all-time count.
  */
 export const CONTRIBUTOR_WEEKS = 52
+/** GitHub now returns up to 500 authors; the ranks and the bus factor read the top of the list. */
+export const CONTRIBUTOR_AUTHORS = 100
 
 export function normalizeContributors(raw: unknown): ContributorsStatShape {
   const authors = Array.isArray(raw) ? (raw as RawContributor[]) : []
@@ -22,9 +24,14 @@ export function normalizeContributors(raw: unknown): ContributorsStatShape {
       .map(a => ({
         author: person(a.author),
         total: a.total,
-        weeks: a.weeks.slice(-CONTRIBUTOR_WEEKS).map(w => ({ weekStart: isoWeek(w.w), additions: w.a, deletions: w.d, commits: w.c })),
+        // Only weeks with work: every reader asks which weeks had commits, and 500 authors by 52 empty weeks is megabytes.
+        weeks: a.weeks
+          .slice(-CONTRIBUTOR_WEEKS)
+          .filter(w => w.c > 0 || w.a > 0 || w.d > 0)
+          .map(w => ({ weekStart: isoWeek(w.w), additions: w.a, deletions: w.d, commits: w.c })),
       }))
-      .sort((x, y) => y.total - x.total || x.author.login.localeCompare(y.author.login)),
+      .sort((x, y) => y.total - x.total || x.author.login.localeCompare(y.author.login))
+      .slice(0, CONTRIBUTOR_AUTHORS),
   }
 }
 

@@ -31,6 +31,8 @@ export interface TemplateNeeds {
   measures: MeasureId[]
   /** What the measures are about, when it is narrower than the whole repo. */
   scope?: keyof MeasureScope
+  /** Other ways the landing and the follow-up chips ask the same question. */
+  alsoAsked?: string[]
 }
 
 export const TEMPLATE_NEEDS: Record<TemplateId, TemplateNeeds> = {
@@ -43,12 +45,14 @@ export const TEMPLATE_NEEDS: Record<TemplateId, TemplateNeeds> = {
   'release-blockers': {
     question: "What's blocking the next release?",
     kind: 'golden',
+    alsoAsked: ['What is holding up the next release?'],
     shapes: ['repo', 'pulls', 'issues', 'milestones', 'checks', 'workflowRuns', 'blockingPrs', 'ciDurationByWeek', 'activity'],
     measures: ['open-prs', 'awaiting-review', 'failing-checks', 'milestone-issues-open', 'milestone-closes', 'ci-p50'],
   },
   contributors: {
     question: "Who's carrying this repo?",
     kind: 'golden',
+    alsoAsked: ['Who does most of the work?', "What's the bus factor?"],
     shapes: ['repo', 'pulls', 'stats.contributors', 'stats.participation', 'stats.punchCard', 'contributorShare'],
     measures: ['contributors', 'bus-factor', 'core-share', 'community-share'],
   },
@@ -79,12 +83,14 @@ export const TEMPLATE_NEEDS: Record<TemplateId, TemplateNeeds> = {
   'new-contributor': {
     question: 'Where would a new contributor start?',
     kind: 'golden',
+    alsoAsked: ['Are there good first issues?'],
     shapes: ['repo', 'readme', 'community', 'issues', 'goodFirstIssues', 'pulls', 'stats.contributors', 'activity'],
     measures: ['good-first-issues', 'review-wait-median', 'first-time-contributors'],
   },
   responsiveness: {
     question: 'How responsive are the maintainers?',
     kind: 'golden',
+    alsoAsked: ['How long until a maintainer reviews my PR?', 'How long do reviews take?'],
     shapes: ['repo', 'pulls', 'issues', 'activity', 'contributorShare'],
     measures: ['review-wait-median', 'review-wait-p90', 'closure-ratio', 'time-to-close-median'],
   },

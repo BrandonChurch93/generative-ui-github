@@ -26,7 +26,12 @@ interface Entry {
   expiresAt: number | null
 }
 
-export function memoryCache(options: { now?: () => number } = {}): Cache {
+/** A cache that can also take an entry with the time it was first fetched: how sample repos keep their dates. */
+export interface DatedCache extends Cache {
+  setAt(key: string, value: unknown, cachedAt: string, ttlSeconds?: number | null): Promise<void>
+}
+
+export function memoryCache(options: { now?: () => number } = {}): DatedCache {
   const now = options.now ?? Date.now
   const entries = new Map<string, Entry>()
   return {
@@ -42,6 +47,9 @@ export function memoryCache(options: { now?: () => number } = {}): Cache {
     async set(key, value, ttlSeconds) {
       entries.set(key, { value, cachedAt: new Date(now()).toISOString(), expiresAt: ttlSeconds === null ? null : now() + ttlSeconds * 1000 })
     },
+    async setAt(key, value, cachedAt, ttlSeconds = null) {
+      entries.set(key, { value, cachedAt, expiresAt: ttlSeconds === null ? null : now() + ttlSeconds * 1000 })
+    },
   }
 }
 
@@ -51,9 +59,12 @@ export interface KvStore {
   set(key: string, value: unknown, options?: { ex: number }): Promise<unknown>
 }
 
-export function kvCache(store: KvStore, options: { now?: () => number } = {}): Cache {
+export function kvCache(store: KvStore, options: { now?: () => number } = {}): DatedCache {
   const now = options.now ?? Date.now
   return {
+    async setAt(key, value, cachedAt, ttlSeconds = null) {
+      await store.set(key, { value, cachedAt }, ttlSeconds === null ? undefined : { ex: ttlSeconds })
+    },
     async get<T>(key: string) {
       const entry = await store.get<{ value: T; cachedAt: string }>(key)
       return entry ?? null
@@ -66,7 +77,7 @@ export function kvCache(store: KvStore, options: { now?: () => number } = {}): C
 }
 
 /** Vercel KV when its REST variables are set, else memory (dev, tests, and the fallback). */
-export async function createCache(env: Record<string, string | undefined> = process.env): Promise<Cache> {
+export async function createCache(env: Record<string, string | undefined> = process.env): Promise<DatedCache> {
   const url = env.KV_REST_API_URL
   const token = env.KV_REST_API_TOKEN
   if (!url || !token) return memoryCache()

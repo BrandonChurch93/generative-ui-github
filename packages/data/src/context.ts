@@ -52,6 +52,11 @@ export type CachedShapes = { [K in ShapeName]?: Cached<ShapeMap[K]> }
 
 export interface DataContext {
   repo: { owner: string; name: string; defaultBranch: string; sha: string }
+  /** The instant the context describes, and the viewer's zone: what every window and day grouping is read against. */
+  now: number
+  timeZone: string
+  /** What the template asked for, so a binder can compute a measure it was not given. */
+  scope?: MeasureScope
   /** Every shape read, each with when it was fetched. */
   shapes: CachedShapes
   measures: Partial<Record<MeasureId, MeasureResult | null>>
@@ -261,6 +266,9 @@ export async function buildContext(client: GitHubClient, cache: Cache, ref: Repo
 
   return {
     repo: { owner: repo.value.owner, name: repo.value.name, defaultBranch: repo.value.defaultBranch, sha },
+    now,
+    timeZone,
+    ...(needs.scope ? { scope: needs.scope } : {}),
     shapes,
     measures,
     warming: stats.status,

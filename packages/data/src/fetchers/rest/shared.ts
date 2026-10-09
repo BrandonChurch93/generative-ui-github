@@ -21,13 +21,25 @@ export interface RestFile {
   previous_filename?: string
 }
 
+/** DiffView stops at 1,000 lines; one line more keeps that stop honest and the rest is never drawn. */
+export const PATCH_LINES = 1001
+
+function capPatch(patch: string): string {
+  let at = -1
+  for (let n = 0; n < PATCH_LINES; n++) {
+    at = patch.indexOf('\n', at + 1)
+    if (at === -1) return patch
+  }
+  return patch.slice(0, at)
+}
+
 export function toFileChange(file: RestFile): FileChange {
   return {
     path: file.filename,
     status: file.status,
     additions: file.additions,
     deletions: file.deletions,
-    ...(file.patch !== undefined ? { patch: file.patch } : {}),
+    ...(file.patch !== undefined ? { patch: capPatch(file.patch) } : {}),
     ...(file.previous_filename !== undefined ? { previousPath: file.previous_filename } : {}),
   }
 }
@@ -43,12 +55,15 @@ export interface RestCommit {
 }
 
 /** The committer date, which is when a squash merge landed and what `since` filters on. */
+/** A commit's subject: what a timeline row shows. Bodies run to pages on squash merges. */
+const firstLine = (message: string) => (message.split('\n', 1)[0] ?? '').slice(0, 200)
+
 export function toCommit(raw: RestCommit): Commit {
   return {
     sha: raw.sha,
     author: toPerson(raw.author),
     date: raw.commit.committer?.date ?? raw.commit.author?.date ?? '',
-    message: raw.commit.message,
+    message: firstLine(raw.commit.message),
   }
 }
 

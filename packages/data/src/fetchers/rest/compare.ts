@@ -11,7 +11,8 @@ interface RestCompare {
 
 /** GitHub lists at most 300 files here, so totals are over the files it returned. */
 export function toCompare(base: string, head: string, raw: RestCompare): CompareShape {
-  const files = (raw.files ?? []).map(toFileChange)
+  // The release view shows paths and counts, never a diff, so patches are dropped: on React they were a megabyte.
+  const files = (raw.files ?? []).map(f => toFileChange({ ...f, patch: undefined }))
   return {
     base,
     head,

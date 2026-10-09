@@ -114,13 +114,13 @@ Prompt: `prompts/04-data.md`. Spec: `docs/data-layer.md`.
 - [x] 4.3a GraphQL entity fetchers: repo, pulls, issues, milestones, with recorded fixtures. Done when each has a fixture test.
 - [x] 4.3b REST fetchers: releases and tags, community, commits, workflow runs, run timing, checks, compare, PR files, tree, readme, with recorded fixtures. Done when each has a fixture test.
 - [x] 4.4 Stats fetchers with 202 handling and the backoff, returning `WarmingStatus`. Done when a test with a 202, 202, 200 sequence yields warming twice then data, with the right `nextCheckMs` each time.
-- [ ] 4.5 Verify the five unverified facts with one real call each; record answers and dates in `docs/data-layer.md`; adjust fetchers if a fact is wrong and note it in `docs/decisions.md`. Done when the doc has five dated answers.
+- [x] 4.5 Verify the five unverified facts with one real call each; record answers and dates in `docs/data-layer.md`; adjust fetchers if a fact is wrong and note it in `docs/decisions.md`. Done when the doc has five dated answers.
 - [x] 4.6 CHAOSS module. Done when unit tests on a fixture match hand-computed values for all five metrics.
 - [x] 4.7 Measures implemented: every id in `measures.ts` computes from the shapes for a repo and window. Done when a fixture test computes every measure on the next.js fixture and the values are sane (non-negative, units right).
 - [x] 4.8 Derived shapes per `docs/data-layer.md`. Done when each has a fixture test.
 - [x] 4.9 Cache behind one interface, memory and KV backends, keys and TTLs per the spec. Done when a test shows a second fetch inside 15 minutes hits the cache and a stats key changes when the SHA changes.
 - [x] 4.10 Data context builder: repo and template id → `DataContext` with `cachedAt` on every shape, `WarmingStatus` when any stat is cold, and a token estimate. Done when the release-blockers context for the next.js fixture is under 3,000 tokens.
-- [ ] 4.11 `pnpm samples:refresh` for the five sample repos; commit the JSON. Done when all five load in under 50ms and the script printed the request count.
+- [x] 4.11 `pnpm samples:refresh` for the five sample repos; commit the JSON. Done when all five load in under 50ms and the script printed the request count.
 
 Continue into Phase 5 without stopping.
 
@@ -137,7 +137,7 @@ Prompt: `prompts/05-composer.md`. Spec: `docs/composer.md`.
 - [ ] 5.3b The 3 follow-up templates (`check-failures`, `pr-detail`, `person`). Done when each produces a valid tree from a click on the matching fixture.
 - [ ] 5.4 Prose fill (Haiku) for Insight sentences, LineChart and Comparison findings, Metric deltas, Heatmap summaries, with number validation. Done when 100 runs over the samples yield zero unvalidated numbers reaching the tree.
 - [ ] 5.5 Off-template composition (Sonnet), streaming JSONL. Done when the 10 off-template eval cases produce valid trees.
-- [ ] 5.6 Composition rules enforced in code. Done when each rule has a test that rejects a violating tree.
+- [x] 5.6 Composition rules enforced in code. Done when each rule has a test that rejects a violating tree.
 - [ ] 5.7 `POST /api/compose` with the per-visitor limit, cached golden questions, and the daily cap. Done when a test exhausts the visitor limit and gets the rate-limit response, and a test with the Anthropic client mocked asserts zero calls for a golden question on a sample repo.
 - [ ] 5.8 The built payload on every composition. Done when the route's final message carries every `Built` field.
 - [ ] 5.9 `pnpm compositions:refresh`: runs the 60 golden compositions (12 × 5 samples) once with the fill step, validates them, writes them under `packages/composer/golden/`, and commits them. The route serves these with zero model calls. Done when the 60 files exist and the zero-call test in 5.7 passes against them.

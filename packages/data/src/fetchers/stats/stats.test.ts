@@ -60,13 +60,13 @@ describe('stats fetchers on vercel/next.js', () => {
     expect(misses).toEqual([])
   })
 
-  it('contributors: most commits first, the last 52 weeks, bots flagged', async () => {
+  it('contributors: most commits first, only weeks with work in the last 52, bots flagged', async () => {
     const { client, misses } = fixtureClient('stats-nextjs')
     const { authors } = ready(await settle(() => fetchContributorsStat(client, NEXT), noWait))
     expect(authors[0]).toMatchObject({ author: { login: 'ijjk', isBot: false }, total: 4633 })
     expect(authors.every((a, i) => i === 0 || authors[i - 1]!.total >= a.total)).toBe(true)
-    expect(authors.every(a => a.weeks.length === CONTRIBUTOR_WEEKS)).toBe(true)
-    expect(authors[0]!.weeks.at(-1)).toEqual({ weekStart: '2026-10-04T00:00:00.000Z', additions: 0, deletions: 0, commits: 0 })
+    expect(authors.every(a => a.weeks.length <= CONTRIBUTOR_WEEKS && a.weeks.every(w => w.commits + w.additions + w.deletions > 0))).toBe(true)
+    expect(authors[0]!.weeks.every(w => w.weekStart >= '2025-10-12')).toBe(true)
     const flag = (login: string) => authors.find(a => a.author.login === login)?.author.isBot
     expect([flag('dependabot[bot]'), flag('kodiakhq[bot]'), flag('nextjs-bot'), flag('vercel-release-bot'), flag('ijjk')]).toEqual([true, true, true, true, false])
     expect(misses).toEqual([])

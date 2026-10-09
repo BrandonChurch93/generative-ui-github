@@ -15,7 +15,8 @@
     "e2e": "pnpm --filter @genui-github/web e2e",
     "a11y": "pnpm --filter @genui-github/web a11y",
     "lighthouse": "pnpm --filter @genui-github/web lighthouse",
-    "tokens:build": "node scripts/tokens-build.mjs && node scripts/tokens-ts.mjs"
+    "tokens:build": "node scripts/tokens-build.mjs && node scripts/tokens-ts.mjs",
+    "samples:refresh": "pnpm --filter @genui-github/data samples:refresh"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",

@@ -41,6 +41,14 @@ Every settled question, stated as a constraint. Read this before asking the owne
 - Time zone: the viewer's for Timeline days and Heatmap hours (22).
 - ContributorRank window is fixed at 90 days; Heatmap offers 4, 12 or 52 weeks; the repo-wide punch card is titled "When commits land" and never claims to be per person (45).
 - Bots excluded from first-response metrics. A merge counts as a first response.
+- Changed after the real calls of task 4.5 (2026-10-09), details in `docs/data-layer.md`:
+  - Run timing comes from `/actions/runs/{id}/jobs`; `/timing` has no job or step durations on a public repo.
+  - "CI" is one workflow, the one with the most push runs on the default branch, read a whole week at a time for 12 weeks. A sample of every workflow's latest runs is mostly automation.
+  - A run updated in bulk (3 or more ending in the same second) or longer than a day carries no duration.
+  - Exact counts (open, awaiting review, stale, merged per week and month) come from GitHub search, one query, 1 point. The lists stay capped samples, and a figure from a list says where its data starts.
+  - Bots also include plain accounts ending in `-bot` or `_bot`.
+  - Core vs community share is read from who authored the merged pull requests (OWNER, MEMBER, COLLABORATOR are core), because `participation.owner` is near zero for an organization's repo.
+  - An undated milestone is not a release: with no dated milestone, the blocking list is the open ready pull requests by wait.
 
 ## Components, settled from the design audit
 

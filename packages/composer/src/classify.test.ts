@@ -19,7 +19,8 @@ function replay(answer?: (question: string) => Classification): ModelClient {
       const question = options.user.split('\n')[0]!.replace(/^Question: /, '')
       const value = answer ? answer(question) : recorded.responses.find(r => r.question === question)?.result
       if (!value) throw new Error(`no recorded classification for ${question}`)
-      return { value, usage, stopReason: 'end_turn' }
+      // The replay answers for whichever schema the classifier passed; it only ever passes the classification schema.
+      return { value: value as never, usage, stopReason: 'end_turn' }
     },
     stream: () => {
       throw new Error('the classifier never streams')

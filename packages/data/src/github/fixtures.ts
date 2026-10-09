@@ -1,10 +1,10 @@
 import { readFileSync } from 'node:fs'
-import { fileURLToPath } from 'node:url'
+import { dirFrom } from '../paths'
 import { createGitHubClient, type GitHubClient } from './client'
 import { replayFetch, type Recording } from './recording'
 
 /** Where `pnpm fixtures:record` writes, one JSON per scenario. */
-export const FIXTURE_DIR = fileURLToPath(new URL('../../fixtures/github/', import.meta.url))
+export const FIXTURE_DIR = dirFrom(import.meta.url, '../../fixtures/github/')
 
 /** A recorded scenario to drive fetchers in a test, and the replay so a test can assert nothing was missed. */
 export interface Scenario {

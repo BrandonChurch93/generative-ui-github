@@ -21,7 +21,8 @@
     "./styles.css": "./src/styles/global.css",
     "./rows.module.css": "./src/styles/rows.module.css",
     "./shell": "./src/shell/index.ts",
-    "./pieces": "./src/pieces.ts"
+    "./pieces": "./src/pieces.ts",
+    "./schemas": "./src/schemas.ts"
   },
   "publishConfig": {
     "exports": {
@@ -41,7 +42,11 @@
         "types": "./dist/registry.d.ts",
         "import": "./dist/registry.js"
       },
-      "./styles.css": "./dist/styles.css"
+      "./styles.css": "./dist/styles.css",
+      "./schemas": {
+        "types": "./dist/schemas.d.ts",
+        "import": "./dist/schemas.js"
+      }
     },
     "types": "./dist/index.d.ts"
   },

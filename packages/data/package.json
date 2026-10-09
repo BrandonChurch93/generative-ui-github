@@ -13,7 +13,8 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
     "fixtures:record": "tsx scripts/record.ts",
-    "facts:verify": "tsx scripts/verify-facts.ts"
+    "facts:verify": "tsx scripts/verify-facts.ts",
+    "samples:refresh": "tsx scripts/samples-refresh.ts"
   },
   "dependencies": {
     "@genui-github/core": "workspace:*",

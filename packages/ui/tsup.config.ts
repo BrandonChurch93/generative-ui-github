@@ -2,7 +2,7 @@ import { defineConfig } from 'tsup'
 
 // The published build: core and data are private workspace packages, so they are bundled in, types and all.
 export default defineConfig({
-  entry: { index: 'src/index.ts', pieces: 'src/pieces.ts', motion: 'src/motion/index.ts', registry: 'src/specs.ts' },
+  entry: { index: 'src/index.ts', pieces: 'src/pieces.ts', motion: 'src/motion/index.ts', registry: 'src/specs.ts', schemas: 'src/schemas.ts' },
   format: ['esm'],
   // CSS modules keep their scoped class names; tsup's own CSS handling would turn each into an empty object.
   loader: { '.css': 'local-css' },

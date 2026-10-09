@@ -13,6 +13,11 @@ const out = (line: string) => process.stdout.write(`${line}\n`)
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
 const waitArg = process.argv.find(a => a.startsWith('--sha-wait-minutes='))
 const shaWaitMinutes = waitArg ? Number(waitArg.split('=')[1]) : 30
+const arg = (name: string) => process.argv.find(a => a.startsWith(`--${name}=`))?.split('=')[1]
+const only = arg('only')
+const shaRepo = (arg('repo') ?? 'vercel/next.js').split('/') as [string, string]
+const shaBranch = arg('branch') ?? 'canary'
+const want = (n: string) => !only || only.split(',').includes(n)
 
 async function status(c: GitHubClient, route: string, params: Record<string, unknown>): Promise<number> {
   try {
@@ -23,8 +28,18 @@ async function status(c: GitHubClient, route: string, params: Record<string, unk
   }
 }
 
+async function settled<T>(route: string, params: Record<string, unknown>): Promise<T> {
+  for (let i = 0; i < 12; i++) {
+    const r = await client.rest<T>(route, params)
+    if (r.status === 200) return r.data
+    await sleep(5000)
+  }
+  throw new Error(`${route} never left 202`)
+}
+
 const STATS = ['contributors', 'participation', 'commit_activity', 'punch_card', 'code_frequency'] as const
 
+if (want('1')) {
 // 1. Which endpoints answered 202: every recording made so far, plus a pass over the stats of a cold repo.
 out('## 1 · 202 only from /stats/*')
 const fixtures = join(root, 'fixtures/github')
@@ -38,16 +53,11 @@ for (const file of readdirSync(fixtures)) {
 }
 for (const [path, statuses] of [...seen].sort()) out(`${path}: ${[...statuses].join(', ')}`)
 
+}
+
+if (want('4')) {
 // 4. Punch card window: its total against the 52-week commit activity and the contributors' all-time total.
 out('\n## 4 · punch card all-time or windowed')
-async function settled<T>(route: string, params: Record<string, unknown>): Promise<T> {
-  for (let i = 0; i < 12; i++) {
-    const r = await client.rest<T>(route, params)
-    if (r.status === 200) return r.data
-    await sleep(5000)
-  }
-  throw new Error(`${route} never left 202`)
-}
 for (const [owner, repo] of [['vitejs', 'vite'], ['tailwindlabs', 'tailwindcss']] as const) {
   const punch = await settled<[number, number, number][]>('GET /repos/{owner}/{repo}/stats/punch_card', { owner, repo })
   const activity = await settled<{ total: number }[]>('GET /repos/{owner}/{repo}/stats/commit_activity', { owner, repo })
@@ -56,6 +66,9 @@ for (const [owner, repo] of [['vitejs', 'vite'], ['tailwindlabs', 'tailwindcss']
   out(`${owner}/${repo}: punch card ${sum(punch.map(c => c[2]))} · 52 weeks ${sum(activity.map(w => w.total))} · contributors all-time ${sum(contributors.map(c => c.total))}`)
 }
 
+}
+
+if (want('3')) {
 // 3. code_frequency on repos past 10,000 commits.
 out('\n## 3 · code_frequency at 10,000+ commits')
 for (const [owner, repo] of [['vercel', 'next.js'], ['facebook', 'react'], ['vitejs', 'vite']] as const) {
@@ -69,6 +82,9 @@ for (const [owner, repo] of [['vercel', 'next.js'], ['facebook', 'react'], ['vit
   out(`${owner}/${repo}: ${statuses.join(' → ')}`)
 }
 
+}
+
+if (want('5')) {
 // 5. The files cap: the merged TypeScript pull requests that touch the most files (baseline updates touch thousands).
 out('\n## 5 · /pulls/{n}/files cap')
 const found = await client.graphql<{ repository: { pullRequests: { nodes: { number: number; changedFiles: number }[] } } }>(
@@ -87,10 +103,13 @@ else {
   out(`microsoft/TypeScript#${big.number}: changedFiles ${big.changedFiles} · listed ${listed} over ${page} pages`)
 }
 
+}
+
+if (want('2')) {
 // 2. Stats per default-branch SHA: warm the stats of a busy repo, wait for its next push, ask again at once.
 out('\n## 2 · stats cached per default-branch SHA')
-const [owner, repo] = ['vercel', 'next.js']
-const head = async () => (await client.rest<{ object: { sha: string } }>('GET /repos/{owner}/{repo}/git/ref/{ref}', { owner, repo, ref: 'heads/canary' })).data.object.sha
+const [owner, repo] = shaRepo
+const head = async () => (await client.rest<{ object: { sha: string } }>('GET /repos/{owner}/{repo}/git/ref/{ref}', { owner, repo, ref: `heads/${shaBranch}` })).data.object.sha
 for (const s of STATS) await settled(`GET /repos/{owner}/{repo}/stats/${s}`, { owner, repo }).catch(() => null)
 const before = await head()
 const warm = await Promise.all(STATS.map(s => status(client, `GET /repos/{owner}/{repo}/stats/${s}`, { owner, repo })))
@@ -101,9 +120,10 @@ while (after === before && Date.now() < deadline) {
   await sleep(30_000)
   after = await head()
 }
-if (after === before) out(`no push to canary within ${shaWaitMinutes} minutes`)
+if (after === before) out(`no push to ${owner}/${repo}@${shaBranch} within ${shaWaitMinutes} minutes`)
 else {
   const cold = await Promise.all(STATS.map(s => status(client, `GET /repos/{owner}/{repo}/stats/${s}`, { owner, repo })))
   out(`after the push to ${after.slice(0, 7)}: ${STATS.map((s, i) => `${s} ${cold[i]}`).join(' · ')}`)
+}
 }
 out(`\n${client.requests} GitHub requests`)

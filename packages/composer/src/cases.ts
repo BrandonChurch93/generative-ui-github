@@ -1,10 +1,10 @@
 import { readdirSync, readFileSync } from 'node:fs'
-import { fileURLToPath } from 'node:url'
+import { dirFrom } from '@genui-github/data/testing'
 
 // The classifier's test questions, read from the eval set's files. The evals package depends on this one,
 // so the files are read directly instead of imported.
 
-const SET_DIR = fileURLToPath(new URL('../../evals/set/', import.meta.url))
+const SET_DIR = dirFrom(import.meta.url, '../../evals/set/')
 
 export interface RoutedCase {
   id: string
