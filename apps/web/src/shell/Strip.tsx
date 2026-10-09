@@ -10,13 +10,37 @@ import { MIDDOT, plural, seconds } from './words'
 const s = (ms: number) => seconds(ms).toFixed(seconds(ms) < 10 ? 2 : 1)
 
 /** Entrance 7: the strip wipes and the latency figure counts, after the last card. */
-export function Strip({ built, sample, cachedAt, reduced, delay = 0, onOpenDrawer }: { built: Built; sample: boolean; cachedAt?: string; reduced: boolean; delay?: number; onOpenDrawer: () => void }) {
+export function Strip({
+  built,
+  sample,
+  cachedAt,
+  shown = true,
+  reduced,
+  delay = 0,
+  onOpenDrawer,
+}: {
+  built: Built
+  sample: boolean
+  cachedAt?: string
+  /** False wipes it out: it arrived last, so it leaves first. */
+  shown?: boolean
+  reduced: boolean
+  delay?: number
+  onOpenDrawer: () => void
+}) {
   const ref = useRef<HTMLParagraphElement>(null)
   const total = useRef<HTMLElement>(null)
   const key = `${built.template}:${built.latencyMs.total}`
 
   useLayoutEffect(() => {
     if (!ref.current) return
+    if (!shown) {
+      const out = wipe(ref.current, { direction: 'out', reduced })
+      return () => {
+        out.progress(1)
+        out.kill()
+      }
+    }
     const tl = wipe(ref.current, { reduced, delay: reduced ? 0 : delay })
     if (total.current) tl.add(count(total.current, { to: seconds(built.latencyMs.total), reduced, format: v => v.toFixed(1) }), reduced ? 0 : 0.2)
     return () => {
@@ -25,7 +49,7 @@ export function Strip({ built, sample, cachedAt, reduced, delay = 0, onOpenDrawe
     }
     // key stands for the receipt; the object itself changes on every render of the stream.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [key, reduced, delay])
+  }, [key, shown, reduced, delay])
 
   const { latencyMs: t } = built
   const reads = sample ? (
@@ -45,7 +69,7 @@ export function Strip({ built, sample, cachedAt, reduced, delay = 0, onOpenDrawe
   )
 
   return (
-    <p className={styles.strip} ref={ref} data-strip="">
+    <p className={styles.strip} ref={ref} data-built-strip="">
       {reads}
       <span>
         classify <b>{s(t.classify)} s</b>

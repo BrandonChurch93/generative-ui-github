@@ -30,6 +30,7 @@ function check(path) {
 
 walk(join(root, 'packages/ui/src'))
 walk(join(root, 'packages/renderer/src'))
+walk(join(root, 'apps/web/src'))
 
 if (failures.length) {
   console.error(`Raw values in component CSS (${failures.length}). Use a token from tokens.css, or add one to tokens.json.`)

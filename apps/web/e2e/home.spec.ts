@@ -1,8 +1,10 @@
 import { expect, test } from '@playwright/test'
 
-test('home renders the product name in the display face', async ({ page }) => {
+const SENTENCE = 'Paste a GitHub repo, ask a question, and an agent composes the interface that answers it.'
+
+test('the landing sentence is set in the display face', async ({ page }) => {
   await page.goto('/')
-  const title = page.getByRole('heading', { level: 1, name: 'Generative UI for GitHub Repos' })
+  const title = page.getByRole('heading', { level: 1, name: SENTENCE })
   await expect(title).toBeVisible()
 
   const face = await title.evaluate(async el => {

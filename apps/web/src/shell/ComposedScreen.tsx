@@ -5,6 +5,7 @@ import { useReducedMotion } from 'motion/react'
 import { Mark, type Density } from '@genui-github/ui'
 import { emptyTree, Renderer, type AskEvent, type StreamTree } from '@genui-github/renderer'
 import { Chrome } from './Chrome'
+import { rememberRepo } from './lastRepo'
 import { Drawer, PieceDrawer, type PieceDrawerContent } from './Drawer'
 import screen from './ComposedScreen.module.css'
 import { Strip } from './Strip'
@@ -102,6 +103,11 @@ export function ComposedScreen({ owner, name, question: initial, sampleDay, forc
     return () => window.removeEventListener('popstate', onPop)
   }, [])
 
+  // The one thing kept about a visitor: the last repo that answered, for the landing's offer.
+  useEffect(() => {
+    if (state.phase === 'done' && !refusal) rememberRepo(repo)
+  }, [state.phase, refusal, repo])
+
   // `r` replays the screen: everything leaves, then the whole entrance runs again.
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -116,10 +122,38 @@ export function ComposedScreen({ owner, name, question: initial, sampleDay, forc
   }, [state.phase, drawer, pieceDrawer])
 
   const blank = useMemo<StreamTree>(() => ({ ...emptyTree(), id: 'replay', density: tree.density, done: true }), [tree.density])
+
+  // The hand-off from WarmingUp: the card leaves before the answer arrives, so the regions growing above it
+  // never push it down while it exits (design-system/motion.md, WarmingUp exit).
+  const warmTree = tree.regions.main.some(p => p.component === 'WarmingUp')
+  const [warmId, setWarmId] = useState<string | undefined>(undefined)
+  const [handoff, setHandoff] = useState(false)
+  if (warmTree && tree.id && tree.id !== warmId) setWarmId(tree.id)
+  if (!warmTree && warmId && tree.id && tree.id !== warmId) {
+    setWarmId(undefined)
+    setHandoff(true)
+  }
+  useEffect(() => {
+    if (!handoff) return
+    const started = Date.now()
+    let timer = 0
+    const check = () => {
+      if (document.querySelector('[data-composition="replay"][data-phase="settled"]') || Date.now() - started > 3000) setHandoff(false)
+      else timer = window.setTimeout(check, 50)
+    }
+    timer = window.setTimeout(check, 50)
+    return () => window.clearTimeout(timer)
+  }, [handoff])
+  // The entrance runs again once the chrome is out and the renderer has settled the empty screen, so the last card has sunk.
   const onChromeExited = useCallback(() => {
-    // The regions' exits run a little longer than the chrome's; the entrance waits for the last card to sink.
-    window.setTimeout(() => setReplay('in'), reduced ? 250 : 450)
-  }, [reduced])
+    const started = Date.now()
+    const check = () => {
+      const empty = document.querySelector('[data-composition="replay"][data-phase="settled"]')
+      if (empty || Date.now() - started > 3000) setReplay('in')
+      else window.setTimeout(check, 50)
+    }
+    check()
+  }, [])
 
   const density = override ?? tree.density ?? 'comfortable'
   const warming = state.warming !== undefined || tree.regions.main.some(p => p.component === 'WarmingUp')
@@ -128,7 +162,9 @@ export function ComposedScreen({ owner, name, question: initial, sampleDay, forc
   const timeZone = typeof Intl !== 'undefined' ? Intl.DateTimeFormat().resolvedOptions().timeZone : undefined
   const closedUntil = refusal?.error === 'rate-limit' && refusal.resetAt ? clock(refusal.resetAt, timeZone) : capped ? clock(capped, timeZone) : undefined
   const shown = replay === 'in'
-  const hasAnswer = Boolean(tree.id) && !refusal
+  // While a new question composes, the last answer stays up to be rewritten, but its receipt is not this question's.
+  const stale = state.phase === 'composing' && tree.done && !state.warming
+  const hasAnswer = Boolean(tree.id) && !refusal && !stale && !handoff
 
   const notice = served.capped && hasAnswer ? (
     <>
@@ -165,11 +201,11 @@ export function ComposedScreen({ owner, name, question: initial, sampleDay, forc
           onExited={onChromeExited}
         />
         {refusal ? (
-          <SystemScreen repo={repo} refusal={refusal} timeZone={timeZone} onRetry={() => setAsk(prev => ({ ...prev, n: prev.n + 1 }))} />
+          <SystemScreen repo={repo} question={ask.question} refusal={refusal} timeZone={timeZone} onRetry={() => setAsk(prev => ({ ...prev, n: prev.n + 1 }))} />
         ) : (
           <div className={screen.answer} aria-busy={state.phase === 'composing' || undefined}>
             <Renderer
-              tree={shown ? tree : blank}
+              tree={shown && !handoff ? tree : blank}
               density={density}
               reduced={reduced}
               onAsk={onAsk}
@@ -179,12 +215,12 @@ export function ComposedScreen({ owner, name, question: initial, sampleDay, forc
             />
           </div>
         )}
-        {built && hasAnswer && shown && tree.done && (
-          <Strip built={built} sample={served.served === 'golden' || Boolean(sampleDay)} cachedAt={served.served === 'cache' ? served.cachedAt : undefined} reduced={reduced} delay={STRIP_AT} onOpenDrawer={() => setDrawer(true)} />
+        {built && hasAnswer && tree.done && (
+          <Strip shown={shown} built={built} sample={served.served === 'golden' || Boolean(sampleDay)} cachedAt={served.served === 'cache' ? served.cachedAt : undefined} reduced={reduced} delay={STRIP_AT} onOpenDrawer={() => setDrawer(true)} />
         )}
       </div>
       <Tray repo={repo} density={density} onDensity={chooseDensity} onAsk={q => askQuestion(q)} closedUntil={closedUntil} />
-      <Drawer open={drawer} onClose={() => setDrawer(false)} built={built} tree={tree} question={ask.question} repo={repo} served={served} />
+      <Drawer open={drawer} onClose={() => setDrawer(false)} built={built} tree={tree} question={ask.question} repo={repo} served={served} sample={Boolean(sampleDay)} />
       <PieceDrawer content={pieceDrawer} onClose={() => setPieceDrawer(null)} />
     </>
   )

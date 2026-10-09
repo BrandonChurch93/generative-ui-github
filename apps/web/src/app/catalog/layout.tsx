@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { CATALOG } from '@genui-github/ui/catalog'
+import { SiteFooter, SiteHeader } from '../../shell/Frame'
 import { CatalogNav } from './_viewer/CatalogNav'
 import styles from './catalog.module.css'
 
@@ -12,23 +13,27 @@ function plural(n: number, word: string) {
 export default function CatalogLayout({ children }: { children: ReactNode }) {
   const pickable = CATALOG.filter(e => e.spec?.pickable).length
   return (
-    <div className={styles.page} data-ground="bg">
-      <header className={styles.intro}>
-        <p className={styles.eyebrow}>
-          <span className={styles.chip}>{plural(CATALOG.length, 'component')}</span>
-          <span className={styles.chip}>{pickable} pickable</span>
-          <span className={styles.note}>rendered from sample JSON</span>
-        </p>
-        <h1 className={styles.title}>Every piece the composer can pick</h1>
-        <p className={styles.lead}>
-          Each one renders here from the same sample JSON and schema the model reads. Switch density and state to see
-          every version the renderer can draw.
-        </p>
-      </header>
-      <div className={styles.body}>
-        <CatalogNav entries={CATALOG.map(e => ({ name: e.name, group: e.group }))} />
-        <main className={styles.main}>{children}</main>
+    <>
+      <SiteHeader current="catalog" />
+      <div className={styles.page} data-ground="bg">
+        <header className={styles.intro}>
+          <p className={styles.eyebrow}>
+            <span className={styles.chip}>{plural(CATALOG.length, 'component')}</span>
+            <span className={styles.chip}>{pickable} pickable</span>
+            <span className={styles.note}>rendered from sample JSON</span>
+          </p>
+          <h1 className={styles.title}>Every piece the composer can pick</h1>
+          <p className={styles.lead}>
+            Each one renders here from the same sample JSON and schema the model reads. Switch density and state to see
+            every version the renderer can draw.
+          </p>
+        </header>
+        <div className={styles.body}>
+          <CatalogNav entries={CATALOG.map(e => ({ name: e.name, group: e.group }))} />
+          <main className={styles.main}>{children}</main>
+        </div>
       </div>
-    </div>
+      <SiteFooter />
+    </>
   )
 }

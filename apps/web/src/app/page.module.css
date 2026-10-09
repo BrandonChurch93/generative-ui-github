@@ -1,7 +1,7 @@
 .page {
-  max-width: 72ch;
-  margin-inline: auto;
-  padding: var(--space-8) var(--inset);
+  max-inline-size: 72ch;
+  padding-block: var(--space-8);
+  padding-inline: var(--edge);
   display: grid;
   gap: var(--space-6);
 }
@@ -28,14 +28,14 @@
 
 .card {
   background: var(--surface);
-  border: 1px solid var(--line-soft);
+  border: var(--hairline) solid var(--line-soft);
   border-radius: var(--radius-lg);
   box-shadow: var(--card);
 }
 
 .cardHeader {
   padding: var(--card-y) var(--inset);
-  border-bottom: 1px solid var(--line-soft);
+  border-bottom: var(--hairline) solid var(--line-soft);
 }
 
 .cardTitle {

@@ -1,0 +1,149 @@
+/* The overlay sits under the top bar, over a scrim that covers the whole viewport. */
+.layer {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: calc(var(--nav-h) + var(--space-6)) var(--space-4) var(--space-4);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  background: var(--scrim);
+}
+
+.card {
+  position: relative;
+  inline-size: min(var(--overlay-w), 100%);
+  padding: var(--space-5) var(--space-6) var(--space-6);
+  background: var(--surface);
+  border: var(--hairline) solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--card-hover);
+  color: var(--ink);
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-block-end: var(--space-4);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-action-size);
+  line-height: var(--text-action-leading);
+  font-weight: var(--text-action-weight);
+}
+
+.x {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  inline-size: var(--ask-chip-h);
+  block-size: var(--ask-chip-h);
+  margin: calc(var(--space-1) * -1.5) calc(var(--space-1) * -1.5) 0 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.x:hover {
+  background: var(--surface-tint);
+  color: var(--ink);
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+.steps li {
+  display: grid;
+  grid-template-columns: var(--space-5) minmax(0, 1fr);
+  column-gap: var(--space-2);
+  row-gap: calc(var(--hairline) * 2);
+  counter-increment: step;
+}
+
+.steps li::before {
+  content: counter(step);
+  grid-row: 1 / span 2;
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: 1.6;
+  font-weight: var(--text-label-weight);
+  color: var(--muted);
+}
+
+.steps b {
+  font-size: var(--text-row-title-size);
+  line-height: var(--text-row-title-leading);
+  font-weight: var(--text-row-title-weight);
+}
+
+.steps span {
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-leading);
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-block-start: var(--space-5);
+  padding-block-start: var(--space-4);
+  border-top: var(--hairline) solid var(--line-soft);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  letter-spacing: var(--text-meta-tracking);
+  color: var(--muted);
+}
+
+.link {
+  border-radius: var(--radius-xs);
+  color: var(--accent-text);
+  font-family: var(--font-sans);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-leading);
+  font-weight: var(--text-label-weight);
+  letter-spacing: normal;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent-text) 35%, transparent);
+  text-underline-offset: var(--underline-offset);
+}
+
+.link:hover {
+  text-decoration-color: currentColor;
+}
+
+/* raw-ok: media conditions cannot read custom properties; this is the shell's phone breakpoint. */
+@media (max-width: 639px) {
+  .layer {
+    padding-block-start: calc(var(--nav-h-narrow) + var(--space-4));
+  }
+
+  .card {
+    padding: var(--space-5);
+  }
+}

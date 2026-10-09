@@ -14,7 +14,7 @@ const config: NextConfig = {
   outputFileTracingRoot: repoRoot,
   // The composer reads the committed samples and golden compositions by path at request time.
   outputFileTracingIncludes: {
-    '/api/compose': ['../../packages/data/samples/**', '../../packages/composer/golden/**'],
+    '/api/compose': ['../../packages/data/samples/**', '../../packages/composer/golden/**', '../../packages/composer/fixtures/near-empty/**'],
     '/r/[owner]/[name]': ['../../packages/data/samples/**'],
   },
   turbopack: { root: repoRoot },

@@ -1,7 +1,7 @@
 .page {
   max-width: calc(80rem + var(--space-7) * 2);
   margin-inline: auto;
-  padding: var(--space-8) var(--space-7);
+  padding: var(--space-7) var(--space-7) 0;
 }
 
 .intro {
@@ -226,6 +226,7 @@
   line-height: var(--text-code-leading);
 }
 
+/* raw-ok: media conditions cannot read custom properties; these are the shell's breakpoints. */
 @media (max-width: 1023px) {
   .body {
     grid-template-columns: minmax(0, 1fr);
@@ -237,6 +238,7 @@
   }
 }
 
+/* raw-ok: media conditions cannot read custom properties. */
 @media (max-width: 639px) {
   .page {
     padding: var(--space-7) var(--space-4);

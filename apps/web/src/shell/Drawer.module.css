@@ -1,0 +1,436 @@
+/* The floating sheet over the scrim (`screens/Drawer.html`). A bottom sheet on phones. */
+.layer {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  background: var(--scrim);
+}
+
+.sheet {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  bottom: var(--space-3);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  inline-size: min(var(--drawer-w), calc(100% - 2 * var(--space-3)));
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: var(--hairline) solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--sheet);
+  color: var(--ink);
+}
+
+/* The sheet takes focus only so a click inside it keeps focus inside; it is not a control. */
+.sheet:focus {
+  outline: none;
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-6) var(--space-6) var(--space-5);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-action-size);
+  line-height: var(--text-action-leading);
+  font-weight: var(--text-action-weight);
+}
+
+.sub {
+  margin: var(--space-1) 0 0;
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-leading);
+  color: var(--muted);
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
+}
+
+.close {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  inline-size: calc(var(--space-7) - var(--space-2));
+  block-size: calc(var(--space-7) - var(--space-2));
+  margin: calc(var(--space-1) * -1.5) calc(var(--space-1) * -1.5) 0 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.close:hover {
+  background: var(--surface-tint);
+  color: var(--ink);
+}
+
+.close svg {
+  inline-size: var(--space-4);
+  block-size: var(--space-4);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: var(--stroke);
+  stroke-linecap: round;
+}
+
+.sec {
+  padding: var(--space-5) var(--space-6);
+  border-block-start: var(--hairline) solid var(--line-soft);
+}
+
+.h {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-block-end: var(--space-3);
+}
+
+.h h3 {
+  margin: 0;
+  font-size: var(--text-card-title-size);
+  line-height: var(--text-card-title-leading);
+  font-weight: var(--text-card-title-weight);
+  letter-spacing: var(--text-card-title-tracking);
+}
+
+.h span,
+.meta,
+.facts,
+.wf i,
+.reads i,
+.picks i,
+.props em,
+.foot {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+  font-style: normal;
+  color: var(--muted);
+}
+
+.h span {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.p {
+  margin: 0 0 var(--space-4);
+  max-inline-size: 60ch;
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-leading);
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+.meta {
+  margin: 0;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-1) var(--space-5);
+  margin: 0;
+}
+
+.facts dd {
+  margin: 0;
+  min-inline-size: 0;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.wf {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wf li {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--space-1) * 1.5);
+}
+
+.wfTop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  font-size: var(--text-row-title-size);
+  line-height: var(--text-row-title-leading);
+  font-weight: var(--text-row-title-weight);
+}
+
+.wfTop span {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.track {
+  position: relative;
+  display: block;
+  block-size: var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--line-soft);
+}
+
+.track > span {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--left, 0) * 100%);
+  inline-size: calc(var(--width, 0) * 100%);
+  border-radius: var(--radius-sm);
+  background: var(--data-ref);
+}
+
+.track > .model {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+}
+
+.reads,
+.picks,
+.items {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.reads li,
+.picks li,
+.items li {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  column-gap: var(--space-3);
+  row-gap: calc(var(--hairline) * 2);
+  padding: var(--space-2) 0;
+}
+
+.reads li + li::before,
+.picks li + li::before,
+.items li + li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  block-size: var(--hairline);
+  background: var(--line);
+}
+
+.reads li:first-child,
+.picks li:first-child,
+.items li:first-child {
+  padding-block-start: 0;
+}
+
+.reads li:last-child,
+.picks li:last-child,
+.items li:last-child {
+  padding-block-end: 0;
+}
+
+.reads {
+  margin-block-start: var(--space-3);
+}
+
+.reads code {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: var(--text-code-size);
+  line-height: var(--text-code-leading);
+  font-weight: var(--text-code-weight);
+  font-variant-ligatures: none;
+  color: var(--ink);
+}
+
+.reads i,
+.picks i {
+  grid-column: 1 / -1;
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+
+.picks b,
+.items li {
+  min-inline-size: 0;
+  font-size: var(--text-row-title-size);
+  line-height: var(--text-row-title-leading);
+  font-weight: var(--text-row-title-weight);
+}
+
+.items li {
+  grid-template-columns: minmax(0, 1fr);
+  overflow-wrap: anywhere;
+}
+
+.picks b {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.picks b span {
+  margin-inline-start: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+  color: var(--muted);
+}
+
+.props {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-1);
+  min-block-size: var(--space-5);
+}
+
+.foot {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-block-start: auto;
+  padding: var(--space-4) var(--space-6) var(--space-5);
+  border-block-start: var(--hairline) solid var(--line-soft);
+  background: var(--surface);
+}
+
+.footRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.footMeta {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  white-space: nowrap;
+}
+
+.json {
+  box-sizing: border-box;
+  max-block-size: min(calc(var(--space-8) * 4), 40vh);
+  margin: 0;
+  padding: var(--space-3);
+  overflow: auto;
+  border-radius: var(--radius-sm);
+  background: var(--surface-tint);
+  font-family: var(--font-mono);
+  font-size: var(--text-code-size);
+  line-height: var(--text-code-leading);
+  font-weight: var(--text-code-weight);
+  letter-spacing: 0;
+  font-variant-ligatures: none;
+  color: var(--ink);
+  white-space: pre;
+  tab-size: 2;
+}
+
+/* A text action, as TextLink draws it; TextLink cannot carry aria-expanded. */
+.link {
+  position: relative;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: none;
+  color: var(--accent-text);
+  font-family: var(--font-sans);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-leading);
+  font-weight: var(--text-label-weight);
+  letter-spacing: 0;
+  white-space: nowrap;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent-text) 35%, transparent);
+  text-underline-offset: var(--underline-offset);
+  cursor: pointer;
+}
+
+.link:hover {
+  text-decoration-color: currentColor;
+}
+
+.link::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  inline-size: max(100%, var(--hit));
+  block-size: max(100%, var(--hit));
+  transform: translate(-50%, -50%);
+}
+
+.close:focus-visible,
+.link:focus-visible,
+.json:focus-visible {
+  outline: var(--focus-ring) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+
+/* raw-ok: media conditions cannot read custom properties. */
+@media (max-width: 639px) {
+  .sheet {
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    inline-size: auto;
+    max-block-size: calc(100% - var(--space-6));
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+
+  .head {
+    padding: var(--space-5) var(--space-5) var(--space-4);
+  }
+
+  .sec {
+    padding: var(--space-5);
+  }
+
+  .foot {
+    padding: var(--space-4) var(--space-5);
+  }
+}

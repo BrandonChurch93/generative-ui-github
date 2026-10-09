@@ -43,3 +43,68 @@ test('the three composed screens have no serious accessibility issues @a11y', as
     expect(await serious(page)).toEqual([])
   }
 })
+
+const GOLDEN_PATHS = [
+  "How's this repo doing?",
+  "What's blocking the next release?",
+  "Who's carrying this repo?",
+  'Is CI getting slower?',
+  "What's been merged this week?",
+  'Which issues have gone stale?',
+  'Show me the biggest open PR',
+  'Where would a new contributor start?',
+  'How responsive are the maintainers?',
+  'Compare this month to last',
+  'When does this project get worked on?',
+  'What changed between the last two releases?',
+].map(q => `/r/vercel/next.js?q=${encodeURIComponent(q)}`)
+
+test('every shell screen has no serious accessibility issues @a11y', async ({ browser }, info) => {
+  test.skip(info.project.name === 'unconfigured', 'the samples and the force flags answer without configuration')
+  test.setTimeout(240_000)
+  const found: string[] = []
+  for (const width of [1440, 390]) {
+    const context = await browser.newContext({ viewport: { width, height: 900 }, reducedMotion: 'reduce' })
+    const page = await context.newPage()
+    for (const path of GOLDEN_PATHS) {
+      await page.goto(path)
+      await page.locator('[data-composition][data-phase="settled"]').waitFor()
+      found.push(...(await serious(page)))
+    }
+    const q = encodeURIComponent("What's blocking the next release?")
+    for (const force of ['warming', 'ratelimit', 'cap', 'empty']) {
+      await page.goto(`/r/vercel/next.js?q=${q}&force=${force}`)
+      await page.locator('[data-phase="done"], [data-phase="refused"]').first().waitFor()
+      // Contrast is measured on the settled screen, never mid-fade: a composition says when it has settled; a refusal's entrance is a few staggered fades.
+      if (force === 'ratelimit') await page.waitForTimeout(1500)
+      else await page.locator('[data-composition][data-phase="settled"]').waitFor()
+      found.push(...(await serious(page)))
+    }
+    await page.goto(`/r/vercel/next.js?q=${encodeURIComponent('a question with no cached answer')}&force=cap`)
+    await page.locator('[data-phase="refused"]').waitFor()
+    await page.waitForTimeout(1500)
+    found.push(...(await serious(page)))
+    for (const path of ['/evals', '/about']) {
+      await page.goto(path)
+      found.push(...(await serious(page)))
+    }
+    await context.close()
+  }
+  expect(found).toEqual([])
+})
+
+test('fields are 16px under 480px, so iOS does not zoom @a11y', async ({ browser }, info) => {
+  test.skip(info.project.name === 'unconfigured', 'one project is enough')
+  const context = await browser.newContext({ viewport: { width: 390, height: 844 } })
+  const page = await context.newPage()
+  const sizes: string[] = []
+  for (const path of ['/', `/r/vercel/next.js?q=${encodeURIComponent("How's this repo doing?")}`]) {
+    await page.goto(path)
+    for (const field of await page.locator('input:visible, textarea:visible, select:visible').all()) {
+      const size = await field.evaluate(el => getComputedStyle(el).fontSize)
+      if (parseFloat(size) < 16) sizes.push(`${path} ${await field.evaluate(el => el.outerHTML.slice(0, 80))} ${size}`)
+    }
+  }
+  expect(sizes).toEqual([])
+  await context.close()
+})

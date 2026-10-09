@@ -1,0 +1,196 @@
+/* The screens that take the answer's place: the system's sentence in the Insight slot, then the cards. */
+.system {
+  display: flex;
+  flex-direction: column;
+  gap: var(--region-gap);
+  min-inline-size: 0;
+}
+
+/* Lead: WarmingUp's rhythm. The sentence starts on the content edge; the mark hangs on the container edge. */
+.lead {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-inline-start: var(--edge);
+}
+
+.lead > .leadMark {
+  position: absolute;
+  left: 0;
+  top: calc((var(--insight-size) * var(--text-lead-leading) - var(--mark)) / 2);
+}
+
+.say {
+  max-inline-size: 60ch;
+  margin: 0;
+  color: var(--ink);
+  font-size: var(--insight-size);
+  line-height: var(--text-lead-leading);
+  font-weight: var(--text-lead-weight);
+  text-wrap: pretty;
+}
+
+.why {
+  max-inline-size: 68ch;
+  margin: calc(var(--row-y) - var(--space-1)) 0 0;
+  color: var(--muted);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-leading);
+  font-weight: var(--text-body-weight);
+  text-wrap: balance;
+}
+
+.when {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: var(--space-3);
+  row-gap: var(--space-1);
+  margin: var(--space-2) 0 0;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+}
+
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  gap: var(--space-4);
+  align-items: stretch;
+}
+
+.single {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: var(--space-4);
+}
+
+/* The bar along the card's foot takes its own height under the body. */
+.body {
+  display: flex;
+  flex-direction: column;
+  padding: var(--card-y) var(--inset) calc(var(--card-y) + var(--bar));
+}
+
+.count {
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: var(--metric-size);
+  line-height: 1;
+  font-weight: var(--text-label-weight);
+  letter-spacing: var(--text-metric-tracking);
+  font-variant-numeric: tabular-nums;
+}
+
+.note {
+  margin-block-start: var(--space-2);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+}
+
+.again {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: var(--space-3);
+  row-gap: var(--space-1);
+  margin: var(--space-4) 0 0;
+  padding-block-start: var(--space-3);
+  border-block-start: var(--hairline) solid var(--line-soft);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+}
+
+.retry {
+  margin-inline-start: auto;
+}
+
+.p {
+  max-inline-size: 60ch;
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-leading);
+  font-weight: var(--text-body-weight);
+  text-wrap: pretty;
+}
+
+.repos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* A sample repo, named in mono as an identifier, at the follow-up chip's size. */
+.repo {
+  display: inline-flex;
+  align-items: center;
+  max-inline-size: 100%;
+  block-size: var(--ask-chip-h);
+  padding: 0 var(--space-3);
+  border: var(--hairline) solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-hint-size);
+  line-height: 1;
+  font-weight: var(--text-label-weight);
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition:
+    color 250ms cubic-bezier(0.25, 1, 0.5, 1),
+    box-shadow 250ms cubic-bezier(0.25, 1, 0.5, 1),
+    transform 250ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.repo:hover {
+  color: var(--ink);
+  box-shadow: var(--card-hover);
+  transform: translateY(calc(var(--hairline) * -1));
+}
+
+.repo:focus-visible {
+  outline: var(--focus-ring) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+
+@media (prefers-contrast: more) {
+  .repo {
+    border-color: var(--muted);
+  }
+}
+
+/* raw-ok: media conditions cannot read custom properties. */
+@media (max-width: 639px) {
+  .split,
+  .single {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .repo {
+    transition: none;
+  }
+
+  .repo:hover {
+    transform: none;
+  }
+}

@@ -1,0 +1,475 @@
+/* The landing: the sentence, then the field beside a composed answer in miniature, then the questions. */
+.hero {
+  padding-block-start: var(--space-8);
+}
+
+.title {
+  margin: 0;
+  padding-inline: var(--edge);
+  font-size: clamp(var(--question-min), calc(var(--question-min) * 0.786 + 1.524vw), var(--text-question-size));
+  line-height: var(--text-question-leading);
+  font-weight: var(--text-question-weight);
+  letter-spacing: var(--text-question-tracking);
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.title span {
+  display: block;
+  color: var(--muted);
+}
+
+.start {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
+  column-gap: var(--space-8);
+  margin-block-start: var(--space-7);
+}
+
+.lead {
+  min-inline-size: 0;
+}
+
+.samples {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-block-start: var(--space-6);
+  padding-inline: var(--edge);
+}
+
+.samplesLabel {
+  margin: 0;
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-leading);
+  font-weight: var(--text-label-weight);
+  color: var(--muted);
+}
+
+.chips,
+.qchips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.sample {
+  display: inline-flex;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: none;
+  cursor: pointer;
+}
+
+/* A sample is a chip the reader picks: the ask chip's size, the repo chip's face. */
+.sample .sampleChip {
+  block-size: var(--ask-chip-h);
+  padding-block: 0;
+  padding-inline: var(--space-3);
+  font-size: var(--text-hint-size);
+  line-height: 1;
+  letter-spacing: 0;
+  transition:
+    box-shadow 250ms cubic-bezier(0.25, 1, 0.5, 1),
+    transform 250ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.sample:hover .sampleChip {
+  box-shadow: var(--card-hover);
+  transform: translateY(calc(var(--hairline) * -1));
+}
+
+/* The returning visitor's line keeps its height whether or not there is a repo to offer, so nothing moves when it arrives. */
+.offer {
+  display: flex;
+  align-items: center;
+  min-block-size: var(--space-6);
+}
+
+.offerLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-leading);
+  font-weight: var(--text-label-weight);
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.offerLink > span {
+  white-space: nowrap;
+}
+
+.offerLink:hover {
+  color: var(--ink);
+}
+
+.offerLink .offerChip {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* The preview: a screen laid out at --nw and scaled to its frame. */
+.fig {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-inline-size: 0;
+  margin: 0;
+}
+
+.shot {
+  --nw: var(--page-max);
+  position: relative;
+  container-type: inline-size;
+  aspect-ratio: 1280 / 455;
+  overflow: hidden;
+  background: var(--bg);
+  border: var(--hairline) solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--card);
+  transition:
+    box-shadow 250ms cubic-bezier(0.25, 1, 0.5, 1),
+    transform 250ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.shot:hover {
+  box-shadow: var(--card-hover);
+  transform: translateY(calc(var(--hairline) * -1));
+}
+
+.shotIn {
+  --edge: calc(var(--inset) + var(--hairline));
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--region-gap);
+  inline-size: var(--nw);
+  padding: var(--space-7);
+  transform-origin: 0 0;
+  transform: scale(tan(atan2(100cqw, var(--nw))));
+  pointer-events: none;
+}
+
+/* Without typed division, the picture keeps the scale of the widest frame and the frame crops it. */
+@supports not (inline-size: calc(tan(atan2(1em, 1em)) * 1em)) {
+  .shotIn {
+    transform: scale(0.47);
+  }
+}
+
+/* The picture keeps its metrics in one row at every viewport: it is drawn at --nw, not at the viewport's width. */
+.shot .shotIn [data-region='metrics'][data-count='3'] {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* The frame shows the answer down to its numbers; the cards below would only be cut off at its edge. */
+.shot .shotIn :is([data-region='main'], [data-region='side'], [data-region='action']) {
+  display: none;
+}
+
+.shotLink {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.shotChrome {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: last baseline;
+  column-gap: var(--space-7);
+  padding-inline: var(--edge);
+}
+
+.shotEyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-block-end: var(--space-4);
+}
+
+.shotChip {
+  display: inline-flex;
+  align-items: center;
+  block-size: var(--chip-h);
+  padding: 0 var(--space-2);
+  border: var(--hairline) solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: 1;
+  letter-spacing: var(--text-meta-tracking);
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.shotQuestion {
+  margin: 0;
+  max-inline-size: 22ch;
+  font-size: var(--text-question-size);
+  line-height: var(--text-question-leading);
+  font-weight: var(--text-question-weight);
+  letter-spacing: var(--text-question-tracking);
+  text-wrap: balance;
+}
+
+.shotBuilt {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-1);
+  text-align: end;
+}
+
+.shotNum {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin-block-end: var(--space-1);
+  font-size: var(--text-built-size);
+  line-height: var(--text-built-leading);
+  font-weight: var(--text-built-weight);
+  letter-spacing: var(--text-built-tracking);
+  font-variant-numeric: tabular-nums;
+}
+
+.shotNum small {
+  font-family: var(--font-mono);
+  font-size: var(--text-suffix-size);
+  line-height: var(--text-suffix-leading);
+  font-weight: var(--text-suffix-weight);
+  color: var(--muted);
+}
+
+.shotMeta {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  letter-spacing: var(--text-meta-tracking);
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.cap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2) var(--space-5);
+  margin: 0;
+  padding-inline: var(--edge);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  letter-spacing: var(--text-meta-tracking);
+  color: var(--muted);
+}
+
+.cap b {
+  font-weight: var(--text-label-weight);
+  color: var(--ink);
+}
+
+.how {
+  position: relative;
+  margin: 0 0 0 auto;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: none;
+  color: var(--accent-text);
+  font-family: var(--font-sans);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-leading);
+  font-weight: var(--text-label-weight);
+  letter-spacing: normal;
+  white-space: nowrap;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent-text) 35%, transparent);
+  text-underline-offset: var(--underline-offset);
+  cursor: pointer;
+}
+
+.how:hover {
+  text-decoration-color: currentColor;
+}
+
+/* The hit area grows to --hit without moving the layout. */
+.how::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  inline-size: max(100%, var(--hit));
+  block-size: max(100%, var(--hit));
+  transform: translate(-50%, -50%);
+}
+
+/* The questions. */
+.questions {
+  margin-block-start: var(--space-8);
+}
+
+.questionsHead {
+  padding: 0 var(--edge) var(--space-5);
+}
+
+.questionsHead h2 {
+  margin: 0;
+  font-size: var(--text-action-size);
+  line-height: var(--text-action-leading);
+  font-weight: var(--text-action-weight);
+}
+
+.questionsHead p {
+  margin: var(--space-1) 0 0;
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-leading);
+  color: var(--muted);
+}
+
+.questionsHead code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  font-weight: var(--text-label-weight);
+  color: var(--ink);
+}
+
+.groups {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.group {
+  display: grid;
+  grid-template-columns: calc(var(--space-8) * 4 + var(--space-2)) minmax(0, 1fr);
+  align-items: baseline;
+  column-gap: var(--space-6);
+  padding: var(--space-5) var(--edge) var(--space-3);
+  border-top: var(--hairline) solid var(--line);
+}
+
+.group h3 {
+  margin: 0;
+  font-size: var(--text-row-title-size);
+  line-height: var(--text-row-title-leading);
+  font-weight: var(--text-row-title-weight);
+}
+
+.group p {
+  margin: calc(var(--hairline) * 2) 0 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  letter-spacing: var(--text-meta-tracking);
+  color: var(--muted);
+}
+
+.qchip {
+  display: inline-flex;
+  align-items: center;
+  block-size: var(--ask-chip-h);
+  padding: 0 var(--space-3);
+  border: var(--hairline) solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  font-size: var(--text-label-size);
+  line-height: 1;
+  font-weight: var(--text-label-weight);
+  color: var(--muted);
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    color 250ms cubic-bezier(0.25, 1, 0.5, 1),
+    box-shadow 250ms cubic-bezier(0.25, 1, 0.5, 1),
+    transform 250ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.qchip:hover {
+  color: var(--ink);
+  box-shadow: var(--card-hover);
+  transform: translateY(calc(var(--hairline) * -1));
+}
+
+/* raw-ok: media conditions cannot read custom properties; these are the shell's breakpoints. */
+@media (max-width: 1023px) {
+  /* The offer's reserved line and the samples' gap make up the space-7 between the field and the preview. */
+  .start {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: calc(var(--space-7) - var(--space-6) - var(--space-3));
+  }
+
+  .group {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--space-3);
+    padding-block-end: var(--space-5);
+  }
+}
+
+/* raw-ok: media conditions cannot read custom properties. */
+@media (max-width: 639px) {
+  .hero {
+    padding-block-start: var(--space-5);
+  }
+
+  .shot {
+    --nw: calc(var(--page-max) / 2);
+    aspect-ratio: 640 / 565;
+  }
+
+  .shotIn {
+    padding: var(--space-6) var(--space-5);
+  }
+
+  .shotChrome {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--space-4);
+  }
+
+  .shotBuilt {
+    align-items: flex-start;
+    text-align: start;
+  }
+
+  .how {
+    margin-inline-start: 0;
+  }
+
+  .qchip {
+    white-space: normal;
+    block-size: auto;
+    min-block-size: var(--ask-chip-h);
+    padding-block: var(--space-2);
+    line-height: var(--text-label-leading);
+  }
+
+  .questions {
+    margin-block-start: var(--space-7);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sample .sampleChip,
+  .shot,
+  .qchip {
+    transition: none;
+  }
+
+  .sample:hover .sampleChip,
+  .shot:hover,
+  .qchip:hover {
+    transform: none;
+  }
+}
