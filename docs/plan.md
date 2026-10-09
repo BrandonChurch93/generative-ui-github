@@ -199,13 +199,13 @@ Prompt: `prompts/08-mcp.md`
 
 Prompt: `prompts/09-hardening.md`
 
-- [ ] 9.0 Dark theme, when the owner has added it to `design-system/tokens.json`: `pnpm tokens:build` emits the `[data-theme="dark"]` block and the `prefers-color-scheme` default; every component checked on `/catalog` in dark; the MCP frame follows the host theme. Done when `pnpm a11y` on `/catalog` in dark reports zero contrast failures. If the tokens have not arrived, skip, note in `docs/questions.md`, and continue.
-- [ ] 9.1 Error boundaries per region. Done when a test throws inside one region's component and the other regions render.
-- [ ] 9.2 `/api/health`: cache hit rate, model calls today, spend today, GitHub rate remaining. Done when `curl` returns the four fields.
-- [ ] 9.3 Cost controls under load with `DAILY_CAP_USD=0.50` in the test env: a script fires 500 compositions at the samples and asserts zero model calls; a second fires 50 live questions from 5 visitors and asserts the visitor limit trips and then the cap trips. Done when both scripts pass.
-- [ ] 9.4 Security: `scripts/check-secrets.sh` greps the build output and client bundles for the token and key patterns; repo input validated server side; no user content stored. Done when the script exits 0 on a production build.
-- [ ] 9.5 Performance: `pnpm lighthouse` on `/` and a composed sample screen. Done when mobile performance ≥ 90 and accessibility ≥ 95.
-- [ ] 9.6 Root README per `docs/launch.md`. Done when it contains every section listed there.
+- [ ] 9.0 (skipped 2026-10-09: no dark values in tokens.json yet; `docs/questions.md` 9.0) Dark theme, when the owner has added it to `design-system/tokens.json`: `pnpm tokens:build` emits the `[data-theme="dark"]` block and the `prefers-color-scheme` default; every component checked on `/catalog` in dark; the MCP frame follows the host theme. Done when `pnpm a11y` on `/catalog` in dark reports zero contrast failures. If the tokens have not arrived, skip, note in `docs/questions.md`, and continue.
+- [x] 9.1 Error boundaries per region. Done when a test throws inside one region's component and the other regions render.
+- [x] 9.2 `/api/health`: cache hit rate, model calls today, spend today, GitHub rate remaining. Done when `curl` returns the four fields.
+- [x] 9.3 Cost controls under load with `DAILY_CAP_USD=0.50` in the test env: a script fires 500 compositions at the samples and asserts zero model calls; a second fires 50 live questions from 5 visitors and asserts the visitor limit trips and then the cap trips. Done when both scripts pass.
+- [x] 9.4 Security: `scripts/check-secrets.sh` greps the build output and client bundles for the token and key patterns; repo input validated server side; no user content stored. Done when the script exits 0 on a production build.
+- [x] 9.5 Performance: `pnpm lighthouse` on `/` and a composed sample screen. Done when mobile performance ≥ 90 and accessibility ≥ 95.
+- [x] 9.6 Root README per `docs/launch.md`. Done when it contains every section listed there.
 
 ---
 

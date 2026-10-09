@@ -256,3 +256,20 @@ The server reads `GITHUB_TOKEN` and `ANTHROPIC_API_KEY` from `.env.local` at the
 
 - Assumed: Claude Desktop renders MCP Apps for local stdio servers. If it shows only text, the server is fine (the Inspector run in `docs/status.md` shows the UI metadata); the host needs MCP Apps support switched on.
 - Check: the answer draws in the pane, a click on a metric asks the follow-up in the chat, and "Open in Generative UI" opens the full screen.
+
+## 9.0 · Dark theme skipped
+
+`design-system/tokens.json` has no dark values yet, so 9.0 was skipped as the plan says. `docs/dark-theme-brief.md` is with the owner for design (final audit A.4). `scripts/tokens-build.mjs` already emits the `[data-theme="dark"]` and `prefers-color-scheme` blocks once `{ light, dark }` values are in.
+
+- Check: run 9.0 when the values land.
+
+## 9.6 · The README's cost figures are measured, not the launch doc's
+
+`docs/launch.md` asks the thesis to quote "200k tokens per page for full generation vs under a second and ~40 output tokens here". Nothing in the repo measures those: the brief says "minutes per page, hundreds of thousands of tokens" for full generation, and the eval run measured this project's live template answers at a median of 2,548 tokens (904 output), $0.0019 and 6.1 s p50, with golden answers in 2 ms and no model call. The README quotes the measured figures.
+
+- Check: whether to keep the measured figures, or source the launch doc's (and cut the fill's output so ~40 tokens becomes true).
+
+## 9.6 · Things the README surfaced
+
+- `packages/ui` and `packages/renderer` are `"private": true`, so the README's install section describes packages not yet published. Phase 10.2 prepares the tarballs; publishing is the owner's.
+- The README's architecture diagram is drawn from the five-step flow in `design-system/screens/About.html`; the brief has the four-layers table (copied as is) but no diagram.
