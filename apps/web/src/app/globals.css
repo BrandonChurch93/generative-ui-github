@@ -24,3 +24,9 @@ body {
   font-weight: var(--text-body-weight);
   -webkit-font-smoothing: antialiased;
 }
+
+/* Pages sit above the cursor warmth. */
+.page-root {
+  position: relative;
+  z-index: 1;
+}

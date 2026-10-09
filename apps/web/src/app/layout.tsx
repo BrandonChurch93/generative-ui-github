@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 import { JetBrains_Mono, Plus_Jakarta_Sans } from 'next/font/google'
+import { CursorWarmth } from '@genui-github/ui/shell'
 import '../../../../design-system/tokens.css'
 import '@genui-github/ui/styles.css'
 import './globals.css'
@@ -27,7 +28,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${sans.variable} ${mono.variable}`}>
-      <body>{children}</body>
+      <body>
+        <CursorWarmth />
+        <div className="page-root">{children}</div>
+      </body>
     </html>
   )
 }
