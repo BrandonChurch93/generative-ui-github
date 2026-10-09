@@ -1,4 +1,0 @@
-{
-  "props": { "label": "Open pull requests", "measure": "open-prs", "value": 42 },
-  "error": { "failed": "Couldn't load pull requests", "cause": "GitHub returned 502" }
-}

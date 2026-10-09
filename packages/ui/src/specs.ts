@@ -1,6 +1,6 @@
-import { probeSpec } from './components/Probe/spec'
+import { metricSpec } from './components/Metric/schema'
 import { registry } from './registry'
 
-registry.register(probeSpec)
+registry.register(metricSpec)
 
 export { registry }

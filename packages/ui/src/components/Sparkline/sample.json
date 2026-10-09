@@ -1,0 +1,8 @@
+{
+  "props": {
+    "points": [12.8, 13.4, 12.9, 13.6, 14.2, 13.9, 14.8, 15.6, 16.1, 17.4, 18.2, 19.6],
+    "finding": "Up from 12.8 to 19.6 hours over 12 weeks"
+  },
+  "error": { "failed": "Trend unavailable", "cause": "GitHub returned 502" },
+  "warming": { "counting": "GitHub is counting the trend", "nextCheck": "checking again in 4s", "progress": 0.42 }
+}

@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { catalogEntry } from '@genui-github/ui/catalog'
+import { rise } from '@genui-github/ui/motion'
 import { COMPONENT_STATES, DENSITIES, Segmented, TextLink, type ComponentState, type Density } from '@genui-github/ui'
 import { createLogger } from '@genui-github/core'
 import styles from '../catalog.module.css'
@@ -27,12 +28,31 @@ export function ComponentViewer({
   initialState?: string
 }) {
   const entry = catalogEntry(name)!
-  const omitted = new Map<ComponentState, string>((entry.spec.statesOmitted ?? []).map(o => [o.state, o.reason]))
+  const { Component, sample } = entry
+  const omitted = new Map<ComponentState, string>((entry.spec?.statesOmitted ?? []).map(o => [o.state, o.reason]))
   const [density, setDensity] = useState<Density>(DENSITIES.find(d => d === initialDensity) ?? 'comfortable')
   const [state, setState] = useState<ComponentState>(
     COMPONENT_STATES.find(s => s === initialState && !omitted.has(s)) ?? 'default',
   )
   const [showJson, setShowJson] = useState(false)
+  const props = state === 'empty' && sample.empty ? sample.empty : sample.props
+  const pieceRef = useRef<HTMLDivElement>(null)
+  const [replays, setReplays] = useState(0)
+
+  // The piece arrives the way it would on a composed screen: the card rises, then its insides run their enter.
+  useLayoutEffect(() => {
+    const piece = pieceRef.current
+    const root = piece?.firstElementChild
+    if (!piece || !(root instanceof HTMLElement)) return
+    const entered = catalogEntry(name)
+    const shown = state === 'empty' && entered?.sample.empty ? entered.sample.empty : entered?.sample.props
+    const card = rise(piece)
+    const inner = state === 'default' && entered?.motion ? entered.motion.enter(root, shown, { delay: 0.15 }) : undefined
+    return () => {
+      card.progress(1).kill()
+      inner?.progress(1).kill()
+    }
+  }, [name, state, density, replays])
 
   useEffect(() => {
     const url = new URL(window.location.href)
@@ -41,8 +61,6 @@ export function ComponentViewer({
     window.history.replaceState(null, '', url)
   }, [density, state])
 
-  const { Component, sample } = entry
-  const props = state === 'empty' && sample.empty ? sample.empty : sample.props
   const json = JSON.stringify(
     {
       component: entry.name,
@@ -85,8 +103,8 @@ export function ComponentViewer({
           ))}
         </ul>
       )}
-      <div className={styles.stage} data-density={density} data-width={entry.spec.heightClass ?? 'fixed'} data-ground="bg">
-        <div className={styles.piece} data-testid="catalog-piece" data-state={state}>
+      <div className={styles.stage} data-density={density} data-width={entry.width ?? 'half'} data-ground="bg">
+        <div ref={pieceRef} className={styles.piece} data-testid="catalog-piece" data-state={state}>
           <Component
             props={props}
             state={state}
@@ -98,6 +116,7 @@ export function ComponentViewer({
         </div>
       </div>
       <div className={styles.jsonBar}>
+        <TextLink onClick={() => setReplays(n => n + 1)}>Replay</TextLink>
         <TextLink onClick={() => setShowJson(v => !v)}>{showJson ? 'Hide JSON' : 'View JSON'}</TextLink>
         <span className={styles.note}>
           {entry.sampleFile} · {json.split('\n').length} lines

@@ -8,6 +8,20 @@
   box-shadow: var(--card);
 }
 
+button.card {
+  display: block;
+  inline-size: 100%;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+button.card:hover {
+  box-shadow: var(--card-hover);
+}
+
 .card[data-hot] {
   border-color: color-mix(in srgb, var(--crit-fill) 35%, transparent);
   box-shadow: var(--card-hot);

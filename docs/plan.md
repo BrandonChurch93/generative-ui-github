@@ -49,7 +49,7 @@ Prompt: `prompts/02-catalog.md`. Each component's behavior spec is `design-syste
 
 A designed component is done when: its five states and three densities render on `/catalog` from `sample.json`; its schema is registered with `when`, `heightClass` and `pickable`; `motion.ts` has enter, exit, update, morph composed from the primitives; one render test per state passes; lint passes; no raw values in its CSS module; a Playwright screenshot at comfortable density sits beside its `preview.html` screenshot and the executor has compared them and fixed visible differences.
 
-- [ ] 2.1 Metric, with Sparkline as a part (`trend: true` renders it from the measure's series; the sample supplies the series directly).
+- [x] 2.1 Metric, with Sparkline as a part (`trend: true` renders it from the measure's series; the sample supplies the series directly).
 - [ ] 2.2 StatusList with `kind` and per-kind state enums; tag words written by the system; Row as a part.
 - [ ] 2.3 Insight, accepting a `sources` map prop that the renderer will supply in Phase 3; the number-validation function lives in `packages/ui/src/validate/numbers.ts` and is unit tested here.
 - [ ] 2.4 Timeline (`merged` and `commits` kinds, `dayAsk`), using `Spine`.

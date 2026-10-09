@@ -10,7 +10,7 @@ function plural(n: number, word: string) {
 }
 
 export default function CatalogLayout({ children }: { children: ReactNode }) {
-  const pickable = CATALOG.filter(e => e.spec.pickable).length
+  const pickable = CATALOG.filter(e => e.spec?.pickable).length
   return (
     <div className={styles.page} data-ground="bg">
       <header className={styles.intro}>

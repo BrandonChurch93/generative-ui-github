@@ -1,0 +1,103 @@
+/* The slot. In a Metric it takes the room beside the number up to 120px and drops under 56px. */
+.slot {
+  position: relative;
+  display: block;
+  flex: 1 1 0;
+  max-inline-size: var(--spark-max);
+  min-inline-size: 0;
+  block-size: var(--spark-h);
+  container-type: inline-size;
+}
+
+.slot[data-placement="row"] {
+  flex: 0 0 var(--spark-row);
+  inline-size: var(--spark-row);
+  align-self: center;
+}
+
+.box,
+.skeleton,
+.center {
+  position: absolute;
+  inset: 0;
+}
+
+/* 3px inside top and bottom for the line and the dot. */
+.box {
+  inset-block: var(--spark-inset);
+}
+
+.svg {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: visible;
+}
+
+.line,
+.latest {
+  fill: none;
+  stroke-width: var(--plot-line);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.line {
+  stroke: var(--data-ref);
+}
+
+.latest {
+  stroke: var(--accent);
+}
+
+/* Its right edge sits on the slot's right edge, so the dot never overhangs the content edge. */
+.end {
+  position: absolute;
+  right: 0;
+  top: var(--end-y);
+  inline-size: var(--node);
+  block-size: var(--node);
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 var(--ring) var(--surface);
+  transform: translateY(-50%);
+}
+
+.skeleton {
+  border-radius: var(--radius-xs);
+  background: var(--line-soft);
+}
+
+.baseline {
+  position: absolute;
+  inset-inline: 0;
+  bottom: var(--spark-inset);
+  block-size: var(--plot-line);
+  border-radius: var(--radius-pill);
+  background: var(--line-soft);
+  overflow: hidden;
+}
+
+.fill {
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform: scaleX(var(--progress, 0));
+  transform-origin: left center;
+}
+
+.center {
+  display: grid;
+  place-items: center;
+}
+
+/* raw-ok: container queries cannot read custom properties; this is --spark-min less one pixel. */
+@container (max-width: 55px) {
+  .box,
+  .baseline,
+  .center,
+  .skeleton {
+    display: none;
+  }
+}

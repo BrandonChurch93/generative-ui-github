@@ -10,7 +10,7 @@
     "build": "turbo build",
     "dev": "turbo dev --filter=@genui-github/web",
     "typecheck": "turbo typecheck",
-    "lint": "eslint . && node scripts/check-copy.mjs",
+    "lint": "eslint . && node scripts/check-copy.mjs && node scripts/check-css.mjs",
     "test": "turbo test",
     "e2e": "pnpm --filter @genui-github/web e2e",
     "a11y": "pnpm --filter @genui-github/web a11y",

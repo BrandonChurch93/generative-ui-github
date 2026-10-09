@@ -41,7 +41,8 @@ export function wipe(targets: Targets, options: MoveOptions = {}): gsap.core.Tim
     tl.fromTo(
       list(targets),
       { clipPath: 'inset(0% 100% 0% 0%)' },
-      { clipPath: 'inset(0% 0% 0% 0%)', duration: MOVES.wipe.in, ease: MOVES.wipe.ease },
+      // A finished reveal must not keep clipping what overhangs the box (descenders, a dot's ring).
+      { clipPath: 'inset(0% 0% 0% 0%)', duration: MOVES.wipe.in, ease: MOVES.wipe.ease, clearProps: 'clipPath' },
     )
   } else {
     tl.fromTo(
@@ -100,12 +101,24 @@ function pathLength(node: Element): number | undefined {
 
 /**
  * A path draws along its length and erases back on exit. A box (the insight rule) draws along `axis`.
+ * `clip` reveals the element left to right instead: for lines drawn with a non-scaling stroke, whose dash
+ * lengths and path lengths are measured in different units.
  */
-export function draw(targets: Targets, options: MoveOptions & { axis?: 'x' | 'y' } = {}): gsap.core.Timeline {
+export function draw(targets: Targets, options: MoveOptions & { axis?: 'x' | 'y'; clip?: boolean } = {}): gsap.core.Timeline {
   const direction = options.direction ?? 'in'
   if (isReduced(options)) return fade(targets, direction)
   const tl = timeline(options)
   const duration = direction === 'in' ? MOVES.draw.in : MOVES.draw.out
+  if (options.clip) {
+    const [from, to] = direction === 'in' ? ['inset(0% 100% 0% 0%)', 'inset(0% 0% 0% 0%)'] : ['inset(0% 0% 0% 0%)', 'inset(0% 100% 0% 0%)']
+    tl.fromTo(
+      list(targets),
+      { clipPath: from },
+      { clipPath: to, duration, ease: MOVES.draw.ease, ...(direction === 'in' ? { clearProps: 'clipPath' } : {}) },
+      0,
+    )
+    return tl
+  }
   for (const node of list(targets)) {
     const length = pathLength(node)
     if (length !== undefined) {

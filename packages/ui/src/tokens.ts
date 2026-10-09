@@ -57,6 +57,8 @@ export const TOKEN_NAMES = [
   'hairline',
   'stroke',
   'bar',
+  'plot-line',
+  'spark-inset',
   'mark',
   'node',
   'endpoint',
@@ -67,6 +69,10 @@ export const TOKEN_NAMES = [
   'tag-y',
   'underline-offset',
   'glow',
+  'spark-max',
+  'spark-min',
+  'spark-row',
+  'row-value',
   'font-sans',
   'font-mono',
   'text-question-size',
@@ -141,6 +147,7 @@ export const TOKEN_NAMES = [
   'control-h',
   'plot-h',
   'code-leading',
+  'spark-h',
 ] as const
 
 export type TokenName = (typeof TOKEN_NAMES)[number]

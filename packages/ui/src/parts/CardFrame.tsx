@@ -9,6 +9,8 @@ export interface CardFrameProps {
   headerEnd?: ReactNode
   headingLevel?: 2 | 3
   as?: 'section' | 'article' | 'figure' | 'div'
+  /** A card that asks a follow-up question is itself the button, so its focus ring is never clipped. */
+  onClick?: () => void
   /** The model flagged this card as blocking. The host adds the crit mark and the hidden words. */
   hot?: boolean
   /** Warming progress, 0 to 1. Draws the 3px bar along the bottom edge. */
@@ -26,6 +28,7 @@ export function CardFrame({
   headerEnd,
   headingLevel = 2,
   as: Tag = 'section',
+  onClick,
   hot,
   progress,
   busy,
@@ -36,8 +39,10 @@ export function CardFrame({
   const titleId = useId()
   const Heading = headingLevel === 2 ? 'h2' : 'h3'
   const hasHeader = title !== undefined || meta !== undefined || headerEnd !== undefined
+  const Root = onClick ? 'button' : Tag
   return (
-    <Tag
+    <Root
+      {...(onClick ? { type: 'button' as const, onClick } : {})}
       className={cx(styles.card, className)}
       data-hot={hot ? '' : undefined}
       data-card=""
@@ -69,6 +74,6 @@ export function CardFrame({
           <span className={styles.fill} />
         </span>
       )}
-    </Tag>
+    </Root>
   )
 }

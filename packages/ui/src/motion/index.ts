@@ -15,3 +15,4 @@ export {
   type Direction,
   type MoveOptions,
 } from './primitives'
+export { one, within, type PieceMotion } from './types'

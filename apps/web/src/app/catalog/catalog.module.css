@@ -191,12 +191,15 @@
 }
 
 .piece {
-  max-width: 24rem;
+  max-width: 36rem;
 }
 
-.stage[data-width="grows"] .piece,
-.stage[data-width="plot"] .piece {
-  max-width: 40rem;
+.stage[data-width="quarter"] .piece {
+  max-width: 19rem;
+}
+
+.stage[data-width="full"] .piece {
+  max-width: none;
 }
 
 .jsonBar {

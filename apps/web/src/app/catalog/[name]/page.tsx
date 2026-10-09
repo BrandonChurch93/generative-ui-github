@@ -19,7 +19,8 @@ export default async function ComponentPage({
   const { density, state } = await searchParams
   const entry = catalogEntry(name)
   if (!entry) notFound()
-  const shape = 'shape' in entry.spec.schema ? Object.keys((entry.spec.schema as { shape: object }).shape) : []
+  const schema = entry.spec?.schema
+  const shape = schema && 'shape' in schema ? Object.keys((schema as { shape: object }).shape) : []
 
   return (
     <article className={styles.detail} aria-labelledby="component-name">
@@ -29,19 +30,20 @@ export default async function ComponentPage({
         </h2>
         <p className={styles.description}>{entry.description}</p>
         <p className={styles.facts}>
-          <span className={styles.factLabel}>model sends</span>
+          {shape.length > 0 && <span className={styles.factLabel}>model sends</span>}
           {shape.map(key => (
             <code key={key} className={styles.chip}>
               {key}
             </code>
           ))}
-          {entry.spec.heightClass && (
+          {entry.spec?.heightClass && (
             <>
               <span className={styles.factLabel}>height</span>
               <code className={styles.chip}>{entry.spec.heightClass}</code>
             </>
           )}
-          {!entry.spec.pickable && <code className={styles.chip}>not pickable</code>}
+          {!entry.spec && <code className={styles.chip}>part · never picked</code>}
+          {entry.spec && !entry.spec.pickable && <code className={styles.chip}>not pickable</code>}
         </p>
       </header>
       <ComponentViewer name={entry.name} initialDensity={density} initialState={state} />

@@ -36,6 +36,8 @@ export interface PieceRenderProps<P> {
   warming?: WarmingInfo
   tone?: Tone
   emphasis?: Emphasis
+  /** The question a click on the whole piece asks. With `onAsk`, the piece becomes a button. */
+  ask?: string
   onRetry?: () => void
   onAsk?: (ask: string) => void
 }

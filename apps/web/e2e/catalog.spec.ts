@@ -27,7 +27,7 @@ test('every catalog component renders in every state and density it supports', a
 
   for (const name of names) {
     await page.goto(`/catalog/${name}`)
-    await expect(page.getByRole('heading', { level: 2, name })).toBeVisible()
+    await expect(page.locator('#component-name')).toHaveText(name)
     const stateGroup = page.getByRole('radiogroup', { name: 'State' })
     const skipped = await stateGroup
       .getByRole('radio')
@@ -51,8 +51,15 @@ test('every catalog component renders in every state and density it supports', a
 })
 
 test('a skipped state is a disabled segment that says why', async ({ page }) => {
-  await page.goto('/catalog/Probe')
-  const warming = page.getByRole('radio', { name: /^Warming/ })
-  await expect(warming).toHaveAttribute('aria-disabled', 'true')
-  await expect(warming).toContainText('A probe reads nothing from the stats endpoints.')
+  const names = await componentNames(page)
+  let checked = 0
+  for (const name of names) {
+    await page.goto(`/catalog/${name}`)
+    const disabled = page.getByRole('radiogroup', { name: 'State' }).locator('[aria-disabled="true"]')
+    for (const radio of await disabled.all()) {
+      await expect(radio).toContainText('Not available:')
+      checked++
+    }
+  }
+  test.skip(checked === 0, 'no registered component skips a state yet')
 })

@@ -1,0 +1,127 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: var(--card-y) var(--inset) calc(var(--card-y) + var(--bar));
+}
+
+/* A button card stacks its parts the same way. */
+button.card {
+  display: flex;
+}
+
+.label {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-leading);
+  font-weight: var(--text-label-weight);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.value {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+  font-size: var(--metric-size);
+  line-height: 1;
+  font-weight: var(--text-metric-weight);
+  letter-spacing: var(--text-metric-tracking);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.suffix {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--suffix-size);
+  line-height: 1;
+  font-weight: var(--text-suffix-weight);
+  letter-spacing: 0;
+}
+
+/* Beside the number, its bottom on the baseline, after space-4 of room. */
+.trend {
+  align-self: flex-end;
+  margin-left: calc(var(--space-4) - var(--space-2));
+}
+
+/* Empty, error and warming put their words in the number's slot at the number's height, so a row stays level. */
+.message {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  block-size: var(--metric-size);
+  margin-top: var(--space-1);
+  color: var(--ink);
+  font-size: var(--text-body-size);
+  line-height: var(--text-label-leading);
+  font-weight: var(--text-label-weight);
+}
+
+.message[data-quiet] {
+  color: var(--muted);
+}
+
+.delta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-3);
+  margin-top: var(--row-y);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+}
+
+.delta > span {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.delta[data-tone="crit"] {
+  color: var(--crit);
+}
+
+.delta[data-tone="good"] {
+  color: var(--good);
+}
+
+/* Square under the card's corner curve on the left, a round cap on the content edge on the right. */
+.bar {
+  position: absolute;
+  left: 0;
+  right: var(--inset);
+  bottom: 0;
+  block-size: var(--bar);
+  border-radius: 0 var(--radius-pill) var(--radius-pill) 0;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transform-origin: left center;
+}
+
+.track {
+  position: absolute;
+  left: 0;
+  right: var(--inset);
+  bottom: 0;
+  block-size: var(--bar);
+  border-radius: 0 var(--radius-pill) var(--radius-pill) 0;
+  background: var(--line-soft);
+}
+
+.track .bar {
+  right: 0;
+  transform: scaleX(var(--progress, 0));
+}
+
+.hotMark {
+  position: absolute;
+  top: calc(var(--card-y) + (var(--text-label-size) * var(--text-label-leading) - var(--mark)) / 2);
+  right: var(--inset);
+}

@@ -18,6 +18,11 @@
   cursor: pointer;
 }
 
+.link[data-size="hint"] {
+  font-size: var(--text-hint-size);
+  line-height: var(--text-hint-leading);
+}
+
 .link:hover {
   text-decoration-color: currentColor;
 }

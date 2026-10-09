@@ -22,9 +22,20 @@ export type SkeletonText =
   | 'handle'
 
 /** A placeholder at a type style's real line height, so nothing jumps when the words land. */
-export function Skeleton({ text = 'body', width = '100%', className }: { text?: SkeletonText; width?: string; className?: string }) {
+export function Skeleton({
+  text = 'body',
+  width = '100%',
+  size,
+  className,
+}: {
+  text?: SkeletonText
+  width?: string
+  /** A density variable that overrides the style's fixed size, such as `var(--metric-size)`. */
+  size?: string
+  className?: string
+}) {
   const style = {
-    '--sk-size': `var(--text-${text}-size)`,
+    '--sk-size': size ?? `var(--text-${text}-size)`,
     '--sk-leading': `var(--text-${text}-leading)`,
     '--sk-w': width,
   } as CSSProperties
