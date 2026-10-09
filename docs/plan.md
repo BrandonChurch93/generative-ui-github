@@ -189,9 +189,9 @@ Prompt: `prompts/08-mcp.md`
 - [x] 8.1 Write `docs/dark-theme-brief.md` for the owner to hand to design: every token needing a dark value, the grounds each contrast figure is redone on, the special cases (hot card, heat ramp, diff tints, focus ring, crit on dark). Done when the file exists. `OWNER` takes it from there.
 - [x] 8.2 `apps/mcp-app`: an MCP server exposing `compose(repo, question)` and returning a UI resource per the current MCP Apps spec (read it from the official source; record the version in `docs/decisions.md`). Done when the MCP inspector lists the tool and returns a resource.
 - [x] 8.3 The frame entry: `screens/MCPApp.html`; 420px design width, 360px floor, container queries, regions only, the composer told the frame width. Done when the three fixtures render inside a 420px iframe with no horizontal scroll.
-- [ ] 8.4 `OWNER` Test in Claude Desktop: "show me the health of vercel/next.js" composes in the pane.
+- [ ] 8.4 `OWNER` (deferred to the final audit, box A.4) Test in Claude Desktop: "show me the health of vercel/next.js" composes in the pane.
 
-`GATE 5` · the owner tries the MCP App in Claude and hands the dark-theme brief to design.
+`GATE 5` · the owner tries the MCP App in Claude and hands the dark-theme brief to design. Deferred to the final audit (A.4) at the owner's request, 2026-10-09.
 
 ---
 
@@ -231,6 +231,11 @@ Checks the owner put off to one sitting before launch. Each one names the gate i
   - `pnpm dev`, then walk the landing, a composed screen at each density, a follow-up click, the drawer, the overlay, and each `?force=` screen, at desktop and phone widths. List the changes wanted.
   - Read the copy the build wrote (`docs/questions.md`, 6.7: landing group lines and returning offer, the overlay steps, the drawer's route sentence, the rate-limit and daily-cap body copy) and the other Phase 6 entries.
   - The executor makes the changes in the components, tokens and shell, keeping the CLAUDE.md rules, then reruns `pnpm e2e` and `pnpm a11y` and updates the reference comparisons.
+
+- [ ] A.4 From GATE 5, the MCP App and the dark theme.
+  - Claude Desktop: the config in `docs/questions.md` 8.4, then "show me the health of vercel/next.js"; the answer draws in the pane, a click asks the follow-up in the chat, "Open in Generative UI" opens the full screen. Tick 8.4 when it works.
+  - Hand `docs/dark-theme-brief.md` to design; 9.0 runs when the dark values are in `design-system/tokens.json`.
+  - Executor reruns first: `pnpm --filter @genui-github/mcp-app e2e` and the Inspector probe in `docs/status.md` (GATE 5).
 
 `GATE` · final audit: the owner works through every box above, then Phase 10 starts.
 

@@ -2,6 +2,10 @@
 
 Newest entry first. Written at every GATE and whenever a session ends mid-phase.
 
+## 2026-10-09 · GATE 5 deferred · continuing into Phase 9
+
+The owner is busy and asked to continue. GATE 5's checks are box A.4 in the final audit. Phase 9 starts now.
+
 ## 2026-10-09 · GATE 5 · the MCP App and the dark theme brief
 
 Phase 8's executor tasks are done: 8.1, 8.2 and 8.3 are ticked and verified. 8.4 is the owner's. The session stops here for GATE 5: try the MCP App in Claude, and hand `docs/dark-theme-brief.md` to design.
