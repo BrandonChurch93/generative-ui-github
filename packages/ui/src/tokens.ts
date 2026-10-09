@@ -152,6 +152,7 @@ export const TOKEN_NAMES = [
   'code-leading',
   'spark-h',
   'strip-h',
+  'option-h',
 ] as const
 
 export type TokenName = (typeof TOKEN_NAMES)[number]

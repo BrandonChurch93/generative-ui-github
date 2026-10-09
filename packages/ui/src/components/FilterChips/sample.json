@@ -1,0 +1,186 @@
+{
+  "props": {
+    "target": "statuslist:pull:milestone-v16.2",
+    "mode": "multi",
+    "options": [
+      {
+        "value": "turbopack",
+        "label": "Turbopack"
+      },
+      {
+        "value": "router",
+        "label": "Router"
+      },
+      {
+        "value": "cache",
+        "label": "Cache"
+      },
+      {
+        "value": "docs",
+        "label": "Docs"
+      }
+    ],
+    "selected": [
+      "turbopack",
+      "router"
+    ],
+    "counts": {
+      "turbopack": 3,
+      "router": 2,
+      "cache": 1,
+      "docs": 1
+    },
+    "filters": "v16.2 pull requests by area"
+  },
+  "variants": [
+    {
+      "label": "Single · window",
+      "props": {
+        "target": "statuslist:pull:merged",
+        "mode": "single",
+        "options": [
+          {
+            "value": "7d",
+            "label": "7 days"
+          },
+          {
+            "value": "30d",
+            "label": "30 days"
+          },
+          {
+            "value": "90d",
+            "label": "90 days"
+          }
+        ],
+        "selected": [
+          "30d"
+        ],
+        "counts": {
+          "7d": 46,
+          "30d": 188,
+          "90d": 521
+        },
+        "filters": "merged pull requests by window"
+      }
+    },
+    {
+      "label": "Overflow · seven labels",
+      "props": {
+        "target": "statuslist:issue:milestone-v16.2",
+        "mode": "multi",
+        "options": [
+          {
+            "value": "bug",
+            "label": "bug"
+          },
+          {
+            "value": "turbopack",
+            "label": "Turbopack"
+          },
+          {
+            "value": "app-router",
+            "label": "App Router"
+          },
+          {
+            "value": "caching",
+            "label": "Caching"
+          },
+          {
+            "value": "documentation",
+            "label": "Documentation"
+          },
+          {
+            "value": "pages-router",
+            "label": "Pages Router"
+          },
+          {
+            "value": "linting",
+            "label": "Linting"
+          }
+        ],
+        "selected": [
+          "bug"
+        ],
+        "counts": {
+          "bug": 8,
+          "turbopack": 5,
+          "app-router": 4,
+          "caching": 3,
+          "documentation": 3,
+          "pages-router": 2,
+          "linting": 1
+        },
+        "filters": "milestone issues by label"
+      }
+    },
+    {
+      "label": "A zero stays visible",
+      "props": {
+        "target": "statuslist:pull:milestone-v16.2",
+        "mode": "multi",
+        "options": [
+          {
+            "value": "turbopack",
+            "label": "Turbopack"
+          },
+          {
+            "value": "router",
+            "label": "Router"
+          },
+          {
+            "value": "cache",
+            "label": "Cache"
+          },
+          {
+            "value": "docs",
+            "label": "Docs"
+          }
+        ],
+        "selected": [],
+        "counts": {
+          "turbopack": 3,
+          "router": 2,
+          "cache": 1,
+          "docs": 0
+        },
+        "filters": "v16.2 pull requests by area"
+      }
+    },
+    {
+      "label": "Disabled while the list rewrites",
+      "props": {
+        "target": "statuslist:pull:milestone-v16.2",
+        "mode": "multi",
+        "options": [
+          {
+            "value": "turbopack",
+            "label": "Turbopack"
+          },
+          {
+            "value": "router",
+            "label": "Router"
+          },
+          {
+            "value": "cache",
+            "label": "Cache"
+          },
+          {
+            "value": "docs",
+            "label": "Docs"
+          }
+        ],
+        "selected": [
+          "turbopack"
+        ],
+        "counts": {
+          "turbopack": 3,
+          "router": 2,
+          "cache": 1,
+          "docs": 1
+        },
+        "filters": "v16.2 pull requests by area",
+        "disabled": true
+      }
+    }
+  ]
+}

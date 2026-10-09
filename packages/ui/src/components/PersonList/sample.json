@@ -1,0 +1,43 @@
+{
+  "props": {
+    "measure": "commits",
+    "limit": 5,
+    "title": "Most commits",
+    "meta": "last 90 days",
+    "people": [
+      { "handle": "mira-dev", "name": "Mira Devlin", "count": 268, "url": "https://github.com/mira-dev" },
+      { "handle": "tkato", "name": "Taro Kato", "count": 184, "url": "https://github.com/tkato" },
+      { "handle": "j-oduya", "name": "Jide Oduya", "count": 104, "url": "https://github.com/j-oduya" },
+      { "handle": "lenaw", "name": "Lena Weiss", "count": 78, "url": "https://github.com/lenaw" },
+      { "handle": "pdubois", "count": 61, "url": "https://github.com/pdubois" },
+      { "handle": "rsaito", "name": "Rina Saito", "count": 43, "url": "https://github.com/rsaito" }
+    ]
+  },
+  "variants": [
+    {
+      "label": "Reviews · rows ask a follow-up",
+      "props": {
+        "measure": "reviews",
+        "limit": 3,
+        "title": "Who reviewed",
+        "meta": "this week",
+        "people": [
+          { "handle": "hgrey", "name": "Hana Grey", "count": 14, "ask": "What is hgrey reviewing?" },
+          { "handle": "ovan", "name": "Otto Vandermeer", "count": 6, "ask": "What is ovan reviewing?" },
+          { "handle": "ivanko", "count": 1, "ask": "What is ivanko reviewing?" }
+        ]
+      }
+    }
+  ],
+  "empty": {
+    "measure": "issues",
+    "title": "Most issues opened",
+    "meta": "last 7 days",
+    "people": [],
+    "emptyTone": "neutral",
+    "empty": "Nobody opened an issue in the last 7 days",
+    "emptyMeta": "last issue opened 9d ago · #84201"
+  },
+  "error": { "failed": "Couldn't load commit authors", "cause": "GitHub returned 502 · tried twice" },
+  "warming": { "counting": "GitHub is counting contributors", "nextCheck": "usually under a minute · checking again in 12s", "progress": 0.38 }
+}

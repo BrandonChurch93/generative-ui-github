@@ -32,13 +32,29 @@ describe('registry', () => {
     expect(r.deriveId('Keyless', { a: 1, b: 2 })).not.toBe(r.deriveId('Keyless', { a: 1, b: 3 }))
   })
 
+  it('writes schemas as signatures, with a union of array items in parentheses', async () => {
+    const { signature } = await import('./registry')
+    const schema = z.object({ tags: z.array(z.union([z.literal('a'), z.object({ b: z.number().int().min(1).max(3) })])).max(4) })
+    expect(signature(z.toJSONSchema(schema))).toBe('{tags: ("a" | {b: int(1-3)})[](≤4)}')
+  })
+
   it('puts pickable specs in the prompt and leaves the rest out', () => {
     const r = createRegistry()
     r.register(dummy)
     r.register({ ...dummy, name: 'Hidden', pickable: false })
     const prompt = r.toPrompt()
     expect(prompt).toContain('## Dummy')
-    expect(prompt).toContain('"maxLength":28')
+    expect(prompt).toContain('label: string(≤28)')
     expect(prompt).not.toContain('Hidden')
+  })
+})
+
+describe('the shared registry', () => {
+  it('assigns height classes per docs/decisions.md', async () => {
+    const { registry } = await import('./specs')
+    expect(registry.heightClass('Metric')).toBe('fixed')
+    expect(registry.heightClass('StatusList')).toBe('grows')
+    expect(registry.heightClass('LineChart')).toBe('plot')
+    for (const spec of registry.all().filter(s => s.pickable)) expect(spec.heightClass, spec.name).toBeDefined()
   })
 })

@@ -1,0 +1,162 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Wraps until measured, then one line with "+N more"; opened, it wraps onto further lines. */
+.row {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.row[data-collapsed] {
+  flex-wrap: nowrap;
+}
+
+/* 28, 32 or 36px by density: the control height less space-2. Text inset space-3, space-3, space-4. */
+.chip {
+  position: relative;
+  box-sizing: border-box;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--space-2);
+  block-size: calc(var(--control-h) - var(--space-2));
+  margin: 0;
+  padding: 0 max(var(--space-3), var(--row-y));
+  border: var(--hairline) solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-leading);
+  font-weight: var(--text-label-weight);
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 150ms cubic-bezier(0.25, 1, 0.5, 1),
+    border-color 150ms cubic-bezier(0.25, 1, 0.5, 1),
+    color 150ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* An invisible layer makes each chip the control height to touch (44px at spacious) while the pill stays smaller. */
+.chip::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  block-size: max(100%, var(--control-h));
+  transform: translateY(-50%);
+}
+
+.chip:hover:not(:disabled) {
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+
+/* Border and check carry the state; the tint only confirms it. */
+.chip[aria-checked="true"],
+.chip[aria-pressed="true"],
+.chip[aria-checked="true"]:hover,
+.chip[aria-pressed="true"]:hover {
+  border-color: var(--accent);
+  background: var(--surface-tint);
+  color: var(--ink);
+}
+
+.chip:disabled {
+  border-color: var(--line-soft);
+  background: transparent;
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+.chip[aria-checked="true"]:disabled,
+.chip[aria-pressed="true"]:disabled {
+  border-color: var(--line-soft);
+  background: var(--surface-tint);
+  color: var(--muted);
+}
+
+/* The check sits space-1 from the label; its slot clips so it can extend in from zero width. */
+.checkSlot {
+  display: inline-flex;
+  flex-shrink: 0;
+  overflow: hidden;
+  margin-inline-end: calc(var(--space-1) * -1);
+}
+
+.check {
+  flex-shrink: 0;
+  inline-size: var(--space-3);
+  block-size: var(--space-3);
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: var(--stroke);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chip:disabled .check {
+  stroke: var(--muted);
+}
+
+.count {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-tag-size);
+  line-height: var(--text-tag-leading);
+  font-weight: var(--text-tag-weight);
+  font-variant-numeric: tabular-nums;
+}
+
+.countSkeleton {
+  display: block;
+  inline-size: calc(var(--space-3) + var(--hairline) * 2);
+  block-size: calc(var(--space-2) - var(--hairline));
+  border-radius: var(--radius-sm);
+  background: var(--line-soft);
+}
+
+/* "+N more" and "Show less": no fill, a line border, ink text. */
+.more,
+.more:hover:not(:disabled) {
+  gap: var(--space-1);
+  background: transparent;
+  color: var(--ink);
+}
+
+/* Every chip at its natural width, out of sight, so the line can be fitted before it is drawn. */
+.measure {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  gap: var(--space-2);
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@media (pointer: coarse) {
+  .chip::after {
+    block-size: max(100%, calc(var(--hit) + var(--space-2)));
+  }
+}
+
+@media (prefers-contrast: more) {
+  .chip:not(:disabled, [aria-checked="true"], [aria-pressed="true"]),
+  .chip:hover:not(:disabled, [aria-checked="true"], [aria-pressed="true"]) {
+    border-color: var(--muted);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chip {
+    transition: none;
+  }
+}

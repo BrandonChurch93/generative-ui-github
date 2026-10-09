@@ -1,0 +1,167 @@
+.body {
+  padding: var(--card-y) var(--inset);
+}
+
+/* Ticks in a gutter as wide as the widest tick, then the plot. No end zone: each bar carries its own value. */
+.chart {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  /* The plot sits down half an axis label so the top tick never clips. */
+  padding-top: calc(var(--text-axis-size) * var(--text-axis-leading) / 2);
+}
+
+.ticks {
+  position: relative;
+  padding-inline-end: var(--space-2);
+}
+
+.sizer {
+  display: block;
+  block-size: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+.sizer,
+.tick,
+.category,
+.count,
+.unit {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-axis-size);
+  line-height: var(--text-axis-leading);
+  font-weight: var(--text-axis-weight);
+  white-space: nowrap;
+}
+
+.tick {
+  position: absolute;
+  right: var(--space-2);
+  transform: translateY(-50%);
+  font-variant-numeric: tabular-nums;
+}
+
+.plot {
+  position: relative;
+  block-size: var(--plot-h);
+  border-radius: var(--radius-xs);
+  touch-action: pan-y;
+}
+
+.grid {
+  position: absolute;
+  inset-inline: 0;
+  block-size: var(--hairline);
+  margin-top: calc(var(--hairline) / -2);
+  background: var(--line-soft);
+}
+
+.grid[data-baseline] {
+  background: var(--line);
+}
+
+/* Each category owns an equal band and its bar sits at the band's center, so nothing spills past the plot. */
+.bands {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+
+.band {
+  display: flex;
+  flex: 1 1 0;
+  justify-content: center;
+  align-items: flex-end;
+  min-width: 0;
+}
+
+.bar {
+  position: relative;
+  inline-size: min(40%, var(--col-max));
+  border-radius: var(--radius-xs) var(--radius-xs) 0 0;
+  background: var(--data-1);
+}
+
+.count {
+  position: absolute;
+  bottom: calc(100% + var(--space-1));
+  left: 50%;
+  transform: translateX(-50%);
+  font-variant-numeric: tabular-nums;
+}
+
+.bar[data-hover] .count {
+  color: var(--ink);
+}
+
+.axis {
+  display: flex;
+  margin-top: var(--space-2);
+}
+
+.category {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+  padding-inline: calc(var(--space-1) / 2);
+  text-align: center;
+  text-overflow: ellipsis;
+}
+
+.category[data-hover] {
+  color: var(--ink);
+  font-weight: var(--text-label-weight);
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  border: var(--hairline) solid var(--line-soft);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--card);
+  transform: translateY(-50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.tooltip[data-side="right"] {
+  left: calc(var(--x) + var(--space-3));
+}
+
+.tooltip[data-side="left"] {
+  right: calc(100% - var(--x) + var(--space-3));
+}
+
+.tipValue {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-1);
+  color: var(--ink);
+  font-size: var(--text-card-title-size);
+  line-height: var(--text-card-title-leading);
+  font-weight: var(--text-card-title-weight);
+  font-variant-numeric: tabular-nums;
+}
+
+.tipName {
+  color: var(--muted);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-leading);
+}
+
+.grid[data-skeleton] {
+  background: var(--line-soft);
+}
+
+/* Every state keeps the chart's full height, so a card is one size however it arrives. */
+.stateBody {
+  display: grid;
+  align-content: center;
+  min-block-size: calc(var(--plot-h) + var(--text-axis-size) * var(--text-axis-leading) * 1.5 + var(--space-2) + var(--card-y) * 2);
+}

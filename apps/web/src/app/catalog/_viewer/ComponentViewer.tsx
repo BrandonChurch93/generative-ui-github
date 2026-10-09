@@ -121,6 +121,7 @@ export function ComponentViewer({
       <div className={styles.stage} data-density={density} data-width={entry.width ?? 'half'} data-ground="bg">
         <div ref={pieceRef} className={styles.piece} data-testid="catalog-piece" data-state={state}>
           <Component
+            key={`${variant}:${state}`}
             props={props}
             state={state}
             error={sample.error}

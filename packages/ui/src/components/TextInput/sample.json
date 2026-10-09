@@ -1,0 +1,85 @@
+{
+  "props": {
+    "label": "Repository",
+    "placeholder": "owner/name",
+    "helper": "Any public repo, as owner/name or a github.com link",
+    "kind": "identifier",
+    "validate": "repo"
+  },
+  "variants": [
+    {
+      "label": "Filled",
+      "props": {
+        "label": "Repository",
+        "placeholder": "owner/name",
+        "helper": "Any public repo, as owner/name or a github.com link",
+        "kind": "identifier",
+        "validate": "repo",
+        "value": "vercel/next.js"
+      }
+    },
+    {
+      "label": "Invalid",
+      "props": {
+        "label": "Repository",
+        "placeholder": "owner/name",
+        "helper": "Any public repo, as owner/name or a github.com link",
+        "kind": "identifier",
+        "validate": "repo",
+        "value": "vercel/nextjs",
+        "status": { "kind": "invalid", "problem": "repo-missing" }
+      }
+    },
+    {
+      "label": "Checking",
+      "props": {
+        "label": "Repository",
+        "placeholder": "owner/name",
+        "helper": "Any public repo, as owner/name or a github.com link",
+        "kind": "identifier",
+        "validate": "repo",
+        "value": "vercel/next.js",
+        "status": { "kind": "checking" }
+      }
+    },
+    {
+      "label": "Disabled",
+      "props": {
+        "label": "Repository",
+        "helper": "Any public repo, as owner/name or a github.com link",
+        "kind": "identifier",
+        "validate": "repo",
+        "value": "vercel/next.js",
+        "disabled": true,
+        "reason": "Fixed by this screen · start over to change it"
+      }
+    },
+    {
+      "label": "Hero",
+      "props": {
+        "label": "Repository",
+        "placeholder": "Paste a public GitHub repo",
+        "helper": "Public repos only, as owner/name or a github.com link",
+        "kind": "identifier",
+        "validate": "repo",
+        "size": "hero",
+        "action": "Open repo"
+      }
+    },
+    {
+      "label": "Hero · unreachable",
+      "props": {
+        "label": "Repository",
+        "placeholder": "Paste a public GitHub repo",
+        "helper": "Public repos only, as owner/name or a github.com link",
+        "kind": "identifier",
+        "validate": "repo",
+        "size": "hero",
+        "action": "Open repo",
+        "value": "https://github.com/vercel/next.js",
+        "status": { "kind": "unreachable", "cause": "GitHub returned 502" }
+      }
+    }
+  ],
+  "error": { "failed": "Couldn't check this repo", "cause": "GitHub returned 502" }
+}

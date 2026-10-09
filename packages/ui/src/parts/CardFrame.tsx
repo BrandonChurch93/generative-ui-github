@@ -1,4 +1,6 @@
-import { useId, type CSSProperties, type ReactNode } from 'react'
+'use client'
+
+import { useId, useState, type CSSProperties, type ReactNode } from 'react'
 import { cx } from './cx'
 import styles from './CardFrame.module.css'
 
@@ -16,6 +18,11 @@ export interface CardFrameProps {
   /** Warming progress, 0 to 1. Draws the 3px bar along the bottom edge. */
   progress?: number
   busy?: boolean
+  /**
+   * A chart's table view: a header control swaps the plot (`[data-chart-body]`) for the chart's own
+   * `table[data-table-view]`, shown as a real table of the same data.
+   */
+  tableView?: boolean
   ariaLabel?: string
   className?: string
   children?: ReactNode
@@ -32,19 +39,33 @@ export function CardFrame({
   hot,
   progress,
   busy,
+  tableView,
   ariaLabel,
   className,
   children,
 }: CardFrameProps) {
   const titleId = useId()
+  const [table, setTable] = useState(false)
   const Heading = headingLevel === 2 ? 'h2' : 'h3'
-  const hasHeader = title !== undefined || meta !== undefined || headerEnd !== undefined
+  const toggle = tableView ? (
+    <button type="button" className={styles.toggle} aria-pressed={table} data-table-toggle="" onClick={() => setTable(t => !t)}>
+      {table ? 'Chart' : 'Table'}
+    </button>
+  ) : undefined
+  const end = headerEnd !== undefined || toggle ? (
+    <>
+      {headerEnd}
+      {toggle}
+    </>
+  ) : undefined
+  const hasHeader = title !== undefined || meta !== undefined || end !== undefined
   const Root = onClick ? 'button' : Tag
   return (
     <Root
       {...(onClick ? { type: 'button' as const, onClick } : {})}
       className={cx(styles.card, className)}
       data-hot={hot ? '' : undefined}
+      data-table-open={tableView && table ? '' : undefined}
       data-card=""
       aria-busy={busy || undefined}
       aria-label={ariaLabel}
@@ -57,10 +78,10 @@ export function CardFrame({
               {title}
             </Heading>
           )}
-          {(meta !== undefined || headerEnd !== undefined) && (
+          {(meta !== undefined || end !== undefined) && (
             <div className={styles.end}>
               {meta !== undefined && <span className={styles.meta}>{meta}</span>}
-              {headerEnd}
+              {end}
             </div>
           )}
         </header>

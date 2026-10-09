@@ -1,0 +1,53 @@
+/* The ring and the tally share one line at the Metric figure's height, above the rows. */
+.summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--card-y) var(--inset) 0;
+}
+
+/* The share passed as an accent arc on a line-soft track, the Metric bar's 3px bent into a ring. */
+.ring {
+  flex-shrink: 0;
+  inline-size: var(--metric-size);
+  block-size: var(--metric-size);
+  border-radius: 50%;
+  background: conic-gradient(var(--accent) calc(var(--share, 0) * 1turn), var(--line-soft) 0);
+  mask: radial-gradient(farthest-side, transparent calc(100% - var(--bar) - var(--hairline)), var(--ink) calc(100% - var(--bar)));
+}
+
+.figure {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  min-width: 0;
+  font-size: var(--metric-size);
+  line-height: 1;
+  font-weight: var(--text-metric-weight);
+  letter-spacing: var(--text-metric-tracking);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.suffix {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--suffix-size);
+  line-height: 1;
+  font-weight: var(--text-suffix-weight);
+  letter-spacing: 0;
+}
+
+.caption {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-leading);
+  font-weight: var(--text-label-weight);
+  letter-spacing: 0;
+  text-overflow: ellipsis;
+}
+
+.pill {
+  border-radius: var(--radius-pill);
+}

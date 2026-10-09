@@ -160,6 +160,7 @@ export function Distribution({ props, state, error, warming, onRetry }: PieceRen
       meta={state === 'skeleton' ? <Skeleton text="meta" width="5rem" /> : meta}
       busy={state === 'skeleton' || state === 'warming'}
       progress={state === 'warming' ? warming?.progress : undefined}
+      tableView={state === 'default'}
       ariaLabel={state === 'skeleton' ? `Loading ${title}` : undefined}
     >
       {body}
@@ -263,7 +264,7 @@ export function Distribution({ props, state, error, warming, onRetry }: PieceRen
   return frame(
     <div ref={bodyRef} className={styles.body} data-width={width} data-perspective={perspective}>
       <div role="group" aria-label={findingSentence(props)}>
-        <div className={styles.chart}>
+        <div className={styles.chart} data-chart-body="">
           {gutter}
           <div ref={areaRef} className={styles.area}>
             <div ref={plotRef} className={styles.plot}>

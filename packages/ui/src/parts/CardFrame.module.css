@@ -8,7 +8,8 @@
   box-shadow: var(--card);
 }
 
-button.card {
+/* Zero specificity, so a component's own padding and layout on its card always win over the reset. */
+:where(button.card) {
   display: block;
   inline-size: 100%;
   padding: 0;
@@ -79,4 +80,94 @@ button.card:hover {
   background: linear-gradient(90deg, var(--accent), var(--accent-2));
   transform: scaleX(var(--progress, 0));
   transform-origin: left center;
+}
+
+/* The table view control: a quiet text button in the header, at the meta size. */
+.toggle {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: none;
+  color: var(--accent-text);
+  font-family: var(--font-sans);
+  font-size: var(--text-hint-size);
+  line-height: var(--text-hint-leading);
+  font-weight: var(--text-label-weight);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent-text) 35%, transparent);
+  text-underline-offset: var(--underline-offset);
+  cursor: pointer;
+}
+
+.toggle:hover {
+  text-decoration-color: currentColor;
+}
+
+.toggle::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  inline-size: max(100%, var(--hit));
+  block-size: max(100%, var(--hit));
+  transform: translate(-50%, -50%);
+}
+
+.card[data-table-open] :global([data-chart-body]) {
+  display: none;
+}
+
+/* The chart's own hidden table, shown as a real table of the same data. */
+.card[data-table-open] :global(table[data-table-view]) {
+  position: static;
+  display: table;
+  inline-size: 100%;
+  block-size: auto;
+  margin: 0;
+  overflow: visible;
+  clip-path: none;
+  border-collapse: collapse;
+  white-space: normal;
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-leading);
+  font-variant-numeric: tabular-nums;
+}
+
+/* A table that sits straight in the card (not in a padded body) takes the card's own padding. */
+.card[data-table-open] > :global(table[data-table-view]) {
+  inline-size: calc(100% - var(--inset) * 2);
+  margin: var(--card-y) var(--inset);
+}
+
+.card[data-table-open] :global(table[data-table-view] caption) {
+  position: absolute;
+  inline-size: var(--hairline);
+  block-size: var(--hairline);
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.card[data-table-open] :global(table[data-table-view] :is(th, td)) {
+  padding: var(--space-1) var(--space-2);
+  border-bottom: var(--hairline) solid var(--line-soft);
+  text-align: end;
+}
+
+.card[data-table-open] :global(table[data-table-view] :is(th, td):first-child) {
+  padding-inline-start: 0;
+  text-align: start;
+}
+
+.card[data-table-open] :global(table[data-table-view] thead th) {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+}
+
+.card[data-table-open] :global(table[data-table-view] tbody th) {
+  font-weight: var(--text-label-weight);
 }

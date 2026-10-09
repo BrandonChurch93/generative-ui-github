@@ -4,11 +4,6 @@
   padding: var(--card-y) var(--inset) calc(var(--card-y) + var(--bar));
 }
 
-/* A button card stacks its parts the same way. */
-button.card {
-  display: flex;
-}
-
 .label {
   overflow: hidden;
   color: var(--muted);

@@ -25,6 +25,19 @@ import { stepsSpec } from './components/Steps/schema'
 import { warmingUpSpec } from './components/WarmingUp/schema'
 import { fileTreeSpec } from './components/FileTree/schema'
 import { diffViewSpec } from './components/DiffView/schema'
+import { textInputSpec } from './components/TextInput/schema'
+import { selectSpec } from './components/Select/schema'
+import { filterChipsSpec } from './components/FilterChips/schema'
+import { formSpec } from './components/Form/schema'
+import { barChartSpec } from './components/BarChart/schema'
+import { checklistSpec } from './components/Checklist/schema'
+import { progressSpec } from './components/Progress/schema'
+import { activityFeedSpec } from './components/ActivityFeed/schema'
+import { personListSpec } from './components/PersonList/schema'
+import { keyValueSpec } from './components/KeyValue/schema'
+import { calloutSpec } from './components/Callout/schema'
+import { codeBlockSpec } from './components/CodeBlock/schema'
+import { emptyStateSpec } from './components/EmptyState/schema'
 import { createRegistry } from './registry'
 
 // Created here, not in registry.ts, so a hot reload of the specs starts from an empty registry.
@@ -37,6 +50,19 @@ registry.register(insightSpec)
 registry.register(timelineSpec)
 registry.register(lineChartSpec)
 registry.register(actionCardSpec)
+registry.register(emptyStateSpec)
+registry.register(codeBlockSpec)
+registry.register(calloutSpec)
+registry.register(keyValueSpec)
+registry.register(personListSpec)
+registry.register(activityFeedSpec)
+registry.register(progressSpec)
+registry.register(checklistSpec)
+registry.register(barChartSpec)
+registry.register(formSpec)
+registry.register(filterChipsSpec)
+registry.register(selectSpec)
+registry.register(textInputSpec)
 registry.register(diffViewSpec)
 registry.register(fileTreeSpec)
 registry.register(warmingUpSpec)

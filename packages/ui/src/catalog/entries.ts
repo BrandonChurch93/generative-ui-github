@@ -58,6 +58,58 @@ import { DiffView } from '../components/DiffView/DiffView'
 import { diffViewMotion } from '../components/DiffView/motion'
 import diffViewSample from '../components/DiffView/sample.json'
 import type { DiffViewProps } from '../components/DiffView/schema'
+import { TextInput } from '../components/TextInput/TextInput'
+import { textInputMotion } from '../components/TextInput/motion'
+import textInputSample from '../components/TextInput/sample.json'
+import type { TextInputProps } from '../components/TextInput/schema'
+import { Select } from '../components/Select/Select'
+import { selectMotion } from '../components/Select/motion'
+import selectSample from '../components/Select/sample.json'
+import type { SelectProps } from '../components/Select/schema'
+import { FilterChips } from '../components/FilterChips/FilterChips'
+import { filterChipsMotion } from '../components/FilterChips/motion'
+import filterChipsSample from '../components/FilterChips/sample.json'
+import type { FilterChipsProps } from '../components/FilterChips/schema'
+import { Form } from '../components/Form/Form'
+import { formMotion } from '../components/Form/motion'
+import formSample from '../components/Form/sample.json'
+import type { FormProps } from '../components/Form/schema'
+import { BarChart } from '../components/BarChart/BarChart'
+import { barChartMotion } from '../components/BarChart/motion'
+import barChartSample from '../components/BarChart/sample.json'
+import type { BarChartProps } from '../components/BarChart/schema'
+import { Checklist } from '../components/Checklist/Checklist'
+import { checklistMotion } from '../components/Checklist/motion'
+import checklistSample from '../components/Checklist/sample.json'
+import type { ChecklistProps } from '../components/Checklist/schema'
+import { Progress } from '../components/Progress/Progress'
+import { progressMotion } from '../components/Progress/motion'
+import progressSample from '../components/Progress/sample.json'
+import type { ProgressProps } from '../components/Progress/schema'
+import { ActivityFeed } from '../components/ActivityFeed/ActivityFeed'
+import { activityFeedMotion } from '../components/ActivityFeed/motion'
+import activityFeedSample from '../components/ActivityFeed/sample.json'
+import type { ActivityFeedProps } from '../components/ActivityFeed/schema'
+import { PersonList } from '../components/PersonList/PersonList'
+import { personListMotion } from '../components/PersonList/motion'
+import personListSample from '../components/PersonList/sample.json'
+import type { PersonListProps } from '../components/PersonList/schema'
+import { KeyValue } from '../components/KeyValue/KeyValue'
+import { keyValueMotion } from '../components/KeyValue/motion'
+import keyValueSample from '../components/KeyValue/sample.json'
+import type { KeyValueProps } from '../components/KeyValue/schema'
+import { Callout } from '../components/Callout/Callout'
+import { calloutMotion } from '../components/Callout/motion'
+import calloutSample from '../components/Callout/sample.json'
+import type { CalloutProps } from '../components/Callout/schema'
+import { CodeBlock } from '../components/CodeBlock/CodeBlock'
+import { codeBlockMotion } from '../components/CodeBlock/motion'
+import codeBlockSample from '../components/CodeBlock/sample.json'
+import type { CodeBlockProps } from '../components/CodeBlock/schema'
+import { EmptyState } from '../components/EmptyState/EmptyState'
+import { emptyStateMotion } from '../components/EmptyState/motion'
+import emptyStateSample from '../components/EmptyState/sample.json'
+import type { EmptyStateProps } from '../components/EmptyState/schema'
 import * as layout from './layoutDemos'
 import type { PieceMotion } from '../motion/types'
 import type { ComponentSpec } from '../registry'
@@ -272,6 +324,150 @@ export const CATALOG: CatalogEntry[] = [
     motion: diffViewMotion,
     sample: diffViewSample as CatalogSample<DiffViewProps>,
     sampleFile: 'DiffView/sample.json',
+    width: 'half',
+  }),
+  entry<TextInputProps>({
+    name: 'TextInput',
+    group: 'Inputs',
+    description: "A labeled one-line field for a value the reader types, from a repo name inside a composed form to the landing page's paste-a-repo field at hero size.",
+    spec: specOf('TextInput'),
+    Component: TextInput,
+    motion: textInputMotion,
+    sample: textInputSample as CatalogSample<TextInputProps>,
+    sampleFile: 'TextInput/sample.json',
+    width: 'half',
+  }),
+  entry<SelectProps>({
+    name: 'Select',
+    group: 'Inputs',
+    description: 'A labeled single choice that looks like a TextInput when closed and opens a short menu of options, each with its count.',
+    spec: specOf('Select'),
+    Component: Select,
+    motion: selectMotion,
+    sample: selectSample as CatalogSample<SelectProps>,
+    sampleFile: 'Select/sample.json',
+    width: 'half',
+  }),
+  entry<FilterChipsProps>({
+    name: 'FilterChips',
+    group: 'Inputs',
+    description: 'A row of pill toggles that narrows the list or chart it sits above, each chip carrying a count of what it would show.',
+    spec: specOf('FilterChips'),
+    Component: FilterChips,
+    motion: filterChipsMotion,
+    // The sample's mode and chip values are plain strings in JSON; the schema checks them at runtime.
+    sample: filterChipsSample as unknown as CatalogSample<FilterChipsProps>,
+    sampleFile: 'FilterChips/sample.json',
+    width: 'half',
+  }),
+  entry<FormProps>({
+    name: 'Form',
+    group: 'Inputs',
+    description: 'A small card that collects a few values and does one thing with them: a header, two to four labeled fields, and an actions row on the tinted ground.',
+    spec: specOf('Form'),
+    Component: Form,
+    motion: formMotion,
+    sample: formSample as CatalogSample<FormProps>,
+    sampleFile: 'Form/sample.json',
+    width: 'half',
+  }),
+  entry<BarChartProps>({
+    name: 'BarChart',
+    group: 'Data',
+    description: "One measure across a handful of categories: up to 12 coral columns from a zero baseline on round ticks, the category under each bar and the finding, checked against the data, as the chart's label.",
+    spec: specOf('BarChart'),
+    Component: BarChart,
+    motion: barChartMotion,
+    sample: barChartSample as CatalogSample<BarChartProps>,
+    sampleFile: 'BarChart/sample.json',
+    width: 'half',
+  }),
+  entry<ChecklistProps>({
+    name: 'Checklist',
+    group: 'Data',
+    description: 'A set of yes/no checks, like community standards: a small accent ring showing the share passed above the shared rows, each with a good or neutral mark and a system-written tag.',
+    spec: specOf('Checklist'),
+    Component: Checklist,
+    motion: checklistMotion,
+    sample: checklistSample as CatalogSample<ChecklistProps>,
+    sampleFile: 'Checklist/sample.json',
+    width: 'half',
+  }),
+  entry<ProgressProps>({
+    name: 'Progress',
+    group: 'Data',
+    description: "Part of a whole, like milestone completion: Metric's card with the count, its of-N suffix, and a 3px accent track along the bottom edge filled to the share.",
+    spec: specOf('Progress'),
+    Component: Progress,
+    motion: progressMotion,
+    sample: progressSample as CatalogSample<ProgressProps>,
+    sampleFile: 'Progress/sample.json',
+    width: 'quarter',
+  }),
+  entry<ActivityFeedProps>({
+    name: 'ActivityFeed',
+    group: 'Data',
+    description: 'A stream of recent events with actors: each row reads actor, verb and object in the shared row rhythm, with the reference and a relative time below and the newest event marked by the accent endpoint.',
+    spec: specOf('ActivityFeed'),
+    Component: ActivityFeed,
+    motion: activityFeedMotion,
+    sample: activityFeedSample as CatalogSample<ActivityFeedProps>,
+    sampleFile: 'ActivityFeed/sample.json',
+    width: 'half',
+  }),
+  entry<PersonListProps>({
+    name: 'PersonList',
+    group: 'Data',
+    description: 'A short list of people with one fact each: avatar, mono handle and display name, and a single count on the content edge, ranked by the system.',
+    spec: specOf('PersonList'),
+    Component: PersonList,
+    motion: personListMotion,
+    sample: personListSample as CatalogSample<PersonListProps>,
+    sampleFile: 'PersonList/sample.json',
+    width: 'third',
+  }),
+  entry<KeyValueProps>({
+    name: 'KeyValue',
+    group: 'Data',
+    description: 'A few labeled facts about one thing (a repo, a pull request, a release): muted labels on the left, values in ink on the right, identifiers in mono, at most eight pairs filled by the system.',
+    spec: specOf('KeyValue'),
+    Component: KeyValue,
+    motion: keyValueMotion,
+    sample: keyValueSample as CatalogSample<KeyValueProps>,
+    sampleFile: 'KeyValue/sample.json',
+    width: 'third',
+  }),
+  entry<CalloutProps>({
+    name: 'Callout',
+    group: 'Text',
+    description: 'One sentence the reader must not miss, set on a card beside a state mark with a tone rule on its left edge. The model picks the tone; the system checks every figure in the sentence against the data.',
+    spec: specOf('Callout'),
+    Component: Callout,
+    motion: calloutMotion,
+    sample: calloutSample as CatalogSample<CalloutProps>,
+    sampleFile: 'Callout/sample.json',
+    width: 'half',
+  }),
+  entry<CodeBlockProps>({
+    name: 'CodeBlock',
+    group: 'Code',
+    description: 'A snippet from the repo with its path as a mono header, a line-number gutter and a link to those lines on GitHub, soft wrapped except where indentation carries meaning, folded past 40 lines.',
+    spec: specOf('CodeBlock'),
+    Component: CodeBlock,
+    motion: codeBlockMotion,
+    sample: codeBlockSample as CatalogSample<CodeBlockProps>,
+    sampleFile: 'CodeBlock/sample.json',
+    width: 'half',
+  }),
+  entry<EmptyStateProps>({
+    name: 'EmptyState',
+    group: 'System',
+    description: 'What the system shows when a region has nothing: the card a list would have filled, with one row of a neutral or good mark, a real sentence and a meta line. Never offered to the model.',
+    spec: specOf('EmptyState'),
+    Component: EmptyState,
+    motion: emptyStateMotion,
+    sample: emptyStateSample as CatalogSample<EmptyStateProps>,
+    sampleFile: 'EmptyState/sample.json',
     width: 'half',
   }),
   entry({

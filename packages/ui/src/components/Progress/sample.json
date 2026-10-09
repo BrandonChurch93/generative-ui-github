@@ -1,0 +1,28 @@
+{
+  "props": {
+    "measure": "milestone-issues-open",
+    "label": "Open on v16.2",
+    "count": 12,
+    "total": 40,
+    "meta": "milestone v16.2 · due Oct 30"
+  },
+  "variants": [
+    {
+      "label": "Failing checks",
+      "props": { "measure": "failing-checks", "label": "Failing checks", "count": 2, "total": 38, "meta": "canary head · 4f2c91e" }
+    },
+    {
+      "label": "None failing",
+      "props": { "measure": "failing-checks", "label": "Failing checks", "count": 0, "total": 38, "meta": "canary head · 4f2c91e" }
+    }
+  ],
+  "empty": {
+    "measure": "milestone-issues-open",
+    "label": "Open on v16.3",
+    "count": 0,
+    "total": 0,
+    "message": "No issues on this milestone yet",
+    "meta": "milestone v16.3 · due Dec 4"
+  },
+  "error": { "failed": "Couldn't load", "cause": "GitHub returned 502" }
+}

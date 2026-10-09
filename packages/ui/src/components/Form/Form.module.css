@@ -1,0 +1,150 @@
+/* An open Select menu overhangs the card. */
+.card:has([role="combobox"][aria-expanded="true"]) {
+  overflow: visible;
+}
+
+.form {
+  margin: 0;
+}
+
+/* One value sets the whole rhythm: the body's padding and the gap between field groups are both the side padding. */
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--inset);
+  padding: var(--inset);
+}
+
+.field {
+  min-width: 0;
+}
+
+/* The system's action area: tinted, under a line-soft rule, its corners following the card's. */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--card-y) var(--inset);
+  border-top: var(--hairline) solid var(--line-soft);
+  border-radius: 0 0 calc(var(--radius-lg) - var(--hairline)) calc(var(--radius-lg) - var(--hairline));
+  background: var(--surface-tint);
+}
+
+.actions[data-failed] {
+  flex-wrap: wrap;
+}
+
+/* The field height, so no button looks shorter than the field above it. */
+.button {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  block-size: var(--control-h);
+  margin: 0;
+  padding: 0 max(var(--space-4), calc(var(--row-y) + var(--space-1)));
+  border: var(--hairline) solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-label-size);
+  line-height: 1;
+  font-weight: var(--text-label-weight);
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    transform 180ms cubic-bezier(0.25, 1, 0.5, 1),
+    box-shadow 180ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.primary {
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: var(--accent-ink);
+}
+
+/* Buttons lift; pressed drops back to rest. */
+.button:hover:not(:disabled, [aria-disabled="true"]) {
+  transform: translateY(calc(var(--hairline) * -1));
+  box-shadow: var(--card);
+}
+
+.primary:hover:not(:disabled, [aria-disabled="true"]) {
+  box-shadow: var(--card-hover);
+}
+
+.button:active {
+  transform: none;
+  box-shadow: none;
+}
+
+.button:disabled {
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+.primary[aria-busy="true"] {
+  cursor: progress;
+}
+
+.effectSlot {
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+  min-width: 0;
+}
+
+/* The effect truncates before it wraps. */
+.effect {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.failure {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  column-gap: var(--space-2);
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-hint-size);
+  line-height: var(--text-hint-leading);
+  word-spacing: 0.06em;
+}
+
+.failureMark {
+  align-self: center;
+}
+
+.failureText {
+  min-width: 0;
+}
+
+.ink {
+  color: var(--ink);
+}
+
+.fact {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  letter-spacing: var(--text-meta-tracking);
+  word-spacing: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+}

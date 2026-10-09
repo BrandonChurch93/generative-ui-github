@@ -1,0 +1,57 @@
+{
+  "props": {
+    "repo": "vercel/next.js",
+    "path": "packages/next/src/server/app-render/get-css-inlined-link-tags.tsx",
+    "lines": [
+      6,
+      32
+    ],
+    "caption": "CSS chunks are sorted by manifest order before they are inlined, the change the failing check points at.",
+    "text": "export function getLinkAndScriptTags(\n  clientReferenceManifest: DeepReadonly<ClientReferenceManifest>,\n  filePath: string,\n  injectedCSS: Set<string>,\n  injectedScripts: Set<string>,\n  collectNewImports?: boolean\n): { styles: string[]; scripts: string[] } {\n  const filePathWithoutExt = filePath.replace(/\\.[^.]+$/, '')\n  const cssChunks = new Set<string>()\n  const cssOrder = clientReferenceManifest.cssChunkOrder ?? []\n  const jsChunks = new Set<string>()\n\n  const entryCSSFiles =\n    clientReferenceManifest.entryCSSFiles[filePathWithoutExt]\n  const entryJSFiles =\n    clientReferenceManifest.entryJSFiles?.[filePathWithoutExt] ?? []\n\n  if (entryCSSFiles) {\n    for (const css of sortByChunkOrder(entryCSSFiles, cssOrder)) {\n      if (!injectedCSS.has(css.path)) {\n        if (collectNewImports) {\n          injectedCSS.add(css.path)\n        }\n        cssChunks.add(css)\n      }\n    }\n  }\n",
+    "start": 6,
+    "fileLines": 58,
+    "ref": "a3f9c1e"
+  },
+  "variants": [
+    {
+      "label": "Long, folded at 40 lines",
+      "props": {
+        "repo": "vercel/next.js",
+        "path": "packages/next/src/server/app-render/get-css-inlined-link-tags.test.ts",
+        "text": "import { describe, expect, it } from 'vitest'\nimport { sortByChunkOrder } from './get-css-inlined-link-tags'\n\ndescribe('sortByChunkOrder', () => {\n  it('keeps manifest order when no order is given', () => {\n    const files = [css('a0.css'), css('b0.css'), css('c0.css')]\n    const order = ['c0.css', 'a0.css']\n    const sorted = sortByChunkOrder(files, order)\n    expect(sorted.map(f => f.path)).toMatchSnapshot()\n  })\n\n  it('puts layout chunks before page chunks', () => {\n    const files = [css('a1.css'), css('b1.css'), css('c1.css')]\n    const order = ['c1.css', 'a1.css']\n    const sorted = sortByChunkOrder(files, order)\n    expect(sorted.map(f => f.path)).toMatchSnapshot()\n  })\n\n  it('keeps unknown chunks at the end', () => {\n    const files = [css('a2.css'), css('b2.css'), css('c2.css')]\n    const order = ['c2.css', 'a2.css']\n    const sorted = sortByChunkOrder(files, order)\n    expect(sorted.map(f => f.path)).toMatchSnapshot()\n  })\n\n  it('is stable for equal ranks', () => {\n    const files = [css('a3.css'), css('b3.css'), css('c3.css')]\n    const order = ['c3.css', 'a3.css']\n    const sorted = sortByChunkOrder(files, order)\n    expect(sorted.map(f => f.path)).toMatchSnapshot()\n  })\n\n  it('ignores duplicate entries in the order', () => {\n    const files = [css('a4.css'), css('b4.css'), css('c4.css')]\n    const order = ['c4.css', 'a4.css']\n    const sorted = sortByChunkOrder(files, order)\n    expect(sorted.map(f => f.path)).toMatchSnapshot()\n  })\n\n  it('handles an empty manifest', () => {\n    const files = [css('a5.css'), css('b5.css'), css('c5.css')]\n    const order = ['c5.css', 'a5.css']\n    const sorted = sortByChunkOrder(files, order)\n    expect(sorted.map(f => f.path)).toMatchSnapshot()\n  })\n\n  it('handles an order longer than the files', () => {\n    const files = [css('a6.css'), css('b6.css'), css('c6.css')]\n    const order = ['c6.css', 'a6.css']\n    const sorted = sortByChunkOrder(files, order)\n    expect(sorted.map(f => f.path)).toMatchSnapshot()\n  })\n\n  it('does not mutate its input', () => {\n    const files = [css('a7.css'), css('b7.css'), css('c7.css')]\n    const order = ['c7.css', 'a7.css']\n    const sorted = sortByChunkOrder(files, order)\n    expect(sorted.map(f => f.path)).toMatchSnapshot()\n  })\n\n})\n\nfunction css(path: string) {\n  return { path, inlined: false }\n}\n",
+        "fileLines": 65,
+        "ref": "a3f9c1e"
+      }
+    },
+    {
+      "label": "Indentation-significant, scrolls sideways",
+      "props": {
+        "repo": "vercel/next.js",
+        "path": ".github/workflows/build_and_test.yml",
+        "lines": [
+          412,
+          428
+        ],
+        "caption": "The job behind e2e-turbopack, split into six groups.",
+        "text": "jobs:\n  e2e-turbopack:\n    name: e2e tests (turbopack)\n    needs: [build-native, build-next]\n    runs-on: ubuntu-latest\n    strategy:\n      fail-fast: false\n      matrix:\n        group: [1/6, 2/6, 3/6, 4/6, 5/6, 6/6]\n    steps:\n      - uses: actions/checkout@v4\n      - run: pnpm install --frozen-lockfile\n      - run: pnpm test-start-turbo --group ${{ matrix.group }}\n        env:\n          NEXT_TEST_MODE: start\n          TURBOPACK_BUILD: 1\n",
+        "start": 412,
+        "ref": "a3f9c1e"
+      }
+    }
+  ],
+  "empty": {
+    "repo": "vercel/next.js",
+    "path": "packages/next/src/server/app-render/get-css-inlined-link-tags.tsx",
+    "lines": [
+      80,
+      96
+    ],
+    "text": "",
+    "fileLines": 58,
+    "ref": "a3f9c1e"
+  },
+  "error": {
+    "failed": "Couldn't load get-css-inlined-link-tags.tsx",
+    "cause": "GitHub returned 404 · the file is not on canary"
+  }
+}

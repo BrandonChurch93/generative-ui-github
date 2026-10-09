@@ -1,0 +1,87 @@
+/*
+ * One row in the shared state-row geometry: the mark on the content edge, the sentence space-3 after it.
+ * The row carries the padding, because CardFrame zeroes a button card's padding at a higher specificity.
+ */
+.row {
+  display: flex;
+  padding: var(--card-y) var(--inset);
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+/* Centered on the sentence's first line, whatever the density. */
+.mark {
+  margin-top: calc((var(--text-action-size) * var(--text-body-leading) - var(--mark)) / 2);
+}
+
+.text {
+  display: grid;
+  flex-grow: 1;
+  gap: calc(var(--row-y) - var(--space-1));
+  min-inline-size: 0;
+}
+
+.lines {
+  display: grid;
+}
+
+.sentence {
+  display: block;
+  max-inline-size: 60ch;
+  color: var(--ink);
+  font-size: var(--text-action-size);
+  line-height: var(--text-body-leading);
+  font-weight: var(--text-insight-weight);
+  text-wrap: pretty;
+}
+
+.sentence[data-quiet] {
+  color: var(--muted);
+}
+
+.ident {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  font-weight: var(--text-handle-weight);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: var(--space-3);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+}
+
+/* Square on the card edge, a round cap toward the content: Metric's bar turned upright. */
+.rule {
+  position: absolute;
+  left: 0;
+  top: var(--card-y);
+  bottom: var(--card-y);
+  inline-size: var(--bar);
+  border-radius: 0 var(--radius-pill) var(--radius-pill) 0;
+  background: linear-gradient(180deg, var(--accent), var(--accent-2));
+  transform-origin: center top;
+}
+
+.rule[data-tone="good"] {
+  background: var(--good-fill);
+}
+
+.rule[data-tone="warn"] {
+  background: var(--warn-fill);
+}
+
+.rule[data-tone="crit"] {
+  background: var(--crit-fill);
+}
+
+.rule[data-tone="quiet"] {
+  background: var(--muted);
+}

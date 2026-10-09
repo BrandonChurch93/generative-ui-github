@@ -2,6 +2,38 @@
 
 Newest entry first. Written at every GATE and whenever a session ends mid-phase.
 
+## 2026-10-09 · GATE 1 · the catalog
+
+Phase 2 is complete: every box from 2.1 to 2.19 is ticked and verified. The session stops here for the owner's review of `/catalog`.
+
+**Built**
+
+- 22 designed and code-first components, each with its five states (or a written reason for each one left out), three densities, a Zod schema with `when`, `heightClass` and `pickable`, `motion.ts` with enter, exit, update and morph, `sample.json` (most with variants), and a render test per state: Metric (with Sparkline as a part), StatusList, Insight, Timeline, LineChart, Distribution, Comparison, ContributorRank, Heatmap, ActionCard, TextInput, Select, FilterChips, Form, Steps, WarmingUp, DiffView, FileTree, BarChart, ActivityFeed, PersonList, Checklist, KeyValue, Callout, CodeBlock, Progress, EmptyState.
+- Layout primitives (Surface, Section, Stack, Grid, SplitView, Drawer, Tabs, Heading, Text, List, Avatar) plus Button and Ask, default state only and `pickable: false`.
+- Table view: every chart has a header control that swaps the plot for a real table of the same data.
+- The registry prompt: the measure catalog, then every pickable component as a compact signature with its `when` line and an example. 13,649 characters, 5,703 tokens by the Anthropic count endpoint.
+- Number validation shared by Insight, LineChart, BarChart, Comparison, Heatmap and Callout: a figure the data does not hold is never rendered.
+
+**Verified**
+
+- `pnpm lint` (eslint, the em dash check, and the raw-value check on component CSS), `pnpm typecheck`, `pnpm test` (all packages; 300+ UI tests), `pnpm e2e` (18 tests: every catalog component in every state and density with zero console errors, the six table-view flips, density, motion, focus rings, cursor warmth), `pnpm a11y` (zero serious or critical axe issues on every catalog page and state).
+- Every designed component was screenshotted at all three densities and in every state beside its `preview.html`; differences were fixed. The code-first primitives were checked against their nearest designed sibling.
+
+**How it was built**
+
+- Most components from Distribution on were written by parallel subagents to a shared brief, each confined to its own folder; I registered each one, rendered it in the catalog, compared it with its reference and fixed what differed.
+
+**Decisions taken without asking (all reversible)**
+
+- Tokens added to `tokens.json` rather than raw values: a size family (strokes, marks, nodes, the hit area, sparkline and chart sizes) and density values `spark-h`, `strip-h`, `option-h`. A few components derive small sizes from existing tokens with `calc()` instead of adding more; their agents listed optional named tokens (row heights, column widths, a `delta` type style), which can be promoted later without changing the look.
+- Raw values remain only where CSS cannot read a custom property (media and container query conditions), each with a `raw-ok` comment.
+- `docs/questions.md` has four open entries from this phase: WarmingUp's lead size, its first-time copy switch, who renders the warming sentence, and the prompt's signature format.
+
+**Open**
+
+- The repo is on an iCloud-synced Desktop and iCloud keeps creating " 2" duplicate files in `apps/web/.next`. Typecheck ignores them, but moving the repo out of iCloud (or renaming the folder to end in `.nosync`) is the real fix.
+- GATE 1 owner check: open `/catalog` in a real browser (`pnpm dev`, then http://localhost:3000/catalog) and review each component against the design system. `?still` on a component URL shows it without its entrance; Replay plays it again.
+
 ## 2026-10-08 · Phase 2 checkpoint 1 · Metric, StatusList, Insight, Timeline, LineChart
 
 GATE 0 passed (the owner confirmed and asked to proceed). Phase 1 is done: 1.1 to 1.11 ticked and verified.

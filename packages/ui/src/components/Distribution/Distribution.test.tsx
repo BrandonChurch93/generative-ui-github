@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, within } from '@testing-library/react'
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
 import type { ComponentState } from '../../types'
 import { Distribution } from './Distribution'
@@ -37,7 +37,7 @@ describe('Distribution', () => {
   it('default, wide: seven bins in words, the finding as the group label, the median at its bin center, p90, counts and source', () => {
     const { container } = view('default')
     expect(screen.getByRole('group', { name: 'Half of first-time contributors got a first review within 19 hours. 1 in 10 waited more than 6 days.' })).toBeTruthy()
-    expect(screen.getAllByRole('button').map(b => b.getAttribute('aria-label'))).toEqual([
+    expect(within(screen.getByRole('group')).getAllByRole('button').map(b => b.getAttribute('aria-label'))).toEqual([
       '22 PRs reviewed in under 1 hour',
       '32 PRs reviewed in 1 to 4 hours',
       '38 PRs reviewed in 4 to 12 hours',
@@ -108,7 +108,7 @@ describe('Distribution', () => {
 
   it('one tab stop; arrow keys move between bins and focus shows the tooltip and lights the bin edges', () => {
     const { container } = view('default')
-    const bins = screen.getAllByRole('button')
+    const bins = within(screen.getByRole('group')).getAllByRole('button')
     expect(bins.filter(b => b.tabIndex === 0)).toHaveLength(1)
     bins[0]!.focus()
     fireEvent.keyDown(bins[0]!, { key: 'ArrowRight' })

@@ -1,0 +1,40 @@
+{
+  "props": {
+    "title": "Community standards",
+    "source": "community-standards",
+    "meta": "GitHub community profile",
+    "items": [
+      { "id": "readme", "title": "README", "meta": "readme.md", "passed": true, "url": "https://github.com/vercel/next.js/blob/canary/readme.md" },
+      { "id": "license", "title": "License", "meta": "MIT · license.md", "passed": true, "url": "https://github.com/vercel/next.js/blob/canary/license.md" },
+      { "id": "contributing", "title": "Contributing guide", "meta": "contributing.md", "passed": true, "url": "https://github.com/vercel/next.js/blob/canary/contributing.md" },
+      { "id": "issue-template", "title": "Issue templates", "meta": ".github/ISSUE_TEMPLATE · 3 forms", "passed": true, "url": "https://github.com/vercel/next.js/tree/canary/.github/ISSUE_TEMPLATE" },
+      { "id": "code-of-conduct", "title": "Code of conduct", "meta": "not in the repo or .github", "passed": false, "ask": "How would we add a code of conduct?" },
+      { "id": "pr-template", "title": "Pull request template", "meta": "not in the repo or .github", "passed": false, "ask": "What should a pull request template ask for?" }
+    ]
+  },
+  "variants": [
+    {
+      "label": "Milestone",
+      "props": {
+        "title": "v16.2 blockers",
+        "source": "milestone",
+        "meta": "due Oct 30",
+        "items": [
+          { "id": "84120", "title": "Turbopack: fix CSS chunk ordering in app router", "meta": "#84120 · mira-dev", "passed": false },
+          { "id": "84077", "title": "Cache components: stale revalidation on nested layouts", "meta": "#84077 · tkato", "passed": false },
+          { "id": "83962", "title": "Router: scroll restoration on back navigation", "meta": "#83962 · j-oduya · closed 2d ago", "passed": true },
+          { "id": "83910", "title": "Docs: app router migration guide, section 3", "meta": "#83910 · lenaw · closed 4d ago", "passed": true },
+          { "id": "83877", "title": "Middleware: matcher ignores trailing slash", "meta": "#83877 · pdubois · closed 6d ago", "passed": true }
+        ]
+      }
+    }
+  ],
+  "empty": {
+    "title": "v16.3 blockers",
+    "source": "milestone",
+    "meta": "due Dec 4",
+    "items": [],
+    "emptyMeta": "milestone created Oct 6 · no issues or pull requests yet"
+  },
+  "error": { "failed": "Couldn't load the community profile", "cause": "GitHub returned 502 · tried twice" }
+}

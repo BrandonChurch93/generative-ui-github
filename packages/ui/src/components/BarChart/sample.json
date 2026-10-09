@@ -1,0 +1,74 @@
+{
+  "props": {
+    "title": "Stale issues by label",
+    "meta": "no activity in 30 days",
+    "by": "label",
+    "unit": "count",
+    "bars": [
+      { "key": "bug", "label": "bug", "value": 23 },
+      { "key": "Turbopack", "label": "Turbopack", "value": 11 },
+      { "key": "Navigation", "label": "Navigation", "value": 8 },
+      { "key": "Runtime", "label": "Runtime", "value": 7 },
+      { "key": "Documentation", "label": "Documentation", "value": 5 },
+      { "key": "Middleware", "label": "Middleware", "value": 4 },
+      { "key": "Linting", "label": "Linting", "value": 2 },
+      { "key": "create-next-app", "label": "create-next-app", "value": 1 }
+    ],
+    "finding": "Bug reports hold 23 of the 61 stale issues, more than any other label."
+  },
+  "variants": [
+    {
+      "label": "Minutes by workflow",
+      "props": {
+        "title": "CI duration by workflow",
+        "meta": "p50 · last 30 days",
+        "by": "workflow",
+        "unit": "min",
+        "bars": [
+          { "key": "build-and-test.yml", "label": "build-and-test", "value": 18.4 },
+          { "key": "e2e-rspack.yml", "label": "e2e-rspack", "value": 14.2 },
+          { "key": "lint.yml", "label": "lint", "value": 3.1 },
+          { "key": "docs-preview.yml", "label": "docs-preview", "value": 2.4 }
+        ],
+        "finding": "build-and-test is the slowest workflow at 18.4 minutes, ahead of e2e-rspack at 14.2."
+      }
+    },
+    {
+      "label": "Twelve bars",
+      "props": {
+        "title": "Commits by area",
+        "meta": "last 90 days",
+        "by": "area",
+        "unit": "count",
+        "bars": [
+          { "key": "packages/next", "label": "packages/next", "value": 412 },
+          { "key": "turbopack", "label": "turbopack", "value": 288 },
+          { "key": "test", "label": "test", "value": 201 },
+          { "key": "docs", "label": "docs", "value": 96 },
+          { "key": "crates", "label": "crates", "value": 74 },
+          { "key": "examples", "label": "examples", "value": 52 },
+          { "key": "scripts", "label": "scripts", "value": 31 },
+          { "key": ".github", "label": ".github", "value": 22 },
+          { "key": "packages/font", "label": "packages/font", "value": 14 },
+          { "key": "errors", "label": "errors", "value": 9 },
+          { "key": "bench", "label": "bench", "value": 3 },
+          { "key": "packages/eslint", "label": "packages/eslint", "value": 0 }
+        ],
+        "finding": "packages/next took 412 of the 1,202 commits, more than any other area."
+      }
+    }
+  ],
+  "empty": {
+    "title": "Stale issues by label",
+    "meta": "no activity in 30 days",
+    "by": "label",
+    "unit": "count",
+    "bars": [],
+    "finding": "No stale issues.",
+    "emptyTone": "good",
+    "empty": "No stale issues",
+    "emptyMeta": "every open issue saw activity in the last 30 days"
+  },
+  "error": { "failed": "Couldn't load issues", "cause": "GitHub returned 502 · tried twice" },
+  "warming": { "counting": "GitHub is counting commits by author", "nextCheck": "usually under a minute · checking again in 12s", "progress": 0.34 }
+}

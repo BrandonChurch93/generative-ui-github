@@ -65,19 +65,19 @@ A designed component is done when: its five states and three densities render on
 
 `CHECKPOINT` · commit, status, continue.
 
-- [ ] 2.11a TextInput, Select, FilterChips as fields sharing `--control-h`; the two error kinds; validation wording written by the system.
-- [ ] 2.11b Form, composing the three fields.
+- [x] 2.11a TextInput, Select, FilterChips as fields sharing `--control-h`; the two error kinds; validation wording written by the system.
+- [x] 2.11b Form, composing the three fields.
 - [x] 2.12 Steps, using `Spine`.
 - [x] 2.13 WarmingUp, built against the `WarmingStatus` type in `docs/schemas.md`.
 - [x] 2.14a DiffView: fold at 40, stop at 1,000, soft wrap by default, scroll for indentation-significant files, `<mark>` word highlights.
 - [x] 2.14b FileTree: middle truncation, open all at 20 or fewer, 3,000-file cap, the phone layout.
-- [ ] 2.15a Data primitives, charts and lists: BarChart, ActivityFeed, PersonList, Checklist. Rule: five states, three densities, schema, `motion.ts`, `sample.json`, render tests; no preview to compare, so the executor checks them against the nearest designed sibling (BarChart against LineChart, lists against StatusList).
-- [ ] 2.15b Data primitives, text and blocks: KeyValue, Callout, CodeBlock, Progress, EmptyState. Same rule as 2.15a.
+- [x] 2.15a Data primitives, charts and lists: BarChart, ActivityFeed, PersonList, Checklist. Rule: five states, three densities, schema, `motion.ts`, `sample.json`, render tests; no preview to compare, so the executor checks them against the nearest designed sibling (BarChart against LineChart, lists against StatusList).
+- [x] 2.15b Data primitives, text and blocks: KeyValue, Callout, CodeBlock, Progress, EmptyState. Same rule as 2.15a.
 - [x] 2.15c Layout primitives, default state only, `pickable: false`, no `sample.json`, a one-line README stub "layout has no data": Surface, Section, Stack, Grid, SplitView, Drawer, Tabs, Heading, Text, List, Avatar. Button and Ask keep their existing READMEs (Ask's 60ms stagger and key hints are superseded by decisions 12 and 56).
-- [ ] 2.16 Table view for every chart (LineChart, Distribution, Comparison, ContributorRank, Heatmap, BarChart): a header control that swaps the plot for a real table of the same data. Done when a Playwright test flips each one on `/catalog`.
-- [ ] 2.17 Height classes assigned per `docs/decisions.md`. Done when a unit test asserts `registry.heightClass('Metric') === 'fixed'`, `('StatusList') === 'grows'`, `('LineChart') === 'plot'`.
-- [ ] 2.18 `registry.toPrompt()` complete: measure catalog plus every pickable component. Done when a test asserts the prompt's character count is under 24,000 (roughly 7,000 tokens) and, when `ANTHROPIC_API_KEY` is present, a second test counts tokens with the Anthropic token-count endpoint, asserts under 7,000, and records the count in `packages/ui/fixtures/prompt-tokens.json`; the second test skips with a note when the key is absent.
-- [ ] 2.19 Catalog page complete: every registered component, every state, every density, the table-view flips, the disabled segments, View JSON. Done when Playwright loads it with zero console errors and axe reports zero serious issues.
+- [x] 2.16 Table view for every chart (LineChart, Distribution, Comparison, ContributorRank, Heatmap, BarChart): a header control that swaps the plot for a real table of the same data. Done when a Playwright test flips each one on `/catalog`.
+- [x] 2.17 Height classes assigned per `docs/decisions.md`. Done when a unit test asserts `registry.heightClass('Metric') === 'fixed'`, `('StatusList') === 'grows'`, `('LineChart') === 'plot'`.
+- [x] 2.18 `registry.toPrompt()` complete: measure catalog plus every pickable component. Done when a test asserts the prompt's character count is under 24,000 (roughly 7,000 tokens) and, when `ANTHROPIC_API_KEY` is present, a second test counts tokens with the Anthropic token-count endpoint, asserts under 7,000, and records the count in `packages/ui/fixtures/prompt-tokens.json`; the second test skips with a note when the key is absent.
+- [x] 2.19 Catalog page complete: every registered component, every state, every density, the table-view flips, the disabled segments, View JSON. Done when Playwright loads it with zero console errors and axe reports zero serious issues.
 
 `GATE 1` · the owner reviews `/catalog` against the design system in a real browser.
 

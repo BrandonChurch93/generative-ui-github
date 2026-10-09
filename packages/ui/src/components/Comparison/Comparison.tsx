@@ -232,7 +232,7 @@ export function Comparison({ props, state, error, warming, onAsk, onRetry }: Pie
     case 'default':
       body = (
         <>
-          <ul className={styles.list}>
+          <ul className={styles.list} data-chart-body="">
             {pairs.map(pair => (
               <PairRow
                 key={pair.measure}
@@ -244,7 +244,7 @@ export function Comparison({ props, state, error, warming, onAsk, onRetry }: Pie
               />
             ))}
           </ul>
-          <div className={styles.foot}>
+          <div className={styles.foot} data-chart-body="">
             <span className={styles.source}>{props.source}</span>
             <span className={styles.tally} data-tally="">
               {tally(pairs)}
@@ -288,6 +288,7 @@ export function Comparison({ props, state, error, warming, onAsk, onRetry }: Pie
       headerEnd={live ? legend : state === 'skeleton' ? <SkeletonBlock width="9.5rem" height="calc(var(--text-meta-size) * 0.6)" /> : undefined}
       busy={state === 'skeleton' || state === 'warming'}
       progress={state === 'warming' ? warming?.progress : undefined}
+      tableView={live}
       ariaLabel={live ? comparisonLabel(props) : state === 'skeleton' ? `Loading ${title}` : undefined}
     >
       <div className={styles.body}>{body}</div>

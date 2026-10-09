@@ -1,0 +1,27 @@
+{
+  "props": {
+    "title": "Failing checks",
+    "meta": "canary",
+    "sentence": "No failing checks on canary",
+    "detail": "last 7 days · 214 runs · last failure 9d ago",
+    "emptyTone": "good"
+  },
+  "variants": [
+    {
+      "label": "Neutral, nothing to show yet",
+      "props": {
+        "title": "Releases",
+        "sentence": "No releases published yet",
+        "detail": "tags only · v16.2.0-canary.41 is the newest tag",
+        "emptyTone": "neutral"
+      }
+    },
+    {
+      "label": "Without a header",
+      "props": {
+        "sentence": "Nothing else to show for this question",
+        "detail": "vercel/next.js · last 30 days"
+      }
+    }
+  ]
+}

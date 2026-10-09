@@ -1,0 +1,244 @@
+{
+  "props": {
+    "title": "Change scope",
+    "meta": "vercel/next.js · v16.2",
+    "fields": [
+      {
+        "component": "TextInput",
+        "label": "Repository",
+        "placeholder": "owner/name",
+        "helper": "Any public repo, as owner/name or a github.com link",
+        "kind": "identifier",
+        "validate": "repo",
+        "value": "vercel/next.js"
+      },
+      {
+        "component": "Select",
+        "label": "Milestone",
+        "options": [
+          {
+            "value": "v16.2",
+            "label": "v16.2",
+            "meta": "7 open"
+          },
+          {
+            "value": "v16.3",
+            "label": "v16.3",
+            "meta": "3 open"
+          },
+          {
+            "value": "v17.0",
+            "label": "v17.0",
+            "meta": "12 open"
+          },
+          {
+            "value": "none",
+            "label": "No milestone",
+            "meta": "41 open"
+          }
+        ],
+        "value": "v16.2",
+        "placeholder": "Choose a milestone",
+        "dependsOn": "repository"
+      },
+      {
+        "component": "FilterChips",
+        "label": "Window",
+        "mode": "single",
+        "options": [
+          {
+            "value": "7d",
+            "label": "7 days"
+          },
+          {
+            "value": "30d",
+            "label": "30 days"
+          },
+          {
+            "value": "90d",
+            "label": "90 days"
+          }
+        ],
+        "selected": [
+          "30d"
+        ],
+        "counts": {
+          "7d": 46,
+          "30d": 188,
+          "90d": 521
+        },
+        "filters": "merged pull requests by window"
+      }
+    ],
+    "submit": "Ask again",
+    "secondary": "Reset",
+    "effect": "replaces this screen"
+  },
+  "variants": [
+    {
+      "label": "Repo not found · milestone waits",
+      "props": {
+        "title": "Change scope",
+        "meta": "vercel/next.js · v16.2",
+        "fields": [
+          {
+            "component": "TextInput",
+            "label": "Repository",
+            "placeholder": "owner/name",
+            "helper": "Any public repo, as owner/name or a github.com link",
+            "kind": "identifier",
+            "validate": "repo",
+            "value": "vercel/nextjs",
+            "status": {
+              "kind": "invalid",
+              "problem": "repo-missing"
+            }
+          },
+          {
+            "component": "Select",
+            "label": "Milestone",
+            "options": [
+              {
+                "value": "v16.2",
+                "label": "v16.2",
+                "meta": "7 open"
+              },
+              {
+                "value": "v16.3",
+                "label": "v16.3",
+                "meta": "3 open"
+              },
+              {
+                "value": "v17.0",
+                "label": "v17.0",
+                "meta": "12 open"
+              },
+              {
+                "value": "none",
+                "label": "No milestone",
+                "meta": "41 open"
+              }
+            ],
+            "value": "",
+            "placeholder": "Choose a milestone",
+            "dependsOn": "repository"
+          },
+          {
+            "component": "FilterChips",
+            "label": "Window",
+            "mode": "single",
+            "options": [
+              {
+                "value": "7d",
+                "label": "7 days"
+              },
+              {
+                "value": "30d",
+                "label": "30 days"
+              },
+              {
+                "value": "90d",
+                "label": "90 days"
+              }
+            ],
+            "selected": [
+              "30d"
+            ],
+            "counts": {
+              "7d": 46,
+              "30d": 188,
+              "90d": 521
+            },
+            "filters": "merged pull requests by window"
+          }
+        ],
+        "submit": "Ask again",
+        "secondary": "Reset",
+        "effect": "replaces this screen"
+      }
+    },
+    {
+      "label": "Submitting",
+      "props": {
+        "title": "Change scope",
+        "meta": "vercel/next.js · v16.2",
+        "fields": [
+          {
+            "component": "TextInput",
+            "label": "Repository",
+            "placeholder": "owner/name",
+            "helper": "Any public repo, as owner/name or a github.com link",
+            "kind": "identifier",
+            "validate": "repo",
+            "value": "vercel/next.js"
+          },
+          {
+            "component": "Select",
+            "label": "Milestone",
+            "options": [
+              {
+                "value": "v16.2",
+                "label": "v16.2",
+                "meta": "7 open"
+              },
+              {
+                "value": "v16.3",
+                "label": "v16.3",
+                "meta": "3 open"
+              },
+              {
+                "value": "v17.0",
+                "label": "v17.0",
+                "meta": "12 open"
+              },
+              {
+                "value": "none",
+                "label": "No milestone",
+                "meta": "41 open"
+              }
+            ],
+            "value": "v16.2",
+            "placeholder": "Choose a milestone",
+            "dependsOn": "repository"
+          },
+          {
+            "component": "FilterChips",
+            "label": "Window",
+            "mode": "single",
+            "options": [
+              {
+                "value": "7d",
+                "label": "7 days"
+              },
+              {
+                "value": "30d",
+                "label": "30 days"
+              },
+              {
+                "value": "90d",
+                "label": "90 days"
+              }
+            ],
+            "selected": [
+              "30d"
+            ],
+            "counts": {
+              "7d": 46,
+              "30d": 188,
+              "90d": 521
+            },
+            "filters": "merged pull requests by window"
+          }
+        ],
+        "submit": "Ask again",
+        "secondary": "Reset",
+        "effect": "replaces this screen",
+        "submitting": true
+      }
+    }
+  ],
+  "error": {
+    "failed": "Couldn't ask again",
+    "cause": "GitHub returned 502"
+  }
+}

@@ -1,0 +1,34 @@
+/* Events are not states: the node keeps the mark column, and its ring takes the hover tint like Timeline's. */
+.item:has(> :is(a, button):hover) {
+  --mark-ring: var(--surface-tint);
+}
+
+.actor {
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-handle-size);
+  font-weight: var(--text-handle-weight);
+}
+
+.verb {
+  color: var(--muted);
+  font-weight: var(--text-body-weight);
+}
+
+.object {
+  color: var(--ink);
+}
+
+.skeletonMark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--mark);
+  block-size: var(--mark);
+}
+
+.skeletonLine {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}

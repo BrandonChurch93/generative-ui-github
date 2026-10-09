@@ -1,0 +1,46 @@
+{
+  "props": {
+    "tone": "warn",
+    "text": "`e2e-turbopack` has failed on `canary` 6 runs in a row, so nothing merged since Tuesday can ship yet.",
+    "numbers": [6, 14],
+    "meta": "from failing-since · canary · last 7 days"
+  },
+  "variants": [
+    {
+      "label": "Good",
+      "props": {
+        "tone": "good",
+        "text": "Every pull request on v16.2 has a reviewer, so nothing on the milestone is waiting on a first look.",
+        "numbers": [0, 7],
+        "meta": "from awaiting-review · v16.2"
+      }
+    },
+    {
+      "label": "Neutral",
+      "props": {
+        "tone": "neutral",
+        "text": "Stats count only the default branch, so work on `turbopack` shows up here once it merges.",
+        "meta": "from contributors · last 90 days"
+      }
+    },
+    {
+      "label": "Blocking",
+      "props": {
+        "tone": "crit",
+        "text": "The release branch cannot be cut while 2 required checks are failing on `canary`.",
+        "numbers": [2],
+        "meta": "from failing-checks · canary"
+      }
+    },
+    {
+      "label": "A figure the data does not hold",
+      "props": {
+        "tone": "warn",
+        "text": "`e2e-turbopack` has failed on `canary` 9 runs in a row.",
+        "numbers": [6, 14],
+        "meta": "from failing-since · canary"
+      }
+    }
+  ],
+  "error": { "failed": "Couldn't show this note", "cause": "its sentence ran past 160 characters · the composer dropped it" }
+}

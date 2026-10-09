@@ -1,0 +1,174 @@
+/* DiffView's header geometry: card-y top, row-y bottom, a line-soft rule. */
+.head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  padding: var(--card-y) var(--inset) var(--row-y);
+  border-bottom: var(--hairline) solid var(--line-soft);
+}
+
+.path {
+  display: flex;
+  min-inline-size: 0;
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-code-size);
+  line-height: var(--text-code-leading);
+  font-weight: var(--text-code-weight);
+  white-space: pre;
+}
+
+/* A long path gives up its folders before its file name. */
+.dir {
+  flex-shrink: 1000;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.name {
+  flex-shrink: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  color: var(--ink);
+  font-weight: var(--text-label-weight);
+  text-overflow: ellipsis;
+}
+
+.end {
+  display: flex;
+  flex-shrink: 0;
+  align-items: baseline;
+  gap: var(--space-3);
+  margin-inline-start: auto;
+}
+
+.meta {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+  white-space: nowrap;
+}
+
+.lines {
+  padding-block: var(--row-y);
+}
+
+.lines[data-wrap="scroll"] {
+  overflow-x: auto;
+}
+
+/* JetBrains Mono at one size on every density: density adds air between lines, never columns. */
+.table {
+  inline-size: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-code-size);
+  line-height: var(--code-leading);
+  font-weight: var(--text-code-weight);
+  font-variant-ligatures: none;
+  font-feature-settings: "calt" 0, "liga" 0;
+}
+
+.table[data-wrap="scroll"] {
+  inline-size: max-content;
+  min-inline-size: 100%;
+}
+
+/* Numbers are drawn from a data attribute, so copying a selection copies code only. */
+.num {
+  inline-size: 1%;
+  padding: 0 0 0 var(--inset);
+  color: var(--muted);
+  font-size: var(--text-meta-size);
+  text-align: end;
+  vertical-align: baseline;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.num::before {
+  content: attr(data-n);
+  display: inline-block;
+  min-inline-size: 3ch;
+}
+
+/*
+ * Leading whitespace stays in the text. The negative indent cancels the hang on the first line only,
+ * so a wrapped continuation hangs 2ch past the line's own indent with no number beside it.
+ */
+.code {
+  padding: 0 var(--inset) 0 calc(var(--space-3) + (var(--i, 0) + 2) * 1ch);
+  text-indent: calc((var(--i, 0) + 2) * -1ch);
+  vertical-align: baseline;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  /* Matches TAB_WIDTH in code.ts, which measures indents. */
+  tab-size: 4;
+}
+
+.table[data-wrap="scroll"] .code {
+  padding-inline-start: var(--space-3);
+  text-indent: 0;
+  white-space: pre;
+}
+
+/* Lines run card edge to card edge, so their focus ring draws inside, where the card cannot clip it. */
+.line:focus-visible,
+.lines:focus-visible {
+  outline-offset: calc(var(--focus-offset) * -1 - var(--focus-ring));
+}
+
+.fold {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-3);
+  padding: var(--row-y) var(--inset);
+  border-top: var(--hairline) solid var(--line-soft);
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-leading);
+  font-weight: var(--text-label-weight);
+}
+
+.caption {
+  padding: var(--row-y) var(--inset) var(--card-y);
+  border-top: var(--hairline) solid var(--line-soft);
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: var(--text-hint-size);
+  line-height: var(--text-hint-leading);
+  font-weight: var(--text-hint-weight);
+  word-spacing: 0.06em;
+  text-wrap: pretty;
+}
+
+/* Skeleton cells sit on the real line height, so nothing reflows when the lines land. */
+.skNum,
+.skCode {
+  block-size: var(--code-leading);
+  padding: 0;
+  vertical-align: middle;
+}
+
+.skNum {
+  inline-size: 1%;
+  padding-inline-start: var(--inset);
+  font-size: var(--text-meta-size);
+}
+
+.skNum .skBlock {
+  margin-inline: 1ch 0;
+}
+
+.skCode {
+  padding-inline: calc(var(--space-3) + var(--i, 0) * 1ch) var(--inset);
+}

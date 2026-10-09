@@ -168,6 +168,7 @@ export function ContributorRank({ props, state, error, warming, onAsk, onRetry }
       meta={skeleton ? <Skeleton text="meta" width="8rem" /> : headerMeta(props, live ? ranking : null)}
       busy={skeleton || state === 'warming'}
       progress={state === 'warming' ? warming?.progress : undefined}
+      tableView={live}
       ariaLabel={live ? ranking.finding : skeleton ? `Loading ${words.loading}` : undefined}
     >
       {skeleton && (
@@ -178,6 +179,7 @@ export function ContributorRank({ props, state, error, warming, onAsk, onRetry }
       )}
       {live && (
         <>
+          <div data-chart-body="">
           <ol className={cx(rows.list, styles.list)}>
             {ranking.rows.slice(0, ranking.above).map(r => (
               <Row key={r.handle} row={r} measure={props.measure} onAsk={onAsk} />
@@ -196,6 +198,7 @@ export function ContributorRank({ props, state, error, warming, onAsk, onRetry }
               {ranking.rest.words}
             </p>
           )}
+          </div>
           <TableView ranking={ranking} props={props} />
         </>
       )}

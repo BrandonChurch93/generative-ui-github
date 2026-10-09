@@ -296,3 +296,8 @@
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
 }
+
+.tableWrap {
+  overflow-x: auto;
+  padding-inline: var(--inset);
+}

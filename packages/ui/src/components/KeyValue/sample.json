@@ -1,0 +1,46 @@
+{
+  "props": {
+    "source": "repo",
+    "title": "vercel/next.js",
+    "meta": "public · MIT",
+    "now": "2026-10-04T18:00:00Z",
+    "pairs": [
+      { "key": "default-branch", "label": "Default branch", "value": "canary", "kind": "identifier" },
+      { "key": "language", "label": "Primary language", "value": "TypeScript" },
+      { "key": "stars", "label": "Stars", "value": 134812, "kind": "count" },
+      { "key": "forks", "label": "Forks", "value": 29604, "kind": "count" },
+      { "key": "open-issues", "label": "Open issues", "value": 3118, "kind": "count" },
+      { "key": "latest-release", "label": "Latest release", "value": "v16.1.3", "kind": "identifier" },
+      { "key": "pushed", "label": "Last push", "value": "2026-10-04T16:00:00Z", "kind": "time" }
+    ]
+  },
+  "variants": [
+    {
+      "label": "A pull request",
+      "props": {
+        "source": "pr",
+        "title": "Pull request #84120",
+        "meta": "open · review pending",
+        "now": "2026-10-04T18:00:00Z",
+        "pairs": [
+          { "key": "author", "label": "Author", "value": "mira-dev", "kind": "identifier" },
+          { "key": "base", "label": "Base", "value": "canary", "kind": "identifier" },
+          { "key": "head", "label": "Head", "value": "turbopack-css-order", "kind": "identifier" },
+          { "key": "files", "label": "Files changed", "value": 14, "kind": "count" },
+          { "key": "reviews", "label": "Reviews", "value": 0, "kind": "count" },
+          { "key": "opened", "label": "Opened", "value": "2026-09-28T12:00:00Z", "kind": "time" }
+        ]
+      }
+    }
+  ],
+  "empty": {
+    "source": "release",
+    "title": "About this release",
+    "meta": "latest",
+    "pairs": [],
+    "emptyTone": "neutral",
+    "empty": "No releases published yet",
+    "emptyMeta": "14 tags · latest tag v0.3.0-rc.1"
+  },
+  "error": { "failed": "Couldn't load repository facts", "cause": "GitHub returned 502 · tried twice" }
+}

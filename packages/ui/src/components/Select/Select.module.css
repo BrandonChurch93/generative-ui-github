@@ -1,0 +1,129 @@
+/* An open menu overhangs the card it sits in. */
+.card:has([role="combobox"][aria-expanded="true"]) {
+  overflow: visible;
+}
+
+.box {
+  /* Option rows: 32, 36 or 44px by density. */
+  --option-row: var(--option-h, calc(var(--control-h) - var(--space-1)));
+  position: relative;
+}
+
+/* Closed, it is the TextInput field exactly, with the chevron on the right at the text inset. */
+.trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  text-align: start;
+  cursor: pointer;
+}
+
+.value {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.value[data-placeholder] {
+  color: var(--muted);
+}
+
+.chevron,
+.check {
+  flex-shrink: 0;
+  inline-size: var(--space-4);
+  block-size: var(--space-4);
+  /* The 16px glyph has 2px of air on its right; this puts its stroke on the text inset. */
+  margin-inline-end: calc(var(--hairline) * -2);
+  fill: none;
+  stroke-width: var(--stroke);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chevron {
+  stroke: var(--muted);
+}
+
+.menu {
+  position: absolute;
+  z-index: 2;
+  inset-inline: 0;
+  top: calc(100% + var(--space-1));
+  box-sizing: border-box;
+  max-block-size: calc(var(--option-row) * 8 + var(--space-1) * 2 + var(--hairline) * 2);
+  margin: 0;
+  padding: var(--space-1);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  list-style: none;
+  border: var(--hairline) solid var(--line-soft);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--card);
+}
+
+/* Padded so option text starts on the trigger's text edge and the check sits under the chevron. */
+.option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  block-size: var(--option-row);
+  padding: 0 calc(var(--field-x) - var(--space-1));
+  border-radius: var(--radius-sm);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-leading);
+  cursor: pointer;
+}
+
+.option[data-active] {
+  background: var(--surface-tint);
+}
+
+.optionLabel {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.meta {
+  flex-shrink: 0;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The check's slot is kept on every row so the counts line up. */
+.check {
+  stroke: var(--accent);
+}
+
+.trigger.native {
+  padding-inline-end: calc(var(--field-x) + var(--space-4) + var(--space-2));
+}
+
+.nativeChevron {
+  position: absolute;
+  top: 50%;
+  right: calc(var(--field-x) - var(--hairline) * 2);
+  margin: 0;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* iOS Safari zooms into any field under 16px; desktop sizes stay as drawn. */
+@media (max-width: 29.99em) {
+  .option {
+    font-size: 1rem;
+  }
+}

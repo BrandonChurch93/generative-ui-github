@@ -1,0 +1,4 @@
+/* Without a header the row is the whole card, so it takes the card's top and bottom padding, not a row's. */
+.bare {
+  padding-block: calc(var(--card-y) - var(--row-y));
+}

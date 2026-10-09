@@ -86,6 +86,7 @@ export function LineChart({ props, state, error, warming, onRetry }: PieceRender
       meta={state === 'skeleton' ? <Skeleton text="meta" width="7rem" /> : meta}
       busy={state === 'skeleton' || state === 'warming'}
       progress={state === 'warming' ? warming?.progress : undefined}
+      tableView={state === 'default'}
       ariaLabel={state === 'skeleton' ? `Loading ${title}` : undefined}
     >
       {body}
@@ -189,7 +190,7 @@ export function LineChart({ props, state, error, warming, onRetry }: PieceRender
   return frame(
     <div className={styles.body}>
       {legend && (
-        <ul className={styles.legend} aria-hidden="true">
+        <ul className={styles.legend} aria-hidden="true" data-chart-body="">
           {series.map((s, si) => (
             <li key={s.name} data-series={si}>
               <span className={styles.lineKey} />
@@ -204,7 +205,7 @@ export function LineChart({ props, state, error, warming, onRetry }: PieceRender
           )}
         </ul>
       )}
-      <div className={styles.chart} data-failures={failures ? '' : undefined}>
+      <div className={styles.chart} data-failures={failures ? '' : undefined} data-chart-body="">
         <div className={styles.ticks} aria-hidden="true">
           <span className={styles.sizer}>{widestTick}</span>
           {ticksDesc.map((t, i) => (

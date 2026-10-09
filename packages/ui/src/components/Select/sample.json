@@ -1,0 +1,211 @@
+{
+  "props": {
+    "label": "Milestone",
+    "options": [
+      {
+        "value": "v16.2",
+        "label": "v16.2",
+        "meta": "7 open"
+      },
+      {
+        "value": "v16.3",
+        "label": "v16.3",
+        "meta": "3 open"
+      },
+      {
+        "value": "v17.0",
+        "label": "v17.0",
+        "meta": "12 open"
+      },
+      {
+        "value": "none",
+        "label": "No milestone",
+        "meta": "41 open"
+      }
+    ],
+    "value": "",
+    "placeholder": "Choose a milestone"
+  },
+  "variants": [
+    {
+      "label": "Filled",
+      "props": {
+        "label": "Milestone",
+        "options": [
+          {
+            "value": "v16.2",
+            "label": "v16.2",
+            "meta": "7 open"
+          },
+          {
+            "value": "v16.3",
+            "label": "v16.3",
+            "meta": "3 open"
+          },
+          {
+            "value": "v17.0",
+            "label": "v17.0",
+            "meta": "12 open"
+          },
+          {
+            "value": "none",
+            "label": "No milestone",
+            "meta": "41 open"
+          }
+        ],
+        "value": "v16.2",
+        "placeholder": "Choose a milestone"
+      }
+    },
+    {
+      "label": "Invalid",
+      "props": {
+        "label": "Milestone",
+        "options": [
+          {
+            "value": "v16.2",
+            "label": "v16.2",
+            "meta": "7 open"
+          },
+          {
+            "value": "v16.3",
+            "label": "v16.3",
+            "meta": "3 open"
+          },
+          {
+            "value": "v17.0",
+            "label": "v17.0",
+            "meta": "12 open"
+          },
+          {
+            "value": "none",
+            "label": "No milestone",
+            "meta": "41 open"
+          }
+        ],
+        "value": "",
+        "placeholder": "Choose a milestone",
+        "status": {
+          "kind": "invalid",
+          "problem": "choose"
+        }
+      }
+    },
+    {
+      "label": "Disabled",
+      "props": {
+        "label": "Milestone",
+        "options": [
+          {
+            "value": "v16.2",
+            "label": "v16.2",
+            "meta": "7 open"
+          },
+          {
+            "value": "v16.3",
+            "label": "v16.3",
+            "meta": "3 open"
+          },
+          {
+            "value": "v17.0",
+            "label": "v17.0",
+            "meta": "12 open"
+          },
+          {
+            "value": "none",
+            "label": "No milestone",
+            "meta": "41 open"
+          }
+        ],
+        "value": "",
+        "placeholder": "Choose a milestone",
+        "disabled": true,
+        "reason": "Milestones load once the repo checks out"
+      }
+    },
+    {
+      "label": "No options",
+      "props": {
+        "label": "Milestone",
+        "options": [],
+        "value": "",
+        "placeholder": "Choose a milestone",
+        "reason": "No open milestones on this repo"
+      }
+    },
+    {
+      "label": "Twelve options, scrolls past eight",
+      "props": {
+        "label": "Milestone",
+        "options": [
+          {
+            "value": "v15.4",
+            "label": "v15.4",
+            "meta": "0 open"
+          },
+          {
+            "value": "v15.5",
+            "label": "v15.5",
+            "meta": "2 open"
+          },
+          {
+            "value": "v16.0",
+            "label": "v16.0",
+            "meta": "1 open"
+          },
+          {
+            "value": "v16.1",
+            "label": "v16.1",
+            "meta": "4 open"
+          },
+          {
+            "value": "v16.2",
+            "label": "v16.2",
+            "meta": "7 open"
+          },
+          {
+            "value": "v16.3",
+            "label": "v16.3",
+            "meta": "3 open"
+          },
+          {
+            "value": "v16.4",
+            "label": "v16.4",
+            "meta": "5 open"
+          },
+          {
+            "value": "v17.0",
+            "label": "v17.0",
+            "meta": "12 open"
+          },
+          {
+            "value": "v17.1",
+            "label": "v17.1",
+            "meta": "6 open"
+          },
+          {
+            "value": "v17.2",
+            "label": "v17.2",
+            "meta": "2 open"
+          },
+          {
+            "value": "v18.0",
+            "label": "v18.0",
+            "meta": "9 open"
+          },
+          {
+            "value": "none",
+            "label": "No milestone",
+            "meta": "41 open"
+          }
+        ],
+        "value": "v16.2",
+        "placeholder": "Choose a milestone"
+      }
+    }
+  ],
+  "error": {
+    "failed": "Couldn't load milestone options",
+    "cause": "GitHub returned 502"
+  }
+}

@@ -1,0 +1,67 @@
+/* ContributorRank's identity line, with the Avatar in the mark column and the one fact on the content edge. */
+.row {
+  align-items: center;
+}
+
+.id {
+  display: flex;
+  flex-grow: 1;
+  align-items: baseline;
+  gap: var(--space-2);
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* The handle never truncates before the display name does. */
+.handle {
+  flex-shrink: 0;
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-handle-size);
+  line-height: var(--text-handle-leading);
+  font-weight: var(--text-handle-weight);
+  text-overflow: ellipsis;
+}
+
+.name {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-leading);
+  font-weight: var(--text-body-weight);
+  text-overflow: ellipsis;
+}
+
+.fact {
+  display: flex;
+  flex-shrink: 0;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: var(--space-1);
+  white-space: nowrap;
+}
+
+.count {
+  color: var(--ink);
+  font-size: var(--text-value-size);
+  line-height: var(--text-value-leading);
+  font-weight: var(--text-value-weight);
+  font-variant-numeric: tabular-nums;
+}
+
+.unit {
+  color: var(--muted);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-leading);
+  font-weight: var(--text-body-weight);
+}
+
+/* Focus lifts the row the way hover does, so its hairlines hide too. */
+.item:has(> .row:focus-visible) > .hairline,
+.item:has(> .row:focus-visible) + .item > .hairline {
+  opacity: 0;
+}

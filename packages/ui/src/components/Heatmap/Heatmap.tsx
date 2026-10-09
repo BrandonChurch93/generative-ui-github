@@ -82,6 +82,7 @@ export function Heatmap({ props, state, error, warming, onAsk, onRetry }: PieceR
       meta={state === 'skeleton' ? <Skeleton text="meta" width="6rem" /> : meta}
       busy={state === 'skeleton' || state === 'warming'}
       progress={state === 'warming' ? warming?.progress : undefined}
+      tableView={state === 'default'}
       ariaLabel={state === 'skeleton' ? `Loading ${title}` : undefined}
     >
       {body}
@@ -189,7 +190,7 @@ export function Heatmap({ props, state, error, warming, onAsk, onRetry }: PieceR
 
   return frame(
     <div className={styles.body}>
-      <div ref={plotRef} className={styles.plot} role="group" aria-label={heatmapLabel(props)} data-plot="">
+      <div ref={plotRef} className={styles.plot} role="group" aria-label={heatmapLabel(props)} data-plot="" data-chart-body="">
         <div ref={fieldRef} className={styles.field} onScroll={() => setTip(null)}>
           <div className={styles.matrix}>
             <div className={styles.days} aria-hidden="true">
@@ -273,7 +274,7 @@ export function Heatmap({ props, state, error, warming, onAsk, onRetry }: PieceR
           </span>
         )}
       </div>
-      <div className={styles.foot}>
+      <div className={styles.foot} data-chart-body="">
         <span className={styles.legend} aria-hidden="true" data-legend="">
           <span className={styles.legendGroup}>
             0
@@ -298,33 +299,36 @@ export function Heatmap({ props, state, error, warming, onAsk, onRetry }: PieceR
           {peakLine(counts, unit)}
         </span>
       </div>
-      <table className="sr-only" data-table-view="">
-        <caption>
-          {title} · {meta}
-        </caption>
-        <thead>
-          <tr>
-            <th scope="col">Day</th>
-            {HOUR_INDEXES.map(h => (
-              <th key={h} scope="col">
-                {hourLabel(h)}
-              </th>
-            ))}
-            <th scope="col">Total</th>
-          </tr>
-        </thead>
-        <tbody className={styles.tableCounts}>
-          {DAYS.map((d, day) => (
-            <tr key={d.short}>
-              <th scope="row">{d.long}</th>
+      {/* Twenty-four hour columns: the table view scrolls inside the card's padding. */}
+      <div className={styles.tableWrap}>
+        <table className="sr-only" data-table-view="">
+          <caption>
+            {title} · {meta}
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Day</th>
               {HOUR_INDEXES.map(h => (
-                <td key={h}>{counts[day]?.[h] ?? 0}</td>
+                <th key={h} scope="col">
+                  {hourLabel(h)}
+                </th>
               ))}
-              <td>{(counts[day] ?? []).reduce((a, b) => a + b, 0)}</td>
+              <th scope="col">Total</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className={styles.tableCounts}>
+            {DAYS.map((d, day) => (
+              <tr key={d.short}>
+                <th scope="row">{d.long}</th>
+                {HOUR_INDEXES.map(h => (
+                  <td key={h}>{counts[day]?.[h] ?? 0}</td>
+                ))}
+                <td>{(counts[day] ?? []).reduce((a, b) => a + b, 0)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>,
   )
 }

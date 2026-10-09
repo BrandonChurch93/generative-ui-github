@@ -38,3 +38,10 @@ The `lead` type style in `tokens.json` is a fixed 22px. The WarmingUp README say
 
 - Assumed: WarmingUp renders its own sentence; the shell (Phase 6) places the whole component where the composition goes and adds no second sentence. Its `enter` runs the card rise itself, so the renderer must not wrap it in another rise.
 - Check: that this reading is right before Phase 6.
+
+## 2.18 · The registry prompt writes schemas as signatures, not JSON Schema
+
+`docs/schemas.md` says the prompt carries "the JSON Schema of the model-facing props" and must stay under 7,000 tokens. With every component registered, JSON Schema came to 8,357 tokens even after naming shared enums once.
+
+- Assumed: each component's props are written as a TypeScript-like signature generated from its JSON Schema (`{measure: Measure; label?: string(≤28); hot?: boolean}`), with a short legend at the top. Same names, optional marks, enums and limits. The count is 5,703 tokens (`packages/ui/fixtures/prompt-tokens.json`).
+- Check: that this is acceptable. If the composer evals in Phase 7 show the model reads JSON Schema better, the cut would have to come from elsewhere (dropping the examples saves about 900 tokens).
