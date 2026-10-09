@@ -46,6 +46,18 @@ import { Steps } from '../components/Steps/Steps'
 import { stepsMotion } from '../components/Steps/motion'
 import stepsSample from '../components/Steps/sample.json'
 import type { StepsProps } from '../components/Steps/schema'
+import { WarmingUp } from '../components/WarmingUp/WarmingUp'
+import { warmingUpMotion } from '../components/WarmingUp/motion'
+import warmingUpSample from '../components/WarmingUp/sample.json'
+import type { WarmingUpProps } from '../components/WarmingUp/schema'
+import { FileTree } from '../components/FileTree/FileTree'
+import { fileTreeMotion } from '../components/FileTree/motion'
+import fileTreeSample from '../components/FileTree/sample.json'
+import type { FileTreeProps } from '../components/FileTree/schema'
+import { DiffView } from '../components/DiffView/DiffView'
+import { diffViewMotion } from '../components/DiffView/motion'
+import diffViewSample from '../components/DiffView/sample.json'
+import type { DiffViewProps } from '../components/DiffView/schema'
 import * as layout from './layoutDemos'
 import type { PieceMotion } from '../motion/types'
 import type { ComponentSpec } from '../registry'
@@ -227,6 +239,39 @@ export const CATALOG: CatalogEntry[] = [
     motion: stepsMotion,
     sample: stepsSample as CatalogSample<StepsProps>,
     sampleFile: 'Steps/sample.json',
+    width: 'half',
+  }),
+  entry<WarmingUpProps>({
+    name: 'WarmingUp',
+    group: 'System',
+    description: "What the composition region shows while GitHub computes a repo's statistics for the first time: one calm sentence, then a lane per statistic where a line runs in real time until that count lands.",
+    spec: specOf('WarmingUp'),
+    Component: WarmingUp,
+    motion: warmingUpMotion,
+    sample: warmingUpSample as CatalogSample<WarmingUpProps>,
+    sampleFile: 'WarmingUp/sample.json',
+    width: 'full',
+  }),
+  entry<FileTreeProps>({
+    name: 'FileTree',
+    group: 'Code',
+    description: 'The files a pull request touches, or the layout of a folder, as an indented tree with quiet guides, per-file counts in one right-aligned column and one selected file.',
+    spec: specOf('FileTree'),
+    Component: FileTree,
+    motion: fileTreeMotion,
+    sample: fileTreeSample as CatalogSample<FileTreeProps>,
+    sampleFile: 'FileTree/sample.json',
+    width: 'third',
+  }),
+  entry<DiffViewProps>({
+    name: 'DiffView',
+    group: 'Code',
+    description: 'A unified diff for one file of a pull request, with ink text on quiet add and delete tints, a sign gutter that carries direction without color, and a calm fold when the file runs long.',
+    spec: specOf('DiffView'),
+    Component: DiffView,
+    motion: diffViewMotion,
+    sample: diffViewSample as CatalogSample<DiffViewProps>,
+    sampleFile: 'DiffView/sample.json',
     width: 'half',
   }),
   entry({

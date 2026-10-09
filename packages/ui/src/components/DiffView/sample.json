@@ -1,0 +1,75 @@
+{
+  "props": {
+    "repo": "vercel/next.js",
+    "pr": 71904,
+    "path": "packages/next/src/server/app-render/get-css-inlined-link-tags.tsx",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 1,
+    "patch": "@@ -13,6 +13,7 @@ export function getLinkAndScriptTags(\n ): { styles: string[]; scripts: string[] } {\n   const filePathWithoutExt = filePath.replace(/\\.[^.]+$/, '')\n   const cssChunks = new Set<string>()\n+  const cssOrder = clientReferenceManifest.cssChunkOrder ?? []\n   const jsChunks = new Set<string>()\n \n   const entryCSSFiles =\n@@ -21,7 +22,7 @@ export function getLinkAndScriptTags(\n     clientReferenceManifest.entryJSFiles?.[filePathWithoutExt] ?? []\n \n   if (entryCSSFiles) {\n-    for (const css of entryCSSFiles) {\n+    for (const css of sortByChunkOrder(entryCSSFiles, cssOrder)) {\n       if (!injectedCSS.has(css.path)) {\n         if (collectNewImports) {\n           injectedCSS.add(css.path)"
+  },
+  "variants": [
+    {
+      "label": "Large diff, folded after the first hunk",
+      "props": {
+        "repo": "vercel/next.js",
+        "pr": 71904,
+        "path": "crates/next-core/src/next_app/app_client_references_chunks.rs",
+        "status": "modified",
+        "additions": 23,
+        "deletions": 5,
+        "patch": "@@ -96,10 +96,11 @@ pub async fn get_app_client_references_chunks(\n         let mut client_chunks = Vec::new();\n         let mut ssr_chunks = Vec::new();\n \n-        for server_component in server_components.iter() {\n+        let ordered = sort_by_layout_depth(server_components).await?;\n+        for server_component in ordered.iter() {\n             let entry = client_references_by_server_component\n                 .get(server_component)\n-                .copied()\n-                .unwrap_or_default();\n+                .cloned()\n+                .unwrap_or_else(ClientReferences::empty);\n \n             let chunks = entry.chunk_group(chunking_context, ChunkGroupKind::Layout).await?;\n@@ -140,9 +141,14 @@ pub async fn get_app_client_references_chunks(\n             if let Some(ssr) = entry.ssr_chunk_group() {\n                 ssr_chunks.push(ssr);\n             }\n-            client_chunks.push(chunks);\n+            client_chunks.push(chunks.clone());\n+            layout_chunks.insert(server_component.layout_segment(), chunks);\n         }\n \n-        Ok(ClientReferencesChunks { client_chunks, ssr_chunks })\n+        Ok(ClientReferencesChunks {\n+            client_chunks,\n+            ssr_chunks,\n+            layout_chunks,\n+        })\n     }\n \n@@ -158,5 +164,17 @@ impl ClientReferencesChunks {\n         self.client_chunks.is_empty() && self.ssr_chunks.is_empty()\n     }\n \n+    pub fn for_layout(&self, segment: &str) -> Option<&ChunkGroup> {\n+        self.layout_chunks.get(segment)\n+    }\n+\n+    async fn sort_by_layout_depth(\n+        components: Vc<ServerComponents>,\n+    ) -> Result<Vec<Vc<ServerComponent>>> {\n+        let mut ordered = components.await?.clone_value();\n+        ordered.sort_by_key(|c| c.layout_depth());\n+        Ok(ordered)\n+    }\n+\n     #[turbo_tasks::function]\n     pub fn chunking_context(&self) -> Vc<Box<dyn ChunkingContext>> {"
+      }
+    },
+    {
+      "label": "Folded",
+      "props": {
+        "repo": "vercel/next.js",
+        "pr": 71904,
+        "path": "crates/next-api/src/app.rs",
+        "open": false,
+        "status": "modified",
+        "additions": 23,
+        "deletions": 5,
+        "patch": "@@ -96,10 +96,11 @@ pub async fn get_app_client_references_chunks(\n         let mut client_chunks = Vec::new();\n         let mut ssr_chunks = Vec::new();\n \n-        for server_component in server_components.iter() {\n+        let ordered = sort_by_layout_depth(server_components).await?;\n+        for server_component in ordered.iter() {\n             let entry = client_references_by_server_component\n                 .get(server_component)\n-                .copied()\n-                .unwrap_or_default();\n+                .cloned()\n+                .unwrap_or_else(ClientReferences::empty);\n \n             let chunks = entry.chunk_group(chunking_context, ChunkGroupKind::Layout).await?;\n@@ -140,9 +141,14 @@ pub async fn get_app_client_references_chunks(\n             if let Some(ssr) = entry.ssr_chunk_group() {\n                 ssr_chunks.push(ssr);\n             }\n-            client_chunks.push(chunks);\n+            client_chunks.push(chunks.clone());\n+            layout_chunks.insert(server_component.layout_segment(), chunks);\n         }\n \n-        Ok(ClientReferencesChunks { client_chunks, ssr_chunks })\n+        Ok(ClientReferencesChunks {\n+            client_chunks,\n+            ssr_chunks,\n+            layout_chunks,\n+        })\n     }\n \n@@ -158,5 +164,17 @@ impl ClientReferencesChunks {\n         self.client_chunks.is_empty() && self.ssr_chunks.is_empty()\n     }\n \n+    pub fn for_layout(&self, segment: &str) -> Option<&ChunkGroup> {\n+        self.layout_chunks.get(segment)\n+    }\n+\n+    async fn sort_by_layout_depth(\n+        components: Vc<ServerComponents>,\n+    ) -> Result<Vec<Vc<ServerComponent>>> {\n+        let mut ordered = components.await?.clone_value();\n+        ordered.sort_by_key(|c| c.layout_depth());\n+        Ok(ordered)\n+    }\n+\n     #[turbo_tasks::function]\n     pub fn chunking_context(&self) -> Vc<Box<dyn ChunkingContext>> {"
+      }
+    },
+    {
+      "label": "Over the limit",
+      "props": {
+        "repo": "vercel/next.js",
+        "pr": 71904,
+        "path": "pnpm-lock.yaml",
+        "status": "modified",
+        "additions": 1206,
+        "deletions": 1148
+      }
+    },
+    {
+      "label": "Indentation-significant, scrolls",
+      "props": {
+        "repo": "vercel/next.js",
+        "pr": 71904,
+        "path": ".github/workflows/build_and_test.yml",
+        "status": "modified",
+        "additions": 2,
+        "deletions": 2,
+        "patch": "@@ -18,7 +18,7 @@ jobs:\n   build:\n     runs-on: ubuntu-latest\n     steps:\n-      - uses: actions/checkout@v3\n+      - uses: actions/checkout@v4\n       - uses: pnpm/action-setup@v4\n-      - run: pnpm install --frozen-lockfile\n+      - run: pnpm install --frozen-lockfile --prefer-offline --reporter=append-only --child-concurrency=4\n       - run: pnpm build"
+      }
+    }
+  ],
+  "empty": {
+    "repo": "vercel/next.js",
+    "pr": 71904,
+    "path": "test/e2e/app-dir/css-order/next.config.js",
+    "previousPath": "test/e2e/app-dir/css-order/next.config.mjs",
+    "status": "renamed",
+    "additions": 0,
+    "deletions": 0,
+    "emptyMeta": "14 lines, identical"
+  },
+  "error": {
+    "failed": "Couldn't load this diff",
+    "cause": "GitHub returned 502 · tried twice"
+  }
+}

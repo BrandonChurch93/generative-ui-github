@@ -1,0 +1,248 @@
+/* Row height: the density's row padding around one 12px code line, so 26, 30 and 34px. */
+.card {
+  --ft-row: calc(var(--row-y) + var(--text-code-size) * var(--text-code-leading));
+  --ft-indent: var(--space-4);
+  --ft-chevron: var(--space-3);
+  --ft-icon: var(--space-4);
+}
+
+.body {
+  position: relative;
+}
+
+.probe {
+  position: absolute;
+  visibility: hidden;
+  white-space: pre;
+  font-family: var(--font-mono);
+  font-size: var(--text-code-size);
+  pointer-events: none;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tree {
+  padding-block: var(--space-2);
+}
+
+.group {
+  position: relative;
+}
+
+/* Under the parent's chevron, from just below the parent row to the bottom of its last child. */
+.guide {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--inset) + var(--pd, 0) * var(--ft-indent) + var(--ft-chevron) / 2);
+  inline-size: var(--hairline);
+  background: var(--line);
+  transform-origin: center top;
+  pointer-events: none;
+}
+
+.row {
+  position: relative;
+  z-index: 0;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  inline-size: 100%;
+  block-size: var(--ft-row);
+  margin: 0;
+  padding: 0 var(--inset) 0 calc(var(--inset) + var(--d, 0) * var(--ft-indent));
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-code-size);
+  line-height: var(--text-code-leading);
+  font-weight: var(--text-code-weight);
+  text-align: start;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Every row state draws this one shape, inset from the card edge and clear of its neighbors. */
+.row::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset-block: var(--hairline);
+  inset-inline: var(--space-2);
+  border-radius: var(--radius-md);
+}
+
+.row:hover::before {
+  background: var(--surface-tint);
+}
+
+.row:focus-visible {
+  outline: none;
+}
+
+/* The ring wraps the shape, so it never clips against the card edge. */
+.row:focus-visible::before {
+  outline: var(--focus-ring) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+
+/* A real element so the selection can travel between rows with a shared layout transition. */
+.capsule {
+  position: absolute;
+  z-index: -1;
+  inset-block: var(--hairline);
+  inset-inline: var(--space-2);
+  border-radius: var(--radius-md);
+  background: var(--surface-tint);
+  box-shadow: inset 0 0 0 var(--hairline) var(--accent);
+  pointer-events: none;
+}
+
+.chevron {
+  flex-shrink: 0;
+  inline-size: var(--ft-chevron);
+  block-size: var(--ft-chevron);
+  margin-inline-end: var(--space-1);
+  color: var(--muted);
+}
+
+/* The individual property, so the fold's turn (a transform) composes with it. */
+.chevron[data-open] {
+  rotate: 90deg;
+}
+
+/* Files keep the chevron's slot so every icon at one depth stacks. */
+.slot {
+  flex-shrink: 0;
+  inline-size: var(--ft-chevron);
+  margin-inline-end: var(--space-1);
+}
+
+.icon {
+  flex-shrink: 0;
+  inline-size: var(--ft-icon);
+  block-size: var(--ft-icon);
+  margin-inline-end: var(--space-2);
+  color: var(--muted);
+}
+
+.name {
+  flex-grow: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.folder .name {
+  color: var(--muted);
+}
+
+.gap {
+  font-style: normal;
+  color: var(--muted);
+}
+
+.selected .icon {
+  color: var(--accent);
+}
+
+.selected .name {
+  font-weight: var(--text-row-title-weight);
+}
+
+.counts,
+.files {
+  flex-shrink: 0;
+  margin-inline-start: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-tag-size);
+  line-height: var(--text-tag-leading);
+  font-weight: var(--text-tag-weight);
+  white-space: nowrap;
+}
+
+.counts {
+  display: flex;
+  gap: 1ch;
+}
+
+.add,
+.del {
+  text-align: end;
+}
+
+.add {
+  min-inline-size: var(--aw);
+  color: var(--good);
+}
+
+.del {
+  min-inline-size: var(--dw);
+  color: var(--crit);
+}
+
+/* A red zero reads as a deletion. */
+.add[data-zero],
+.del[data-zero] {
+  color: var(--muted);
+}
+
+.files {
+  min-inline-size: var(--fw);
+  color: var(--muted);
+  text-align: end;
+}
+
+/* The header's totals sit in the same right column as every row's counts. */
+.card [data-card-head] .counts {
+  align-self: center;
+  margin-inline-start: 0;
+}
+
+.note {
+  margin: 0;
+  padding: 0 var(--inset) var(--row-y);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+}
+
+.skeletonRow {
+  cursor: default;
+}
+
+.skeletonRow::before {
+  content: none;
+}
+
+.skeletonIcon {
+  flex-shrink: 0;
+  margin-inline-end: var(--space-2);
+}
+
+.skeletonCounts {
+  flex-shrink: 0;
+  margin-inline-start: auto;
+}
+
+/* Phone and tablet: a finger needs the full hit height, whatever the density draws on a desk. */
+@media (pointer: coarse) {
+  .row {
+    block-size: max(var(--ft-row), var(--hit));
+  }
+}
+
+@media (prefers-contrast: more) {
+  .guide {
+    background: var(--line-strong);
+  }
+}

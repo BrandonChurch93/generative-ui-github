@@ -17,3 +17,24 @@ The pricing page read on 2026-10-08 lists Claude Haiku 5.5 at $0.10 input and $0
 - Assumed: root `engines.node` is `>=22.12.0`. This machine runs 22.14.
 - Check: that Node 22 or 24 is fine for local work and Vercel. If Node 20 must stay, pin Vitest 4 instead.
 - resolved: take the newest tooling and the 22.12 floor (owner, 2026-10-08). Node 20 is past end of life, so the original "Node 20+" carried no constraint worth keeping. `docs/decisions.md` Stack updated.
+
+## 2.13 · WarmingUp's lead sentence size
+
+The `lead` type style in `tokens.json` is a fixed 22px. The WarmingUp README says the sentence follows density (16, 19, 22px, the Insight sizes), and the preview uses 1.35 leading.
+
+- Assumed: the sentence uses `--insight-size` (follows density) with the lead style's leading and weight.
+- Check: whether `lead` should become density-driven in `tokens.json`, or stay fixed at 22px.
+
+## 2.13 · When WarmingUp says "still counting" instead of "for the first time"
+
+`WarmingStatus` carries nothing that says whether this is the first attempt at a repo or a retry, and the README has two copies.
+
+- Assumed: the copy switches at the fifth check (28s), just after the axis first doubles. A run restarted by Try again says "for the first time" again.
+- Check: whether the data layer should add a `firstTime` flag to `WarmingStatus` in Phase 4.
+
+## 2.13 · Who renders the warming sentence
+
+`docs/schemas.md` says the shell renders the system sentence in the insight region and WarmingUp in `main`. The WarmingUp README and `screens/Warming.html` draw the sentence as part of WarmingUp, above its card.
+
+- Assumed: WarmingUp renders its own sentence; the shell (Phase 6) places the whole component where the composition goes and adds no second sentence. Its `enter` runs the card rise itself, so the renderer must not wrap it in another rise.
+- Check: that this reading is right before Phase 6.

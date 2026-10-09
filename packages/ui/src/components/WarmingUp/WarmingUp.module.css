@@ -1,0 +1,272 @@
+/* The lead on the page ground in the Insight's slot, then the lanes card. Lanes are positioned in seconds over
+   --max, so a rescale tweens one number; --clock runs the open segments of every counting lane. */
+.root {
+  /* Name column 280, 300 or 320 by density: linear in the insight size (16, 19, 22), anchored at 300. */
+  --name-col: calc((var(--insight-size) - var(--text-insight-size)) * 20 / 3 + var(--space-8) * 4.6875);
+  --status-col: calc(var(--space-8) * 1.5);
+
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  gap: var(--region-gap);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Lead: the sentence starts on the content edge, where the Insight sentence will land. */
+.lead {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-inline-start: calc(var(--inset) + var(--hairline));
+}
+
+.lead > .leadMark {
+  position: absolute;
+  left: 0;
+  top: calc((var(--insight-size) * var(--text-lead-leading) - var(--mark)) / 2);
+}
+
+.say {
+  max-inline-size: 60ch;
+  margin: 0;
+  color: var(--ink);
+  font-size: var(--insight-size);
+  line-height: var(--text-lead-leading);
+  font-weight: var(--text-lead-weight);
+  text-wrap: pretty;
+}
+
+.repo {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  font-weight: var(--text-lead-weight);
+}
+
+.why {
+  max-inline-size: 68ch;
+  margin: calc(var(--row-y) - var(--space-1)) 0 0;
+  color: var(--muted);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-leading);
+  font-weight: var(--text-body-weight);
+  text-wrap: balance;
+}
+
+.when {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  margin: var(--space-2) 0 0;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+}
+
+/* Card */
+.plot {
+  position: relative;
+}
+
+.grid {
+  position: absolute;
+  top: var(--row-y);
+  bottom: 0;
+  left: calc(var(--inset) + var(--name-col) + var(--inset));
+  right: calc(var(--inset) + var(--status-col) + var(--inset));
+  overflow: clip;
+  pointer-events: none;
+}
+
+.gridline {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--s) / var(--max) * 100%);
+  inline-size: var(--hairline);
+  background: var(--line-soft);
+}
+
+.list {
+  margin: 0;
+  padding: var(--space-1) 0 0;
+  list-style: none;
+}
+
+/* No hairlines between rows: the lanes carry the rhythm. */
+.row {
+  display: grid;
+  grid-template-columns: var(--name-col) minmax(0, 1fr) var(--status-col);
+  column-gap: var(--inset);
+  align-items: center;
+  padding: var(--row-y) var(--inset);
+}
+
+.text {
+  display: grid;
+  gap: calc(var(--space-1) / 2);
+  min-width: 0;
+}
+
+.name {
+  overflow: hidden;
+  color: var(--ink);
+  font-size: var(--text-row-title-size);
+  line-height: var(--text-row-title-leading);
+  font-weight: var(--text-row-title-weight);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.meta {
+  overflow: hidden;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Lane: a counting line ends at the clock; a settled one at --end, set on the element. */
+.lane {
+  --end: var(--clock);
+
+  position: relative;
+  block-size: var(--mark);
+}
+
+.track {
+  position: absolute;
+  left: calc(var(--end) / var(--max) * 100%);
+  right: 0;
+  top: calc((var(--mark) - var(--hairline)) / 2);
+  block-size: var(--hairline);
+  background: var(--line);
+  transform-origin: left center;
+}
+
+/* Kept in the DOM so it can retract into the head when the statistic lands. */
+.row[data-settled] .track {
+  transform: scaleX(0);
+}
+
+/* A segment per wait, parted by a gap of one line width at every check. */
+.seg {
+  --b: var(--end);
+
+  position: absolute;
+  left: calc(var(--a) / var(--max) * 100% + var(--hairline));
+  top: calc((var(--mark) - var(--plot-line)) / 2);
+  inline-size: calc((var(--b) - var(--a)) / var(--max) * 100% - var(--plot-line));
+  block-size: var(--plot-line);
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+}
+
+.row[data-settled] .seg {
+  background: var(--line);
+}
+
+/* The head is filled with surface, so the line ends under it. */
+.lane > .head {
+  position: absolute;
+  top: 0;
+  left: calc(var(--end) / var(--max) * 100%);
+  margin-left: calc(var(--mark) / -2);
+  background: var(--surface);
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  justify-self: end;
+}
+
+.now {
+  padding-block: var(--tag-y);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-tag-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+  white-space: nowrap;
+}
+
+/* Axis: seconds since the first request, on the lane column. Room below for the warming bar. */
+.axis {
+  display: grid;
+  grid-template-columns: var(--name-col) minmax(0, 1fr) var(--status-col);
+  column-gap: var(--inset);
+  align-items: baseline;
+  padding: var(--space-2) var(--inset) calc(var(--card-y) + var(--bar));
+}
+
+.axisNote,
+.tick {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-axis-size);
+  line-height: var(--text-axis-leading);
+  font-weight: var(--text-axis-weight);
+  white-space: nowrap;
+}
+
+.ticks {
+  position: relative;
+  block-size: calc(var(--text-axis-size) * var(--text-axis-leading));
+  overflow: clip;
+}
+
+.tick {
+  position: absolute;
+  top: 0;
+  left: calc(var(--s) / var(--max) * 100%);
+  transform: translateX(-50%);
+}
+
+/* End labels align to the lane's ends. */
+.tick:first-child {
+  transform: none;
+}
+
+.tick:last-child {
+  transform: translateX(-100%);
+}
+
+/* Checking has stopped, so nothing is warming: the bar's track goes with its fill. */
+.root[data-phase="stopped"] .card [data-progress] {
+  background: transparent;
+}
+
+/* Narrow: the lane drops under the name across the content width; the status stays on the name line. */
+@container (max-width: 47.5rem) {
+  .row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    row-gap: var(--space-2);
+  }
+
+  .lane {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .status {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .grid,
+  .axisNote {
+    display: none;
+  }
+
+  .axis {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "props": {
+    "repo": "vercel/next.js",
+    "mode": "changes",
+    "pr": 84120,
+    "title": "Files changed",
+    "selected": "packages/next/src/server/app-render/get-css-inlined-link-tags.tsx",
+    "open": ["packages/next/src/server/app-render", "test/e2e/app-dir/css-order/app/nested"],
+    "files": [
+      { "path": "crates/next-api/src/app.rs", "additions": 24, "deletions": 9 },
+      { "path": "crates/next-core/src/next_app/app_client_references_chunks.rs", "additions": 118, "deletions": 61 },
+      { "path": "packages/next/src/server/app-render/create-component-tree.tsx", "additions": 14, "deletions": 6 },
+      { "path": "packages/next/src/server/app-render/get-css-inlined-link-tags.tsx", "additions": 2, "deletions": 1 },
+      { "path": "packages/next/src/server/app-render/get-layer-assets.tsx", "additions": 45, "deletions": 19 },
+      { "path": "test/e2e/app-dir/css-order/app/nested/layout.tsx", "additions": 18, "deletions": 0 },
+      { "path": "test/e2e/app-dir/css-order/app/nested/nested.module.css", "additions": 15, "deletions": 0 },
+      { "path": "test/e2e/app-dir/css-order/app/nested/page.tsx", "additions": 12, "deletions": 0 },
+      { "path": "test/e2e/app-dir/css-order/css-order.test.ts", "additions": 164, "deletions": 0 }
+    ]
+  },
+  "variants": [
+    {
+      "label": "Folder overview",
+      "props": {
+        "repo": "vercel/next.js",
+        "mode": "overview",
+        "path": "packages/next/src",
+        "title": "Next.js source",
+        "open": ["packages/next/src/server"],
+        "files": [
+          { "path": "packages/next/src/build/index.ts" },
+          { "path": "packages/next/src/build/entries.ts" },
+          { "path": "packages/next/src/build/webpack-config.ts" },
+          { "path": "packages/next/src/build/utils.ts" },
+          { "path": "packages/next/src/client/index.tsx" },
+          { "path": "packages/next/src/client/link.tsx" },
+          { "path": "packages/next/src/client/router.ts" },
+          { "path": "packages/next/src/server/app-render/app-render.tsx" },
+          { "path": "packages/next/src/server/app-render/create-component-tree.tsx" },
+          { "path": "packages/next/src/server/app-render/get-layer-assets.tsx" },
+          { "path": "packages/next/src/server/lib/router-server.ts" },
+          { "path": "packages/next/src/server/lib/start-server.ts" },
+          { "path": "packages/next/src/server/lib/render-server.ts" },
+          { "path": "packages/next/src/server/route-modules/route-module.ts" },
+          { "path": "packages/next/src/server/route-modules/checks.ts" },
+          { "path": "packages/next/src/server/base-server.ts" },
+          { "path": "packages/next/src/server/next-server.ts" },
+          { "path": "packages/next/src/shared/lib/constants.ts" },
+          { "path": "packages/next/src/shared/lib/utils.ts" },
+          { "path": "packages/next/src/shared/lib/head.tsx" },
+          { "path": "packages/next/src/shared/lib/router/router.ts" },
+          { "path": "packages/next/src/shared/lib/router/utils/index.ts" }
+        ]
+      }
+    },
+    {
+      "label": "Every folder open, middle truncation",
+      "props": {
+        "repo": "vercel/next.js",
+        "mode": "changes",
+        "pr": 84077,
+        "title": "Turbopack changes",
+        "selected": "crates/next-core/src/next_app/app_client_references_chunks.rs",
+        "files": [
+          { "path": "crates/next-api/src/app.rs", "additions": 24, "deletions": 9 },
+          { "path": "crates/next-core/src/next_app/app_client_references_chunks.rs", "additions": 118, "deletions": 61 }
+        ]
+      }
+    }
+  ],
+  "empty": {
+    "repo": "vercel/next.js",
+    "mode": "changes",
+    "pr": 84211,
+    "title": "Files changed",
+    "emptyTone": "neutral",
+    "files": [],
+    "emptyMeta": "head matches canary · #84211"
+  },
+  "error": { "failed": "Couldn't load files", "cause": "GitHub returned 502" }
+}

@@ -1,0 +1,70 @@
+{
+  "props": {
+    "repo": "vercel/next.js",
+    "phase": "warming",
+    "attempt": 5,
+    "nextCheckMs": 7000,
+    "startedAt": "2026-10-08T14:02:00Z",
+    "elapsedMs": 33000,
+    "stats": [
+      { "id": "contributors", "state": "counting" },
+      { "id": "participation", "state": "counting" },
+      { "id": "commit_activity", "state": "counting" },
+      { "id": "punch_card", "state": "counting" }
+    ]
+  },
+  "variants": [
+    {
+      "label": "First visit · 7s in, attempt 2",
+      "props": {
+        "repo": "facebook/react",
+        "phase": "warming",
+        "attempt": 2,
+        "nextCheckMs": 3000,
+        "startedAt": "2026-10-08T14:02:00Z",
+        "elapsedMs": 7000,
+        "stats": [
+          { "id": "contributors", "state": "counting" },
+          { "id": "participation", "state": "counting" },
+          { "id": "commit_activity", "state": "counting" },
+          { "id": "punch_card", "state": "counting" }
+        ]
+      }
+    },
+    {
+      "label": "Partly ready · 22s in, attempt 4",
+      "props": {
+        "repo": "vercel/next.js",
+        "phase": "warming",
+        "attempt": 4,
+        "nextCheckMs": 6000,
+        "startedAt": "2026-10-08T14:02:00Z",
+        "elapsedMs": 22000,
+        "stats": [
+          { "id": "contributors", "state": "counting" },
+          { "id": "participation", "state": "counting" },
+          { "id": "commit_activity", "state": "ready", "landedAt": "2026-10-08T14:02:10Z" },
+          { "id": "punch_card", "state": "ready", "landedAt": "2026-10-08T14:02:18Z" }
+        ]
+      }
+    },
+    {
+      "label": "Stopped after 2 minutes · one cached copy, one missing",
+      "props": {
+        "repo": "vercel/next.js",
+        "phase": "stopped",
+        "attempt": 10,
+        "nextCheckMs": 0,
+        "startedAt": "2026-10-08T14:02:00Z",
+        "elapsedMs": 120000,
+        "stats": [
+          { "id": "contributors", "state": "cached", "cachedAt": "2026-10-05T13:40:00Z" },
+          { "id": "participation", "state": "missing" },
+          { "id": "commit_activity", "state": "ready", "landedAt": "2026-10-08T14:02:10Z" },
+          { "id": "punch_card", "state": "ready", "landedAt": "2026-10-08T14:02:18Z" }
+        ]
+      }
+    }
+  ],
+  "error": { "failed": "Couldn't check what GitHub is counting", "cause": "GitHub returned 502 · tried twice" }
+}

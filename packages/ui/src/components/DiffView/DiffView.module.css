@@ -1,0 +1,342 @@
+.head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--card-y) var(--inset) var(--row-y);
+  border-bottom: var(--hairline) solid var(--line-soft);
+}
+
+/* Folded, the header is the whole card, so a stack of folded files reads as a list. */
+.head[data-folded] {
+  padding-bottom: var(--card-y);
+  border-bottom: 0;
+}
+
+.toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-code-size);
+  line-height: var(--text-code-leading);
+  font-weight: var(--text-code-weight);
+  text-align: start;
+  cursor: pointer;
+}
+
+/* The 36px hit area, centered on the path, outside the layout. */
+.toggle::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  block-size: max(100%, var(--hit));
+  transform: translateY(-50%);
+}
+
+.chevron {
+  flex-shrink: 0;
+  inline-size: var(--space-3);
+  block-size: var(--space-3);
+  color: var(--muted);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: var(--stroke);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.toggle[aria-expanded="true"] .chevron {
+  transform: rotate(90deg);
+}
+
+.toggle:hover .chevron {
+  color: var(--ink);
+}
+
+.toggle:hover .name {
+  text-decoration: underline;
+  text-decoration-color: var(--muted);
+  text-underline-offset: var(--underline-offset);
+}
+
+.path {
+  display: flex;
+  min-inline-size: 0;
+  white-space: pre;
+}
+
+/* A long path gives up its folders before its file name. */
+.dir {
+  flex-shrink: 1000;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.name {
+  flex-shrink: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  color: var(--ink);
+  font-weight: var(--text-label-weight);
+  text-overflow: ellipsis;
+}
+
+.counts,
+.skCounts {
+  flex-shrink: 0;
+  margin-inline-start: auto;
+  font-family: var(--font-mono);
+  font-size: var(--text-tag-size);
+  line-height: var(--text-tag-leading);
+  font-weight: var(--text-tag-weight);
+  white-space: nowrap;
+}
+
+.figures {
+  display: flex;
+  gap: 1ch;
+}
+
+.add {
+  color: var(--good);
+}
+
+.del {
+  color: var(--crit);
+}
+
+/* A red zero reads as a deletion. */
+.add[data-zero],
+.del[data-zero] {
+  color: var(--muted);
+}
+
+.lines {
+  padding-bottom: var(--row-y);
+}
+
+.lines[data-wrap="scroll"] {
+  overflow-x: auto;
+}
+
+.table {
+  inline-size: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-code-size);
+  line-height: var(--code-leading);
+  font-weight: var(--text-code-weight);
+  font-variant-ligatures: none;
+  font-feature-settings: "calt" 0, "liga" 0;
+}
+
+/* Indentation-significant files keep every line on one row and scroll; the tints still run edge to edge. */
+.table[data-wrap="scroll"] {
+  inline-size: max-content;
+  min-inline-size: 100%;
+}
+
+.hunkHead {
+  padding: var(--row-y) var(--inset) var(--space-1);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+  text-align: start;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.hunk + .hunk:not([data-continued]) .hunkHead {
+  border-top: var(--hairline) solid var(--line-soft);
+}
+
+.table[data-wrap="scroll"] .hunkHead {
+  white-space: pre;
+}
+
+/* The tint is the row's background drawn to --tint of its width, so it can extend from the left edge on arrival. */
+.line[data-kind="add"],
+.line[data-kind="del"] {
+  background-repeat: no-repeat;
+  background-size: calc(var(--tint, 1) * 100%) 100%;
+}
+
+.line[data-kind="add"] {
+  background-image: linear-gradient(var(--diff-add), var(--diff-add));
+}
+
+.line[data-kind="del"] {
+  background-image: linear-gradient(var(--diff-del), var(--diff-del));
+}
+
+/* Numbers and signs are drawn from data attributes, so copying a selection copies code only. */
+.num {
+  inline-size: 1%;
+  padding: 0 0 0 var(--space-3);
+  color: var(--muted);
+  font-size: var(--text-meta-size);
+  text-align: end;
+  vertical-align: baseline;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.num::before {
+  content: attr(data-n);
+  display: inline-block;
+  min-inline-size: 3ch;
+}
+
+.num:first-child,
+.skNum:first-child {
+  padding-inline-start: var(--inset);
+}
+
+.sign {
+  inline-size: 1%;
+  padding: 0 var(--space-2) 0 var(--space-3);
+  text-align: center;
+  vertical-align: baseline;
+  user-select: none;
+}
+
+.sign::before {
+  content: attr(data-s);
+  display: inline-block;
+  min-inline-size: 1ch;
+}
+
+/*
+ * Leading whitespace stays in the text. The negative indent cancels the padding on the first line only,
+ * so a wrapped continuation hangs 2ch past the line's own indent with no number beside it.
+ */
+.code {
+  padding: 0 var(--inset) 0 calc((var(--i, 0) + 2) * 1ch);
+  text-indent: calc((var(--i, 0) + 2) * -1ch);
+  vertical-align: baseline;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  /* Matches TAB_WIDTH in patch.ts, which measures indents. */
+  tab-size: 4;
+}
+
+.table[data-wrap="scroll"] .code {
+  padding-inline-start: 0;
+  text-indent: 0;
+  white-space: pre;
+}
+
+.code mark {
+  padding: 0;
+  border-radius: var(--radius-sm);
+  color: inherit;
+}
+
+.line[data-kind="add"] mark {
+  background: var(--diff-add-word);
+}
+
+.line[data-kind="del"] mark {
+  background: var(--diff-del-word);
+}
+
+/* Focus targets that run card edge to card edge draw their ring inside, where the card cannot clip it. */
+.line:focus-visible,
+.hunkHead:focus-visible,
+.lines:focus-visible {
+  outline-offset: calc(var(--focus-offset) * -1 - var(--focus-ring));
+}
+
+.fold {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-3);
+  padding: var(--row-y) var(--inset);
+  border-top: var(--hairline) solid var(--line-soft);
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-leading);
+  font-weight: var(--text-label-weight);
+}
+
+/* The over-the-limit summary: the shared state row's geometry, with a link where a tag would sit. */
+.message {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--row-y) var(--inset);
+}
+
+.messageMark {
+  margin-top: calc((var(--text-row-title-size) * var(--text-row-title-leading) - var(--mark)) / 2);
+}
+
+.messageText {
+  display: grid;
+  flex-grow: 1;
+  gap: var(--space-1);
+  min-inline-size: 0;
+}
+
+.messageLine {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+
+.messageTitle {
+  min-inline-size: 0;
+  color: var(--ink);
+  font-size: var(--text-row-title-size);
+  line-height: var(--text-row-title-leading);
+  font-weight: var(--text-row-title-weight);
+}
+
+.messageMeta {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+}
+
+/* Skeleton cells sit on the real line height, so nothing reflows when the lines land. */
+.skNum,
+.skCode {
+  block-size: var(--code-leading);
+  padding: 0;
+  vertical-align: middle;
+}
+
+.skNum {
+  inline-size: 1%;
+  padding-inline-start: var(--space-3);
+  font-size: var(--text-meta-size);
+}
+
+.skNum .skBlock {
+  margin-inline: 1ch 0;
+}
+
+.skCode {
+  padding-inline: calc(var(--i, 0) * 1ch) var(--inset);
+}

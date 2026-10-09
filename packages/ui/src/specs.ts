@@ -22,6 +22,9 @@ import { comparisonSpec } from './components/Comparison/schema'
 import { distributionSpec } from './components/Distribution/schema'
 import { heatmapSpec } from './components/Heatmap/schema'
 import { stepsSpec } from './components/Steps/schema'
+import { warmingUpSpec } from './components/WarmingUp/schema'
+import { fileTreeSpec } from './components/FileTree/schema'
+import { diffViewSpec } from './components/DiffView/schema'
 import { createRegistry } from './registry'
 
 // Created here, not in registry.ts, so a hot reload of the specs starts from an empty registry.
@@ -34,6 +37,9 @@ registry.register(insightSpec)
 registry.register(timelineSpec)
 registry.register(lineChartSpec)
 registry.register(actionCardSpec)
+registry.register(diffViewSpec)
+registry.register(fileTreeSpec)
+registry.register(warmingUpSpec)
 registry.register(stepsSpec)
 registry.register(heatmapSpec)
 registry.register(distributionSpec)

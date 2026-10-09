@@ -68,9 +68,9 @@ A designed component is done when: its five states and three densities render on
 - [ ] 2.11a TextInput, Select, FilterChips as fields sharing `--control-h`; the two error kinds; validation wording written by the system.
 - [ ] 2.11b Form, composing the three fields.
 - [x] 2.12 Steps, using `Spine`.
-- [ ] 2.13 WarmingUp, built against the `WarmingStatus` type in `docs/schemas.md`.
-- [ ] 2.14a DiffView: fold at 40, stop at 1,000, soft wrap by default, scroll for indentation-significant files, `<mark>` word highlights.
-- [ ] 2.14b FileTree: middle truncation, open all at 20 or fewer, 3,000-file cap, the phone layout.
+- [x] 2.13 WarmingUp, built against the `WarmingStatus` type in `docs/schemas.md`.
+- [x] 2.14a DiffView: fold at 40, stop at 1,000, soft wrap by default, scroll for indentation-significant files, `<mark>` word highlights.
+- [x] 2.14b FileTree: middle truncation, open all at 20 or fewer, 3,000-file cap, the phone layout.
 - [ ] 2.15a Data primitives, charts and lists: BarChart, ActivityFeed, PersonList, Checklist. Rule: five states, three densities, schema, `motion.ts`, `sample.json`, render tests; no preview to compare, so the executor checks them against the nearest designed sibling (BarChart against LineChart, lists against StatusList).
 - [ ] 2.15b Data primitives, text and blocks: KeyValue, Callout, CodeBlock, Progress, EmptyState. Same rule as 2.15a.
 - [x] 2.15c Layout primitives, default state only, `pickable: false`, no `sample.json`, a one-line README stub "layout has no data": Surface, Section, Stack, Grid, SplitView, Drawer, Tabs, Heading, Text, List, Avatar. Button and Ask keep their existing READMEs (Ask's 60ms stagger and key hints are superseded by decisions 12 and 56).
