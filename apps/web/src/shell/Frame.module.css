@@ -17,6 +17,8 @@
 
 .wrap {
   inline-size: 100%;
+  /* The gutter lives here too, so a page that uses the header and footer without the whole frame (the catalog) keeps it. */
+  --gutter: var(--space-7);
   max-inline-size: calc(var(--page-max) + 2 * var(--gutter));
   margin-inline: auto;
   padding-inline: var(--gutter);
@@ -141,6 +143,10 @@
 /* raw-ok: media conditions cannot read custom properties; these are the shell's breakpoints. */
 @media (max-width: 639px) {
   .page {
+    --gutter: var(--space-4);
+  }
+
+  .wrap {
     --gutter: var(--space-4);
   }
 
