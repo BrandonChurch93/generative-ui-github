@@ -1,0 +1,158 @@
+.page,
+.bench {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.head {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-section-size);
+  line-height: var(--text-section-leading);
+  font-weight: var(--text-section-weight);
+}
+
+.description {
+  max-width: 68ch;
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-leading);
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.note {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  letter-spacing: var(--text-meta-tracking);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: var(--space-5);
+}
+
+.demo {
+  display: grid;
+  align-items: center;
+  min-block-size: calc(var(--space-8) * 1.5);
+  padding: var(--card-y) var(--inset);
+}
+
+.buttons {
+  display: flex;
+  gap: var(--space-2);
+  padding: 0 var(--inset) var(--card-y);
+}
+
+.button {
+  block-size: var(--hit);
+  padding: 0 var(--space-3);
+  border: var(--hairline) solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-label-size);
+  font-weight: var(--text-label-weight);
+  cursor: pointer;
+}
+
+.button:hover {
+  border-color: var(--line-strong);
+}
+
+.sentence {
+  margin: 0;
+  font-size: var(--insight-size);
+  line-height: var(--text-insight-leading);
+  font-weight: var(--text-insight-weight);
+}
+
+.track {
+  position: relative;
+  display: block;
+  block-size: var(--space-2);
+  border-radius: var(--radius-xs);
+  background: var(--line-soft);
+}
+
+.bar {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-xs);
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transform: scaleX(0.72);
+  transform-origin: left center;
+}
+
+.rows {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-row-title-size);
+  line-height: var(--text-row-title-leading);
+  font-weight: var(--text-row-title-weight);
+}
+
+.plot {
+  inline-size: 100%;
+  overflow: visible;
+}
+
+.plot path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.number {
+  font-size: var(--metric-size);
+  line-height: 1;
+  font-weight: var(--text-metric-weight);
+  letter-spacing: var(--text-metric-tracking);
+  font-variant-numeric: tabular-nums;
+}
+
+.bloomHost {
+  position: relative;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  font-size: var(--text-label-size);
+  font-weight: var(--text-label-weight);
+}
+
+.bloomLayer {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  box-shadow: var(--bloom);
+  opacity: 0;
+}
+
+.miniCard {
+  padding: var(--space-3) var(--space-4);
+  border: var(--hairline) solid var(--line-soft);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--card);
+  font-size: var(--text-body-size);
+}

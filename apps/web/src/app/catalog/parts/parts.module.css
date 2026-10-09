@@ -1,0 +1,115 @@
+.page {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.head {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-section-size);
+  line-height: var(--text-section-leading);
+  font-weight: var(--text-section-weight);
+}
+
+.description {
+  max-width: 68ch;
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-leading);
+}
+
+.gallery {
+  display: grid;
+  gap: var(--region-gap);
+  max-width: 40rem;
+}
+
+.marks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin: 0;
+  padding: var(--card-y) var(--inset);
+  list-style: none;
+}
+
+.marks li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  letter-spacing: var(--text-meta-tracking);
+}
+
+.inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin: 0;
+  padding: var(--card-y) var(--inset);
+}
+
+.rowMark {
+  margin-top: calc((var(--text-row-title-size) * var(--text-row-title-leading) - var(--mark)) / 2);
+}
+
+.rowText {
+  display: grid;
+  gap: var(--space-1);
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.rowTitle {
+  overflow: hidden;
+  font-size: var(--text-row-title-size);
+  line-height: var(--text-row-title-leading);
+  font-weight: var(--text-row-title-weight);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.rowMeta {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  letter-spacing: var(--text-meta-tracking);
+}
+
+.skeleton {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--card-y) var(--inset);
+}
+
+.spineHost {
+  position: relative;
+  padding: var(--row-y) 0;
+}
+
+.spineRow {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: 0;
+  padding: var(--space-2) var(--inset);
+  font-size: var(--text-row-title-size);
+  line-height: var(--text-row-title-leading);
+}
+
+.frameNote {
+  margin: 0;
+  padding: var(--card-y) var(--inset) calc(var(--card-y) + var(--bar));
+  color: var(--muted);
+}

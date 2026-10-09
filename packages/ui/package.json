@@ -8,7 +8,8 @@
     "./registry": "./src/specs.ts",
     "./catalog": "./src/catalog/index.ts",
     "./motion": "./src/motion/index.ts",
-    "./styles.css": "./src/styles/global.css"
+    "./styles.css": "./src/styles/global.css",
+    "./rows.module.css": "./src/styles/rows.module.css"
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",

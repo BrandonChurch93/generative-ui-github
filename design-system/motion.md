@@ -13,7 +13,7 @@ The house curve is `cubic-bezier(.25, 1, .5, 1)` (GSAP `power3.out`) for arrival
 | count | A number runs from its previous value to the new one, tabular, one decimal at most | 800ms · `power2.out` | metric numbers, the latency figure, percentages |
 | bloom | Warmth rises behind a piece and settles back | 700ms up · 700ms down · `power2.out` | cards the model flagged, the action card on arrival |
 
-Container pieces (cards) arrive with a 10px rise and opacity over 550ms, then their contents run their own moves inside. A card never scales.
+Container pieces (cards) arrive with a 10px rise and opacity over 550ms, then their contents run their own moves inside. A card never scales. A card leaves by sinking the same 10px with opacity over 350ms, `power2.in`, the exit speed of slide and extend.
 
 ## Entrance
 
@@ -42,6 +42,19 @@ A rewrite is a new composition replacing the current one after a click or a new 
 ## Update
 
 Live data changing under a composition that is not being rewritten: numbers count, bars extend or retract to the new length, a new row slides into place while its neighbors move with Flip. No exits, no rises.
+
+## Interaction speed
+
+What the reader does answers faster than what the screen composes. These run on the reader's own actions, never on arrival:
+
+| Interaction | Duration | Ease |
+| --- | --- | --- |
+| message wipe (a validation or status line replacing another) | 350ms | `power3.inOut` |
+| menu (Select options, the density menu) opening and closing | 180ms | `power3.out` in · `power2.in` out |
+| fold (DiffView's folded lines, a FileTree folder) opening and closing | 350ms | `power3.inOut` |
+| chip choose (a FilterChips or question chip taking the selection) | 150 to 200ms | `power3.out` |
+
+The values live in `packages/ui/src/motion/motion.ts` as `INTERACTION`.
 
 ## Reduced motion
 

@@ -1,5 +1,6 @@
 .group {
   display: inline-flex;
+  inline-size: fit-content;
   align-items: center;
   padding: var(--space-1);
   border: var(--hairline) solid var(--line);

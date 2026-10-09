@@ -49,19 +49,30 @@
   border-radius: 50%;
 }
 
+/* Nodes and endpoints keep the 10px mark column and draw a smaller dot at its center, so rows line up. */
 .mark[data-kind="node"],
 .mark[data-kind="endpoint"] {
   border: 0;
-  box-shadow: 0 0 0 var(--ring) var(--surface);
 }
 
-.mark[data-kind="node"] {
+.mark[data-kind="node"]::before,
+.mark[data-kind="endpoint"]::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 50%;
+  box-shadow: 0 0 0 var(--ring) var(--surface);
+  transform: translate(-50%, -50%);
+}
+
+.mark[data-kind="node"]::before {
   inline-size: var(--node);
   block-size: var(--node);
   background: var(--muted);
 }
 
-.mark[data-kind="endpoint"] {
+.mark[data-kind="endpoint"]::before {
   inline-size: var(--endpoint);
   block-size: var(--endpoint);
   background: var(--accent);
