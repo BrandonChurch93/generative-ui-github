@@ -3,8 +3,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useId, useRef, useState, useSyncExternalStore, type ComponentType } from 'react'
-import { RepoChip, type PieceRenderProps } from '@genui-github/ui'
-import { PIECES } from '@genui-github/ui/pieces'
+import { RepoChip, TextInput as TextInputPiece, type PieceRenderProps } from '@genui-github/ui'
 import type { TextInput } from '@genui-github/ui/schemas'
 import { Frame } from '../shell/Frame'
 import { lastRepo, onLastRepoChange } from '../shell/lastRepo'
@@ -17,7 +16,7 @@ import { parseRepo, repoPath } from './repoInput'
 export type { LandingPreview }
 
 type HeroProps = TextInput.TextInputProps
-const Field = PIECES.TextInput!.Component as ComponentType<PieceRenderProps<HeroProps>>
+const Field = TextInputPiece as unknown as ComponentType<PieceRenderProps<HeroProps>>
 
 /** The hero's words, all the system's. */
 const HERO = {

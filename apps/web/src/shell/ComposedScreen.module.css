@@ -1,6 +1,8 @@
 /* The composed screen's stack: chrome, answer, strip, each a region gap apart. */
 .screen {
   --edge: calc(var(--inset) + var(--hairline));
+  /* The answer arrives after the page paints; holding the fold keeps the footer from jumping down when it does. */
+  min-block-size: calc(100dvh - var(--nav-h));
   display: flex;
   flex-direction: column;
   gap: var(--region-gap);

@@ -5,7 +5,10 @@ import { createPortal } from 'react-dom'
 import { AnimatePresence, motion, useReducedMotion, type Variants } from 'motion/react'
 import { Tag } from '@genui-github/ui'
 import { MOVES, REDUCED, riseVariants } from '@genui-github/ui/motion'
-import { REGION_NAMES, type Built, type Piece, type RegionName, type StreamTree } from '@genui-github/renderer'
+import type { Built, Piece, RegionName, StreamTree } from '@genui-github/renderer'
+
+// Reading order, as the renderer's format names it; a value import from the renderer would load its schemas here.
+const REGION_NAMES: readonly RegionName[] = ['insight', 'metrics', 'main', 'side', 'action']
 import styles from './Drawer.module.css'
 import type { Served } from './useComposition'
 import { ago, clock, MIDDOT, modelName, pieceCount, plural, seconds, templateLine } from './words'

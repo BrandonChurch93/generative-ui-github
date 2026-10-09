@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 'react'
 import { useReducedMotion } from 'motion/react'
 import { Mark, type Density } from '@genui-github/ui'
-import { emptyTree, Renderer, type AskEvent, type StreamTree } from '@genui-github/renderer'
+import dynamic from 'next/dynamic'
+import type { AskEvent, StreamTree } from '@genui-github/renderer'
 import { Chrome } from './Chrome'
 import { rememberRepo } from './lastRepo'
 import { Drawer, PieceDrawer, type PieceDrawerContent } from './Drawer'
@@ -23,6 +24,12 @@ export interface ComposedScreenProps {
   /** A dev flag that forces one of the special screens. */
   force?: string
 }
+
+// The renderer and the schemas it validates with are most of the page's script; the answer arrives after the
+// page paints, so they load after it too, and the question, the first thing read, never waits on them.
+const Renderer = dynamic(() => import('@genui-github/renderer').then(m => m.Renderer), { ssr: false })
+
+const blankTree = (density: StreamTree['density']): StreamTree => ({ asks: [], regions: { insight: [], metrics: [], main: [], side: [], action: [] }, done: true, id: 'replay', density })
 
 const DENSITY_KEY = 'genui:density'
 const DENSITIES: readonly Density[] = ['compact', 'comfortable', 'spacious']
@@ -121,7 +128,7 @@ export function ComposedScreen({ owner, name, question: initial, sampleDay, forc
     return () => window.removeEventListener('keydown', onKey)
   }, [state.phase, drawer, pieceDrawer])
 
-  const blank = useMemo<StreamTree>(() => ({ ...emptyTree(), id: 'replay', density: tree.density, done: true }), [tree.density])
+  const blank = useMemo<StreamTree>(() => blankTree(tree.density), [tree.density])
 
   // The hand-off from WarmingUp: the card leaves before the answer arrives, so the regions growing above it
   // never push it down while it exits (design-system/motion.md, WarmingUp exit).

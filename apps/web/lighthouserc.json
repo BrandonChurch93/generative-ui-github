@@ -3,16 +3,36 @@
     "collect": {
       "startServerCommand": "next start -p 3102",
       "startServerReadyPattern": "Ready",
-      "url": ["http://localhost:3102/"],
-      "numberOfRuns": 1,
-      "settings": { "chromeFlags": "--headless=new" }
+      "url": [
+        "http://localhost:3102/",
+        "http://localhost:3102/r/vercel/next.js?q=What%27s%20blocking%20the%20next%20release%3F"
+      ],
+      "numberOfRuns": 3,
+      "settings": {
+        "chromeFlags": "--headless=new"
+      }
     },
     "assert": {
       "assertions": {
-        "categories:performance": ["error", { "minScore": 0.9 }],
-        "categories:accessibility": ["error", { "minScore": 0.95 }]
+        "categories:performance": [
+          "error",
+          {
+            "minScore": 0.9,
+            "aggregationMethod": "median"
+          }
+        ],
+        "categories:accessibility": [
+          "error",
+          {
+            "minScore": 0.95,
+            "aggregationMethod": "median"
+          }
+        ]
       }
     },
-    "upload": { "target": "filesystem", "outputDir": ".lighthouseci" }
+    "upload": {
+      "target": "filesystem",
+      "outputDir": ".lighthouseci"
+    }
   }
 }

@@ -3,7 +3,11 @@
 import Link from 'next/link'
 import { useSyncExternalStore, type ReactNode } from 'react'
 import { RepoChip } from '@genui-github/ui'
-import { Renderer, type Composition } from '@genui-github/renderer'
+import dynamic from 'next/dynamic'
+import type { Composition } from '@genui-github/renderer'
+
+// Decoration below the fold on a phone: it loads after the page paints.
+const Renderer = dynamic(() => import('@genui-github/renderer').then(m => m.Renderer), { ssr: false })
 import { MIDDOT, modelName, pieceCount, plural, seconds, templateLine } from '../shell/words'
 import { repoPath } from './repoInput'
 import styles from './Landing.module.css'

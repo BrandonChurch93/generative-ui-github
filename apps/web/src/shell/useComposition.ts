@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { WarmingStatus } from '@genui-github/data'
-import { createStreamParser, emptyTree, type StreamTree } from '@genui-github/renderer'
+import type { StreamTree } from '@genui-github/renderer'
 
 // The client half of POST /api/compose: send the question, read the JSONL into a tree as it arrives, and
 // while GitHub counts, ask again on the warming schedule with the status the last answer carried.
@@ -37,6 +37,8 @@ export interface CompositionState {
   /** Set while the answer is the WarmingUp screen. */
   warming?: WarmingStatus
 }
+
+const emptyTree = (): StreamTree => ({ asks: [], regions: { insight: [], metrics: [], main: [], side: [], action: [] }, done: false })
 
 const warmingIn = (tree: StreamTree): WarmingStatus | undefined => {
   const piece = tree.regions.main.find(p => p.component === 'WarmingUp')
@@ -92,6 +94,9 @@ export function useComposition(repo: string, ask: Question | null, force?: strin
         cachedAt: response.headers.get('x-genui-cached-at') ?? undefined,
         capped: response.headers.get('x-genui-capped') ?? undefined,
       }
+      // The parser validates every op against the schemas, which load with the first answer, not with the page.
+      const { createStreamParser } = await import('@genui-github/renderer/core')
+      if (abort.signal.aborted) return
       const parser = createStreamParser()
       const reader = response.body.pipeThrough(new TextDecoderStream()).getReader()
       try {

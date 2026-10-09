@@ -19,6 +19,8 @@ const config: NextConfig = {
     '/evals': ['../../packages/evals/results/**'],
   },
   turbopack: { root: repoRoot },
+  // The styles are small and every page needs them at first paint: inlined, they stop blocking it.
+  experimental: { inlineCss: true },
 }
 
 export default config
