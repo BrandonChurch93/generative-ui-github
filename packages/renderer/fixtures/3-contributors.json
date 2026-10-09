@@ -1,0 +1,618 @@
+{
+  "id": "cmp-contributors",
+  "density": "comfortable",
+  "regions": {
+    "insight": [
+      {
+        "id": "insight:answer",
+        "component": "Insight",
+        "props": {
+          "sentence": "Three people made 61% of commits in the last 90 days, and the bus factor is 2.",
+          "sources": [
+            {
+              "key": "contributors"
+            },
+            {
+              "key": "bus-factor"
+            }
+          ],
+          "tone": "warn"
+        },
+        "bound": {
+          "sentence": "Three people made 61% of commits in the last 90 days, and the bus factor is 2.",
+          "sources": [
+            {
+              "key": "contributors"
+            },
+            {
+              "key": "bus-factor"
+            }
+          ],
+          "tone": "warn",
+          "sourceMap": {
+            "contributors": {
+              "words": "900 commits by 48 authors",
+              "numbers": [
+                48,
+                900,
+                3,
+                61,
+                90
+              ]
+            },
+            "bus-factor": {
+              "words": "bus factor",
+              "numbers": [
+                2
+              ]
+            }
+          },
+          "facts": [
+            "last 90 days"
+          ]
+        }
+      }
+    ],
+    "metrics": [
+      {
+        "id": "metric:contributors",
+        "component": "Metric",
+        "props": {
+          "measure": "contributors",
+          "label": "Contributors",
+          "delta": "in the last 90 days"
+        },
+        "cites": [
+          90
+        ],
+        "bound": {
+          "measure": "contributors",
+          "format": "count",
+          "label": "Contributors",
+          "value": 48,
+          "delta": "in the last 90 days",
+          "windowWords": "last 90 days"
+        }
+      },
+      {
+        "id": "metric:bus-factor",
+        "component": "Metric",
+        "props": {
+          "measure": "bus-factor",
+          "label": "Bus factor",
+          "delta": "down from 3 in June",
+          "deltaTone": "crit",
+          "hot": true
+        },
+        "cites": [
+          3
+        ],
+        "bound": {
+          "measure": "bus-factor",
+          "format": "count",
+          "label": "Bus factor",
+          "value": 2,
+          "delta": "down from 3 in June",
+          "deltaTone": "crit",
+          "hot": true
+        }
+      },
+      {
+        "id": "metric:core-share",
+        "component": "Metric",
+        "props": {
+          "measure": "core-share",
+          "label": "Core share",
+          "delta": "62% from the community"
+        },
+        "cites": [
+          62
+        ],
+        "bound": {
+          "measure": "core-share",
+          "format": "count",
+          "label": "Core share",
+          "value": 38,
+          "suffix": "%",
+          "delta": "62% from the community",
+          "windowWords": "last 90 days"
+        }
+      },
+      {
+        "id": "metric:awaiting-review",
+        "component": "Metric",
+        "props": {
+          "measure": "awaiting-review",
+          "label": "Awaiting review",
+          "delta": "oldest waiting 6 days",
+          "deltaTone": "crit",
+          "hot": true
+        },
+        "ask": "What's blocking the next release?",
+        "cites": [
+          6
+        ],
+        "bound": {
+          "measure": "awaiting-review",
+          "format": "count",
+          "label": "Awaiting review",
+          "value": 3,
+          "delta": "oldest waiting 6 days",
+          "deltaTone": "crit",
+          "hot": true,
+          "windowWords": "milestone v16.2"
+        }
+      }
+    ],
+    "main": [
+      {
+        "id": "rank:commits:90d",
+        "component": "ContributorRank",
+        "props": {
+          "title": "Merged commits by author",
+          "meta": "last 90 days",
+          "measure": "commits",
+          "limit": 8,
+          "wallTone": "risk"
+        },
+        "bound": {
+          "title": "Merged commits by author",
+          "meta": "last 90 days",
+          "measure": "commits",
+          "limit": 8,
+          "wallTone": "risk",
+          "people": [
+            {
+              "handle": "ando-m",
+              "count": 300,
+              "lastActive": "2026-10-07T00:00:00.000Z",
+              "lastWords": "last commit 1d ago",
+              "ask": "What is ando-m working on?"
+            },
+            {
+              "handle": "petra-v",
+              "count": 200,
+              "lastActive": "2026-10-07T00:00:00.000Z",
+              "lastWords": "last commit 1d ago",
+              "ask": "What is petra-v working on?"
+            },
+            {
+              "handle": "qline",
+              "count": 49,
+              "lastActive": "2026-10-06T00:00:00.000Z",
+              "lastWords": "last commit 2d ago",
+              "ask": "What is qline working on?"
+            },
+            {
+              "handle": "jo-reyes",
+              "count": 80,
+              "lastActive": "2026-10-05T00:00:00.000Z",
+              "lastWords": "last commit 3d ago",
+              "ask": "What is jo-reyes working on?"
+            },
+            {
+              "handle": "h-tanaka",
+              "count": 60,
+              "lastActive": "2026-10-04T00:00:00.000Z",
+              "lastWords": "last commit 4d ago",
+              "ask": "What is h-tanaka working on?"
+            },
+            {
+              "handle": "luz-a",
+              "count": 40,
+              "lastActive": "2026-10-02T00:00:00.000Z",
+              "lastWords": "last commit 6d ago",
+              "ask": "What is luz-a working on?"
+            },
+            {
+              "handle": "ferro",
+              "count": 30,
+              "lastActive": "2026-09-29T00:00:00.000Z",
+              "lastWords": "last commit 9d ago",
+              "ask": "What is ferro working on?"
+            },
+            {
+              "handle": "kwame-o",
+              "count": 21,
+              "lastActive": "2026-09-26T00:00:00.000Z",
+              "lastWords": "last commit 12d ago",
+              "ask": "What is kwame-o working on?"
+            },
+            {
+              "handle": "contrib-01",
+              "count": 3,
+              "lastActive": "2026-09-24T00:00:00.000Z",
+              "lastWords": "last commit 14d ago",
+              "ask": "What is contrib-01 working on?"
+            },
+            {
+              "handle": "contrib-02",
+              "count": 3,
+              "lastActive": "2026-09-23T00:00:00.000Z",
+              "lastWords": "last commit 15d ago",
+              "ask": "What is contrib-02 working on?"
+            },
+            {
+              "handle": "contrib-03",
+              "count": 3,
+              "lastActive": "2026-09-22T00:00:00.000Z",
+              "lastWords": "last commit 16d ago",
+              "ask": "What is contrib-03 working on?"
+            },
+            {
+              "handle": "contrib-04",
+              "count": 3,
+              "lastActive": "2026-09-21T00:00:00.000Z",
+              "lastWords": "last commit 17d ago",
+              "ask": "What is contrib-04 working on?"
+            },
+            {
+              "handle": "contrib-05",
+              "count": 3,
+              "lastActive": "2026-09-20T00:00:00.000Z",
+              "lastWords": "last commit 18d ago",
+              "ask": "What is contrib-05 working on?"
+            },
+            {
+              "handle": "contrib-06",
+              "count": 3,
+              "lastActive": "2026-09-19T00:00:00.000Z",
+              "lastWords": "last commit 19d ago",
+              "ask": "What is contrib-06 working on?"
+            },
+            {
+              "handle": "contrib-07",
+              "count": 3,
+              "lastActive": "2026-09-18T00:00:00.000Z",
+              "lastWords": "last commit 20d ago",
+              "ask": "What is contrib-07 working on?"
+            },
+            {
+              "handle": "contrib-08",
+              "count": 3,
+              "lastActive": "2026-09-17T00:00:00.000Z",
+              "lastWords": "last commit 21d ago",
+              "ask": "What is contrib-08 working on?"
+            },
+            {
+              "handle": "contrib-09",
+              "count": 3,
+              "lastActive": "2026-09-16T00:00:00.000Z",
+              "lastWords": "last commit 22d ago",
+              "ask": "What is contrib-09 working on?"
+            },
+            {
+              "handle": "contrib-10",
+              "count": 3,
+              "lastActive": "2026-09-15T00:00:00.000Z",
+              "lastWords": "last commit 23d ago",
+              "ask": "What is contrib-10 working on?"
+            },
+            {
+              "handle": "contrib-11",
+              "count": 3,
+              "lastActive": "2026-09-14T00:00:00.000Z",
+              "lastWords": "last commit 24d ago",
+              "ask": "What is contrib-11 working on?"
+            },
+            {
+              "handle": "contrib-12",
+              "count": 3,
+              "lastActive": "2026-09-13T00:00:00.000Z",
+              "lastWords": "last commit 25d ago",
+              "ask": "What is contrib-12 working on?"
+            },
+            {
+              "handle": "contrib-13",
+              "count": 3,
+              "lastActive": "2026-09-12T00:00:00.000Z",
+              "lastWords": "last commit 26d ago",
+              "ask": "What is contrib-13 working on?"
+            },
+            {
+              "handle": "contrib-14",
+              "count": 3,
+              "lastActive": "2026-09-11T00:00:00.000Z",
+              "lastWords": "last commit 27d ago",
+              "ask": "What is contrib-14 working on?"
+            },
+            {
+              "handle": "contrib-15",
+              "count": 3,
+              "lastActive": "2026-09-10T00:00:00.000Z",
+              "lastWords": "last commit 28d ago",
+              "ask": "What is contrib-15 working on?"
+            },
+            {
+              "handle": "contrib-16",
+              "count": 3,
+              "lastActive": "2026-09-09T00:00:00.000Z",
+              "lastWords": "last commit 29d ago",
+              "ask": "What is contrib-16 working on?"
+            },
+            {
+              "handle": "contrib-17",
+              "count": 3,
+              "lastActive": "2026-09-08T00:00:00.000Z",
+              "lastWords": "last commit 30d ago",
+              "ask": "What is contrib-17 working on?"
+            },
+            {
+              "handle": "contrib-18",
+              "count": 3,
+              "lastActive": "2026-09-07T00:00:00.000Z",
+              "lastWords": "last commit 31d ago",
+              "ask": "What is contrib-18 working on?"
+            },
+            {
+              "handle": "contrib-19",
+              "count": 3,
+              "lastActive": "2026-09-06T00:00:00.000Z",
+              "lastWords": "last commit 32d ago",
+              "ask": "What is contrib-19 working on?"
+            },
+            {
+              "handle": "contrib-20",
+              "count": 3,
+              "lastActive": "2026-09-05T00:00:00.000Z",
+              "lastWords": "last commit 33d ago",
+              "ask": "What is contrib-20 working on?"
+            },
+            {
+              "handle": "contrib-21",
+              "count": 3,
+              "lastActive": "2026-09-04T00:00:00.000Z",
+              "lastWords": "last commit 34d ago",
+              "ask": "What is contrib-21 working on?"
+            },
+            {
+              "handle": "contrib-22",
+              "count": 3,
+              "lastActive": "2026-09-03T00:00:00.000Z",
+              "lastWords": "last commit 35d ago",
+              "ask": "What is contrib-22 working on?"
+            },
+            {
+              "handle": "contrib-23",
+              "count": 3,
+              "lastActive": "2026-09-02T00:00:00.000Z",
+              "lastWords": "last commit 36d ago",
+              "ask": "What is contrib-23 working on?"
+            },
+            {
+              "handle": "contrib-24",
+              "count": 3,
+              "lastActive": "2026-09-01T00:00:00.000Z",
+              "lastWords": "last commit 37d ago",
+              "ask": "What is contrib-24 working on?"
+            },
+            {
+              "handle": "contrib-25",
+              "count": 3,
+              "lastActive": "2026-08-31T00:00:00.000Z",
+              "lastWords": "last commit 38d ago",
+              "ask": "What is contrib-25 working on?"
+            },
+            {
+              "handle": "contrib-26",
+              "count": 3,
+              "lastActive": "2026-08-30T00:00:00.000Z",
+              "lastWords": "last commit 39d ago",
+              "ask": "What is contrib-26 working on?"
+            },
+            {
+              "handle": "contrib-27",
+              "count": 3,
+              "lastActive": "2026-08-29T00:00:00.000Z",
+              "lastWords": "last commit 40d ago",
+              "ask": "What is contrib-27 working on?"
+            },
+            {
+              "handle": "contrib-28",
+              "count": 3,
+              "lastActive": "2026-08-28T00:00:00.000Z",
+              "lastWords": "last commit 41d ago",
+              "ask": "What is contrib-28 working on?"
+            },
+            {
+              "handle": "contrib-29",
+              "count": 3,
+              "lastActive": "2026-08-27T00:00:00.000Z",
+              "lastWords": "last commit 42d ago",
+              "ask": "What is contrib-29 working on?"
+            },
+            {
+              "handle": "contrib-30",
+              "count": 3,
+              "lastActive": "2026-08-26T00:00:00.000Z",
+              "lastWords": "last commit 43d ago",
+              "ask": "What is contrib-30 working on?"
+            },
+            {
+              "handle": "contrib-31",
+              "count": 3,
+              "lastActive": "2026-08-25T00:00:00.000Z",
+              "lastWords": "last commit 44d ago",
+              "ask": "What is contrib-31 working on?"
+            },
+            {
+              "handle": "contrib-32",
+              "count": 3,
+              "lastActive": "2026-08-24T00:00:00.000Z",
+              "lastWords": "last commit 45d ago",
+              "ask": "What is contrib-32 working on?"
+            },
+            {
+              "handle": "contrib-33",
+              "count": 3,
+              "lastActive": "2026-08-23T00:00:00.000Z",
+              "lastWords": "last commit 46d ago",
+              "ask": "What is contrib-33 working on?"
+            },
+            {
+              "handle": "contrib-34",
+              "count": 3,
+              "lastActive": "2026-08-22T00:00:00.000Z",
+              "lastWords": "last commit 47d ago",
+              "ask": "What is contrib-34 working on?"
+            },
+            {
+              "handle": "contrib-35",
+              "count": 3,
+              "lastActive": "2026-08-21T00:00:00.000Z",
+              "lastWords": "last commit 48d ago",
+              "ask": "What is contrib-35 working on?"
+            },
+            {
+              "handle": "contrib-36",
+              "count": 3,
+              "lastActive": "2026-08-20T00:00:00.000Z",
+              "lastWords": "last commit 49d ago",
+              "ask": "What is contrib-36 working on?"
+            },
+            {
+              "handle": "contrib-37",
+              "count": 3,
+              "lastActive": "2026-08-19T00:00:00.000Z",
+              "lastWords": "last commit 50d ago",
+              "ask": "What is contrib-37 working on?"
+            },
+            {
+              "handle": "contrib-38",
+              "count": 3,
+              "lastActive": "2026-08-18T00:00:00.000Z",
+              "lastWords": "last commit 51d ago",
+              "ask": "What is contrib-38 working on?"
+            },
+            {
+              "handle": "contrib-39",
+              "count": 3,
+              "lastActive": "2026-08-17T00:00:00.000Z",
+              "lastWords": "last commit 52d ago",
+              "ask": "What is contrib-39 working on?"
+            },
+            {
+              "handle": "contrib-40",
+              "count": 3,
+              "lastActive": "2026-08-16T00:00:00.000Z",
+              "lastWords": "last commit 53d ago",
+              "ask": "What is contrib-40 working on?"
+            }
+          ]
+        }
+      }
+    ],
+    "side": [
+      {
+        "id": "linechart:core-share+community-share",
+        "component": "LineChart",
+        "props": {
+          "title": "Who commits",
+          "meta": "share of commits · last 12 weeks",
+          "series": [
+            {
+              "measure": "core-share",
+              "name": "Core"
+            },
+            {
+              "measure": "community-share",
+              "name": "Community"
+            }
+          ],
+          "window": "12w",
+          "finding": "Core commits fell from 44% to 38% of the total in 12 weeks."
+        },
+        "bound": {
+          "title": "Who commits",
+          "meta": "share of commits · last 12 weeks",
+          "unit": "percent",
+          "weeks": [
+            "2026-07-20",
+            "2026-07-27",
+            "2026-08-03",
+            "2026-08-10",
+            "2026-08-17",
+            "2026-08-24",
+            "2026-08-31",
+            "2026-09-07",
+            "2026-09-14",
+            "2026-09-21",
+            "2026-09-28",
+            "2026-10-05"
+          ],
+          "series": [
+            {
+              "name": "Core",
+              "points": [
+                44,
+                43,
+                45,
+                42,
+                41,
+                42,
+                40,
+                41,
+                39,
+                40,
+                39,
+                38
+              ]
+            },
+            {
+              "name": "Community",
+              "points": [
+                56,
+                57,
+                55,
+                58,
+                59,
+                58,
+                60,
+                59,
+                61,
+                60,
+                61,
+                62
+              ]
+            }
+          ],
+          "finding": "Core commits fell from 44% to 38% of the total in 12 weeks."
+        }
+      }
+    ],
+    "action": []
+  },
+  "asks": [
+    {
+      "label": "Release blockers",
+      "ask": "What's blocking the next release?"
+    },
+    {
+      "label": "New contributors",
+      "ask": "Where would a new contributor start?"
+    }
+  ],
+  "built": {
+    "template": "contributors",
+    "model": "claude-haiku-5-5",
+    "tokens": {
+      "input": 2810,
+      "cached": 5703,
+      "output": 164
+    },
+    "costUsd": 0.0004,
+    "latencyMs": {
+      "classify": 280,
+      "data": 1610,
+      "compose": 0,
+      "total": 1890
+    },
+    "githubReads": 6,
+    "chose": [
+      "Insight",
+      "Metric × 4",
+      "ContributorRank",
+      "LineChart"
+    ]
+  }
+}

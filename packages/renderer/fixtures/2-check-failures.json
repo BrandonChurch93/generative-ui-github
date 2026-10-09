@@ -1,0 +1,352 @@
+{
+  "id": "cmp-check-failures",
+  "density": "comfortable",
+  "regions": {
+    "insight": [
+      {
+        "id": "insight:answer",
+        "component": "Insight",
+        "props": {
+          "sentence": "Two checks fail on `canary`. `test-unit (windows)` has failed 4 of the last 5 runs.",
+          "sources": [
+            {
+              "key": "failing-checks"
+            },
+            {
+              "key": "workflow-runs",
+              "ask": "Is CI getting slower?"
+            }
+          ],
+          "tone": "crit"
+        },
+        "bound": {
+          "sentence": "Two checks fail on `canary`. `test-unit (windows)` has failed 4 of the last 5 runs.",
+          "sources": [
+            {
+              "key": "failing-checks"
+            },
+            {
+              "key": "workflow-runs",
+              "ask": "Is CI getting slower?"
+            }
+          ],
+          "tone": "crit",
+          "sourceMap": {
+            "failing-checks": {
+              "words": "14 check runs on canary",
+              "numbers": [
+                2,
+                14
+              ]
+            },
+            "workflow-runs": {
+              "words": "the last 5 runs",
+              "numbers": [
+                4,
+                5
+              ]
+            }
+          },
+          "facts": [
+            "branch canary"
+          ]
+        }
+      }
+    ],
+    "metrics": [
+      {
+        "id": "metric:failing-checks",
+        "component": "Metric",
+        "props": {
+          "measure": "failing-checks",
+          "label": "Failing checks",
+          "delta": "both on canary",
+          "deltaTone": "crit",
+          "hot": true
+        },
+        "ask": "Which checks are failing on canary?",
+        "bound": {
+          "measure": "failing-checks",
+          "format": "count",
+          "label": "Failing checks",
+          "value": 2,
+          "suffix": "of 14",
+          "delta": "both on canary",
+          "deltaTone": "crit",
+          "hot": true
+        }
+      },
+      {
+        "id": "metric:failing-since",
+        "component": "Metric",
+        "props": {
+          "measure": "failing-since",
+          "label": "Failing since",
+          "delta": "test-unit (windows)",
+          "deltaTone": "crit",
+          "hot": true
+        },
+        "bound": {
+          "measure": "failing-since",
+          "format": "count",
+          "label": "Failing since",
+          "value": 4,
+          "suffix": "runs",
+          "delta": "test-unit (windows)",
+          "deltaTone": "crit",
+          "hot": true
+        }
+      },
+      {
+        "id": "metric:ci-p50",
+        "component": "Metric",
+        "props": {
+          "measure": "ci-p50",
+          "label": "CI p50",
+          "delta": "up from 13.2 in 12 weeks",
+          "deltaTone": "warn"
+        },
+        "cites": [
+          13.2,
+          12
+        ],
+        "bound": {
+          "measure": "ci-p50",
+          "format": "count",
+          "label": "CI p50",
+          "value": 18.4,
+          "suffix": "min",
+          "delta": "up from 13.2 in 12 weeks",
+          "deltaTone": "warn"
+        }
+      },
+      {
+        "id": "metric:flaky-rate",
+        "component": "Metric",
+        "props": {
+          "measure": "flaky-rate",
+          "label": "Flaky rate",
+          "delta": "of 63 runs passed on rerun"
+        },
+        "cites": [
+          63
+        ],
+        "bound": {
+          "measure": "flaky-rate",
+          "format": "count",
+          "label": "Flaky rate",
+          "value": 14,
+          "suffix": "%",
+          "delta": "of 63 runs passed on rerun",
+          "windowWords": "last 30 days"
+        }
+      }
+    ],
+    "main": [
+      {
+        "id": "statuslist:check:branch-canary",
+        "component": "StatusList",
+        "props": {
+          "kind": "check",
+          "title": "Checks on canary",
+          "meta": "latest run",
+          "scope": {
+            "branch": "canary"
+          },
+          "sort": "duration",
+          "limit": 5
+        },
+        "bound": {
+          "kind": "check",
+          "title": "Checks on canary",
+          "meta": "latest run",
+          "items": [
+            {
+              "id": "test-unit-windows",
+              "title": "test-unit (windows)",
+              "meta": "failed 4 of the last 5 runs",
+              "state": "failed",
+              "value": {
+                "durationMin": 22.4
+              }
+            },
+            {
+              "id": "e2e-turbopack",
+              "title": "e2e-turbopack",
+              "meta": "failed the last run",
+              "state": "failed",
+              "value": {
+                "durationMin": 31
+              }
+            },
+            {
+              "id": "test-unit-linux",
+              "title": "test-unit (linux)",
+              "meta": "passed the last 5 runs",
+              "state": "passed",
+              "value": {
+                "durationMin": 14.2
+              }
+            },
+            {
+              "id": "build",
+              "title": "build",
+              "meta": "passed the last 5 runs",
+              "state": "passed",
+              "value": {
+                "durationMin": 9.8
+              }
+            },
+            {
+              "id": "lint",
+              "title": "lint",
+              "meta": "passed the last 5 runs",
+              "state": "passed",
+              "value": {
+                "durationMin": 3.1
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "side": [
+      {
+        "id": "linechart:ci-p50",
+        "component": "LineChart",
+        "props": {
+          "title": "CI duration",
+          "meta": "p50 · last 12 weeks",
+          "series": [
+            {
+              "measure": "ci-p50",
+              "name": "p50"
+            }
+          ],
+          "failures": true,
+          "window": "12w",
+          "finding": "Failed runs rose from 3 to 12 a week as p50 reached 18.4 min."
+        },
+        "emphasis": "high",
+        "bound": {
+          "title": "CI duration",
+          "meta": "p50 · last 12 weeks",
+          "unit": "min",
+          "weeks": [
+            "2026-07-20",
+            "2026-07-27",
+            "2026-08-03",
+            "2026-08-10",
+            "2026-08-17",
+            "2026-08-24",
+            "2026-08-31",
+            "2026-09-07",
+            "2026-09-14",
+            "2026-09-21",
+            "2026-09-28",
+            "2026-10-05"
+          ],
+          "series": [
+            {
+              "name": "p50",
+              "points": [
+                13.2,
+                13.6,
+                13.1,
+                14,
+                14.4,
+                14.1,
+                15.2,
+                15.8,
+                15.5,
+                16.9,
+                17.6,
+                18.4
+              ]
+            }
+          ],
+          "failures": [
+            3,
+            2,
+            4,
+            3,
+            5,
+            4,
+            6,
+            9,
+            7,
+            8,
+            11,
+            12
+          ],
+          "finding": "Failed runs rose from 3 to 12 a week as p50 reached 18.4 min."
+        }
+      }
+    ],
+    "action": [
+      {
+        "id": "actioncard:rerun-checks:e2e-turbopack+test-unit (windows)",
+        "component": "ActionCard",
+        "props": {
+          "heading": "Re-run the two failing checks",
+          "body": "Re-runs both failed jobs on canary, which tells a flaky failure from a real one. Nothing merges.",
+          "primary": "Re-run checks",
+          "effect": {
+            "kind": "rerun-checks",
+            "targets": [
+              "test-unit (windows)",
+              "e2e-turbopack"
+            ]
+          }
+        },
+        "bound": {
+          "heading": "Re-run the two failing checks",
+          "body": "Re-runs both failed jobs on canary, which tells a flaky failure from a real one. Nothing merges.",
+          "primary": "Re-run checks",
+          "effect": {
+            "kind": "rerun-checks",
+            "targets": [
+              "test-unit (windows)",
+              "e2e-turbopack"
+            ]
+          },
+          "mode": "sample"
+        }
+      }
+    ]
+  },
+  "asks": [
+    {
+      "label": "CI speed",
+      "ask": "Is CI getting slower?"
+    },
+    {
+      "label": "Release blockers",
+      "ask": "What's blocking the next release?"
+    }
+  ],
+  "built": {
+    "template": "check-failures",
+    "model": "claude-haiku-5-5",
+    "tokens": {
+      "input": 2810,
+      "cached": 5703,
+      "output": 164
+    },
+    "costUsd": 0.0004,
+    "latencyMs": {
+      "classify": 280,
+      "data": 980,
+      "compose": 0,
+      "total": 1260
+    },
+    "githubReads": 6,
+    "chose": [
+      "Insight",
+      "Metric × 4",
+      "StatusList",
+      "LineChart",
+      "ActionCard"
+    ]
+  }
+}

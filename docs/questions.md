@@ -45,3 +45,17 @@ The `lead` type style in `tokens.json` is a fixed 22px. The WarmingUp README say
 
 - Assumed: each component's props are written as a TypeScript-like signature generated from its JSON Schema (`{measure: Measure; label?: string(≤28); hot?: boolean}`), with a short legend at the top. Same names, optional marks, enums and limits. The count is 5,703 tokens (`packages/ui/fixtures/prompt-tokens.json`).
 - Check: that this is acceptable. If the composer evals in Phase 7 show the model reads JSON Schema better, the cut would have to come from elsewhere (dropping the examples saves about 900 tokens).
+
+## 3.1 · Bound props travel beside the model's props
+
+`docs/schemas.md` gives `Piece` one `props` field "validated against that component's schema", and `docs/composer.md` says the fixtures "carry system-bound props". The two cannot be one object: the model-facing schemas are strict and differ in shape from what the components render (LineChart's model `series` is `{ measure, name }`, its rendered `series` is `{ name, points }`), and stable ids derive from the model's props.
+
+- Assumed: `Piece.props` stays the model's props (validated, used for the id). System fields sit beside it: `bound` (what the component renders; absent means the skeleton), `state`, `error`, `warming`, and `cites` (numbers a Metric delta may quote beyond its own value). An `update` op's `props` replaces `bound`, since the model's choices never change without a rewrite. All in `packages/renderer/src/format.ts`.
+- Check: that this is acceptable before Phase 5 builds the bind step to it; if so, add the system fields to `docs/schemas.md`.
+
+## 3.1 · Fixture 1's insight sentence is one character over the limit
+
+The sentence in `docs/composer.md` ("... The milestone closes in 4 days.") is 121 characters; Insight's `sentence` caps at 120.
+
+- Assumed: fixture 1 says "It closes in 4 days." instead. Same facts and numbers.
+- Check: whether the cap should be 140 instead. Real sentences of this shape will hit 120 often.

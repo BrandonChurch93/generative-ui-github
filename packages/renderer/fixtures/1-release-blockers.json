@@ -1,0 +1,387 @@
+{
+  "id": "cmp-release-blockers",
+  "density": "comfortable",
+  "regions": {
+    "insight": [
+      {
+        "id": "insight:answer",
+        "component": "Insight",
+        "props": {
+          "sentence": "v16.2 is held by three pull requests waiting on review and one failing check on `canary`. It closes in 4 days.",
+          "sources": [
+            {
+              "key": "open-prs"
+            },
+            {
+              "key": "failing-checks",
+              "ask": "Which checks are failing on canary?"
+            },
+            {
+              "key": "milestone-closes"
+            }
+          ],
+          "tone": "warn"
+        },
+        "bound": {
+          "sentence": "v16.2 is held by three pull requests waiting on review and one failing check on `canary`. It closes in 4 days.",
+          "sources": [
+            {
+              "key": "open-prs"
+            },
+            {
+              "key": "failing-checks",
+              "ask": "Which checks are failing on canary?"
+            },
+            {
+              "key": "milestone-closes"
+            }
+          ],
+          "tone": "warn",
+          "sourceMap": {
+            "open-prs": {
+              "words": "7 open PRs",
+              "numbers": [
+                7,
+                3
+              ]
+            },
+            "failing-checks": {
+              "words": "14 check runs",
+              "numbers": [
+                1,
+                14
+              ]
+            },
+            "milestone-closes": {
+              "words": "closes Oct 12",
+              "numbers": [
+                4
+              ]
+            }
+          },
+          "facts": [
+            "milestone v16.2"
+          ]
+        }
+      }
+    ],
+    "metrics": [
+      {
+        "id": "metric:open-prs",
+        "component": "Metric",
+        "props": {
+          "measure": "open-prs",
+          "label": "Open PRs on milestone",
+          "delta": "2 merged this week"
+        },
+        "cites": [
+          2
+        ],
+        "bound": {
+          "measure": "open-prs",
+          "format": "count",
+          "label": "Open PRs on milestone",
+          "value": 7,
+          "delta": "2 merged this week",
+          "windowWords": "milestone v16.2"
+        }
+      },
+      {
+        "id": "metric:awaiting-review",
+        "component": "Metric",
+        "props": {
+          "measure": "awaiting-review",
+          "label": "Awaiting review",
+          "delta": "oldest waiting 6 days",
+          "deltaTone": "crit",
+          "hot": true
+        },
+        "cites": [
+          6
+        ],
+        "bound": {
+          "measure": "awaiting-review",
+          "format": "count",
+          "label": "Awaiting review",
+          "value": 3,
+          "delta": "oldest waiting 6 days",
+          "deltaTone": "crit",
+          "hot": true,
+          "windowWords": "milestone v16.2"
+        }
+      },
+      {
+        "id": "metric:failing-checks",
+        "component": "Metric",
+        "props": {
+          "measure": "failing-checks",
+          "label": "Failing checks",
+          "delta": "on canary",
+          "deltaTone": "crit",
+          "hot": true
+        },
+        "ask": "Which checks are failing on canary?",
+        "bound": {
+          "measure": "failing-checks",
+          "format": "count",
+          "label": "Failing checks",
+          "value": 1,
+          "suffix": "of 14",
+          "delta": "on canary",
+          "deltaTone": "crit",
+          "hot": true
+        }
+      },
+      {
+        "id": "metric:milestone-issues-open",
+        "component": "Metric",
+        "props": {
+          "measure": "milestone-issues-open",
+          "label": "Milestone issues open",
+          "delta": "15 closed",
+          "deltaTone": "good"
+        },
+        "cites": [
+          15
+        ],
+        "bound": {
+          "measure": "milestone-issues-open",
+          "format": "count",
+          "label": "Milestone issues open",
+          "value": 4,
+          "suffix": "of 19",
+          "delta": "15 closed",
+          "deltaTone": "good"
+        }
+      }
+    ],
+    "main": [
+      {
+        "id": "statuslist:pull:milestone-v16.2",
+        "component": "StatusList",
+        "props": {
+          "kind": "pull",
+          "title": "Milestone pull requests",
+          "meta": "sorted by wait",
+          "scope": {
+            "milestone": "v16.2"
+          },
+          "sort": "wait",
+          "limit": 5
+        },
+        "bound": {
+          "kind": "pull",
+          "title": "Milestone pull requests",
+          "meta": "sorted by wait",
+          "items": [
+            {
+              "id": "84120",
+              "title": "Turbopack: fix CSS chunk ordering in app router",
+              "meta": "#84120 · rhea-k · waiting 6d",
+              "state": "pending",
+              "value": {
+                "add": 412,
+                "del": 96
+              }
+            },
+            {
+              "id": "84156",
+              "title": "Router: keep search params through a redirect prefetch",
+              "meta": "#84156 · obi-n · waiting 5d",
+              "state": "pending",
+              "value": {
+                "add": 96,
+                "del": 31
+              }
+            },
+            {
+              "id": "84201",
+              "title": "Cache components: revalidate nested layouts once",
+              "meta": "#84201 · sdahl · waiting 4d",
+              "state": "pending",
+              "value": {
+                "add": 218,
+                "del": 140
+              }
+            },
+            {
+              "id": "84077",
+              "title": "Image: respect the quality list in remote patterns",
+              "meta": "#84077 · mvance · waiting 7d",
+              "state": "changes",
+              "value": {
+                "add": 64,
+                "del": 12
+              }
+            },
+            {
+              "id": "84188",
+              "title": "Dev overlay: show the owner stack for hydration errors",
+              "meta": "#84188 · ty-lau · waiting 3d",
+              "state": "failing",
+              "value": {
+                "add": 305,
+                "del": 77
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "side": [
+      {
+        "id": "linechart:ci-p50",
+        "component": "LineChart",
+        "props": {
+          "title": "CI duration",
+          "meta": "p50 · last 12 weeks",
+          "series": [
+            {
+              "measure": "ci-p50",
+              "name": "p50"
+            }
+          ],
+          "failures": true,
+          "window": "12w",
+          "finding": "CI p50 rose from 13.2 to 18.4 min over 12 weeks."
+        },
+        "bound": {
+          "title": "CI duration",
+          "meta": "p50 · last 12 weeks",
+          "unit": "min",
+          "weeks": [
+            "2026-07-20",
+            "2026-07-27",
+            "2026-08-03",
+            "2026-08-10",
+            "2026-08-17",
+            "2026-08-24",
+            "2026-08-31",
+            "2026-09-07",
+            "2026-09-14",
+            "2026-09-21",
+            "2026-09-28",
+            "2026-10-05"
+          ],
+          "series": [
+            {
+              "name": "p50",
+              "points": [
+                13.2,
+                13.6,
+                13.1,
+                14,
+                14.4,
+                14.1,
+                15.2,
+                15.8,
+                15.5,
+                16.9,
+                17.6,
+                18.4
+              ]
+            }
+          ],
+          "failures": [
+            3,
+            2,
+            4,
+            3,
+            5,
+            4,
+            6,
+            9,
+            7,
+            8,
+            11,
+            12
+          ],
+          "finding": "CI p50 rose from 13.2 to 18.4 min over 12 weeks."
+        }
+      }
+    ],
+    "action": [
+      {
+        "id": "actioncard:request-review:#84120+#84156+#84201",
+        "component": "ActionCard",
+        "props": {
+          "heading": "Ask for the three missing reviews",
+          "body": "Requests a review from the suggested reviewer on each pull request still waiting on one. Nothing merges.",
+          "primary": "Request reviews",
+          "secondary": {
+            "label": "Open milestone",
+            "ask": "What's left on the v16.2 milestone?"
+          },
+          "effect": {
+            "kind": "request-review",
+            "targets": [
+              "#84120",
+              "#84156",
+              "#84201"
+            ]
+          }
+        },
+        "bound": {
+          "heading": "Ask for the three missing reviews",
+          "body": "Requests a review from the suggested reviewer on each pull request still waiting on one. Nothing merges.",
+          "primary": "Request reviews",
+          "secondary": {
+            "label": "Open milestone",
+            "ask": "What's left on the v16.2 milestone?"
+          },
+          "effect": {
+            "kind": "request-review",
+            "targets": [
+              "#84120",
+              "#84156",
+              "#84201"
+            ]
+          },
+          "mode": "sample"
+        }
+      }
+    ]
+  },
+  "asks": [
+    {
+      "label": "Failing checks",
+      "ask": "Which checks are failing on canary?"
+    },
+    {
+      "label": "Review wait",
+      "ask": "How long until a maintainer reviews my PR?"
+    },
+    {
+      "label": "CI speed",
+      "ask": "Is CI getting slower?"
+    },
+    {
+      "label": "Contributors",
+      "ask": "Who's carrying this repo?"
+    }
+  ],
+  "built": {
+    "template": "release-blockers",
+    "model": "claude-haiku-5-5",
+    "tokens": {
+      "input": 2810,
+      "cached": 5703,
+      "output": 164
+    },
+    "costUsd": 0.0004,
+    "latencyMs": {
+      "classify": 280,
+      "data": 1240,
+      "compose": 0,
+      "total": 1520
+    },
+    "githubReads": 6,
+    "chose": [
+      "Insight",
+      "Metric × 4",
+      "StatusList",
+      "LineChart",
+      "ActionCard"
+    ]
+  }
+}
