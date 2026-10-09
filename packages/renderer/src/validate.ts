@@ -51,6 +51,11 @@ export interface ValidateOptions {
   registry?: Registry
   log?: WarnLog
   final?: boolean
+  /**
+   * True for a composition the model composed freely. The golden templates set grows pieces side by side on
+   * purpose (a timeline beside the people in it), so only a free composition is held to rule 4's grows pair.
+   */
+  free?: boolean
 }
 
 const defaultLog = createLogger('renderer:validate')
@@ -208,7 +213,7 @@ export function applyRules(regions: Record<RegionName, RenderNode[]>, options: V
   out.side = column(regions.side, 'side', heightOf, drop)
   const lead = (nodes: RenderNode[]) => nodes.find(n => n.component !== 'FilterChips')
   const [m, s] = [lead(out.main), lead(out.side)]
-  if (m && s && heightOf(m.component) === 'grows' && heightOf(s.component) === 'grows') {
+  if (options.free && m && s && heightOf(m.component) === 'grows' && heightOf(s.component) === 'grows') {
     drop(s, 'two grows pieces never share a row')
     out.side = out.side.filter(n => n !== s)
   }

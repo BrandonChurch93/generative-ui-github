@@ -72,7 +72,7 @@ describe('validation and fallback', () => {
         side: [rank],
         action: [...base.regions.action, { ...base.regions.action[0]!, id: 'actioncard:comment:#84120', props: { ...(base.regions.action[0]!.props as object), effect: { kind: 'comment', targets: ['#84120'] } } }],
       }),
-      { log },
+      { log, free: true },
     )
     expect(screen.regions.metrics.map(n => n.id)).toEqual(['metric:open-prs', 'metric:awaiting-review', 'metric:failing-checks'])
     expect(screen.regions.side).toEqual([])

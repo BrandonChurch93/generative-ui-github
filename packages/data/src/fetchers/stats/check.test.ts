@@ -79,4 +79,15 @@ describe('checkStats', () => {
     expect(client.requests).toBe(3 * 4 + 7 * 3)
     expect(misses).toEqual([])
   })
+
+  it('offline (a sample repo) never asks GitHub: a stat not cached is missing at once, a last copy is cached', async () => {
+    const { client } = fixtureClient('stats-warming')
+    const cache = memoryCache({ now: () => 0 })
+    const repo = { owner: 'acme', name: 'cold' }
+    await cache.set(cacheKey.stats(repo, LAST_COPY, 'stats.punchCard'), { timeZone: 'UTC', cells: [] }, null)
+    const { status } = await checkStats(client, repo, ['stats.contributors', 'stats.punchCard'], null, { cache, sha: 'abc', offline: true, now: () => 1000 })
+    expect(client.requests).toBe(0)
+    expect(status).toMatchObject({ phase: 'stopped', attempt: 1 })
+    expect(status!.stats.map(s => [s.id, s.state])).toEqual([['contributors', 'missing'], ['punch_card', 'cached']])
+  })
 })

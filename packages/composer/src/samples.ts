@@ -20,7 +20,7 @@ export async function sampleContext(repo: RepoRef, needs: ContextNeeds, options:
   const cache = memoryCache({ now: () => sample.now })
   await primeSample(cache, sample)
   const { client, calls } = noNetwork()
-  const ctx = await buildContext(client, cache, repo, needs, { now: sample.now, timeZone: options.timeZone ?? 'UTC', ttlSeconds: null })
+  const ctx = await buildContext(client, cache, repo, needs, { now: sample.now, timeZone: options.timeZone ?? 'UTC', ttlSeconds: null, offline: true })
   return { ctx, calls }
 }
 

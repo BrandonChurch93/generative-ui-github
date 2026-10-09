@@ -65,7 +65,7 @@ export const TEMPLATE_NEEDS: Record<TemplateId, TemplateNeeds> = {
   'merged-recent': {
     question: "What's been merged this week?",
     kind: 'golden',
-    shapes: ['repo', 'pulls', 'mergedByDay', 'stats.contributors', 'activity'],
+    shapes: ['repo', 'pulls', 'mergedByDay', 'stats.contributors', 'contributorShare', 'activity'],
     measures: ['prs-merged', 'contributors'],
   },
   'stale-issues': {
@@ -103,7 +103,7 @@ export const TEMPLATE_NEEDS: Record<TemplateId, TemplateNeeds> = {
   'punch-card': {
     question: 'When does this project get worked on?',
     kind: 'golden',
-    shapes: ['repo', 'stats.commitActivity', 'stats.punchCard', 'busiestHour', 'quietestDay'],
+    shapes: ['repo', 'pulls', 'stats.commitActivity', 'stats.punchCard', 'stats.contributors', 'contributorShare', 'busiestHour', 'quietestDay'],
     measures: ['busiest-hour', 'quietest-day', 'commits'],
   },
   'release-diff': {

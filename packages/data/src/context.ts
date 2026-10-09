@@ -76,11 +76,14 @@ export interface ContextOptions {
   timeZone?: string
   /** 900 for a live repo, null (never) for a sample. */
   ttlSeconds?: number | null
+  /** A sample repo: everything comes from the cache, and a stat that is not there is reported missing. */
+  offline?: boolean
   /** The status the last check returned, while stats are warming. */
   warming?: WarmingStatus | null
 }
 
-const DEPENDS: Partial<Record<ShapeName, ShapeName[]>> = {
+/** What each derived or follow-on shape is computed or fetched from. */
+export const DEPENDS: Partial<Record<ShapeName, ShapeName[]>> = {
   ciDurationByWeek: ['workflowRuns'],
   failureRateByWeek: ['workflowRuns'],
   runTiming: ['workflowRuns'],
@@ -131,7 +134,7 @@ export async function buildContext(client: GitHubClient, cache: Cache, ref: Repo
 
   const statNames = wanted.filter(isStat)
   const stats = statNames.length
-    ? await checkStats(client, ref, statNames, options.warming, { cache, sha, timeZone, ttlSeconds: ttl, now: () => now })
+    ? await checkStats(client, ref, statNames, options.warming, { cache, sha, timeZone, ttlSeconds: ttl, now: () => now, offline: options.offline })
     : { status: null, data: {}, unavailable: [] }
   Object.assign(shapes, stats.data)
 

@@ -12,6 +12,7 @@ import {
   type ShapeName,
 } from '@genui-github/data'
 import type { ErrorInfo } from '@genui-github/ui'
+import { DEPENDS } from '@genui-github/data/server'
 import type { DataContext } from './types'
 
 // Helpers the group A binders share: reading measures and shapes from the context, and the system's words
@@ -45,7 +46,17 @@ export function readMeasure<Id extends MeasureId>(ctx: DataContext, id: Id, opti
 
 /** The shapes a measure reads that the context does not hold. */
 export function measureGaps(ctx: DataContext, id: MeasureId, scope: MeasureScope = {}): ShapeName[] {
-  return measureNeeds(id, { ...ctx.scope, ...scope }).filter(n => !ctx.shapes[n])
+  return measureNeeds(id, { ...ctx.scope, ...scope }).filter(n => missing(ctx, n))
+}
+
+/**
+ * A shape is missing when it, or what it is made from, was never read. A derived shape whose inputs are all
+ * here but which came out absent means the data answered with nothing: empty, not missing.
+ */
+function missing(ctx: DataContext, name: ShapeName): boolean {
+  if (ctx.shapes[name]) return false
+  const from = DEPENDS[name]
+  return !from || from.some(n => missing(ctx, n))
 }
 
 /** "12m", "6h", "9d": how long ago, or how long, in the units a meta line uses. */

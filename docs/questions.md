@@ -115,3 +115,17 @@ GitHub answers `facebook/react` with 301 Moved Permanently to `react/react`. `do
 
 - Assumed: the sample is stored under the canonical `react/react`, and `facebook/react` is an alias, so a pasted old link still finds the sample (the resolver returns the canonical name from the API). The landing chip in Phase 6 shows `react/react`.
 - Check: that the landing should show the new name, and update the sample list in `docs/decisions.md` if so.
+
+## 5.3a · Rule 4 and the golden layouts disagree
+
+Composer rule 4 says two `grows` pieces never share a row, but `docs/golden-questions.md` sets them side by side in five templates (merged-recent and punch-card: Timeline or Heatmap with a PersonList; biggest-pr and pr-detail: DiffView with a FileTree; release-diff: Timeline with a FileTree; person: Timeline with a StatusList).
+
+- Assumed: the golden table is the design, so the grows pair is checked only for a free (off-template) composition, in both the composer and the renderer (`free` in `ValidateOptions`). Every other part of rule 4 applies to all compositions.
+- Check: whether those layouts should change instead (for example a chart or a fixed piece beside each list).
+
+## 5.3b · pr-detail shows the pull request's facts, not its checks
+
+`docs/golden-questions.md` stacks a StatusList of checks below pr-detail's DiffView, but the check runs in the data are the default branch head's, not the pull request's.
+
+- Assumed: a KeyValue of the pull request's own facts (author, size, review state, wait) takes that place. Fetching a pull request's own checks is one more call (`/commits/{head}/check-runs`) when that template runs.
+- Check: whether to add that call in Phase 6 so the checks list can come back.

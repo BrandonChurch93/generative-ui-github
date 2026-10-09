@@ -10,7 +10,7 @@ export function toScreen(source: Composition | StreamTree, options: ValidateOpti
     id: source.id ?? 'pending',
     density: source.density ?? 'comfortable',
     asks: source.asks,
-    regions: validateRegions(source.regions, { ...options, final }),
+    regions: validateRegions(source.regions, { free: source.built?.template === 'off-template', ...options, final }),
     built: source.built,
     error: tree?.error,
     final,

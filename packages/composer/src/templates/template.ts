@@ -41,7 +41,7 @@ export interface Template {
 }
 
 /** A region list without the gaps a template leaves when a piece does not apply to this repo. */
-export const pieces = (...list: (Piece | null | undefined | false)[]): Piece[] => list.filter((p): p is Piece => Boolean(p))
+export const pieces = (...list: (Piece | null | undefined | false | '')[]): Piece[] => list.filter((p): p is Piece => Boolean(p))
 
 export function regions(r: Partial<Regions>): Regions {
   return { insight: r.insight ?? [], metrics: r.metrics ?? [], main: r.main ?? [], side: r.side ?? [], action: r.action ?? [] }

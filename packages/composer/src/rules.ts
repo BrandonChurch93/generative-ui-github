@@ -82,7 +82,8 @@ export function enforceRules(composition: Composition, options: { question?: str
   const before = new Set(pieces.map(p => p.id))
   const silent = { warn: () => {} }
   const nodes = Object.fromEntries(REGION_NAMES.map(r => [r, composition.regions[r].map(p => validatePiece(p, r, { log: silent, final: true }))])) as Record<(typeof REGION_NAMES)[number], RenderNode[]>
-  const kept = applyRules(nodes, { log: { warn: (message, fields) => drop(String(fields?.id), String(fields?.rule ?? message)) } })
+  const kept = applyRules(nodes, {
+    free: composition.built.template === 'off-template', log: { warn: (message, fields) => drop(String(fields?.id), String(fields?.rule ?? message)) } })
   const keptIds = new Set(REGION_NAMES.flatMap(r => kept[r].map(n => n.id)))
   for (const r of REGION_NAMES) regions[r] = regions[r].filter(p => !before.has(p.id) || keptIds.has(p.id))
   if (!regions.insight.length) drop('insight:answer', 'the insight is always the first piece')

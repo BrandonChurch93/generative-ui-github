@@ -48,6 +48,8 @@ export interface CheckOptions {
   timeZone?: string
   /** TTL of the SHA-keyed entry: 900s for a live repo, null for a sample repo. */
   ttlSeconds?: number | null
+  /** Answer from the cache alone (a sample repo): a stat not there is missing, and GitHub is never asked. */
+  offline?: boolean
 }
 
 export interface StatsCheck {
@@ -97,7 +99,7 @@ export async function checkStats(
   const elapsedMs = Math.max(0, Math.round(now - Date.parse(startedAt)))
   // A caller that comes back late (a sleeping tab) skips the checks it missed rather than replaying them.
   const attempt = run ? Math.min(CHECKS, Math.max(run.attempt + 1, checksDue(elapsedMs))) : 1
-  const last = attempt === CHECKS
+  const last = attempt === CHECKS || options.offline === true
   const lastCopyTtl = ttlSeconds === null ? null : LAST_COPY_TTL_SECONDS
 
   async function check(shape: StatShapeName): Promise<Outcome> {
@@ -106,6 +108,10 @@ export async function checkStats(
     if (cache && sha) {
       const hit = await cache.get(cacheKey.stats(repo, sha, shape))
       if (hit) return { state: 'ready', value: hit.value, cachedAt: hit.cachedAt, landedAt }
+    }
+    if (options.offline) {
+      const copy = cache ? await cache.get(cacheKey.stats(repo, LAST_COPY, shape)) : null
+      return copy ? { state: 'cached', value: copy.value, cachedAt: copy.cachedAt } : { state: 'missing' }
     }
     const result = await FETCH[shape](client, repo)
     if (result === UNAVAILABLE) return { state: 'unavailable' }

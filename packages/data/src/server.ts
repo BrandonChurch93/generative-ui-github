@@ -6,7 +6,7 @@ export { cached, cacheKey, createCache, kvCache, LIVE_TTL_SECONDS, memoryCache, 
 export * from './fetchers/graphql'
 export * from './fetchers/rest'
 export * from './fetchers/stats'
-export { buildContext, closure, COMMITS_DAYS, RUN_WEEKS, type CachedShapes, type ContextNeeds, type ContextOptions, type DataContext } from './context'
+export { buildContext, closure, DEPENDS, COMMITS_DAYS, RUN_WEEKS, type CachedShapes, type ContextNeeds, type ContextOptions, type DataContext } from './context'
 export { estimateTokens, modelView } from './view'
 export { isBotLogin } from './github/person'
 export { isSample, primeSample, readSample, SAMPLE_DIR, SAMPLE_REPOS, sampleFileName, type SampleFile } from './samples'

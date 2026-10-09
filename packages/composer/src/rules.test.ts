@@ -40,8 +40,10 @@ describe('composition rules', () => {
     expect(rules(withRegions(one, { action: [...one.regions.action, second] }))).toEqual(['action holds at most 1'])
   })
 
-  it('4 · two grows pieces never share a row', () => {
-    expect(rules(withRegions(one, { side: three.regions.main }))).toEqual(['two grows pieces never share a row'])
+  it('4 · two grows pieces never share a row in a free composition; a designed template may pair them', () => {
+    const paired = withRegions(one, { side: three.regions.main })
+    expect(rules({ ...paired, built: { ...paired.built, template: 'off-template' } })).toEqual(['two grows pieces never share a row'])
+    expect(rules(paired)).toEqual([])
   })
 
   it("5 · a metric never repeats the rank band's words or a comparison's verdict", () => {
