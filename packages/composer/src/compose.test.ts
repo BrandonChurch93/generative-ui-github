@@ -2,12 +2,14 @@ import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { MODELS } from '@genui-github/core'
 import { dirFrom, memoryCache } from '@genui-github/data/server'
-import { builtSchema, type StreamOp } from '@genui-github/renderer/core'
+import { builtSchema, compositionSchema, createStreamParser, toComposition, type Piece, type StreamOp } from '@genui-github/renderer/core'
 import type { CallUsage, ModelClient } from './anthropic'
 import type { Classification } from './classify'
 import { composeResponse } from './http'
 import { dayOf, memoryLimits, VISITOR_LIMIT, type Limits } from './limits'
+import { nearEmptySentence, NEAR_EMPTY_REPO } from './nearEmpty'
 import { noNetwork } from './samples'
+import { checkTree } from './templates/template'
 import type { TemplateId } from './templates/needs'
 
 const usage: CallUsage = { model: MODELS.haiku, inputTokens: 900, cachedTokens: 600, cacheWriteTokens: 0, outputTokens: 40, costUsd: 0.0001, latencyMs: 5 }
@@ -41,8 +43,11 @@ function setup(route: TemplateId | 'off-template', limits: Limits = memoryLimits
   const m = models(route, streamed)
   const gh = noNetwork()
   const deps = () => ({ models: m.client, github: gh.client, cache: cache ?? memoryCache(), limits, dailyCapUsd: 5 })
-  const post = (body: object) =>
-    composeResponse(new Request('http://x/api/compose', { method: 'POST', body: JSON.stringify(body), headers: { 'user-agent': 'test', 'x-forwarded-for': '203.0.113.7' } }), deps)
+  const post = (body: object, force?: string) =>
+    composeResponse(
+      new Request(`http://x/api/compose${force ? `?force=${force}` : ''}`, { method: 'POST', body: JSON.stringify(body), headers: { 'user-agent': 'test', 'x-forwarded-for': '203.0.113.7' } }),
+      deps,
+    )
   return { post, modelCalls: m.calls, githubCalls: gh.calls }
 }
 
@@ -120,5 +125,58 @@ describe('POST /api/compose', () => {
     const { post } = setup('overview')
     const response = await post({ repo: 'https://gitlab.com/x/y', question: "How's this repo doing?" })
     expect([response.status, (await response.json()).message]).toEqual([400, 'Only github.com repos'])
+  })
+})
+
+describe('the force flags', () => {
+  const near = `${NEAR_EMPTY_REPO.owner}/${NEAR_EMPTY_REPO.name}`
+
+  it.each([
+    ["What's blocking the next release?", 'release-blockers'],
+    ['is anything on fire here', 'overview'],
+  ])('force=empty composes %j from the recorded tiny repo: zero model calls, zero GitHub calls, only empty states and real data', async (question, template) => {
+    const { post, modelCalls, githubCalls } = setup('ci-trend')
+    const response = await post({ repo: near, question, timeZone: 'UTC' }, 'empty')
+    expect(response.status).toBe(200)
+    const text = await response.text()
+    const composition = toComposition(createStreamParser().push(text))!
+    expect(compositionSchema.safeParse(composition).success).toBe(true)
+    expect(checkTree(composition, { question }).problems).toEqual([])
+    expect([modelCalls, githubCalls]).toEqual([[], []])
+    expect(composition.built).toMatchObject({ template, model: 'none', githubReads: 0, costUsd: 0 })
+    const pieces: Piece[] = Object.values(composition.regions).flat()
+    expect(pieces.map(p => p.state ?? 'data').filter(s => s !== 'data' && s !== 'empty')).toEqual([])
+    const insight = composition.regions.insight[0]!
+    expect((insight.props as { sentence: string }).sentence).toBe(nearEmptySentence(near, 4))
+    expect(pieces.some(p => p.state === 'empty')).toBe(true)
+  })
+
+  it('force=ratelimit refuses with 503, the system sentence and a real reset time', async () => {
+    const { post, modelCalls, githubCalls } = setup('ci-trend')
+    const before = Date.now()
+    const response = await post({ repo: 'vitejs/vite', question: 'Is CI getting slower?', timeZone: 'UTC' }, 'ratelimit')
+    expect(response.status).toBe(503)
+    const body = (await response.json()) as { error: string; message: string; resetAt: string }
+    const reset = Date.parse(body.resetAt)
+    expect(body.error).toBe('rate-limit')
+    expect(reset - before).toBeGreaterThan(10 * 60_000)
+    expect(reset - before).toBeLessThan(15 * 60_000)
+    const words = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC', timeZoneName: 'short' }).format(new Date(reset))
+    expect(body.message).toBe(`GitHub's rate limit resets at ${words}.`)
+    expect([modelCalls, githubCalls]).toEqual([[], []])
+  })
+
+  it('force=cap serves a golden answer with the capped header and refuses a live question with daily-cap', async () => {
+    const { post, modelCalls } = setup('ci-trend')
+    const golden = await post({ repo: 'vercel/next.js', question: "What's blocking the next release?" }, 'cap')
+    expect(golden.status).toBe(200)
+    expect(golden.headers.get('x-genui-served')).toBe('golden')
+    expect(Date.parse(golden.headers.get('x-genui-capped') ?? '')).toBe(Date.parse(`${dayOf(Date.now())}T00:00:00Z`) + 86_400_000)
+    expect((await ops(golden)).at(-1)!.op).toBe('done')
+
+    const live = await post({ repo: 'vercel/next.js', question: 'are builds taking longer' }, 'cap')
+    expect(live.status).toBe(429)
+    expect(await live.json()).toMatchObject({ error: 'daily-cap', message: 'Live questions are paused for today. Sample repos and cached answers still work.' })
+    expect(modelCalls).toEqual([])
   })
 })

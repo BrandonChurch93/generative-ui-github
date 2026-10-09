@@ -1,4 +1,5 @@
 import { CardFrame, Skeleton, SkeletonBlock, StateRow, Tag, TextLink, type MarkKind, type TagTone } from '../../parts'
+import { cx } from '../../parts/cx'
 import rows from '../../styles/rows.module.css'
 import type { PieceRenderProps } from '../../types'
 import { Sparkline } from '../Sparkline/Sparkline'
@@ -92,7 +93,7 @@ export function StatusList({ props, state, error, warming, onAsk, onRetry }: Pie
         </>
       )}
       {state === 'default' && !isEmpty && (
-        <ul className={rows.list}>
+        <ul className={cx(rows.list, rows.wrap)}>
           {items.map(item => {
             const tag = tagFor(kind, item.state)
             return (

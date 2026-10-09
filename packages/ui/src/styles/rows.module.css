@@ -111,3 +111,42 @@
   outline: var(--focus-ring) solid var(--focus);
   outline-offset: var(--focus-offset);
 }
+
+/*
+ * The wrap rule (decision 43): a narrow list never truncates. The title takes its own line and wraps, the
+ * meta follows, and the tag joins the meta line when both fit or wraps under it.
+ */
+.wrap {
+  container-type: inline-size;
+}
+
+@container (max-width: 29.99em) {
+  .wrap .row {
+    flex-wrap: wrap;
+    align-items: baseline;
+    row-gap: calc(var(--space-1) / 2);
+    padding-inline-start: calc(var(--inset) + var(--mark) + var(--space-3));
+  }
+
+  .wrap .mark {
+    position: absolute;
+    inset-inline-start: var(--inset);
+    inset-block-start: calc(var(--row-y) + (var(--text-row-title-size) * var(--text-row-title-leading) - var(--mark)) / 2);
+    margin: 0;
+  }
+
+  .wrap .text {
+    display: contents;
+  }
+
+  .wrap .title {
+    flex: 1 0 100%;
+    white-space: normal;
+    text-wrap: pretty;
+  }
+
+  .wrap .meta {
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+}

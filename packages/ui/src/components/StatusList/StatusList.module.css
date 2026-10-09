@@ -50,3 +50,10 @@
 .pill {
   border-radius: var(--radius-pill);
 }
+
+/* Under the wrap rule the size drops; the tag carries the row's state. */
+@container (max-width: 29.99em) {
+  .size {
+    display: none;
+  }
+}

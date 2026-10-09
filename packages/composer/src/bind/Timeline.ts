@@ -68,7 +68,12 @@ function commits(ctx: DataContext, props: TimelineModel): Found | null {
   const between = ctx.shapes.commitsBetweenTags
   const wantsRefs = scope.base !== undefined || scope.head !== undefined
   if (wantsRefs || (ctx.scope?.release && !scope.branch)) {
-    if (!between) return null
+    if (!between) {
+      // Fewer than two tags is not a failure to read: there is nothing to compare yet, which is data.
+      const rel = ctx.shapes.releases
+      if (rel && rel.tags.length < 2 && rel.releases.length < 2) return { items: [], empty: 'No two releases to compare yet' }
+      return null
+    }
     if ((scope.base && scope.base !== between.base) || (scope.head && scope.head !== between.head)) return null
     let list = [...between.commits]
     if (author) list = list.filter(c => sameLogin(c.author?.login, author))

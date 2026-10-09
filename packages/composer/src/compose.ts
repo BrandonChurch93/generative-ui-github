@@ -20,8 +20,9 @@ import { toStream, type Built, type Composition, type Piece, type StreamOp } fro
 import { sumUsage, type CallUsage, type ModelClient } from './anthropic'
 import { classify, type Classification } from './classify'
 import { fill } from './fill'
-import { goldenComposition } from './golden'
+import { goldenComposition, goldenQuestion } from './golden'
 import { dayOf, resetAt, VISITOR_LIMIT, type Limits } from './limits'
+import { nearEmptyContext, nearEmptyInsight } from './nearEmpty'
 import { composeOffTemplate } from './offTemplate'
 import { enforceRules } from './rules'
 import { primeSampleCache } from './samples'
@@ -85,8 +86,9 @@ export interface Notice {
 
 export type ComposeOutcome = { kind: 'stream'; ops: AsyncIterable<StreamOp>; notice: Notice } | { kind: 'refused'; refusal: Refusal }
 
+/** "17:58 UTC": the shell's clock, so the sentence and the tray name the same time the same way. */
 export const timeWords = (iso: string | undefined, zone = 'UTC') =>
-  iso ? new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit', timeZone: zone, timeZoneName: 'short' }).format(new Date(iso)) : 'a later time'
+  iso ? new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: zone, timeZoneName: 'short' }).format(new Date(iso)) : 'a later time'
 
 /**
  * A composed answer, kept as long as the data under it: what a share URL replays without a model call. Keyed
@@ -311,6 +313,47 @@ export function forcedWarming(repo: string, previous: WarmingStatus | null | und
   }
   const b: Built = { template: 'warming', model: 'none', tokens: { input: 0, cached: 0, output: 0 }, costUsd: 0, latencyMs: { classify: 0, data: 0, compose: 0, total: 0 }, githubReads: 0, chose: ['WarmingUp'] }
   return warmingScreen(`cmp-warming-${Date.parse(startedAt).toString(36)}`, { warming: status } as DataContext, b)
+}
+
+/**
+ * The `?force=empty` screen: the asked question's template, or the overview, composed against one real tiny
+ * repo recorded in `fixtures/near-empty/`. Offline and with no model call, so the prose is the system's own.
+ */
+export async function* forcedEmpty(question: string, timeZone?: string, now: () => number = Date.now): AsyncIterable<StreamOp> {
+  const started = now()
+  const template = goldenQuestion(question) ?? 'overview'
+  let ctx: DataContext
+  try {
+    ctx = (await nearEmptyContext(needsFor(template), knownZone(timeZone))).ctx
+  } catch (error) {
+    log.error('near-empty fixture unreadable', { error: (error as Error).message })
+    yield { op: 'error', reason: SYSTEM_SENTENCES.composeFailed }
+    return
+  }
+  const dataMs = now() - started
+  const screen = TEMPLATES[template]!.compose(ctx, {})
+  const lead = nearEmptyInsight(ctx)
+  const regionsOf = lead ? { ...screen.regions, insight: [lead] } : screen.regions
+  const composeMs = now() - started - dataMs
+  const composition: Composition = {
+    id: `cmp-empty-${template}`,
+    density: screen.density,
+    regions: regionsOf,
+    asks: screen.asks.slice(0, 4),
+    built: built(template, [], { classifyMs: 0, dataMs, composeMs, started, now }, ctx, chose(regionsOf)),
+  }
+  const { composition: kept } = enforceRules(composition, { question, log: quiet })
+  yield* replay({ ...kept, built: { ...kept.built, chose: chose(kept.regions) } })
+}
+
+function knownZone(zone: string | undefined): string {
+  if (!zone) return 'UTC'
+  try {
+    new Intl.DateTimeFormat('en-GB', { timeZone: zone })
+    return zone
+  } catch {
+    return 'UTC'
+  }
 }
 
 /** While GitHub counts: the WarmingUp card in main, which says the system sentence itself. */

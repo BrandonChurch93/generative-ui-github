@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import type { WarmingStatus } from '@genui-github/data'
 import type { StreamOp } from '@genui-github/renderer/core'
-import { compose, forcedWarming, SYSTEM_SENTENCES, timeWords, type ComposeDeps, type Notice, type Refusal } from './compose'
+import { compose, forcedEmpty, forcedWarming, SYSTEM_SENTENCES, timeWords, type ComposeDeps, type Notice, type Refusal } from './compose'
 import { visitorKey } from './limits'
 
 // POST /api/compose as a plain Request to Response, so the Next route is one line and tests need no server.
@@ -44,6 +44,8 @@ export async function composeResponse(request: Request, deps: (visitor: string) 
     const reset = new Date(Date.now() + 12 * 60_000).toISOString()
     return json(503, { error: 'rate-limit', kind: 'rate-limit', message: SYSTEM_SENTENCES.rateLimit(timeWords(reset, body.timeZone)), resetAt: reset })
   }
+  // A real tiny repo recorded once, composed offline: no limits apply, since nothing live is spent.
+  if (forced === 'empty') return stream(forcedEmpty(body.question, body.timeZone), {})
   if (forced === 'warming') {
     const ops = forcedWarming(body.repo, warming)
     if (ops) return stream(ops, {})

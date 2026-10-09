@@ -27,6 +27,14 @@ describe('bindTimeline', () => {
     expect(container.querySelectorAll('[data-row]')).toHaveLength(8)
   })
 
+  it('binds an empty state, not an error, when the repo has no two releases to compare', async () => {
+    const ctx = await nextContext()
+    const bare = { ...ctx, scope: { release: true }, shapes: { ...ctx.shapes, commitsBetweenTags: undefined, releases: { releases: [], tags: [], cachedAt: new Date(ctx.now).toISOString() } } }
+    const { node } = check(bindTimeline(bare, { title: 'Commits in this release', kind: 'commits', limit: 8 }))
+    expect(node.state).toBe('empty')
+    expect((node.props as { empty: string }).empty).toBe('No two releases to compare yet')
+  })
+
   it('binds the commits between the last two releases with short SHAs', async () => {
     const ctx = await nextContext()
     const piece = bindTimeline({ ...ctx, scope: { release: true } }, { title: 'Commits in this release', kind: 'commits', limit: 8 })
