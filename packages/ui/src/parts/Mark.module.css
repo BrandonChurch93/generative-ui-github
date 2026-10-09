@@ -62,7 +62,8 @@
   left: 50%;
   top: 50%;
   border-radius: 50%;
-  box-shadow: 0 0 0 var(--ring) var(--surface);
+  /* The ring parts the line beneath; a host on a tinted ground (a hovered row) sets --mark-ring. */
+  box-shadow: 0 0 0 var(--ring) var(--mark-ring, var(--surface));
   transform: translate(-50%, -50%);
 }
 

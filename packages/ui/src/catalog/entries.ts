@@ -11,6 +11,10 @@ import { statusListMotion } from '../components/StatusList/motion'
 import statusListSample from '../components/StatusList/sample.json'
 import type { StatusListProps } from '../components/StatusList/schema'
 import { StatusList } from '../components/StatusList/StatusList'
+import { timelineMotion } from '../components/Timeline/motion'
+import timelineSample from '../components/Timeline/sample.json'
+import type { TimelineProps } from '../components/Timeline/schema'
+import { Timeline } from '../components/Timeline/Timeline'
 import { sparklineMotion } from '../components/Sparkline/motion'
 import sparklineSample from '../components/Sparkline/sample.json'
 import { SparklineDemo } from '../components/Sparkline/SparklineDemo'
@@ -89,6 +93,18 @@ export const CATALOG: CatalogEntry[] = [
     motion: statusListMotion,
     sample: statusListSample as CatalogSample<StatusListProps>,
     sampleFile: 'StatusList/sample.json',
+    width: 'half',
+  }),
+  entry<TimelineProps>({
+    name: 'Timeline',
+    group: 'Data',
+    description:
+      'Merged pull requests as events in time, newest first and grouped by day, joined by a 1px spine so the card reads as time rather than as a list of states.',
+    spec: specOf('Timeline'),
+    Component: Timeline,
+    motion: timelineMotion,
+    sample: timelineSample as CatalogSample<TimelineProps>,
+    sampleFile: 'Timeline/sample.json',
     width: 'half',
   }),
   entry<InsightProps>({

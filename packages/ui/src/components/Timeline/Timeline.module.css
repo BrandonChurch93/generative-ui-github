@@ -1,0 +1,152 @@
+.body {
+  position: relative;
+}
+
+/* Day headings sit on the title edge: side padding, the 10px node column, then space-3. */
+.day {
+  margin: 0;
+  padding: var(--card-y) var(--inset) var(--space-1) calc(var(--inset) + var(--mark) + var(--space-3));
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-tag-weight);
+  letter-spacing: var(--text-meta-tracking);
+}
+
+.dayButton {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: var(--underline-offset);
+  cursor: pointer;
+}
+
+.dayButton:hover {
+  color: var(--ink);
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  position: relative;
+}
+
+/* The node sits in the mark column, centered on the title line, above the row's tint. */
+.node {
+  position: absolute;
+  z-index: 1;
+  left: var(--inset);
+  top: calc(var(--row-y) + (var(--text-row-title-size) * var(--text-row-title-leading) - var(--mark)) / 2);
+  pointer-events: none;
+}
+
+.item:has(> .row:hover) > .node {
+  --mark-ring: var(--surface-tint);
+}
+
+/* Every row is the system's inset rounded shape; the text keeps the content edge. */
+.row {
+  display: block;
+  margin: 0 var(--space-2);
+  padding: var(--row-y) calc(var(--inset) - var(--space-2)) var(--row-y) calc(var(--inset) - var(--space-2) + var(--mark) + var(--space-3));
+  border: 0;
+  border-radius: var(--radius-md);
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  text-decoration: none;
+  inline-size: calc(100% - var(--space-2) * 2);
+  cursor: pointer;
+}
+
+.row:hover {
+  background: var(--surface-tint);
+}
+
+.line {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+
+.title {
+  flex-grow: 1;
+  min-width: 0;
+  overflow: hidden;
+  font-size: var(--text-row-title-size);
+  line-height: var(--text-row-title-leading);
+  font-weight: var(--text-row-title-weight);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.size {
+  display: flex;
+  flex-shrink: 0;
+  gap: var(--space-1);
+  font-family: var(--font-mono);
+  font-size: var(--text-tag-size);
+  line-height: var(--text-tag-leading);
+  font-weight: var(--text-tag-weight);
+}
+
+.add {
+  color: var(--good);
+}
+
+/* Deletions right-aligned in 4ch so both columns stack down the card. */
+.del {
+  min-inline-size: 4ch;
+  color: var(--crit);
+  text-align: end;
+}
+
+.add[data-zero],
+.del[data-zero] {
+  color: var(--muted);
+}
+
+.meta {
+  display: block;
+  margin-top: calc(var(--space-1) / 2);
+  overflow: hidden;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  letter-spacing: var(--text-meta-tracking);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.skeletonRow {
+  position: relative;
+  display: grid;
+  gap: calc(var(--space-1) / 2);
+  padding: var(--row-y) var(--inset) var(--row-y) calc(var(--inset) + var(--mark) + var(--space-3));
+}
+
+.skeletonRow .line {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.skeletonNode {
+  position: absolute;
+  left: calc(var(--inset) + (var(--mark) - var(--node)) / 2);
+  top: calc(var(--row-y) + (var(--text-row-title-size) * var(--text-row-title-leading) - var(--node)) / 2);
+}

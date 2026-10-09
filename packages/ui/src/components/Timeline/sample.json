@@ -1,0 +1,30 @@
+{
+  "props": {
+    "title": "Merged into v16.2",
+    "meta": "last 14 days",
+    "kind": "merged",
+    "dayAsk": "What merged on {day}?",
+    "now": "2026-10-04T18:00:00Z",
+    "timeZone": "UTC",
+    "items": [
+      { "id": "84112", "title": "Router: keep scroll position on back navigation", "author": "mira-dev", "when": "2026-10-04T16:00:00Z", "add": 184, "del": 42, "url": "https://github.com/vercel/next.js/pull/84112" },
+      { "id": "84098", "title": "Turbopack: stable chunk ids across incremental rebuilds", "author": "tkato", "when": "2026-10-04T13:00:00Z", "add": 326, "del": 141, "url": "https://github.com/vercel/next.js/pull/84098" },
+      { "id": "84071", "title": "Cache components: revalidate tags from inside server actions", "author": "j-oduya", "when": "2026-10-02T15:00:00Z", "add": 97, "del": 18, "url": "https://github.com/vercel/next.js/pull/84071" },
+      { "id": "84063", "title": "Docs: caching and revalidating guide for v16.2", "author": "lenaw", "when": "2026-10-02T09:00:00Z", "add": 1204, "del": 318, "url": "https://github.com/vercel/next.js/pull/84063" },
+      { "id": "84039", "title": "Dev overlay: show hydration diffs for server components", "author": "pdubois", "when": "2026-09-30T11:00:00Z", "add": 254, "del": 37, "url": "https://github.com/vercel/next.js/pull/84039" }
+    ]
+  },
+  "empty": {
+    "title": "Merged into v17.0",
+    "meta": "none yet",
+    "kind": "merged",
+    "now": "2026-10-04T18:00:00Z",
+    "timeZone": "UTC",
+    "items": [],
+    "emptyTone": "neutral",
+    "empty": "Nothing merged into v17.0 yet",
+    "emptyMeta": "milestone opened 2d ago · 3 open pull requests"
+  },
+  "error": { "failed": "Couldn't load merged pull requests", "cause": "GitHub returned 502 · tried twice" },
+  "warming": { "counting": "GitHub is counting line changes", "nextCheck": "usually under a minute · checking again in 12s", "progress": 0.36 }
+}

@@ -52,7 +52,7 @@ A designed component is done when: its five states and three densities render on
 - [x] 2.1 Metric, with Sparkline as a part (`trend: true` renders it from the measure's series; the sample supplies the series directly).
 - [x] 2.2 StatusList with `kind` and per-kind state enums; tag words written by the system; Row as a part.
 - [x] 2.3 Insight, accepting a `sources` map prop that the renderer will supply in Phase 3; the number-validation function lives in `packages/ui/src/validate/numbers.ts` and is unit tested here.
-- [ ] 2.4 Timeline (`merged` and `commits` kinds, `dayAsk`), using `Spine`.
+- [x] 2.4 Timeline (`merged` and `commits` kinds, `dayAsk`), using `Spine`.
 - [ ] 2.5 LineChart (one series, two series, failure strip); Sparkline is a part and is not registered.
 
 `CHECKPOINT` · commit, status, continue.
