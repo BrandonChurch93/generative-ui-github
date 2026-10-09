@@ -1,0 +1,18 @@
+{
+  "id": "para-13-biggest-pr",
+  "repo": "vercel/next.js",
+  "question": "what is the largest pull request open right now",
+  "kind": "paraphrase",
+  "expect": {
+    "template": "biggest-pr",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "Metric",
+      "FileTree",
+      "DiffView",
+      "StatusList"
+    ]
+  }
+}

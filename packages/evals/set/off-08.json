@@ -1,0 +1,9 @@
+{
+  "id": "off-08",
+  "repo": "facebook/react",
+  "question": "what share of issues are bug reports",
+  "kind": "off-template",
+  "expect": {
+    "template": "off-template"
+  }
+}

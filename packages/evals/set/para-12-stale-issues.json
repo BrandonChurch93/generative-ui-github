@@ -1,0 +1,18 @@
+{
+  "id": "para-12-stale-issues",
+  "repo": "vercel/next.js",
+  "question": "which issues has nobody touched in a month",
+  "kind": "paraphrase",
+  "expect": {
+    "template": "stale-issues",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "FilterChips",
+      "StatusList",
+      "BarChart",
+      "ActionCard"
+    ]
+  }
+}

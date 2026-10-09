@@ -1,0 +1,19 @@
+{
+  "id": "para-03-release-blockers",
+  "repo": "vercel/next.js",
+  "question": "why hasn't the milestone shipped",
+  "kind": "paraphrase",
+  "expect": {
+    "template": "release-blockers",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "Metric",
+      "Metric",
+      "StatusList",
+      "LineChart",
+      "ActionCard"
+    ]
+  }
+}

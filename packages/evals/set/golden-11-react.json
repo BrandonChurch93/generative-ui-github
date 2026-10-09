@@ -1,0 +1,31 @@
+{
+  "id": "golden-11-react",
+  "repo": "facebook/react",
+  "question": "When does this project get worked on?",
+  "kind": "golden",
+  "expect": {
+    "template": "punch-card",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "Heatmap",
+      "PersonList"
+    ],
+    "bindings": [
+      {
+        "id": "metric:busiest-hour",
+        "prop": "value",
+        "equals": "measures.busiest-hour.value"
+      },
+      {
+        "id": "metric:quietest-day",
+        "prop": "value",
+        "equals": "measures.quietest-day.value"
+      }
+    ],
+    "sources": [
+      "stats.punchCard"
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "follow-05-cell",
+  "repo": "vercel/next.js",
+  "question": "What landed on Wednesdays around 4pm?",
+  "kind": "follow-up",
+  "from": {
+    "id": "heatmap:punch-card",
+    "ask": "What landed on Wednesdays around 4pm?"
+  },
+  "expect": {
+    "template": "merged-recent"
+  }
+}

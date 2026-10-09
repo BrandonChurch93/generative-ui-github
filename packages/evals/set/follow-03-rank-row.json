@@ -1,0 +1,21 @@
+{
+  "id": "follow-03-rank-row",
+  "repo": "vercel/next.js",
+  "question": "What has sokra been working on?",
+  "kind": "follow-up",
+  "from": {
+    "id": "rank:commits:90d",
+    "ask": "What has sokra been working on?"
+  },
+  "expect": {
+    "template": "person",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "Metric",
+      "Timeline",
+      "StatusList"
+    ]
+  }
+}

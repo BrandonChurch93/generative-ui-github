@@ -1,0 +1,32 @@
+{
+  "id": "golden-05-tailwindcss",
+  "repo": "tailwindlabs/tailwindcss",
+  "question": "What's been merged this week?",
+  "kind": "golden",
+  "expect": {
+    "template": "merged-recent",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "Timeline",
+      "PersonList"
+    ],
+    "bindings": [
+      {
+        "id": "metric:prs-merged",
+        "prop": "value",
+        "equals": "measures.prs-merged.value"
+      },
+      {
+        "id": "metric:contributors",
+        "prop": "value",
+        "equals": "measures.contributors.value"
+      }
+    ],
+    "sources": [
+      "pulls",
+      "mergedByDay"
+    ]
+  }
+}

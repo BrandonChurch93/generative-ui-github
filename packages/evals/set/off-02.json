@@ -1,0 +1,9 @@
+{
+  "id": "off-02",
+  "repo": "facebook/react",
+  "question": "who reviews the most PRs they didn't write",
+  "kind": "off-template",
+  "expect": {
+    "template": "off-template"
+  }
+}

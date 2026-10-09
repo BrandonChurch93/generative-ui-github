@@ -1,0 +1,15 @@
+{
+  "id": "para-14-new-contributor",
+  "repo": "vercel/next.js",
+  "question": "I want to contribute, where do I begin",
+  "kind": "paraphrase",
+  "expect": {
+    "template": "new-contributor",
+    "components": [
+      "Insight",
+      "Steps",
+      "Distribution",
+      "Checklist"
+    ]
+  }
+}

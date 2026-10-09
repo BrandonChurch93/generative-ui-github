@@ -1,0 +1,9 @@
+{
+  "id": "off-04",
+  "repo": "facebook/react",
+  "question": "which labels get closed fastest",
+  "kind": "off-template",
+  "expect": {
+    "template": "off-template"
+  }
+}

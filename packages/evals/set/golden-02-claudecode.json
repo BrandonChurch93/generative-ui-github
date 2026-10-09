@@ -1,0 +1,50 @@
+{
+  "id": "golden-02-claudecode",
+  "repo": "anthropics/claude-code",
+  "question": "What's blocking the next release?",
+  "kind": "golden",
+  "expect": {
+    "template": "release-blockers",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "Metric",
+      "Metric",
+      "StatusList",
+      "LineChart",
+      "ActionCard"
+    ],
+    "hot": [
+      "metric:awaiting-review",
+      "metric:failing-checks"
+    ],
+    "bindings": [
+      {
+        "id": "metric:open-prs",
+        "prop": "value",
+        "equals": "measures.open-prs.value"
+      },
+      {
+        "id": "metric:awaiting-review",
+        "prop": "value",
+        "equals": "measures.awaiting-review.value"
+      },
+      {
+        "id": "metric:failing-checks",
+        "prop": "value",
+        "equals": "measures.failing-checks.value"
+      },
+      {
+        "id": "metric:milestone-issues-open",
+        "prop": "value",
+        "equals": "measures.milestone-issues-open.value"
+      }
+    ],
+    "sources": [
+      "pulls",
+      "checks",
+      "milestones"
+    ]
+  }
+}

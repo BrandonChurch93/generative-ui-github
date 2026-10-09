@@ -1,0 +1,18 @@
+{
+  "id": "para-06-contributors",
+  "repo": "vercel/next.js",
+  "question": "who does most of the work here",
+  "kind": "paraphrase",
+  "expect": {
+    "template": "contributors",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "Metric",
+      "ContributorRank",
+      "LineChart",
+      "Heatmap"
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "id": "para-01-release-blockers",
+  "repo": "vercel/next.js",
+  "question": "what's holding up 16.2",
+  "kind": "paraphrase",
+  "expect": {
+    "template": "release-blockers",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "Metric",
+      "Metric",
+      "StatusList",
+      "LineChart",
+      "ActionCard"
+    ]
+  }
+}

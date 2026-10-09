@@ -1,0 +1,39 @@
+{
+  "id": "golden-09-claudecode",
+  "repo": "anthropics/claude-code",
+  "question": "How responsive are the maintainers?",
+  "kind": "golden",
+  "expect": {
+    "template": "responsiveness",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "Metric",
+      "ContributorRank",
+      "Distribution",
+      "LineChart"
+    ],
+    "bindings": [
+      {
+        "id": "metric:review-wait-median",
+        "prop": "value",
+        "equals": "measures.review-wait-median.value"
+      },
+      {
+        "id": "metric:closure-ratio",
+        "prop": "value",
+        "equals": "measures.closure-ratio.value"
+      },
+      {
+        "id": "metric:time-to-close-median",
+        "prop": "value",
+        "equals": "measures.time-to-close-median.value"
+      }
+    ],
+    "sources": [
+      "pulls",
+      "activity"
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "para-18-month-compare",
+  "repo": "vercel/next.js",
+  "question": "how does this month look against last month",
+  "kind": "paraphrase",
+  "expect": {
+    "template": "month-compare",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "Comparison",
+      "StatusList"
+    ]
+  }
+}

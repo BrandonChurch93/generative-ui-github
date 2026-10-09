@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react'
+import type { TagTone } from './tones'
 import styles from './Tag.module.css'
 
-export const TAG_TONES = ['good', 'warn', 'crit', 'quiet'] as const
-export type TagTone = (typeof TAG_TONES)[number]
+export { TAG_TONES, type TagTone } from './tones'
 
 /** State words on a 10% tint of their own color. The system writes the words; `quiet` is the neutral tag. */
 export function Tag({ tone, children }: { tone: TagTone; children: ReactNode }) {

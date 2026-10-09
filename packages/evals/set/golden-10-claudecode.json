@@ -1,0 +1,31 @@
+{
+  "id": "golden-10-claudecode",
+  "repo": "anthropics/claude-code",
+  "question": "Compare this month to last",
+  "kind": "golden",
+  "expect": {
+    "template": "month-compare",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "Comparison",
+      "StatusList"
+    ],
+    "bindings": [
+      {
+        "id": "metric:prs-merged",
+        "prop": "value",
+        "equals": "measures.prs-merged.value"
+      },
+      {
+        "id": "metric:review-wait-median",
+        "prop": "value",
+        "equals": "measures.review-wait-median.value"
+      }
+    ],
+    "sources": [
+      "monthCompare"
+    ]
+  }
+}

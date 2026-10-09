@@ -1,0 +1,9 @@
+{
+  "id": "off-01",
+  "repo": "vercel/next.js",
+  "question": "which files change most often",
+  "kind": "off-template",
+  "expect": {
+    "template": "off-template"
+  }
+}

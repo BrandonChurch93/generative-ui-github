@@ -9,9 +9,18 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "classify:record": "tsx scripts/classify-record.ts"
   },
   "dependencies": {
-    "@genui-github/data": "workspace:*"
+    "@anthropic-ai/sdk": "0.132.1",
+    "@genui-github/core": "workspace:*",
+    "@genui-github/data": "workspace:*",
+    "@genui-github/renderer": "workspace:*",
+    "@genui-github/ui": "workspace:*",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.15"
   }
 }

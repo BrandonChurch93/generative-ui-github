@@ -1,0 +1,19 @@
+{
+  "id": "para-04-overview",
+  "repo": "vercel/next.js",
+  "question": "quick health check on this repo",
+  "kind": "paraphrase",
+  "expect": {
+    "template": "overview",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "Metric",
+      "Metric",
+      "StatusList",
+      "LineChart",
+      "Checklist"
+    ]
+  }
+}

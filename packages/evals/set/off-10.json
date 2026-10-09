@@ -1,0 +1,9 @@
+{
+  "id": "off-10",
+  "repo": "facebook/react",
+  "question": "how many reviewers does a typical PR get",
+  "kind": "off-template",
+  "expect": {
+    "template": "off-template"
+  }
+}

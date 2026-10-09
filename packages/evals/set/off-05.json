@@ -1,0 +1,9 @@
+{
+  "id": "off-05",
+  "repo": "vercel/next.js",
+  "question": "do PRs from first-time contributors get merged",
+  "kind": "off-template",
+  "expect": {
+    "template": "off-template"
+  }
+}

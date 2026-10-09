@@ -1,0 +1,18 @@
+{
+  "id": "para-07-contributors",
+  "repo": "vercel/next.js",
+  "question": "what is the bus factor",
+  "kind": "paraphrase",
+  "expect": {
+    "template": "contributors",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "Metric",
+      "ContributorRank",
+      "LineChart",
+      "Heatmap"
+    ]
+  }
+}

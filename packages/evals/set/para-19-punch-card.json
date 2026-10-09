@@ -1,0 +1,16 @@
+{
+  "id": "para-19-punch-card",
+  "repo": "vercel/next.js",
+  "question": "what hours do people commit",
+  "kind": "paraphrase",
+  "expect": {
+    "template": "punch-card",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "Heatmap",
+      "PersonList"
+    ]
+  }
+}

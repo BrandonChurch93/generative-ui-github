@@ -1,0 +1,42 @@
+{
+  "id": "golden-03-react",
+  "repo": "facebook/react",
+  "question": "Who's carrying this repo?",
+  "kind": "golden",
+  "expect": {
+    "template": "contributors",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "Metric",
+      "ContributorRank",
+      "LineChart",
+      "Heatmap"
+    ],
+    "hot": [
+      "metric:bus-factor"
+    ],
+    "bindings": [
+      {
+        "id": "metric:contributors",
+        "prop": "value",
+        "equals": "measures.contributors.value"
+      },
+      {
+        "id": "metric:bus-factor",
+        "prop": "value",
+        "equals": "measures.bus-factor.value"
+      },
+      {
+        "id": "metric:core-share",
+        "prop": "value",
+        "equals": "measures.core-share.value"
+      }
+    ],
+    "sources": [
+      "stats.contributors",
+      "contributorShare"
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "id": "golden-08-nextjs",
+  "repo": "vercel/next.js",
+  "question": "Where would a new contributor start?",
+  "kind": "golden",
+  "expect": {
+    "template": "new-contributor",
+    "components": [
+      "Insight",
+      "Steps",
+      "Distribution",
+      "Checklist"
+    ],
+    "sources": [
+      "goodFirstIssues",
+      "community"
+    ]
+  }
+}

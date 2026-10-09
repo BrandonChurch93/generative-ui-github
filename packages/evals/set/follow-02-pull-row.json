@@ -1,0 +1,23 @@
+{
+  "id": "follow-02-pull-row",
+  "repo": "vercel/next.js",
+  "question": "What's holding #99178?",
+  "kind": "follow-up",
+  "from": {
+    "id": "statuslist:pull:all",
+    "ask": "What's holding #99178?"
+  },
+  "expect": {
+    "template": "pr-detail",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "Metric",
+      "DiffView",
+      "StatusList",
+      "FileTree",
+      "ActionCard"
+    ]
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "id": "golden-07-react",
+  "repo": "facebook/react",
+  "question": "Show me the biggest open PR",
+  "kind": "golden",
+  "expect": {
+    "template": "biggest-pr",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "Metric",
+      "FileTree",
+      "DiffView",
+      "StatusList"
+    ],
+    "bindings": [
+      {
+        "id": "metric:pr-size",
+        "prop": "value",
+        "equals": "measures.pr-size.value"
+      },
+      {
+        "id": "metric:files-changed",
+        "prop": "value",
+        "equals": "measures.files-changed.value"
+      },
+      {
+        "id": "metric:review-wait-median",
+        "prop": "value",
+        "equals": "measures.review-wait-median.value"
+      }
+    ],
+    "sources": [
+      "biggestOpenPr",
+      "prFiles"
+    ]
+  }
+}

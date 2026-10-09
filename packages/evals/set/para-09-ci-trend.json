@@ -1,0 +1,18 @@
+{
+  "id": "para-09-ci-trend",
+  "repo": "vercel/next.js",
+  "question": "how long does CI take now",
+  "kind": "paraphrase",
+  "expect": {
+    "template": "ci-trend",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "Metric",
+      "StatusList",
+      "LineChart",
+      "Comparison"
+    ]
+  }
+}

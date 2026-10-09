@@ -1,0 +1,15 @@
+{
+  "id": "para-15-new-contributor",
+  "repo": "vercel/next.js",
+  "question": "good first issues?",
+  "kind": "paraphrase",
+  "expect": {
+    "template": "new-contributor",
+    "components": [
+      "Insight",
+      "Steps",
+      "Distribution",
+      "Checklist"
+    ]
+  }
+}

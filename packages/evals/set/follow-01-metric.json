@@ -1,0 +1,23 @@
+{
+  "id": "follow-01-metric",
+  "repo": "vercel/next.js",
+  "question": "Which checks are failing on canary?",
+  "kind": "follow-up",
+  "from": {
+    "id": "metric:failing-checks",
+    "ask": "Which checks are failing on canary?"
+  },
+  "expect": {
+    "template": "check-failures",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "Metric",
+      "Metric",
+      "StatusList",
+      "LineChart",
+      "ActionCard"
+    ]
+  }
+}

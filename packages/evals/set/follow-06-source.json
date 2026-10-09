@@ -1,0 +1,13 @@
+{
+  "id": "follow-06-source",
+  "repo": "vercel/next.js",
+  "question": "Show me the 1,620 open PRs waiting on review",
+  "kind": "follow-up",
+  "from": {
+    "id": "insight:answer",
+    "ask": "Show me the 1,620 open PRs waiting on review"
+  },
+  "expect": {
+    "template": "stale-issues"
+  }
+}

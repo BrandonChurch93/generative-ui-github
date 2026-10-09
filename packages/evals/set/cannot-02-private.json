@@ -1,0 +1,10 @@
+{
+  "id": "cannot-02-private",
+  "repo": "vercel/private-dashboard",
+  "question": "How's this repo doing?",
+  "kind": "cannot-answer",
+  "expect": {
+    "template": "overview",
+    "error": "That repo is private or doesn't exist"
+  }
+}

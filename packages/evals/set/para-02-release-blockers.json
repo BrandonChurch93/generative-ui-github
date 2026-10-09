@@ -1,0 +1,19 @@
+{
+  "id": "para-02-release-blockers",
+  "repo": "vercel/next.js",
+  "question": "release blockers?",
+  "kind": "paraphrase",
+  "expect": {
+    "template": "release-blockers",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "Metric",
+      "Metric",
+      "StatusList",
+      "LineChart",
+      "ActionCard"
+    ]
+  }
+}

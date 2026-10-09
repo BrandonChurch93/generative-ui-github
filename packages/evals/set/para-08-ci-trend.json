@@ -1,0 +1,18 @@
+{
+  "id": "para-08-ci-trend",
+  "repo": "vercel/next.js",
+  "question": "are builds taking longer than they used to",
+  "kind": "paraphrase",
+  "expect": {
+    "template": "ci-trend",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "Metric",
+      "StatusList",
+      "LineChart",
+      "Comparison"
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "follow-04-day",
+  "repo": "vercel/next.js",
+  "question": "What merged on Tuesday, October 6?",
+  "kind": "follow-up",
+  "from": {
+    "id": "timeline:merged",
+    "ask": "What merged on Tuesday, October 6?"
+  },
+  "expect": {
+    "template": "merged-recent"
+  }
+}

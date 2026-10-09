@@ -1,0 +1,9 @@
+{
+  "id": "off-06",
+  "repo": "facebook/react",
+  "question": "which workflows fail most on Mondays",
+  "kind": "off-template",
+  "expect": {
+    "template": "off-template"
+  }
+}

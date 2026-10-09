@@ -130,9 +130,9 @@ Continue into Phase 5 without stopping.
 
 Prompt: `prompts/05-composer.md`. Spec: `docs/composer.md`.
 
-- [ ] 5.0 Eval set authored as data in `packages/evals/set/` per `docs/evals.md` (99 cases). Done when the set loads and validates against its schema. (Authored here because 5.2 and 5.5 test against it; Phase 7 builds the runner.)
-- [ ] 5.1 Anthropic client via the official SDK, prompt caching on the registry block, cost accounting from the price table. Done when a test asserts the cost math on a mocked response.
-- [ ] 5.2 Classifier (Haiku). Done when the 12 golden questions and the 20 paraphrases classify correctly against a recorded fixture of responses, and a live run over them matches at 90% or better.
+- [x] 5.0 Eval set authored as data in `packages/evals/set/` per `docs/evals.md` (99 cases). Done when the set loads and validates against its schema. (Authored here because 5.2 and 5.5 test against it; Phase 7 builds the runner.)
+- [x] 5.1 Anthropic client via the official SDK, prompt caching on the registry block, cost accounting from the price table. Done when a test asserts the cost math on a mocked response.
+- [x] 5.2 Classifier (Haiku). Done when the 12 golden questions and the 20 paraphrases classify correctly against a recorded fixture of responses, and a live run over them matches at 90% or better.
 - [ ] 5.3a The 12 golden templates, one module each, deterministic, no model call. Done when all 12 produce a valid tree from each sample repo.
 - [ ] 5.3b The 3 follow-up templates (`check-failures`, `pr-detail`, `person`). Done when each produces a valid tree from a click on the matching fixture.
 - [ ] 5.4 Prose fill (Haiku) for Insight sentences, LineChart and Comparison findings, Metric deltas, Heatmap summaries, with number validation. Done when 100 runs over the samples yield zero unvalidated numbers reaching the tree.

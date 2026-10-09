@@ -1,0 +1,9 @@
+{
+  "id": "off-03",
+  "repo": "vercel/next.js",
+  "question": "how long do docs PRs wait compared to code PRs",
+  "kind": "off-template",
+  "expect": {
+    "template": "off-template"
+  }
+}

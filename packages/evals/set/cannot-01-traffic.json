@@ -1,0 +1,9 @@
+{
+  "id": "cannot-01-traffic",
+  "repo": "vercel/next.js",
+  "question": "how many people visited the repo this week",
+  "kind": "cannot-answer",
+  "expect": {
+    "template": "off-template"
+  }
+}

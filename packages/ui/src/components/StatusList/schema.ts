@@ -2,7 +2,7 @@ import { z } from 'zod'
 import type { ComponentSpec } from '../../registry'
 import { emptyToneSchema, prose, windowSchema } from '../../schema/shared'
 import type { EmptyTone } from '../../types'
-import type { TagTone } from '../../parts'
+import type { TagTone } from '../../parts/tones'
 
 export const STATUS_KINDS = ['pull', 'issue', 'workflow', 'check'] as const
 export type StatusKind = (typeof STATUS_KINDS)[number]

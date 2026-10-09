@@ -1,0 +1,17 @@
+{
+  "id": "para-20-release-diff",
+  "repo": "vercel/next.js",
+  "question": "what is new in the latest release",
+  "kind": "paraphrase",
+  "expect": {
+    "template": "release-diff",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "Metric",
+      "Timeline",
+      "FileTree"
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "id": "para-05-overview",
+  "repo": "vercel/next.js",
+  "question": "is this project still alive",
+  "kind": "paraphrase",
+  "expect": {
+    "template": "overview",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "Metric",
+      "Metric",
+      "StatusList",
+      "LineChart",
+      "Checklist"
+    ]
+  }
+}

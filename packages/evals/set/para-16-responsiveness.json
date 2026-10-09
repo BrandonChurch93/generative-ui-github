@@ -1,0 +1,18 @@
+{
+  "id": "para-16-responsiveness",
+  "repo": "vercel/next.js",
+  "question": "how fast do maintainers respond to PRs",
+  "kind": "paraphrase",
+  "expect": {
+    "template": "responsiveness",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "Metric",
+      "ContributorRank",
+      "Distribution",
+      "LineChart"
+    ]
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "id": "golden-06-nextjs",
+  "repo": "vercel/next.js",
+  "question": "Which issues have gone stale?",
+  "kind": "golden",
+  "expect": {
+    "template": "stale-issues",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "FilterChips",
+      "StatusList",
+      "BarChart",
+      "ActionCard"
+    ],
+    "bindings": [
+      {
+        "id": "metric:stale-issues",
+        "prop": "value",
+        "equals": "measures.stale-issues.value"
+      },
+      {
+        "id": "metric:time-to-close-median",
+        "prop": "value",
+        "equals": "measures.time-to-close-median.value"
+      }
+    ],
+    "sources": [
+      "issues",
+      "staleIssues"
+    ]
+  }
+}

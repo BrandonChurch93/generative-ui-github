@@ -1,0 +1,46 @@
+{
+  "id": "golden-01-react",
+  "repo": "facebook/react",
+  "question": "How's this repo doing?",
+  "kind": "golden",
+  "expect": {
+    "template": "overview",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "Metric",
+      "Metric",
+      "StatusList",
+      "LineChart",
+      "Checklist"
+    ],
+    "bindings": [
+      {
+        "id": "metric:open-prs",
+        "prop": "value",
+        "equals": "measures.open-prs.value"
+      },
+      {
+        "id": "metric:prs-merged",
+        "prop": "value",
+        "equals": "measures.prs-merged.value"
+      },
+      {
+        "id": "metric:review-wait-median",
+        "prop": "value",
+        "equals": "measures.review-wait-median.value"
+      },
+      {
+        "id": "metric:contributors",
+        "prop": "value",
+        "equals": "measures.contributors.value"
+      }
+    ],
+    "sources": [
+      "repo",
+      "pulls",
+      "stats.commitActivity"
+    ]
+  }
+}

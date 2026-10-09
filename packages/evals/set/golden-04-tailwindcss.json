@@ -1,0 +1,39 @@
+{
+  "id": "golden-04-tailwindcss",
+  "repo": "tailwindlabs/tailwindcss",
+  "question": "Is CI getting slower?",
+  "kind": "golden",
+  "expect": {
+    "template": "ci-trend",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "Metric",
+      "StatusList",
+      "LineChart",
+      "Comparison"
+    ],
+    "bindings": [
+      {
+        "id": "metric:ci-p50",
+        "prop": "value",
+        "equals": "measures.ci-p50.value"
+      },
+      {
+        "id": "metric:failing-check-rate",
+        "prop": "value",
+        "equals": "measures.failing-check-rate.value"
+      },
+      {
+        "id": "metric:slowest-job",
+        "prop": "value",
+        "equals": "measures.slowest-job.value"
+      }
+    ],
+    "sources": [
+      "workflowRuns",
+      "ciDurationByWeek"
+    ]
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "golden-12-react",
+  "repo": "facebook/react",
+  "question": "What changed between the last two releases?",
+  "kind": "golden",
+  "expect": {
+    "template": "release-diff",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "Metric",
+      "Timeline",
+      "FileTree"
+    ],
+    "bindings": [
+      {
+        "id": "metric:commits",
+        "prop": "value",
+        "equals": "measures.commits.value"
+      },
+      {
+        "id": "metric:contributors",
+        "prop": "value",
+        "equals": "measures.contributors.value"
+      },
+      {
+        "id": "metric:files-changed",
+        "prop": "value",
+        "equals": "measures.files-changed.value"
+      }
+    ],
+    "sources": [
+      "releases",
+      "commitsBetweenTags"
+    ]
+  }
+}

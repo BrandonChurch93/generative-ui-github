@@ -1,0 +1,9 @@
+{
+  "id": "off-09",
+  "repo": "vercel/next.js",
+  "question": "which areas of the codebase have the most open PRs",
+  "kind": "off-template",
+  "expect": {
+    "template": "off-template"
+  }
+}

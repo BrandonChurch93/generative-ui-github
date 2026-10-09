@@ -1,0 +1,16 @@
+{
+  "id": "para-11-merged-recent",
+  "repo": "vercel/next.js",
+  "question": "show me this week's merges",
+  "kind": "paraphrase",
+  "expect": {
+    "template": "merged-recent",
+    "components": [
+      "Insight",
+      "Metric",
+      "Metric",
+      "Timeline",
+      "PersonList"
+    ]
+  }
+}

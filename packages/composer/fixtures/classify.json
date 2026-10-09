@@ -1,0 +1,805 @@
+{
+ "recordedAt": "2026-10-09T07:43:29.450Z",
+ "responses": [
+  {
+   "question": "How's this repo doing?",
+   "result": {
+    "template": "overview",
+    "confidence": 0.92,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": null,
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 69,
+    "cachedTokens": 0,
+    "cacheWriteTokens": 1432,
+    "outputTokens": 64,
+    "costUsd": 0.0002179,
+    "latencyMs": 3480
+   }
+  },
+  {
+   "question": "What's blocking the next release?",
+   "result": {
+    "template": "release-blockers",
+    "confidence": 0.93,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": null,
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 70,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 67,
+    "costUsd": 0.00005482,
+    "latencyMs": 1599
+   }
+  },
+  {
+   "question": "Who's carrying this repo?",
+   "result": {
+    "template": "contributors",
+    "confidence": 0.9,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": null,
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 71,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 65,
+    "costUsd": 0.00005392,
+    "latencyMs": 1534
+   }
+  },
+  {
+   "question": "Is CI getting slower?",
+   "result": {
+    "template": "ci-trend",
+    "confidence": 0.93,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": null,
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 70,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 67,
+    "costUsd": 0.00005482,
+    "latencyMs": 1800
+   }
+  },
+  {
+   "question": "What's been merged this week?",
+   "result": {
+    "template": "merged-recent",
+    "confidence": 0.93,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": "7d",
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 69,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 68,
+    "costUsd": 0.000055219999999999996,
+    "latencyMs": 1608
+   }
+  },
+  {
+   "question": "Which issues have gone stale?",
+   "result": {
+    "template": "stale-issues",
+    "confidence": 0.93,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": null,
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 71,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 67,
+    "costUsd": 0.00005492,
+    "latencyMs": 1548
+   }
+  },
+  {
+   "question": "Show me the biggest open PR",
+   "result": {
+    "template": "biggest-pr",
+    "confidence": 0.95,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": null,
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 71,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 68,
+    "costUsd": 0.00005542,
+    "latencyMs": 1781
+   }
+  },
+  {
+   "question": "Where would a new contributor start?",
+   "result": {
+    "template": "new-contributor",
+    "confidence": 0.93,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": null,
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 71,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 67,
+    "costUsd": 0.00005492,
+    "latencyMs": 1748
+   }
+  },
+  {
+   "question": "How responsive are the maintainers?",
+   "result": {
+    "template": "responsiveness",
+    "confidence": 0.93,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": null,
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 72,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 67,
+    "costUsd": 0.000055020000000000005,
+    "latencyMs": 1760
+   }
+  },
+  {
+   "question": "Compare this month to last",
+   "result": {
+    "template": "month-compare",
+    "confidence": 0.95,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": null,
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 68,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 66,
+    "costUsd": 0.00005412,
+    "latencyMs": 1597
+   }
+  },
+  {
+   "question": "When does this project get worked on?",
+   "result": {
+    "template": "punch-card",
+    "confidence": 0.9,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": null,
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 70,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 66,
+    "costUsd": 0.00005432,
+    "latencyMs": 1555
+   }
+  },
+  {
+   "question": "What changed between the last two releases?",
+   "result": {
+    "template": "release-diff",
+    "confidence": 0.95,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": null,
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 71,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 66,
+    "costUsd": 0.000054420000000000004,
+    "latencyMs": 1597
+   }
+  },
+  {
+   "question": "what's holding up 16.2",
+   "result": {
+    "template": "release-blockers",
+    "confidence": 0.9,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": "16.2",
+     "window": null,
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 70,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 69,
+    "costUsd": 0.00005582,
+    "latencyMs": 1085
+   }
+  },
+  {
+   "question": "release blockers?",
+   "result": {
+    "template": "release-blockers",
+    "confidence": 0.93,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": null,
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 66,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 67,
+    "costUsd": 0.000054420000000000004,
+    "latencyMs": 1646
+   }
+  },
+  {
+   "question": "why hasn't the milestone shipped",
+   "result": {
+    "template": "release-blockers",
+    "confidence": 0.9,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": null,
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 73,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 67,
+    "costUsd": 0.00005512,
+    "latencyMs": 1529
+   }
+  },
+  {
+   "question": "quick health check on this repo",
+   "result": {
+    "template": "overview",
+    "confidence": 0.92,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": null,
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 69,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 64,
+    "costUsd": 0.00005322,
+    "latencyMs": 1754
+   }
+  },
+  {
+   "question": "is this project still alive",
+   "result": {
+    "template": "overview",
+    "confidence": 0.9,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": null,
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 67,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 64,
+    "costUsd": 0.000053020000000000004,
+    "latencyMs": 1829
+   }
+  },
+  {
+   "question": "who does most of the work here",
+   "result": {
+    "template": "contributors",
+    "confidence": 0.92,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": null,
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 68,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 65,
+    "costUsd": 0.00005362,
+    "latencyMs": 1816
+   }
+  },
+  {
+   "question": "what is the bus factor",
+   "result": {
+    "template": "contributors",
+    "confidence": 0.9,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": null,
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 68,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 65,
+    "costUsd": 0.00005362,
+    "latencyMs": 1662
+   }
+  },
+  {
+   "question": "are builds taking longer than they used to",
+   "result": {
+    "template": "ci-trend",
+    "confidence": 0.9,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": null,
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 72,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 67,
+    "costUsd": 0.000055020000000000005,
+    "latencyMs": 1605
+   }
+  },
+  {
+   "question": "how long does CI take now",
+   "result": {
+    "template": "ci-trend",
+    "confidence": 0.85,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": null,
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 68,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 67,
+    "costUsd": 0.000054619999999999995,
+    "latencyMs": 1609
+   }
+  },
+  {
+   "question": "what landed in the last few days",
+   "result": {
+    "template": "merged-recent",
+    "confidence": 0.85,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": "3d",
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 69,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 68,
+    "costUsd": 0.000055219999999999996,
+    "latencyMs": 1594
+   }
+  },
+  {
+   "question": "show me this week's merges",
+   "result": {
+    "template": "merged-recent",
+    "confidence": 0.93,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": "7d",
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 68,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 68,
+    "costUsd": 0.00005512,
+    "latencyMs": 1547
+   }
+  },
+  {
+   "question": "which issues has nobody touched in a month",
+   "result": {
+    "template": "stale-issues",
+    "confidence": 0.93,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": "30d",
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 73,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 68,
+    "costUsd": 0.00005562,
+    "latencyMs": 1877
+   }
+  },
+  {
+   "question": "what is the largest pull request open right now",
+   "result": {
+    "template": "biggest-pr",
+    "confidence": 0.95,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": null,
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 72,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 68,
+    "costUsd": 0.000055520000000000004,
+    "latencyMs": 1782
+   }
+  },
+  {
+   "question": "I want to contribute, where do I begin",
+   "result": {
+    "template": "new-contributor",
+    "confidence": 0.93,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": null,
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 73,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 67,
+    "costUsd": 0.00005512,
+    "latencyMs": 1492
+   }
+  },
+  {
+   "question": "good first issues?",
+   "result": {
+    "template": "new-contributor",
+    "confidence": 0.93,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": null,
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 66,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 67,
+    "costUsd": 0.000054420000000000004,
+    "latencyMs": 1595
+   }
+  },
+  {
+   "question": "how fast do maintainers respond to PRs",
+   "result": {
+    "template": "responsiveness",
+    "confidence": 0.93,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": null,
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 75,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 67,
+    "costUsd": 0.00005532,
+    "latencyMs": 1684
+   }
+  },
+  {
+   "question": "how long until someone reviews my pull request",
+   "result": {
+    "template": "responsiveness",
+    "confidence": 0.8,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": null,
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 73,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 67,
+    "costUsd": 0.00005512,
+    "latencyMs": 1583
+   }
+  },
+  {
+   "question": "how does this month look against last month",
+   "result": {
+    "template": "month-compare",
+    "confidence": 0.95,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": null,
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 69,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 66,
+    "costUsd": 0.00005422,
+    "latencyMs": 1676
+   }
+  },
+  {
+   "question": "what hours do people commit",
+   "result": {
+    "template": "punch-card",
+    "confidence": 0.92,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": null,
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 68,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 66,
+    "costUsd": 0.00005412,
+    "latencyMs": 2191
+   }
+  },
+  {
+   "question": "what is new in the latest release",
+   "result": {
+    "template": "release-diff",
+    "confidence": 0.92,
+    "params": {
+     "pr": null,
+     "handle": null,
+     "branch": null,
+     "window": null,
+     "day": null,
+     "weekday": null,
+     "hour": null
+    }
+   },
+   "usage": {
+    "model": "claude-haiku-5-5",
+    "inputTokens": 69,
+    "cachedTokens": 1432,
+    "cacheWriteTokens": 0,
+    "outputTokens": 66,
+    "costUsd": 0.00005422,
+    "latencyMs": 1653
+   }
+  }
+ ]
+}

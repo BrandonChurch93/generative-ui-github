@@ -1,0 +1,10 @@
+{
+  "id": "cannot-03-missing",
+  "repo": "genui-github-fixtures/this-repo-does-not-exist",
+  "question": "What's blocking the next release?",
+  "kind": "cannot-answer",
+  "expect": {
+    "template": "release-blockers",
+    "error": "That repo is private or doesn't exist"
+  }
+}
