@@ -172,12 +172,25 @@ importers:
       '@genui-github/composer':
         specifier: workspace:*
         version: link:../composer
+      '@genui-github/core':
+        specifier: workspace:*
+        version: link:../core
+      '@genui-github/data':
+        specifier: workspace:*
+        version: link:../data
+      '@genui-github/renderer':
+        specifier: workspace:*
+        version: link:../renderer
       '@genui-github/ui':
         specifier: workspace:*
         version: link:../ui
       zod:
         specifier: ^4.6.5
         version: 4.6.5
+    devDependencies:
+      tsx:
+        specifier: ^4.23.15
+        version: 4.23.15
 
   packages/renderer:
     dependencies:

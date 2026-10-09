@@ -5,5 +5,11 @@
     "outDir": "dist",
     "noEmit": false
   },
-  "exclude": ["src/**/*.test.ts", "src/**/*.test.tsx"]
+  "exclude": [
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx"
+  ],
+  "include": [
+    "src"
+  ]
 }

@@ -50,6 +50,8 @@ describe('composition rules', () => {
     const busFactor = three.regions.metrics.find(p => p.id === 'metric:bus-factor')!
     const repeats = metric(busFactor, 'bus-factor', { delta: 'these two carry 61%' })
     expect(rules(withRegions(three, { metrics: [repeats] }))).toEqual(["a metric never repeats the rank band's words"])
+    const kept = run(withRegions(three, { metrics: [repeats] })).composition.regions.metrics
+    expect(kept.map(p => [p.id, 'delta' in (p.props as object), 'delta' in (p.bound as object)])).toEqual([[repeats.id, false, false]])
     const comparison: Piece = { id: 'comparison:x', component: 'Comparison', props: {} }
     const verdict = metric(one.regions.metrics[0]!, 'open-prs', { delta: 'better than last month' })
     expect(rules(withRegions(one, { metrics: [verdict], side: [comparison] }))).toContain("a metric never repeats a comparison's verdict")

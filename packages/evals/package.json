@@ -9,11 +9,19 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "evals:run": "tsx scripts/run.ts",
+    "evals:check": "tsx scripts/check.ts"
   },
   "dependencies": {
     "@genui-github/composer": "workspace:*",
+    "@genui-github/core": "workspace:*",
+    "@genui-github/data": "workspace:*",
+    "@genui-github/renderer": "workspace:*",
     "@genui-github/ui": "workspace:*",
     "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.15"
   }
 }

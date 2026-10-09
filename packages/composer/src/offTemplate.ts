@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { createLogger, MODELS } from '@genui-github/core'
+import { createLogger, MODELS, type ModelId } from '@genui-github/core'
 import { askSchema, densitySchema, emphasisSchema, REGION_NAMES, toneSchema, type Ask, type Density, type Piece, type RegionName, type Regions } from '@genui-github/renderer/core'
 import { registry } from '@genui-github/ui/registry'
 import releaseBlockers from '@genui-github/renderer/fixtures/1-release-blockers.json' with { type: 'json' }
@@ -154,10 +154,10 @@ export async function composeOffTemplate(
   client: ModelClient,
   ctx: DataContext,
   question: string,
-  options: { onOp?: (op: ComposedOp) => void; frameWidth?: number; signal?: AbortSignal } = {},
+  options: { onOp?: (op: ComposedOp) => void; frameWidth?: number; signal?: AbortSignal; model?: ModelId } = {},
 ): Promise<OffTemplateResult> {
   const { text, done } = client.stream({
-    model: MODELS.sonnet,
+    model: options.model ?? MODELS.sonnet,
     cachedSystem: offTemplateSystem(),
     user: offTemplateUser(question, ctx, options.frameWidth),
     maxTokens: 8000,

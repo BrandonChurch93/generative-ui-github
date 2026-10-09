@@ -17,7 +17,9 @@
     "lighthouse": "pnpm --filter @genui-github/web lighthouse",
     "tokens:build": "node scripts/tokens-build.mjs && node scripts/tokens-ts.mjs",
     "samples:refresh": "pnpm --filter @genui-github/data samples:refresh",
-    "compositions:refresh": "pnpm --filter @genui-github/composer compositions:refresh"
+    "compositions:refresh": "pnpm --filter @genui-github/composer compositions:refresh",
+    "evals:run": "pnpm --filter @genui-github/evals evals:run",
+    "evals:check": "pnpm --filter @genui-github/evals evals:check"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",

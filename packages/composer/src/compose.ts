@@ -18,13 +18,14 @@ import { CHECK_SCHEDULE, type WarmingStatus } from '@genui-github/data'
 import { registry } from '@genui-github/ui/registry'
 import { toStream, type Built, type Composition, type Piece, type StreamOp } from '@genui-github/renderer/core'
 import { sumUsage, type CallUsage, type ModelClient } from './anthropic'
+import type { ModelId } from '@genui-github/core'
 import { classify, type Classification } from './classify'
 import { fill } from './fill'
 import { goldenComposition, goldenQuestion } from './golden'
 import { dayOf, resetAt, VISITOR_LIMIT, type Limits } from './limits'
 import { nearEmptyContext, nearEmptyInsight } from './nearEmpty'
 import { composeOffTemplate } from './offTemplate'
-import { enforceRules } from './rules'
+import { enforceRules, type RuleDrop } from './rules'
 import { primeSampleCache } from './samples'
 import { needsFor, offTemplateNeeds, TEMPLATE_NEEDS, type TemplateId } from './templates/needs'
 import { TEMPLATES } from './templates/registry'
@@ -65,6 +66,23 @@ export interface ComposeDeps {
   now?: () => number
   /** The warming status the shell got last time, while GitHub counts. */
   warming?: WarmingStatus | null
+  /** The eval runner's levers and taps (docs/evals.md). The route never sets these. */
+  eval?: EvalOptions
+}
+
+export interface EvalOptions {
+  /** Compose every question: skip the golden set and the answer cache. */
+  fresh?: boolean
+  /** `off-template` sends every question to the off-template composer without classifying it (the `sonnet` run). */
+  route?: 'classify' | 'off-template'
+  /** The model that composes off-template: Sonnet in production, Haiku in the `haiku` run. */
+  offTemplateModel?: ModelId
+  /** The context the composition was bound from, for the bindings scorer. */
+  onContext?: (ctx: DataContext) => void
+  /** What the classifier said, before anything is composed. */
+  onRoute?: (template: TemplateId | 'off-template') => void
+  /** Pieces the composition rules dropped. */
+  onDrops?: (drops: RuleDrop[]) => void
 }
 
 /** Why a question was refused before anything streamed: the route turns these into its status codes. */
@@ -120,12 +138,12 @@ export async function compose(input: ComposeInput, deps: ComposeDeps): Promise<C
   // The receipt stays the original composition's: opening a kept answer takes no time worth printing.
   const served = (c: Composition) => replay(c)
 
-  if (sample && !input.from) {
+  if (sample && !input.from && !deps.eval?.fresh) {
     const golden = goldenComposition(sample, input.question)
     if (golden) return { kind: 'stream', ops: served(golden), notice: { ...notice, served: 'golden' } }
   }
 
-  const cached = await deps.cache.get<Composition>(answerKey(sample ?? parsed, input.question, input.from)).catch(() => null)
+  const cached = deps.eval?.fresh ? null : await deps.cache.get<Composition>(answerKey(sample ?? parsed, input.question, input.from)).catch(() => null)
   if (cached) return { kind: 'stream', ops: served(cached.value), notice: { ...notice, served: 'cache', cachedAt: cached.cachedAt } }
 
   if (atCap) return { kind: 'refused', refusal: { kind: 'daily-cap', message: SYSTEM_SENTENCES.dailyCap, resetAt: resetAt(started) } }
@@ -172,12 +190,18 @@ async function* run(input: ComposeInput, deps: ComposeDeps, repo: RepoRef, sampl
     const tClassify = now()
     const summaryCtx = await buildContext(deps.github, cache, repo, { shapes: ['repo', 'activity'], measures: [] }, { now: sampleNow, offline: sample, ttlSeconds: sample ? null : LIVE_TTL_SECONDS })
     const r = summaryCtx.shapes.repo!
-    const { result: route, usage: classifyUsage } = await classify(deps.models, {
-      question: input.question,
-      summary: { repo: `${r.owner}/${r.name}`, language: r.primaryLanguage, stars: r.stars, openPulls: summaryCtx.shapes.activity?.open.pulls ?? null, openIssues: r.openIssues, pushedAt: r.pushedAt },
-      ...(input.from ? { from: input.from } : {}),
-    })
-    await spend(classifyUsage)
+    let route: Classification
+    if (deps.eval?.route === 'off-template') route = { template: 'off-template', confidence: 1, params: NO_PARAMS }
+    else {
+      const classified = await classify(deps.models, {
+        question: input.question,
+        summary: { repo: `${r.owner}/${r.name}`, language: r.primaryLanguage, stars: r.stars, openPulls: summaryCtx.shapes.activity?.open.pulls ?? null, openIssues: r.openIssues, pushedAt: r.pushedAt },
+        ...(input.from ? { from: input.from } : {}),
+      })
+      route = classified.result
+      await spend(classified.usage)
+    }
+    deps.eval?.onRoute?.(route.template)
     const classifyMs = now() - tClassify
 
     const template = route.template === 'off-template' ? null : route.template
@@ -191,6 +215,7 @@ async function* run(input: ComposeInput, deps: ComposeDeps, repo: RepoRef, sampl
       warming: deps.warming,
     })
     const dataMs = now() - tData
+    deps.eval?.onContext?.(ctx)
 
     if (ctx.warming?.phase === 'warming') {
       yield* warmingScreen(id, ctx, built(template ?? 'off-template', calls, { classifyMs, dataMs, composeMs: 0, started, now }, ctx, ['WarmingUp']))
@@ -203,18 +228,27 @@ async function* run(input: ComposeInput, deps: ComposeDeps, repo: RepoRef, sampl
       const filled = await fill(deps.models, ctx, screen, input.question)
       await spend(filled.usage)
       const composition: Composition = { id, density: filled.screen.density, regions: filled.screen.regions, asks: filled.screen.asks, built: built(template, calls, { classifyMs, dataMs, composeMs: now() - tCompose, started, now }, ctx, chose(filled.screen.regions)) }
-      const { composition: kept } = enforceRules(composition, { question: input.question })
+      const { composition: kept, drops } = enforceRules(composition, { question: input.question })
+      deps.eval?.onDrops?.(drops)
       await keep(kept)
       yield* replay({ ...kept, built: { ...kept.built, latencyMs: { ...kept.built.latencyMs, total: now() - started } } })
       return
     }
 
-    // Off-template: each piece streams as soon as Sonnet has written it and it has passed the rules.
+    // Off-template: each piece streams as soon as the model has written it and it has passed the rules.
     const sofar: Composition = { id, density: 'comfortable', regions: { insight: [], metrics: [], main: [], side: [], action: [] }, asks: [], built: built('off-template', calls, { classifyMs, dataMs, composeMs: 0, started, now }, ctx, []) }
     const queue: StreamOp[] = []
+    const drops: RuleDrop[] = []
+    let wake: (() => void) | null = null
+    const push = (op: StreamOp) => {
+      queue.push(op)
+      wake?.()
+    }
     let started_ = false
-    const result = await composeOffTemplate(deps.models, ctx, input.question, {
+    let finished = false
+    const composing = composeOffTemplate(deps.models, ctx, input.question, {
       frameWidth: input.frameWidth,
+      ...(deps.eval?.offTemplateModel ? { model: deps.eval.offTemplateModel } : {}),
       onOp: op => {
         if (op.op === 'start') {
           sofar.density = op.density
@@ -224,18 +258,30 @@ async function* run(input: ComposeInput, deps: ComposeDeps, repo: RepoRef, sampl
         if (op.op === 'dropped') return
         const next = { ...sofar, regions: { ...sofar.regions, [op.region]: [...sofar.regions[op.region], op.piece] } }
         const { composition: kept } = enforceRules(next, { question: input.question, log: quiet })
-        if (!keptPiece(kept, op.piece)) return
+        if (!keptPiece(kept, op.piece)) {
+          drops.push({ id: op.piece.id, rule: 'dropped by a composition rule as it arrived' })
+          return
+        }
         if (!started_) {
-          queue.push({ op: 'start', id, density: sofar.density, asks: enforceRules(sofar, { log: quiet }).composition.asks })
+          push({ op: 'start', id, density: sofar.density, asks: enforceRules(sofar, { log: quiet }).composition.asks })
           started_ = true
         }
         sofar.regions = next.regions
-        queue.push({ op: 'add', region: op.region, piece: op.piece })
+        push({ op: 'add', region: op.region, piece: op.piece })
       },
+    }).finally(() => {
+      finished = true
+      wake?.()
     })
+    while (!finished || queue.length) {
+      if (queue.length) yield queue.shift()!
+      else await new Promise<void>(resolve => (wake = resolve))
+      wake = null
+    }
+    const result = await composing
     await spend(result.usage)
-    if (!started_) queue.push({ op: 'start', id, density: sofar.density, asks: [] })
-    yield* queue
+    deps.eval?.onDrops?.(drops)
+    if (!started_) yield { op: 'start', id, density: sofar.density, asks: [] }
     const done: Built = { ...built('off-template', calls, { classifyMs, dataMs, composeMs: now() - tCompose, started, now }, ctx, chose(sofar.regions)), reason: 'no template matched' }
     if (started_) await keep({ ...sofar, built: done })
     yield { op: 'done', built: done }
@@ -247,6 +293,8 @@ async function* run(input: ComposeInput, deps: ComposeDeps, repo: RepoRef, sampl
 }
 
 const quiet = createLogger('composer:compose', { sink: () => {} })
+
+const NO_PARAMS: Classification['params'] = { pr: null, handle: null, branch: null, window: null, day: null, weekday: null, hour: null }
 
 function keptPiece(composition: Composition, piece: Piece): boolean {
   return Object.values(composition.regions).some(list => list.some(p => p.id === piece.id))

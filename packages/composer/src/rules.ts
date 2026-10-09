@@ -88,12 +88,15 @@ export function enforceRules(composition: Composition, options: { question?: str
   for (const r of REGION_NAMES) regions[r] = regions[r].filter(p => !before.has(p.id) || keptIds.has(p.id))
   if (!regions.insight.length) drop('insight:answer', 'the insight is always the first piece')
 
-  // Rule 5.
-  regions.metrics = regions.metrics.filter(p => {
+  // Rule 5. The words repeat, not the number, so the delta goes and the metric stays.
+  regions.metrics = regions.metrics.map(p => {
     const delta = typeof record(p.props).delta === 'string' ? (record(p.props).delta as string) : ''
-    if (has('ContributorRank') && RANK_WORDS.test(delta)) return drop(p.id, "a metric never repeats the rank band's words"), false
-    if (has('Comparison') && VERDICT_WORDS.test(delta)) return drop(p.id, "a metric never repeats a comparison's verdict"), false
-    return true
+    const rule = has('ContributorRank') && RANK_WORDS.test(delta) ? "a metric never repeats the rank band's words" : has('Comparison') && VERDICT_WORDS.test(delta) ? "a metric never repeats a comparison's verdict" : null
+    if (!rule) return p
+    drop(p.id, rule)
+    const { delta: _p, ...props } = record(p.props)
+    const { delta: _b, ...bound } = record(p.bound)
+    return { ...p, props, bound }
   })
 
   // Rule 6.
