@@ -100,6 +100,38 @@ test.describe('composed screen', () => {
     await expect(page.locator('[data-composition]')).toHaveAttribute('data-density', 'compact')
   })
 
+  test('the hint says the answer is clickable until the first click into it, and stays gone for the session', async ({ page }) => {
+    const hint = page.locator('[data-hint]')
+    await page.goto(url('vercel/next.js', GOLDEN[4]!))
+    await expect(settled(page)).toBeVisible({ timeout: 15_000 })
+    await expect(hint).toHaveText('Click any card, row or point. The screen rebuilds around it.')
+    await expect(page.locator('[data-chrome] [data-hint]')).toHaveCount(1)
+    await page.locator('[data-composition]').dispatchEvent('click')
+    await expect(hint).toHaveCount(0)
+    await page.goto(url('vercel/next.js', GOLDEN[0]!))
+    await expect(settled(page)).toBeVisible({ timeout: 15_000 })
+    await expect(hint).toHaveCount(0)
+  })
+
+  test('the hint is not on a refused screen', async ({ page }) => {
+    await page.goto(`${url('vitejs/vite', GOLDEN[3]!)}&force=ratelimit`)
+    await expect(page.locator('[data-system="rate-limit"]')).toBeVisible()
+    await expect(page.locator('[data-hint]')).toHaveCount(0)
+  })
+
+  test('rows that open GitHub carry the arrow and name where they go; rows that ask do not', async ({ page }) => {
+    await page.goto(url('vercel/next.js', GOLDEN[4]!))
+    await expect(settled(page)).toBeVisible({ timeout: 15_000 })
+    const out = page.locator('[data-piece-id] a[target="_blank"]:has([data-out])')
+    await expect(out.first()).toBeVisible()
+    const first = out.first()
+    const href = (await first.getAttribute('href'))!
+    const pr = href.match(/\/pull\/(\d+)/)![1]
+    await expect(first).toHaveAttribute('rel', 'noreferrer')
+    await expect(first).toHaveAccessibleName(new RegExp(`\\. Open PR #${pr} on GitHub$`))
+    await expect(page.locator('[data-piece-id] button:has([data-out])')).toHaveCount(0)
+  })
+
   test('every golden question on every sample fits a 390px phone with no horizontal scroll', async ({ browser }) => {
     test.setTimeout(300_000)
     const context = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce', isMobile: true, hasTouch: true })

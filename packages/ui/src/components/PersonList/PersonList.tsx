@@ -1,4 +1,4 @@
-import { CardFrame, cx, Skeleton, SkeletonBlock, StateRow, TextLink } from '../../parts'
+import { CardFrame, cx, OutArrow, OutWords, Skeleton, SkeletonBlock, StateRow, TextLink } from '../../parts'
 import rows from '../../styles/rows.module.css'
 import type { PieceRenderProps } from '../../types'
 import { Avatar } from '../Avatar/Avatar'
@@ -48,6 +48,8 @@ function Row({ person, measure, onAsk }: { person: ListedPerson; measure: Person
     row = (
       <a className={cx(rows.row, styles.row)} href={person.url} target="_blank" rel="noreferrer">
         {body}
+        <OutArrow />
+        <OutWords href={person.url} />
       </a>
     )
   } else {

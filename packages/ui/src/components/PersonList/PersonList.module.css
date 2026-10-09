@@ -65,3 +65,19 @@
 .item:has(> .row:focus-visible) + .item > .hairline {
   opacity: 0;
 }
+
+/* A row that leaves for GitHub underlines its handle, the row's title. */
+a.row .handle {
+  /* The box clips its overflow; this room below the baseline keeps the underline inside it without moving the text. */
+  padding-block-end: var(--underline-offset);
+  margin-block-end: calc(var(--underline-offset) * -1);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: var(--hairline);
+  text-underline-offset: var(--underline-offset);
+  transition: text-decoration-color 150ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+a.row:is(:hover, :focus-visible) .handle {
+  text-decoration-color: currentColor;
+}

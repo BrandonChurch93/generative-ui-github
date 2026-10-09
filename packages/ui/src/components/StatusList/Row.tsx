@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Mark, type MarkKind } from '../../parts'
+import { Mark, OutArrow, OutWords, type MarkKind } from '../../parts'
 import { cx } from '../../parts/cx'
 import rows from '../../styles/rows.module.css'
 
@@ -15,11 +15,13 @@ export interface StatusRowProps {
   onAsk?: (ask: string) => void
   /** Otherwise, a link out (a pull request on GitHub). */
   url?: string
+  /** The row's name as plain words, for a destination GitHub addresses by id (a workflow run). */
+  name?: string
   className?: string
 }
 
 /** The row every list shares: mark, title, meta, then what sits on the right. A part, never picked. */
-export function StatusRow({ id, mark, title, meta, children, ask, onAsk, url, className }: StatusRowProps) {
+export function StatusRow({ id, mark, title, meta, children, ask, onAsk, url, name, className }: StatusRowProps) {
   const body = (
     <>
       <Mark kind={mark} className={rows.mark} />
@@ -41,6 +43,8 @@ export function StatusRow({ id, mark, title, meta, children, ask, onAsk, url, cl
     row = (
       <a className={rows.row} href={url} target="_blank" rel="noreferrer">
         {body}
+        <OutArrow />
+        <OutWords href={url} name={name} />
       </a>
     )
   } else {

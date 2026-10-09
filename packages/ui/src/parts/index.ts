@@ -1,6 +1,7 @@
 export { CardFrame, type CardFrameProps } from './CardFrame'
 export { cx } from './cx'
 export { Mark, MARK_KINDS, type MarkKind } from './Mark'
+export { githubDestination, OutArrow, OutWords } from './OutArrow'
 export { RepoChip } from './RepoChip'
 export { Segmented, type SegmentedOption, type SegmentedProps } from './Segmented'
 export { Skeleton, SkeletonBlock, type SkeletonText } from './Skeleton'

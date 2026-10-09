@@ -58,12 +58,19 @@ describe('StatusList', () => {
     expect(container.querySelector('[data-progress]')?.getAttribute('style')).toContain('--progress: 0.38')
   })
 
-  it('a row with a follow-up question is a button that asks it', () => {
+  it('a row with a follow-up question is a button that asks it; a row that links out says where and shows the arrow', () => {
     const onAsk = vi.fn()
-    const items = props.items.map((item, i) => (i === 0 ? { ...item, ask: 'Why is #84120 waiting?' } : item))
+    const items = props.items.map((item, i) => (i === 0 ? { ...item, ask: 'Why is #84120 waiting?' } : { ...item, url: `https://github.com/vercel/next.js/pull/${item.id}` }))
     render(<StatusList props={{ ...props, items }} state="default" onAsk={onAsk} />)
-    fireEvent.click(screen.getByRole('button', { name: /Turbopack/ }))
+    const asking = screen.getByRole('button', { name: /Turbopack/ })
+    fireEvent.click(asking)
     expect(onAsk).toHaveBeenCalledWith('Why is #84120 waiting?')
+    expect(asking.querySelector('[data-out]')).toBeNull()
+    const out = screen.getAllByRole('link')
+    expect(out).toHaveLength(items.length - 1)
+    expect(out.every(link => link.getAttribute('target') === '_blank' && link.querySelector('[data-out]'))).toBe(true)
+    const second = items[1]!
+    expect(screen.getByRole('link', { name: new RegExp(`^${second.title}.*\\. Open PR #${second.id} on GitHub$`) })).toBe(out[0])
   })
 
   it('every state of every kind has system tag words', () => {

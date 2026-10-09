@@ -106,6 +106,7 @@ export function StatusList({ props, state, error, warming, onAsk, onRetry }: Pie
                 ask={item.ask}
                 onAsk={onAsk}
                 url={item.url}
+                name={item.title}
               >
                 <Value kind={kind} item={item} />
                 {tag && <Tag tone={tag.tone}>{tag.words}</Tag>}

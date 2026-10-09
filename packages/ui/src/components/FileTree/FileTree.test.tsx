@@ -26,7 +26,7 @@ describe('FileTree', () => {
     expect(selected.getAttribute('tabindex')).toBe('0')
     expect(container.querySelectorAll('[tabindex="0"]')).toHaveLength(1)
     expect(container.querySelectorAll('[data-guide]')).toHaveLength(3)
-    expect(screen.getByRole('link', { name: 'layout.tsx, 18 additions, 0 deletions' })).toBeTruthy()
+    expect(screen.getByRole('link', { name: 'layout.tsx, 18 additions, 0 deletions. Open PR #84120 on GitHub' }).querySelector('[data-out]')).toBeTruthy()
   })
 
   it('skeleton: busy frame, placeholder rows, one sentence for screen readers', () => {

@@ -8,6 +8,7 @@ import type { AskEvent, StreamTree } from '@genui-github/renderer'
 import { Chrome } from './Chrome'
 import { rememberRepo } from './lastRepo'
 import { Drawer, PieceDrawer, type PieceDrawerContent } from './Drawer'
+import { useHintDismissed } from './Hint'
 import screen from './ComposedScreen.module.css'
 import { Strip } from './Strip'
 import { SystemScreen } from './SystemScreens'
@@ -85,6 +86,7 @@ export function ComposedScreen({ owner, name, question: initial, sampleDay, forc
   const [drawer, setDrawer] = useState(false)
   const [pieceDrawer, setPieceDrawer] = useState<PieceDrawerContent | null>(null)
   const [replay, setReplay] = useState<'in' | 'out'>('in')
+  const [hintDismissed, dismissHint] = useHintDismissed()
   const state = useComposition(repo, ask, force)
   const { tree, refusal, served } = state
 
@@ -172,6 +174,8 @@ export function ComposedScreen({ owner, name, question: initial, sampleDay, forc
   // While a new question composes, the last answer stays up to be rewritten, but its receipt is not this question's.
   const stale = state.phase === 'composing' && tree.done && !state.warming
   const hasAnswer = Boolean(tree.id) && !refusal && !stale && !handoff
+  // Up from the first answer until the first click into one; never over a refusal or a warming screen.
+  const hint = !hintDismissed && Boolean(tree.id) && !refusal && !warming && !handoff
 
   const notice = served.capped && hasAnswer ? (
     <>
@@ -201,16 +205,21 @@ export function ComposedScreen({ owner, name, question: initial, sampleDay, forc
           cachedAt={served.served === 'cache' ? served.cachedAt : undefined}
           asks={hasAnswer && !warming ? tree.asks : undefined}
           notice={notice}
+          hint={hint}
           shown={shown}
           reduced={reduced}
-          onAsk={q => askQuestion(q)}
+          onAsk={q => {
+            dismissHint()
+            askQuestion(q)
+          }}
           onOpenDrawer={() => setDrawer(true)}
           onExited={onChromeExited}
         />
         {refusal ? (
           <SystemScreen repo={repo} question={ask.question} refusal={refusal} timeZone={timeZone} onRetry={() => setAsk(prev => ({ ...prev, n: prev.n + 1 }))} />
         ) : (
-          <div className={screen.answer} aria-busy={state.phase === 'composing' || undefined}>
+          // Any click inside the answer counts as the reader finding out it is clickable: asks, links out, drawers, chips.
+          <div className={screen.answer} aria-busy={state.phase === 'composing' || undefined} onClickCapture={dismissHint}>
             <Renderer
               tree={shown && !handoff ? tree : blank}
               density={density}

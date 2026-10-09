@@ -1,4 +1,4 @@
-import { CardFrame, Mark, Skeleton, SkeletonBlock, Spine, StateRow, TextLink } from '../../parts'
+import { CardFrame, Mark, OutArrow, OutWords, Skeleton, SkeletonBlock, Spine, StateRow, TextLink } from '../../parts'
 import type { PieceRenderProps } from '../../types'
 import { groupByDay, relativeTime } from './days'
 import type { TimelineItem, TimelineProps } from './schema'
@@ -14,6 +14,7 @@ const SPINE_BOTTOM =
   'calc(var(--row-y) + var(--space-1) / 2 + var(--text-meta-size) * var(--text-meta-leading) + var(--text-row-title-size) * var(--text-row-title-leading) / 2)'
 
 function Row({ item, newest, now, kind, onAsk }: { item: TimelineItem; newest: boolean; now: string; kind: TimelineProps['kind']; onAsk?: (ask: string) => void }) {
+  const out = !(item.ask && onAsk)
   const verb = item.verb ?? (kind === 'merged' ? 'merged' : 'committed')
   const ref = kind === 'merged' ? `#${item.id}` : item.id
   const sized = item.add !== undefined && item.del !== undefined
@@ -32,6 +33,7 @@ function Row({ item, newest, now, kind, onAsk }: { item: TimelineItem; newest: b
             </span>
           </span>
         )}
+        {out && <OutArrow />}
       </span>
       <span className={styles.meta}>
         {ref} · {item.author} · {verb} <time dateTime={item.when}>{relativeTime(item.when, now)}</time>
@@ -41,6 +43,7 @@ function Row({ item, newest, now, kind, onAsk }: { item: TimelineItem; newest: b
           {whole.format(item.add!)} lines added, {whole.format(item.del!)} removed
         </span>
       )}
+      {out && <OutWords href={item.url} />}
     </>
   )
   return (

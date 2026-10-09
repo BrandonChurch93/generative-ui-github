@@ -1,0 +1,10 @@
+/* One muted line on the content edge, under the chrome's last line. */
+.hint {
+  margin: var(--space-4) 0 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  letter-spacing: var(--text-meta-tracking);
+  color: var(--muted);
+  text-wrap: pretty;
+}

@@ -4,7 +4,7 @@ import { useId, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, 
 import { motion, useReducedMotion } from 'motion/react'
 import { createLogger } from '@genui-github/core'
 import { MOVES } from '../../motion'
-import { CardFrame, Skeleton, SkeletonBlock, StateRow, TextLink } from '../../parts'
+import { CardFrame, OutArrow, OutWords, Skeleton, SkeletonBlock, StateRow, TextLink } from '../../parts'
 import { cx } from '../../parts/cx'
 import type { PieceRenderProps } from '../../types'
 import { foldClose, foldOpen } from './motion'
@@ -293,6 +293,7 @@ export function FileTree({ props, state, error, onAsk, onRetry }: PieceRenderPro
     const isSelected = file.path === model.chosen
     const href = file.href ?? fallbackHref(file)
     const asks = file.ask !== undefined && onAsk !== undefined
+    const out = !asks && !href.startsWith('#')
     const onClick = asks
       ? (event: MouseEvent<HTMLAnchorElement>) => {
           if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
@@ -308,6 +309,7 @@ export function FileTree({ props, state, error, onAsk, onRetry }: PieceRenderPro
           href={href}
           aria-current={isSelected ? 'true' : undefined}
           onClick={onClick}
+          data-external={out || undefined}
           {...(href.startsWith('#') ? {} : { target: '_blank', rel: 'noreferrer' })}
         >
           {isSelected && (
@@ -321,7 +323,9 @@ export function FileTree({ props, state, error, onAsk, onRetry }: PieceRenderPro
           <span className={styles.slot} />
           <FileIcon />
           <Name node={file} max={fit[file.path]} />
+          {out && <OutArrow className={styles.out} />}
           {mode === 'changes' && <Counts id={file.path} additions={file.additions} deletions={file.deletions} />}
+          {out && <OutWords href={href} />}
         </a>
       </li>
     )

@@ -139,6 +139,27 @@
   text-overflow: ellipsis;
 }
 
+/* The arrow sits before the counts so they keep the right column the header's totals and the folders share. */
+.out {
+  margin-inline-start: var(--space-2);
+}
+
+/* A file that leaves for GitHub underlines its name; a file that asks stays in the app and does not. */
+a.row[data-external] .name {
+  /* The box clips its overflow; this room below the baseline keeps the underline inside it without moving the text. */
+  padding-block-end: var(--underline-offset);
+  margin-block-end: calc(var(--underline-offset) * -1);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: var(--hairline);
+  text-underline-offset: var(--underline-offset);
+  transition: text-decoration-color 150ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+a.row[data-external]:is(:hover, :focus-visible) .name {
+  text-decoration-color: currentColor;
+}
+
 .folder .name {
   color: var(--muted);
 }

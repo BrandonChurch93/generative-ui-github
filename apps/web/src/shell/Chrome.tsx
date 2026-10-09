@@ -6,6 +6,7 @@ import { RepoChip } from '@genui-github/ui'
 import { count, rise, slide, wipe } from '@genui-github/ui/motion'
 import type { Ask, Built } from '@genui-github/renderer'
 import styles from './Chrome.module.css'
+import { Hint } from './Hint'
 import { ago, modelName, MIDDOT, plural, seconds, templateLine } from './words'
 
 export interface ChromeProps {
@@ -21,6 +22,8 @@ export interface ChromeProps {
   asks?: Ask[]
   /** A line under the question for the whole screen's condition, such as cached-only mode. */
   notice?: ReactNode
+  /** The first-visit line saying the answer is clickable, shown until the reader clicks into it. */
+  hint?: boolean
   /** False runs the chrome's exit; true again runs its entrance. */
   shown: boolean
   reduced: boolean
@@ -33,6 +36,9 @@ const kill = (tl: gsap.core.Timeline | null) => {
   tl?.progress(1)
   tl?.kill()
 }
+
+/** The hint is the chrome's last line, so it wipes in after the follow-up questions have started to slide. */
+const HINT_AT = 0.5
 
 /** "asked just now", kept fresh while the screen is open. */
 function useAgo(at: number) {
@@ -48,7 +54,7 @@ function useAgo(at: number) {
  * The chrome composes first (design-system/motion.md, Entrance 1): the eyebrow chips slide, the question
  * wipes, the built block rises and its figure counts, the follow-up questions slide. Exit is the reverse.
  */
-export function Chrome({ repo, question, askedAt, sampleDay, built, pieces, cachedAt, asks, notice, shown, reduced, onAsk, onOpenDrawer, onExited }: ChromeProps) {
+export function Chrome({ repo, question, askedAt, sampleDay, built, pieces, cachedAt, asks, notice, hint, shown, reduced, onAsk, onOpenDrawer, onExited }: ChromeProps) {
   const eyebrow = useRef<HTMLDivElement>(null)
   const heading = useRef<HTMLHeadingElement>(null)
   const receipt = useRef<HTMLButtonElement>(null)
@@ -159,6 +165,7 @@ export function Chrome({ repo, question, askedAt, sampleDay, built, pieces, cach
           ))}
         </nav>
       )}
+      <Hint show={Boolean(hint) && shown} reduced={reduced} delay={HINT_AT} />
     </header>
   )
 }

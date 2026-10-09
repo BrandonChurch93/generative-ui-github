@@ -102,6 +102,22 @@
   text-overflow: ellipsis;
 }
 
+/* A row that leaves for GitHub underlines its title; a row that asks stays in the app and does not. */
+a.row .title {
+  /* The box clips its overflow; this room below the baseline keeps the underline inside it without moving the text. */
+  padding-block-end: var(--underline-offset);
+  margin-block-end: calc(var(--underline-offset) * -1);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: var(--hairline);
+  text-underline-offset: var(--underline-offset);
+  transition: text-decoration-color 150ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+a.row:is(:hover, :focus-visible) .title {
+  text-decoration-color: currentColor;
+}
+
 :is(a, button).row:focus-visible {
   outline: none;
 }
