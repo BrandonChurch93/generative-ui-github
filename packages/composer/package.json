@@ -12,7 +12,8 @@
     "test": "vitest run",
     "classify:record": "tsx scripts/classify-record.ts",
     "fill:run": "tsx scripts/fill-run.ts",
-    "off-template:run": "tsx scripts/off-template-run.ts"
+    "off-template:run": "tsx scripts/off-template-run.ts",
+    "compositions:refresh": "tsx scripts/compositions-refresh.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "0.132.1",
@@ -20,6 +21,7 @@
     "@genui-github/data": "workspace:*",
     "@genui-github/renderer": "workspace:*",
     "@genui-github/ui": "workspace:*",
+    "@upstash/redis": "1.39.0",
     "zod": "^4.6.5"
   },
   "devDependencies": {

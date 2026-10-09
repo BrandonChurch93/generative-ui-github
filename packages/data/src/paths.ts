@@ -9,5 +9,6 @@ export function dirFrom(moduleUrl: string, relative: string): string {
   const url = new URL(relative, moduleUrl)
   if (url.protocol === 'file:') return fileURLToPath(url)
   const path = decodeURIComponent(url.pathname)
-  return path.startsWith('/@fs/') ? path.slice(4) : resolve(process.cwd(), `.${path}`)
+  // Only Vitest's browser-like environment lands here; the ignore keeps Next from tracing the whole repo.
+  return path.startsWith('/@fs/') ? path.slice(4) : resolve(/*turbopackIgnore: true*/ process.cwd(), `.${path}`)
 }

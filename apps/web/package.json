@@ -14,6 +14,7 @@
     "lighthouse": "next build && lhci autorun"
   },
   "dependencies": {
+    "@genui-github/composer": "workspace:*",
     "@genui-github/core": "workspace:*",
     "@genui-github/renderer": "workspace:*",
     "@genui-github/ui": "workspace:*",

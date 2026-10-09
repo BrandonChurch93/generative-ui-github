@@ -138,9 +138,9 @@ Prompt: `prompts/05-composer.md`. Spec: `docs/composer.md`.
 - [x] 5.4 Prose fill (Haiku) for Insight sentences, LineChart and Comparison findings, Metric deltas, Heatmap summaries, with number validation. Done when 100 runs over the samples yield zero unvalidated numbers reaching the tree.
 - [x] 5.5 Off-template composition (Sonnet), streaming JSONL. Done when the 10 off-template eval cases produce valid trees.
 - [x] 5.6 Composition rules enforced in code. Done when each rule has a test that rejects a violating tree.
-- [ ] 5.7 `POST /api/compose` with the per-visitor limit, cached golden questions, and the daily cap. Done when a test exhausts the visitor limit and gets the rate-limit response, and a test with the Anthropic client mocked asserts zero calls for a golden question on a sample repo.
-- [ ] 5.8 The built payload on every composition. Done when the route's final message carries every `Built` field.
-- [ ] 5.9 `pnpm compositions:refresh`: runs the 60 golden compositions (12 × 5 samples) once with the fill step, validates them, writes them under `packages/composer/golden/`, and commits them. The route serves these with zero model calls. Done when the 60 files exist and the zero-call test in 5.7 passes against them.
+- [x] 5.7 `POST /api/compose` with the per-visitor limit, cached golden questions, and the daily cap. Done when a test exhausts the visitor limit and gets the rate-limit response, and a test with the Anthropic client mocked asserts zero calls for a golden question on a sample repo.
+- [x] 5.8 The built payload on every composition. Done when the route's final message carries every `Built` field.
+- [x] 5.9 `pnpm compositions:refresh`: runs the 60 golden compositions (12 × 5 samples) once with the fill step, validates them, writes them under `packages/composer/golden/`, and commits them. The route serves these with zero model calls. Done when the 60 files exist and the zero-call test in 5.7 passes against them.
 
 `GATE 3` · the owner runs the twelve golden questions on next.js locally and reads the compositions.
 
