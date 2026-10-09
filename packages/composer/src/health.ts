@@ -1,4 +1,4 @@
-import type { DatedCache, GitHubClient } from '@genui-github/data/server'
+import type { Cache, DatedCache, GitHubClient } from '@genui-github/data/server'
 import type { ComposeDeps } from './compose'
 import { dayOf } from './limits'
 
@@ -48,7 +48,7 @@ interface RateLimitResponse {
 
 const allowance = (w: Window): Allowance => ({ remaining: w.remaining, limit: w.limit, resetAt: new Date(w.reset * 1000).toISOString() })
 
-export async function health(deps: Pick<ComposeDeps, 'limits' | 'dailyCapUsd'> & { cache: DatedCache & { counts?: () => CacheCounts }; github: GitHubClient }, now = Date.now()): Promise<Health> {
+export async function health(deps: Pick<ComposeDeps, 'limits' | 'dailyCapUsd'> & { cache: Cache & { counts?: () => CacheCounts }; github: GitHubClient }, now = Date.now()): Promise<Health> {
   const day = dayOf(now)
   const counts = deps.cache.counts?.() ?? { hits: 0, misses: 0, since: new Date(now).toISOString() }
   const reads = counts.hits + counts.misses

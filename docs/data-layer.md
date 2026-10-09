@@ -104,7 +104,7 @@ interface Cache {
 }
 ```
 
-- Memory backend for dev and as a fallback; Vercel KV when `KV_URL` is set.
+- Memory backend for dev and as a fallback; Vercel KV (Upstash Redis) when `KV_REST_API_URL` and `KV_REST_API_TOKEN` are both set.
 - Keys: `repo:{owner}/{name}:{shape}` and `stats:{owner}/{name}:{sha}:{shape}`.
 - TTL 900s for live repos; `null` (never) for sample repos.
 - Every returned shape carries `cachedAt` so the UI can say "copy from Oct 5".

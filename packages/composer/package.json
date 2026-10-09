@@ -14,7 +14,9 @@
     "fill:run": "tsx scripts/fill-run.ts",
     "off-template:run": "tsx scripts/off-template-run.ts",
     "compositions:refresh": "tsx scripts/compositions-refresh.ts",
-    "near-empty:refresh": "tsx scripts/near-empty-refresh.ts"
+    "near-empty:refresh": "tsx scripts/near-empty-refresh.ts",
+    "load:samples": "DAILY_CAP_USD=0.50 tsx scripts/load/samples.ts",
+    "load:limits": "DAILY_CAP_USD=0.50 tsx scripts/load/limits.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "0.132.1",
