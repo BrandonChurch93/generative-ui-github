@@ -2,6 +2,63 @@
 
 Newest entry first. Written at every GATE and whenever a session ends mid-phase.
 
+## 2026-10-10 · Polish round two · done, waiting for the owner's review
+
+All six sections are built, checked in a real browser at 1440 and 390 and under reduced motion, and committed per section. Nothing deployed, published or pushed.
+
+**A · Wordmark and nav** (`f4ec88a`, `8711720`). The wordmark is "Generative UI" in the display face and a real `RepoChip` reading github; phones show only "Generative UI". The catalog is Components everywhere: nav, route `/components` (`/catalog` and `/catalog/*` redirect, 308), titles and copy. Nav order Components · Evals · About · GitHub. Under 400px the nav wraps under the wordmark instead of running off the page.
+
+**B · Landing hierarchy** (`629efe0`). Step 1 leads with five sample repo cards (owner avatar, name in mono, GitHub's own description and star count in sans, read from each committed sample file), card rise on hover, selected style when chosen; under them "or paste any public GitHub repo", the field, Use repo, then Recent. Step 2's question chips are at body size with real padding in four clusters with sans eyebrows and mono tags, no hairlines; the header reads "2 · Ask `vercel/next.js` a question" once a repo is chosen. Landing type up one step (new tokens `text-step`, `text-body-lg`), a 1200 column (`landing-max`), `owner-avatar` for the cards. The landing route now traces the sample files it reads, so production has them.
+
+**Rule 4, one chip rule** (B, C, D). Interactive is sans in a bordered surface with hover and a focus ring; data is mono with no border. `RepoChip` without a link is now data (mono on a faint fill, no border); with a link it is interactive. Fixed on the landing (cards, question chips, Recent), the composed screen (follow-up chips, the sample marker, the rate-limit screen's repo links) and Components (segments, Replay, View JSON, the filter; counts, prop names and height class as data).
+
+**C · Composed screen** (`770a083`).
+- "Ask next" eyebrow above the follow-up chips.
+- Closure ratio: the LineChart drew the ratio as a percent (axis 0 to 120) and a week that opened nothing as 0 (the "0.0%" end label); the Metric's series also wrote such a week as 0. Now chart, metric and insight are all in ×, a week with no ratio is a gap in the line, and the number check refuses a percent for a ratio (`validateNumbers` with `ratio: true`; tests in `numbers.test.ts`, `chaoss.test.ts`, `fill.test.ts`). Goldens recomposed (60, 0 invalid, $0.034). On tailwindcss the Metric (0.6×, 12 weeks) and the chart's end label (0.0×, the latest week, 11 opened and none closed) differ honestly.
+- One piece in main, two in side: the split becomes one column (main, then the two side pieces). Stretching the main card was tried and rejected: it moved the dead space inside the card (a one-row card 711px tall). Rule recorded in `docs/composer.md`.
+
+**D · Components page** (`a24ff73`). Sticky bar: a Segmented of categories with mono counts (Data 15 · Text 2 · Actions 1 · Paths 1 · System 2 · Code 3 · Inputs 4 · Primitives 13), density, Replay, and a filter within the category; left and right arrows switch categories from the page. Switching is a composition: the visible set exits staggered, the new category's skeleton frames mount by height class, then each fills with its real entrance 60 ms apart; density and Replay rebuild the same way; no state control. Clicking a card opens it to full width in place with its description, the model's props, every state side by side, Replay and View JSON; Esc or a second click closes it; the URL becomes `/components/<Name>` with no navigation or scroll reset, and a deep link opens it server side. The new intro copy as written.
+
+**E · Rewrite choreography** (`dd6434b`). A follow-up's exits start on the click (first painted frame, about 55 ms in dev). The clicked piece stays as the anchor; the rest leave in place. An answer inside the exit lead plays as one rewrite with no skeleton (golden chip: answer at 90 ms, no skeleton). A later one shows the insight's frame as its skeleton from about 0.5 s and fills it in place when the answer lands (held 2 s: skeleton at 516 ms). No spinner. Rule added to `design-system/motion.md`.
+
+**Verified**: `pnpm lint` (exit 0), `pnpm typecheck` (8 of 8), `pnpm test` (ui 314, composer 176, data 68, renderer 33, web 15, evals 8, core 6, mcp-app 3), `pnpm e2e` (67 passed, 1 skipped: the live click), `pnpm a11y` (6 passed, zero serious issues), `pnpm evals:check` (template 1.00, bindings 1.00 on the 60 golden cases, $0.036). Tabbed through the landing, a composed screen and Components: every stop shows the 2px `focus` ring (text fields on their wrapper). Every new move checked under `reducedMotion: 'reduce'`.
+
+### Testing still open
+
+**Unchecked tasks in `docs/plan.md`**
+
+- 8.4 `OWNER`: the MCP App in Claude Desktop (config in `docs/questions.md` 8.4). Never tried in a real host; only in the Inspector and a stand-in host page.
+- 9.0: the dark theme. Skipped until design adds dark values to `tokens.json` from `docs/dark-theme-brief.md`.
+- A.1: review the renderer on `/dev/render` (rewrites, survivors, live update, reduced motion, densities) and answer the Phase 3 entries in `docs/questions.md`.
+- A.2: read the 12 golden answers on vercel/next.js for whether every figure means what its sentence says; ask two paraphrases and one off-template question on a live non-sample repo; answer the Phase 4 and 5 entries in `docs/questions.md`.
+- A.3: the owner's UI and UX pass (these two polish rounds are part of it; tick it when the owner is satisfied).
+- A.4: Claude Desktop (8.4) and handing the dark theme brief to design.
+- 10.1 `OWNER`: deploy to Vercel with the env vars and Upstash KV, following the deploy checklist below (2026-10-09, Phase 10 prep). Executor side done.
+- 10.2 `OWNER`: `npm publish` of `@genui-github/ui` then `@genui-github/renderer` (remove `"private": true` first). Executor side done: the tarballs install and render fixture 1 in a clean Vite app.
+- 10.3 `OWNER`: record the 60-second video from the shot list in `docs/launch.md`.
+- 10.4 `OWNER`: approve the portfolio and LinkedIn drafts in `docs/launch.md`; supply the portfolio and LinkedIn URLs, the live URL, npm links after publishing, and confirm the byline, the public repo and the "next thing to fix" line. Executor side done (the About page).
+- 10.5: the final checks in `docs/launch.md`, run against production after 10.1.
+
+**What only the owner can do**: deploy (10.1), publish (10.2), record (10.3), approve copy and supply URLs (10.4), try the MCP App (8.4), get the dark values from design (9.0), and work through A.1 to A.4 and the open questions in `docs/questions.md`.
+
+**Eval runs**: all three were executed on 2026-10-09 (99 cases × 3 runs each, committed under `packages/evals/results/`). Template accuracy: production 0.96, haiku 0.96 (0.96 to 0.97), sonnet 0.13 (it skips routing on purpose). Since then the composer changed (off-template streaming, rule 5, the closure ratio unit, the layout rule), so the full baseline was not rerun; today's `pnpm evals:check` reran the 60 golden cases on production and held at template 1.00 and bindings 1.00. A fresh three-model run costs about $4.70.
+
+**Lighthouse** (mobile, median of 3, a production build on localhost, 2026-10-10): landing performance 0.94, accessibility 1.00; composed screen `/r/vercel/next.js?q=What's blocking the next release?` 0.94 and 1.00. Not yet run against the deployed site.
+
+**Verified at desktop width only, not on a phone**
+
+- The live click-to-recompose ("Failing checks" to check-failures, 6.8) and the cold live repo's warming hand-off (`sindresorhus/cpy-cli`): both at 1440 only.
+- Typing a live repo into the landing and getting the resolved check, and choosing the Recent repo: 1440 only (picking a sample and the muted step 2 were checked at 390).
+- The follow-up timing traces in E (exits on click, skeleton timing): measured at 1440; the held-answer screenshots exist at 390, the timings do not.
+- Hover states (cards, chips, rows that open GitHub): desktop only, by nature.
+- No real device at all: every phone check is Chromium at a 390px viewport (and 360 for the header). Nothing has been run in Safari or Firefox, desktop or iOS, so iOS input zoom, `text-wrap: pretty`, container query units in the MCP frame and the landing preview's scale are unverified there.
+
+**Seen and left for the review**
+
+- Heatmap in a half-width card cuts its legend's "Peak" to "Pea" (the Components page's state cards, `focused-1440.png`); a Heatmap component fix.
+- vite's sample still lacks `stats/contributors` (GitHub had not counted it), so its contributor pieces show the counting state; the near-empty fixture lacks it too.
+- A model-composed screen whose second side piece arrives late reflows once into the stacked layout when it lands.
+
 ## 2026-10-09 · Polish round before deploy · done, waiting for the owner's review
 
 The owner's polish list, eleven items in four sections, is built, checked in a real browser at 1440 and 390 and under reduced motion, and committed one section at a time. Nothing deployed, published or pushed.
