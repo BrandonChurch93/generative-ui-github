@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-test('every interactive element on /catalog/parts shows the focus ring', async ({ page }) => {
+test('every interactive element on /components/parts shows the focus ring', async ({ page }) => {
   await page.goto('/components/parts')
   const focus = await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--focus').trim())
   const expected = await page.evaluate(hex => {
@@ -47,8 +47,9 @@ test('every interactive element on /catalog/parts shows the focus ring', async (
   expect(failures).toEqual([])
 })
 
-test('the catalog filter and its sidebar links show the focus ring', async ({ page }) => {
-  await page.goto('/components/Metric')
+test('the components bar and every card name show the focus ring', async ({ page }) => {
+  await page.goto('/components?still')
+  await page.locator('[data-phase="settled"]').waitFor()
   const focus = await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--focus').trim())
   const expected = await page.evaluate(hex => {
     const probe = document.createElement('span')
@@ -62,15 +63,18 @@ test('the catalog filter and its sidebar links show the focus ring', async ({ pa
     page.evaluate(() => {
       const el = document.activeElement as HTMLElement
       const s = getComputedStyle(el)
-      return { label: el.getAttribute('aria-label') ?? el.textContent?.trim() ?? el.tagName, ring: `${s.outlineStyle} ${s.outlineWidth} ${s.outlineOffset} ${s.outlineColor}` }
+      const label = el instanceof HTMLInputElement ? (el.labels?.[0]?.textContent ?? '') : (el.textContent?.trim() ?? '')
+      return { label, ring: `${s.outlineStyle} ${s.outlineWidth} ${s.outlineOffset} ${s.outlineColor}` }
     })
 
-  const field = page.getByRole('searchbox', { name: 'Filter components' })
-  for (let i = 0; i < 40 && !(await field.evaluate(el => el === document.activeElement)); i++) await page.keyboard.press('Tab')
-  await expect(field).toBeFocused()
-  expect((await ring()).ring).toBe(`solid 2px 2px ${expected}`)
-  await page.keyboard.press('Tab')
-  const link = await ring()
-  expect(link.label).toBe('Metric')
-  expect(link.ring).toBe(`solid 2px 2px ${expected}`)
+  const data = page.getByRole('radiogroup', { name: 'Category' }).getByRole('radio', { name: /^Data/ })
+  for (let i = 0; i < 40 && !(await data.evaluate(el => el === document.activeElement)); i++) await page.keyboard.press('Tab')
+  await expect(data).toBeFocused()
+  const seen = [await ring()]
+  for (let i = 0; i < 4; i++) {
+    await page.keyboard.press('Tab')
+    seen.push(await ring())
+  }
+  expect(seen.map(s => s.label)).toEqual(['Data 15', 'Comfortable', 'Replay', 'Filter Data components', 'Metric'])
+  for (const s of seen) expect(s.ring, s.label).toBe(`solid 2px 2px ${expected}`)
 })

@@ -13,23 +13,29 @@ test('/ has no serious accessibility issues @a11y', async ({ page }) => {
   expect(await serious(page)).toEqual([])
 })
 
-test('every catalog page and state has no serious accessibility issues @a11y', async ({ page }, info) => {
-  test.skip(info.project.name === 'unconfigured', 'the catalog does not depend on configuration')
-  // Every component in every state: this grows with the catalog.
+test('every component in every state, and the foundations pages, have no serious accessibility issues @a11y', async ({ page }, info) => {
+  test.skip(info.project.name === 'unconfigured', 'the components page does not depend on configuration')
+  // Every component, opened: its card draws each state it supports side by side. This grows with the catalog.
   test.setTimeout(240_000)
-  await page.goto('/components')
-  const hrefs = await page
-    .getByRole('navigation', { name: 'Catalog' })
-    .getByRole('link')
-    .evaluateAll(links => links.map(a => a.getAttribute('href') ?? ''))
+  // `still` skips the entrance, so contrast is measured on settled pieces, never mid-fade.
+  await page.goto('/components?still')
+  const categories = page.getByRole('radiogroup', { name: 'Category' }).getByRole('radio')
+  const names: string[] = []
+  for (const radio of await categories.all()) {
+    await radio.click()
+    const group = (await radio.innerText()).replace(/\s+\d+$/, '')
+    await page.locator(`[data-phase="settled"][data-category="${group}"]`).waitFor()
+    names.push(...(await page.locator('[data-entry]').evaluateAll(els => els.map(el => (el as HTMLElement).dataset.entry ?? ''))))
+  }
+  expect(names.length).toBeGreaterThan(30)
   const found: string[] = []
-  for (const href of hrefs) {
-    const component = /^\/catalog\/[A-Z]/.test(href)
-    for (const state of component ? ['default', 'skeleton', 'empty', 'error', 'warming'] : ['']) {
-      // `still` skips the entrance, so contrast is measured on the settled piece, never mid-fade.
-      await page.goto(state ? `${href}?state=${state}&still` : href)
-      found.push(...(await serious(page)))
+  for (const path of [...names.map(n => `/components/${n}`), '/components/parts', '/components/density', '/components/motion']) {
+    await page.goto(`${path}?still`)
+    if (!/(parts|density|motion)$/.test(path)) {
+      await page.locator(`[data-entry="${path.split('/').pop()}"][data-focused]`).waitFor()
+      await page.locator('[data-phase="settled"]').waitFor()
     }
+    found.push(...(await serious(page)))
   }
   expect(found).toEqual([])
 })

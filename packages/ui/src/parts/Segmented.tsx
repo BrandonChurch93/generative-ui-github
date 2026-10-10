@@ -1,12 +1,13 @@
 'use client'
 
-import { useRef, type KeyboardEvent } from 'react'
+import { useRef, type KeyboardEvent, type ReactNode } from 'react'
 import { cx } from './cx'
 import styles from './Segmented.module.css'
 
 export interface SegmentedOption<V extends string> {
   value: V
-  label: string
+  /** What the segment reads; a node can carry a mono count beside the word. */
+  label: ReactNode
   /** A disabled segment stays visible and says why it is off. */
   disabled?: boolean
   reason?: string

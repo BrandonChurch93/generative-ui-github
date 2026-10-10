@@ -1,0 +1,481 @@
+.page {
+  padding-block-start: var(--space-7);
+}
+
+.intro {
+  display: grid;
+  gap: var(--space-4);
+  max-inline-size: 62ch;
+  margin-block-end: var(--space-6);
+}
+
+/* Data: mono, no border. */
+.eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  letter-spacing: var(--text-meta-tracking);
+}
+
+.headline {
+  margin: 0;
+  max-inline-size: 16ch;
+  font-size: var(--text-question-size);
+  line-height: var(--text-question-leading);
+  font-weight: var(--text-question-weight);
+  letter-spacing: var(--text-question-tracking);
+  text-wrap: balance;
+}
+
+.lead {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-action-size);
+  line-height: var(--text-body-leading);
+  text-wrap: pretty;
+}
+
+.foundations {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-4);
+}
+
+.factLabel {
+  color: var(--muted);
+  font-size: var(--text-hint-size);
+  line-height: var(--text-hint-leading);
+}
+
+.foundation {
+  border-radius: var(--radius-xs);
+  color: var(--accent-text);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-leading);
+  font-weight: var(--text-label-weight);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent-text) 35%, transparent);
+  text-underline-offset: var(--underline-offset);
+  transition: text-decoration-color 150ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.foundation:hover {
+  text-decoration-color: currentColor;
+}
+
+.foundation[aria-current="page"] {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  padding-block: var(--space-7) var(--space-2);
+}
+
+/* The controls stay in reach while the set scrolls under them. */
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-block-end: var(--space-6);
+  padding-block: var(--space-3);
+  border-block-end: var(--hairline) solid var(--line-soft);
+  background: var(--bg);
+}
+
+.controls {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* Room for the focus ring of the first and last segment inside the scroller. */
+.scroller {
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  margin: calc((var(--focus-ring) + var(--focus-offset)) * -1);
+  padding: calc(var(--focus-ring) + var(--focus-offset));
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.count {
+  margin-inline-start: var(--space-1);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  letter-spacing: var(--text-meta-tracking);
+  font-variant-numeric: tabular-nums;
+}
+
+[aria-checked="true"] > .count {
+  color: var(--ink);
+}
+
+/* Interactive: sans inside a bordered surface, a hover state and the focus ring. */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  block-size: calc(var(--hit) + var(--space-2) + var(--hairline) * 2);
+  margin: 0;
+  padding: 0 var(--space-4);
+  border: var(--hairline) solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-label-size);
+  line-height: 1;
+  font-weight: var(--text-label-weight);
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    border-color 180ms cubic-bezier(0.25, 1, 0.5, 1),
+    background-color 180ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.pill:hover {
+  border-color: var(--line-strong);
+  background: var(--surface-tint);
+}
+
+.pill:disabled {
+  color: var(--muted);
+  cursor: default;
+}
+
+.pill:disabled:hover {
+  border-color: var(--line);
+  background: var(--surface);
+}
+
+.pill:focus-visible,
+.name:focus-visible,
+.foundation:focus-visible,
+.filterField:focus-visible {
+  outline: var(--focus-ring) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+
+.filter {
+  flex: 1 1 10rem;
+  max-inline-size: 16rem;
+  margin-inline-start: auto;
+}
+
+.filterField {
+  box-sizing: border-box;
+  inline-size: 100%;
+  block-size: calc(var(--hit) + var(--space-2) + var(--hairline) * 2);
+  margin: 0;
+  padding: 0 var(--space-4);
+  border: var(--hairline) solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--ink);
+  caret-color: var(--accent);
+  font-family: var(--font-sans);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-leading);
+  appearance: none;
+  transition: border-color 150ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.filterField::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+
+.filterField:hover {
+  border-color: var(--line-strong);
+}
+
+/* The browser's clear glyph ignores the palette; Escape still clears the field. */
+.filterField::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+.stage {
+  min-block-size: var(--held, auto);
+  /* A card that opens pushes the set below it down; the page holds still instead of following what moved. */
+  overflow-anchor: none;
+}
+
+.none,
+.unknown {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-leading);
+}
+
+.none:empty {
+  display: none;
+}
+
+.unknown {
+  margin-block-end: var(--space-5);
+}
+
+/* The set, laid out the way a composed screen would place it: width by the catalog, height by the height class. */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--space-6) var(--space-4);
+  align-items: start;
+}
+
+.cell {
+  grid-column: span 6;
+  min-inline-size: 0;
+  cursor: pointer;
+}
+
+.cell[data-width="quarter"] {
+  grid-column: span 3;
+}
+
+.cell[data-width="third"] {
+  grid-column: span 4;
+}
+
+.cell[data-width="full"],
+.cell[data-focused] {
+  grid-column: 1 / -1;
+}
+
+.cell[data-focused] {
+  cursor: auto;
+}
+
+.lift {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  min-inline-size: 0;
+}
+
+.title {
+  margin: 0;
+  font: inherit;
+}
+
+.name {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: none;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-leading);
+  font-weight: var(--text-card-title-weight);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: var(--underline-offset);
+  cursor: pointer;
+  transition: text-decoration-color 150ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.cell:hover .name,
+.name:hover {
+  text-decoration-color: var(--line-strong);
+}
+
+.cell[data-focused] .name {
+  font-size: var(--text-section-size);
+  line-height: var(--text-section-leading);
+  font-weight: var(--text-section-weight);
+}
+
+/* Data: mono, no border. */
+.data {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  letter-spacing: var(--text-meta-tracking);
+  white-space: nowrap;
+}
+
+.piece {
+  min-inline-size: 0;
+}
+
+.details {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.when {
+  max-inline-size: 68ch;
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-leading);
+}
+
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1) var(--space-3);
+  margin: 0;
+}
+
+.facts .data {
+  color: var(--ink);
+}
+
+.states {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
+  gap: var(--space-5) var(--space-4);
+  align-items: start;
+  padding-block: var(--space-2);
+}
+
+/* Each state at the width the component is drawn at on a screen, as many to a row as fit. */
+.states[data-width="third"] {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+}
+
+.states[data-width="half"] {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 34rem), 1fr));
+}
+
+.states[data-width="full"] {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.panel {
+  display: grid;
+  gap: var(--space-2);
+  min-inline-size: 0;
+  margin: 0;
+}
+
+.panelLabel {
+  color: var(--muted);
+  font-size: var(--text-hint-size);
+  line-height: var(--text-hint-leading);
+}
+
+.omitted {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+  font-size: var(--text-hint-size);
+  line-height: var(--text-hint-leading);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.json {
+  margin: 0;
+  max-block-size: 32rem;
+  overflow: auto;
+  padding: var(--space-5);
+  border: var(--hairline) solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--card);
+  font-family: var(--font-mono);
+  font-size: var(--text-code-size);
+  line-height: var(--text-code-leading);
+}
+
+/* raw-ok: media conditions cannot read custom properties; these are the shell's breakpoints. */
+@media (max-width: 1023px) {
+  .cell[data-width="quarter"],
+  .cell[data-width="third"] {
+    grid-column: span 6;
+  }
+
+  .cell,
+  .cell[data-width="half"] {
+    grid-column: 1 / -1;
+  }
+}
+
+/* raw-ok: media conditions cannot read custom properties. */
+@media (max-width: 639px) {
+  .cell[data-width] {
+    grid-column: 1 / -1;
+  }
+
+  /* On a phone only the categories stay in reach; density, replay and the filter scroll away with the intro. */
+  .bar {
+    display: contents;
+  }
+
+  .scroller {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    max-inline-size: none;
+    margin-inline: calc(var(--space-4) * -1);
+    padding: var(--space-2) var(--space-4);
+    border-block-end: var(--hairline) solid var(--line-soft);
+    background: var(--bg);
+  }
+
+  .controls {
+    margin-block: var(--space-3) var(--space-6);
+  }
+
+  .filter {
+    flex-basis: 100%;
+    max-inline-size: none;
+    margin-inline-start: 0;
+  }
+}
+
+/* iOS Safari zooms into any field under 16px; desktop sizes stay as drawn. */
+/* raw-ok: media conditions cannot read custom properties. */
+@media (max-width: 29.99em) {
+  .filterField {
+    font-size: 1rem;
+  }
+}
+
+/* raw-ok: media conditions cannot read custom properties. */
+@media (prefers-reduced-motion: reduce) {
+  .pill,
+  .name,
+  .foundation,
+  .filterField {
+    transition: none;
+  }
+}

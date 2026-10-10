@@ -1,3 +1,4 @@
+import { Foundations } from '../_gallery/Foundations'
 import { DensityColumn } from './DensityColumn'
 import styles from './density.module.css'
 
@@ -6,10 +7,11 @@ export const metadata = { title: 'Density · Components · Generative UI for Git
 export default function DensityPage() {
   return (
     <article className={styles.page} aria-labelledby="density-title">
+      <Foundations current="/components/density" />
       <header className={styles.head}>
-        <h2 id="density-title" className={styles.title}>
+        <h1 id="density-title" className={styles.title}>
           Density
-        </h2>
+        </h1>
         <p className={styles.description}>
           Set once on the screen root as <code>data-density</code>; every card and row reads the same variables. Spacious
           steps down to comfortable under 640px.
