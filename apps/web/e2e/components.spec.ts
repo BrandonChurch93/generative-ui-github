@@ -208,3 +208,21 @@ test('on a phone the categories stay in reach and nothing scrolls sideways', asy
   expect(main).toBe(true)
   await context.close()
 })
+
+test('the Heatmap legend and peak line wrap in a narrow card and never clip once drawn', async ({ page }, info) => {
+  test.skip(info.project.name === 'unconfigured', 'the components page does not depend on configuration')
+  await page.goto('/components/Heatmap?still')
+  const peak = page.locator('[data-peak-line]').first()
+  await expect(peak).toBeVisible()
+  // Down to a card far narrower than any layout gives it: the words wrap, they are never cut.
+  for (const width of [360, 260, 180]) {
+    const fit = await peak.evaluate((el, width) => {
+      const foot = el.closest('[data-chart-body]') as HTMLElement
+      ;(foot.parentElement as HTMLElement).style.inlineSize = `${width}px`
+      const right = foot.getBoundingClientRect().right
+      return [...foot.children].every(c => c.scrollWidth <= c.clientWidth + 1 && c.getBoundingClientRect().right <= right + 1) && getComputedStyle(el).clipPath === 'none'
+    }, width)
+    expect(fit, `${width}px`).toBe(true)
+  }
+  await expect(peak).toContainText('Peak')
+})

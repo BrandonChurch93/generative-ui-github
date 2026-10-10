@@ -55,8 +55,8 @@ All six sections are built, checked in a real browser at 1440 and 390 and under 
 
 **Seen and left for the review**
 
-- Heatmap in a half-width card cuts its legend's "Peak" to "Pea" (the Components page's state cards, `focused-1440.png`); a Heatmap component fix.
-- vite's sample still lacks `stats/contributors` (GitHub had not counted it), so its contributor pieces show the counting state; the near-empty fixture lacks it too.
+- Resolved 2026-10-10: the Heatmap's "Pea" was the peak line caught mid wipe in a screenshot (the reveal clears to `none` at 2.8 s); at rest it never clips, and wraps down to a 180px card. A regression test in `components.spec.ts` holds it.
+- Resolved 2026-10-10: `pnpm samples:refresh vitejs/vite` found GitHub's `stats/contributors` counted (100 authors, 33 requests, nothing missing); the golden answers were recomposed (60, 0 invalid, $0.031) and vite's "Who's carrying this repo?" now draws every piece with data. The near-empty fixture still lacks contributors.
 - A model-composed screen whose second side piece arrives late reflows once into the stacked layout when it lands.
 
 ## 2026-10-09 · Polish round before deploy · done, waiting for the owner's review
