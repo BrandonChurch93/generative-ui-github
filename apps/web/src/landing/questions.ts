@@ -19,5 +19,8 @@ export const GROUPS: readonly { label: string; draws: string; templates: Templat
 /** The five sample repos by the names docs/decisions.md uses; react's old name still finds its sample. */
 export const SAMPLE_NAMES = ['vercel/next.js', 'facebook/react', 'anthropics/claude-code', 'tailwindlabs/tailwindcss', 'vitejs/vite'] as const
 
-/** The preselected sample, and the question the landing's preview answers on it. */
-export const PREVIEW = { repo: 'vercel/next.js', template: 'release-blockers' } as const satisfies { repo: string; template: TemplateId }
+/**
+ * The answer the How it works picture shows: the golden one whose insight reads strongest with no caveat, and that
+ * has the three things the callouts point at (the insight, a hot metric, a clickable row).
+ */
+export const PREVIEW = { repo: 'anthropics/claude-code', template: 'contributors' } as const satisfies { repo: string; template: TemplateId }

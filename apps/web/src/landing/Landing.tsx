@@ -2,18 +2,18 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useEffect, useId, useRef, useState, useSyncExternalStore, type ComponentType, type FormEvent, type MouseEvent } from 'react'
+import { useEffect, useId, useLayoutEffect, useRef, useState, type ComponentType, type FormEvent, type MouseEvent } from 'react'
 import { TextInput as TextInputPiece, type PieceRenderProps } from '@genui-github/ui'
-import { prefersReducedMotion } from '@genui-github/ui/motion'
+import { prefersReducedMotion, wipe } from '@genui-github/ui/motion'
 import type { TextInput } from '@genui-github/ui/schemas'
 import { Frame } from '../shell/Frame'
-import { lastRepo, onLastRepoChange } from '../shell/lastRepo'
 import { HOW_ID, HowItWorks } from './HowItWorks'
 import styles from './Landing.module.css'
 import type { LandingPreview } from './Preview'
 import type { QuestionGroup } from './questions'
 import { parseRepo, repoPath } from './repoInput'
 import { starCount, type SampleRepo } from './samples'
+import { WordClamp } from './WordClamp'
 
 export type { LandingPreview, SampleRepo }
 
@@ -22,15 +22,14 @@ const Field = TextInputPiece as unknown as ComponentType<PieceRenderProps<HeroPr
 
 /** The landing's words, all the system's. */
 const WORDS = {
-  paste: 'or paste any public GitHub repo',
+  paste: 'Or paste any public GitHub repo',
   placeholder: 'owner/name',
   helper: 'Public repos only, as owner/name or a github.com link',
   pickFirst: 'Pick a repo first',
   action: 'Use repo',
   samples: 'Sample repos',
-  recent: 'Recent',
   ask: 'Type your own question',
-  or: 'or pick one',
+  own: 'Or ask your own question',
 } as const
 
 type Resolution = { ok: true; repo: string; sample: boolean } | { ok: false; message: string; kind: 'missing' | 'shape' | 'unreachable' }
@@ -53,18 +52,17 @@ const QUESTION_MAX = 300
 export function Landing({ samples, groups, preview }: { samples: SampleRepo[]; groups: QuestionGroup[]; preview: LandingPreview | null }) {
   const router = useRouter()
   const [repo, setRepo] = useState<string>()
-  // What the hero field shows when the page sets it (a sample, the recent repo), and what GitHub said about it.
+  // What the hero field shows when the page sets it (a sample), and what GitHub said about it.
   const [fieldValue, setFieldValue] = useState<string>()
   const [status, setStatus] = useState<TextInput.FieldStatus>()
   const [pickFirst, setPickFirst] = useState(false)
-  // Read after hydration: the server never knows it, so the first paint matches and the slot is reserved.
-  const last = useSyncExternalStore(onLastRepoChange, lastRepo, () => undefined)
   const pickStep = useRef<HTMLElement>(null)
   const askStep = useRef<HTMLElement>(null)
   const typing = useRef<number | undefined>(undefined)
   const asking = useRef<AbortController | null>(null)
   const pickTitle = useId()
   const askTitle = useId()
+  const pasteLabel = useId()
 
   const stopChecking = () => {
     window.clearTimeout(typing.current)
@@ -117,7 +115,7 @@ export function Landing({ samples, groups, preview }: { samples: SampleRepo[]; g
     typing.current = window.setTimeout(() => void check(value), SETTLE_MS)
   }
 
-  /** A sample or the recent repo: chosen at once, the field filled with its name. */
+  /** A sample: chosen at once, the field filled with its name. */
   const choose = (name: string) => {
     stopChecking()
     setRepo(name)
@@ -176,8 +174,10 @@ export function Landing({ samples, groups, preview }: { samples: SampleRepo[]; g
               ))}
             </ul>
             <div className={styles.paste} onInput={typed} data-chosen={repo ? '' : undefined}>
-              <p className={styles.pasteLead}>{WORDS.paste}</p>
-              <div className={styles.field}>
+              <p className={styles.pasteLead} id={pasteLabel}>
+                {WORDS.paste}
+              </p>
+              <div className={styles.field} role="group" aria-labelledby={pasteLabel}>
                 <Field
                   state="default"
                   props={{
@@ -194,25 +194,9 @@ export function Landing({ samples, groups, preview }: { samples: SampleRepo[]; g
                   }}
                 />
               </div>
-              <div className={styles.offer}>
-                {last && (
-                  <p className={styles.recent} data-offer="">
-                    <span className={styles.recentLabel}>{WORDS.recent}</span>
-                    <button type="button" className={styles.chip} aria-pressed={last === repo} onClick={() => choose(last)}>
-                      {last}
-                    </button>
-                  </p>
-                )}
-              </div>
             </div>
           </section>
 
-          <div className={styles.join} aria-hidden="true">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M8 3v10" />
-              <path d="M4 9l4 4 4-4" />
-            </svg>
-          </div>
 
           <section ref={askStep} className={styles.step} aria-labelledby={askTitle} data-step="2" data-ready={repo ? '' : undefined}>
             <h2 className={styles.stepTitle} id={askTitle}>
@@ -251,7 +235,7 @@ function SampleCard({ sample, chosen, onChoose }: { sample: SampleRepo; chosen: 
         <span className={styles.namePart}>{name}</span>
       </span>
       <span className={styles.cardAbout}>
-        {sample.description && <span className={styles.cardDescription} id={`${id}-description`}>{sample.description}</span>}
+        {sample.description && <WordClamp className={styles.cardDescription} id={`${id}-description`} text={sample.description} lines={3} />}
         {sample.stars !== undefined && <span className={styles.cardStars} id={`${id}-stars`}>{starCount(sample.stars)} stars</span>}
       </span>
     </button>
@@ -259,38 +243,60 @@ function SampleCard({ sample, chosen, onChoose }: { sample: SampleRepo; chosen: 
 }
 
 /**
- * Step 2, always whole: a question of the reader's own, then the twelve. Until a repo is chosen it is muted and
- * nothing in it acts; touching it sends the reader back to step 1.
+ * Step 2, always whole and in step 1's order: the twelve questions first, then a question of the reader's own.
+ * Until a repo is chosen it is dimmed and nothing in it acts; touching it sends the reader back to step 1. When a
+ * repo is chosen the cards wipe in.
  */
 function AskBody({ repo, groups, onAsk, onNeedRepo }: { repo?: string; groups: QuestionGroup[]; onAsk: (question: string) => void; onNeedRepo: () => void }) {
   const off = !repo
+  const grid = useRef<HTMLUListElement>(null)
+  const [picked, setPicked] = useState<string>()
+  const wasOff = useRef(off)
+
+  useLayoutEffect(() => {
+    const was = wasOff.current
+    wasOff.current = off
+    if (off || !was || !grid.current) return
+    const tl = wipe([...grid.current.querySelectorAll('[data-question]')], { reduced: prefersReducedMotion() })
+    return () => {
+      tl.progress(1).kill()
+    }
+  }, [off])
+
   return (
     <div className={styles.askBody} data-ask-body="" data-off={off ? '' : undefined}>
       <p className={styles.askLead}>Each kind of question composes a different screen{repo ? '' : ' for the repo you pick'}.</p>
-      <AskField repo={repo} onAsk={onAsk} onNeedRepo={onNeedRepo} />
-      <p className={styles.or}>{WORDS.or}</p>
-      <ul className={styles.groups}>
+      <ul ref={grid} className={styles.groups}>
         {groups.map(group => (
           <li key={group.label} className={styles.group} data-group={group.label}>
-            <h3>{group.label}</h3>
-            <p>{group.draws}</p>
-            <div className={styles.qchips}>
-              {group.questions.map(question =>
-                repo ? (
-                  <Link key={question} className={styles.qchip} href={repoPath(repo, question)} prefetch={false} data-question="">
-                    {question}
-                  </Link>
-                ) : (
-                  // Not disabled outright: a disabled button takes no click, and the click is what says "pick a repo first".
-                  <button key={question} type="button" className={styles.qchip} aria-disabled="true" onClick={onNeedRepo} data-question="">
-                    {question}
-                  </button>
-                ),
-              )}
+            <div className={styles.groupHead}>
+              <h3>{group.label}</h3>
+              <p>{group.draws}</p>
             </div>
+            {group.questions.map(question =>
+              repo ? (
+                <Link
+                  key={question}
+                  className={styles.qcard}
+                  href={repoPath(repo, question)}
+                  prefetch={false}
+                  aria-current={picked === question ? 'true' : undefined}
+                  onClick={() => setPicked(question)}
+                  data-question=""
+                >
+                  {question}
+                </Link>
+              ) : (
+                // Not disabled outright: a disabled button takes no click, and the click is what says "pick a repo first".
+                <button key={question} type="button" className={styles.qcard} aria-disabled="true" onClick={onNeedRepo} data-question="">
+                  {question}
+                </button>
+              ),
+            )}
           </li>
         ))}
       </ul>
+      <AskField repo={repo} onAsk={onAsk} onNeedRepo={onNeedRepo} />
     </div>
   )
 }
@@ -313,8 +319,9 @@ function AskField({ repo, onAsk, onNeedRepo }: { repo?: string; onAsk: (question
 
   return (
     <form className={styles.ask} onSubmit={submit} data-ask="">
-      <label className="sr-only" htmlFor={id}>
-        {repo ? `Your question about ${repo}` : 'Your question, once a repo is picked'}
+      <label className={styles.askLabel} htmlFor={id}>
+        {WORDS.own}
+        <span className="sr-only">{repo ? ` about ${repo}` : ', once a repo is picked'}</span>
       </label>
       <div className={styles.askBox}>
         <input

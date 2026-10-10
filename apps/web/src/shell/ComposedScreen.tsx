@@ -6,7 +6,6 @@ import { Mark, type Density } from '@genui-github/ui'
 import dynamic from 'next/dynamic'
 import type { AskEvent, StreamTree } from '@genui-github/renderer'
 import { Chrome } from './Chrome'
-import { rememberRepo } from './lastRepo'
 import { Drawer, PieceDrawer, type PieceDrawerContent } from './Drawer'
 import { useHintDismissed } from './Hint'
 import screen from './ComposedScreen.module.css'
@@ -112,10 +111,6 @@ export function ComposedScreen({ owner, name, question: initial, sampleDay, forc
     return () => window.removeEventListener('popstate', onPop)
   }, [])
 
-  // The one thing kept about a visitor: the last repo that answered, for the landing's offer.
-  useEffect(() => {
-    if (state.phase === 'done' && !refusal) rememberRepo(repo)
-  }, [state.phase, refusal, repo])
 
   // `r` replays the screen: everything leaves, then the whole entrance runs again.
   useEffect(() => {

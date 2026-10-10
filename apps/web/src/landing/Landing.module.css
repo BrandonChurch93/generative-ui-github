@@ -63,6 +63,17 @@
   margin-block-start: var(--space-7);
 }
 
+/* Five cards across, and the width of two of them: the paste field and the own-question field line up with the cards. */
+.journey {
+  --cols: 5;
+  --gap: var(--space-3);
+  --two-cards: calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols) * 2 + var(--gap));
+}
+
+.step + .step {
+  margin-block-start: var(--space-8);
+}
+
 .step {
   scroll-margin-block-start: var(--space-5);
 }
@@ -96,20 +107,20 @@
   color: var(--muted);
 }
 
-.askBody[data-off] :is(.askBox, .qchip) {
+.askBody[data-off] :is(.askBox, .qcard) {
   box-shadow: none;
   background: var(--bg);
   border-color: var(--line-soft);
 }
 
-.askBody[data-off] .qchip,
+.askBody[data-off] .qcard,
 .askBody[data-off] .askInput,
 .askBody[data-off] .askInput::placeholder,
-.askBody[data-off] .group h3 {
+.askBody[data-off] .groupHead h3 {
   color: var(--muted);
 }
 
-.askBody[data-off] :is(.qchip, .askInput, .askBox) {
+.askBody[data-off] :is(.qcard, .askInput, .askBox) {
   cursor: not-allowed;
 }
 
@@ -128,13 +139,15 @@
   box-shadow: none;
 }
 
-.askBody[data-off] .qchip:is(:hover, :focus-visible) {
-  border-color: var(--line);
+.askBody[data-off] .qcard:is(:hover, :focus-visible) {
+  border-color: var(--line-soft);
   background: var(--bg);
+  box-shadow: none;
   color: var(--muted);
+  transform: none;
 }
 
-.askBody :is(.askBox, .qchip, .askButton, .askInput, .group h3) {
+.askBody :is(.askBox, .askButton, .askInput, .groupHead h3) {
   transition:
     color 200ms cubic-bezier(0.25, 1, 0.5, 1),
     background-color 200ms cubic-bezier(0.25, 1, 0.5, 1),
@@ -143,18 +156,11 @@
     transform 150ms cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* The arrow that joins the two steps, on the content edge. */
-.join {
-  display: flex;
-  padding: var(--space-6) var(--edge) var(--space-5);
-  color: var(--muted);
-}
-
 /* The samples lead step 1: five cards, the path nearly every reader takes. */
 .cards {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: var(--space-3);
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  gap: var(--gap);
   margin: var(--space-5) 0 0;
   padding: 0;
   list-style: none;
@@ -269,14 +275,13 @@
   min-inline-size: 0;
 }
 
-/* GitHub's one-line description; a long one clamps to two lines in a card and one in a phone's row. */
+/* GitHub's description, at most three lines, cut at a word (WordClamp); the cap only holds before it measures. */
 .cardDescription {
   grid-area: about;
-  display: -webkit-box;
+  display: block;
+  max-block-size: calc(var(--text-body-leading) * var(--text-body-size) * 3);
   overflow: hidden;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
+  overflow-wrap: normal;
   font-size: var(--text-body-size);
   line-height: var(--text-body-leading);
   color: var(--muted);
@@ -294,111 +299,28 @@
   white-space: nowrap;
 }
 
-/* The fallback under the cards, on one line: the lead, the field and its button, then the recent repo. */
+/* The fallback under the cards: a quiet block, its label above the field, the field two cards wide. */
 .paste {
-  --box-h: calc(var(--space-7) + var(--space-1) * 3);
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
-  column-gap: var(--space-5);
+  gap: var(--space-2);
   margin-block-start: var(--space-6);
 }
 
-.pasteLead {
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-  block-size: var(--box-h);
+.pasteLead,
+.askLabel {
   margin: 0;
   padding-inline-start: var(--edge);
   font-size: var(--text-body-lg-size);
   line-height: var(--text-body-lg-leading);
+  font-weight: var(--text-label-weight);
   color: var(--muted);
-  white-space: nowrap;
 }
 
 .field {
-  flex: 0 1 calc(var(--landing-max) / 2);
+  inline-size: var(--two-cards);
   min-inline-size: 0;
-}
-
-/* The returning visitor's line keeps its place whether or not there is a repo to offer, so nothing moves when it arrives. */
-.offer {
-  display: flex;
-  align-items: center;
-  flex: 0 1 auto;
-  block-size: var(--box-h);
-  min-inline-size: 0;
-}
-
-/* "Recent": a label and its chip, after the field so it is not read as one of the samples. */
-.recent {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  min-inline-size: 0;
-  max-inline-size: 100%;
-  margin: 0;
-}
-
-.recentLabel {
-  font-size: var(--text-label-size);
-  line-height: var(--text-label-leading);
-  font-weight: var(--text-label-weight);
-  color: var(--muted);
-  white-space: nowrap;
-}
-
-/* An interactive chip: sans words in a bordered surface, with a hover ground and the focus ring. */
-.chip,
-.qchip {
-  display: inline-flex;
-  align-items: center;
-  box-sizing: border-box;
-  min-inline-size: 0;
-  max-inline-size: 100%;
-  min-block-size: var(--control-h);
-  margin: 0;
-  padding: var(--space-2) var(--space-4);
-  border: var(--hairline) solid var(--line);
-  border-radius: var(--radius-pill);
-  background: var(--surface);
-  color: var(--ink);
-  font-family: var(--font-sans);
-  font-size: var(--text-body-size);
-  line-height: var(--text-row-title-leading);
-  font-weight: var(--text-label-weight);
-  text-align: start;
-  text-decoration: none;
-  cursor: pointer;
-  transition:
-    color 150ms cubic-bezier(0.25, 1, 0.5, 1),
-    background-color 150ms cubic-bezier(0.25, 1, 0.5, 1),
-    border-color 150ms cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.chip {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-/* The system's one hover ground. */
-.chip:is(:hover, :focus-visible),
-.qchip:is(:hover, :focus-visible) {
-  border-color: var(--line-strong);
-  background: var(--surface-tint);
-  color: var(--ink);
-}
-
-.chip:focus-visible,
-.qchip:focus-visible {
-  outline: var(--focus-ring) solid var(--focus);
-  outline-offset: var(--focus-offset);
-}
-
-.chip[aria-pressed='true'] {
-  border-color: var(--accent);
-  background: var(--surface-tint);
 }
 
 /* Step 2. */
@@ -410,10 +332,17 @@
   color: var(--muted);
 }
 
-/* The question field: the hero's box and button, with the question set in the reading face. */
+/* The reader's own question, after the twelve: its label above, the field two cards wide as step 1's is. */
 .ask {
-  max-inline-size: calc(var(--landing-max) / 2);
-  margin: var(--space-5) 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  inline-size: var(--two-cards);
+  margin: var(--space-7) 0 0;
+}
+
+.askLabel {
+  display: block;
 }
 
 .askBox {
@@ -508,34 +437,27 @@
   box-shadow: none;
 }
 
-.or {
-  margin: var(--space-6) 0 0;
-  padding-inline: var(--edge);
-  font-size: var(--text-body-lg-size);
-  line-height: var(--text-body-lg-leading);
-  font-weight: var(--text-label-weight);
-  color: var(--muted);
-}
-
-/* The four kinds of question as clusters: no rules between them, the space does the grouping. */
+/* The twelve as four columns, one per kind of question: a header, then three cards of one height across the grid. */
 .groups {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-7) var(--space-8);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: auto repeat(3, 1fr);
+  column-gap: var(--gap);
+  row-gap: var(--space-3);
   margin: var(--space-5) 0 0;
   padding: 0;
   list-style: none;
 }
 
 .group {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  display: grid;
+  grid-row: span 4;
+  grid-template-rows: subgrid;
   min-inline-size: 0;
 }
 
 /* The category's name, a sans eyebrow, with the pieces its screens draw in mono under it. */
-.group h3 {
+.groupHead h3 {
   margin: 0;
   padding-inline: var(--edge);
   font-size: var(--text-body-lg-size);
@@ -544,7 +466,7 @@
   color: var(--ink);
 }
 
-.group p {
+.groupHead p {
   margin: var(--space-1) 0 0;
   padding-inline: var(--edge);
   font-family: var(--font-mono);
@@ -554,54 +476,76 @@
   color: var(--muted);
 }
 
-.qchips {
+/* A question as a card: the repo cards' surface, border, radius, rise and chosen style, the question at body size. */
+.qcard {
+  position: relative;
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  margin-block-start: var(--space-3);
+  align-items: flex-start;
+  box-sizing: border-box;
+  min-inline-size: 0;
+  margin: 0;
+  padding: var(--card-y) var(--inset);
+  border: var(--hairline) solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--card);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-body-lg-size);
+  line-height: var(--text-body-lg-leading);
+  font-weight: var(--text-label-weight);
+  text-align: start;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 180ms cubic-bezier(0.25, 1, 0.5, 1),
+    box-shadow 180ms cubic-bezier(0.25, 1, 0.5, 1),
+    border-color 180ms cubic-bezier(0.25, 1, 0.5, 1),
+    background-color 180ms cubic-bezier(0.25, 1, 0.5, 1),
+    color 200ms cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* The questions are the product: the landing's body size, with room inside. */
-.qchip {
-  font-size: var(--text-body-lg-size);
+.qcard:hover {
+  border-color: var(--line);
+  box-shadow: var(--card-hover);
+  transform: translateY(calc(var(--hairline) * -2));
+}
+
+.qcard:focus-visible {
+  outline: var(--focus-ring) solid var(--focus);
+  outline-offset: var(--focus-offset);
+}
+
+.qcard:active {
+  transform: none;
+}
+
+.qcard[aria-current='true'] {
+  border-color: var(--accent);
+  background: var(--surface-tint);
+  box-shadow:
+    0 0 0 var(--hairline) var(--accent),
+    var(--card);
 }
 
 /* raw-ok: media conditions cannot read custom properties; these are the shell's breakpoints. */
 @media (max-width: 1023px) {
-  .cards {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .paste {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .pasteLead {
-    block-size: auto;
-    margin-block-end: var(--space-3);
-    white-space: normal;
-  }
-
-  .field {
-    flex: none;
-  }
-
-  .offer {
-    block-size: auto;
-    min-block-size: var(--space-6);
-    margin-block-start: var(--space-3);
-    padding-inline: var(--edge);
-  }
-
-  .ask {
-    max-inline-size: none;
+  .journey {
+    --cols: 3;
   }
 
   .groups {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
     row-gap: var(--space-6);
   }
+
+  .group {
+    grid-row: auto;
+    grid-template-rows: auto repeat(3, 1fr);
+    row-gap: var(--space-3);
+  }
+
 }
 
 /* raw-ok: media conditions cannot read custom properties; the hero field's phone width. */
@@ -614,6 +558,15 @@
 
 /* raw-ok: media conditions cannot read custom properties. */
 @media (max-width: 639px) {
+  .field,
+  .ask {
+    inline-size: 100%;
+  }
+
+  .groups {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .hero {
     padding-block-start: var(--space-5);
   }
@@ -671,31 +624,22 @@
     margin-block-start: 0;
   }
 
-  .cardDescription {
-    display: block;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-
-  .qchip {
-    white-space: normal;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .askBody :is(.askBox, .qchip, .askButton, .askInput, .group h3),
+  .askBody :is(.askBox, .askButton, .askInput, .groupHead h3),
   .howLink,
   .stepTitle,
   .card,
-  .chip,
   .askBox,
   .askButton,
   .askButton::after,
-  .qchip {
+  .qcard {
     transition: none;
   }
 
   .card:hover,
+  .qcard:hover,
   .askButton:is(:hover, :focus-visible),
   .askButton:is(:hover, :focus-visible)::after {
     transform: none;

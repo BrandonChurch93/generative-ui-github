@@ -22,7 +22,7 @@ const composedAt = (repo: string, question: string) => (url: URL) => url.pathnam
 
 test('step 2 is whole but muted before a repo; touching it asks for a repo first, never leaving the page', async ({ page }) => {
   await page.goto('/')
-  const ask = page.locator('[data-step="2"]')
+  const ask = page.locator('section[data-step="2"]')
   await expect(ask).not.toHaveAttribute('data-ready')
   await expect(ask.getByRole('heading', { level: 2 })).toHaveText('2 · Ask it a question')
   await expect(ask.getByRole('textbox')).toBeVisible()
@@ -42,7 +42,7 @@ test('step 2 is whole but muted before a repo; touching it asks for a repo first
 
 test('step 1 leads with five sample cards whose words come from the sample files, then the field', async ({ page }) => {
   await page.goto('/')
-  const cards = page.locator('[data-step="1"] [data-sample]')
+  const cards = page.locator('section[data-step="1"] [data-sample]')
   await expect(cards).toHaveCount(5)
   const names = ['vercel/next.js', 'facebook/react', 'anthropics/claude-code', 'tailwindlabs/tailwindcss', 'vitejs/vite']
   for (const [i, name] of names.entries()) await expect(cards.nth(i)).toHaveAccessibleName(name)
@@ -58,7 +58,29 @@ test('step 1 leads with five sample cards whose words come from the sample files
   const field = page.getByRole('textbox', { name: 'Public GitHub repository' })
   const below = await Promise.all([cards.first().boundingBox(), field.boundingBox()])
   expect(below[1]!.y).toBeGreaterThan(below[0]!.y + below[0]!.height)
-  await expect(page.getByText('or paste any public GitHub repo')).toBeVisible()
+  await expect(page.getByText('Or paste any public GitHub repo')).toBeVisible()
+  // The field is two cards wide and starts on the cards' edge; nothing else shares its row.
+  const [first, second, box] = await Promise.all([cards.nth(0).boundingBox(), cards.nth(1).boundingBox(), page.locator('section[data-step="1"] form').boundingBox()])
+  expect(Math.round(box!.x)).toBe(Math.round(first!.x))
+  expect(Math.abs(box!.width - (second!.x + second!.width - first!.x))).toBeLessThan(2)
+  await expect(page.locator('[data-offer]')).toHaveCount(0)
+})
+
+test("a long description stops at three lines on a word, and the whole of it stays in the card's description", async ({ page }) => {
+  await page.goto('/')
+  const card = page.getByRole('button', { name: 'anthropics/claude-code' })
+  const description = card.locator('[id$="-description"]')
+  const full = sampleRepo('anthropics__claude-code').description!
+  const shown = (await description.textContent())!
+  const lines = await description.evaluate(el => Math.round(el.getBoundingClientRect().height / parseFloat(getComputedStyle(el).lineHeight)))
+  expect(lines).toBeLessThanOrEqual(3)
+  if (shown !== full) {
+    expect(shown.endsWith('…')).toBe(true)
+    // The words before the ellipsis are whole words of the description, never part of one.
+    expect(full.startsWith(shown.slice(0, -1))).toBe(true)
+    expect(full.charAt(shown.length - 1)).toMatch(/[\s,.;:]/)
+  }
+  await expect(card).toHaveAccessibleDescription(new RegExp(full.slice(0, 40).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')))
 })
 
 test('a sample, once picked, fills the field with a check and brings step 2 to life with the twelve questions', async ({ page }) => {
@@ -70,7 +92,7 @@ test('a sample, once picked, fills the field with a check and brings step 2 to l
   await expect(page.locator('[data-message-line][data-kind="resolved"]:not([aria-hidden])')).toHaveText('Found vercel/next.js on GitHub · ready for a question')
   await expect(page.locator('[data-check]').first()).toBeVisible()
   await expect(page.getByRole('button', { name: 'vercel/next.js' })).toHaveAttribute('aria-pressed', 'true')
-  const ask = page.locator('[data-step="2"]')
+  const ask = page.locator('section[data-step="2"]')
   await expect(ask).toHaveAttribute('data-ready', '')
   await expect(ask.getByRole('heading', { level: 2 })).toHaveText('2 · Ask vercel/next.js a question')
   await expect(ask.locator('h2 code')).toHaveText('vercel/next.js')
@@ -80,6 +102,14 @@ test('a sample, once picked, fills the field with a check and brings step 2 to l
     await expect(group.getByRole('heading', { level: 3 })).toHaveText(label)
     await expect(group.getByRole('link')).toHaveText(questions)
   }
+  // One column per kind, three cards of one height, and the reader's own question after them.
+  const lefts = await page.locator('[data-group]').evaluateAll(gs => new Set(gs.map(g => Math.round(g.getBoundingClientRect().left))).size)
+  expect(lefts).toBe(4)
+  const heights = await ask.locator('a[data-question]').evaluateAll(qs => new Set(qs.map(q => Math.round(q.getBoundingClientRect().height))).size)
+  expect(heights).toBe(1)
+  const [lastCard, own] = await Promise.all([ask.locator('a[data-question]').last().boundingBox(), ask.getByRole('textbox').boundingBox()])
+  expect(own!.y).toBeGreaterThan(lastCard!.y)
+  await expect(ask.getByText('Or ask your own question')).toBeVisible()
 })
 
 test('a question asks it of the picked sample, and of another once that is picked', async ({ page }) => {
@@ -99,7 +129,7 @@ test("a question of the reader's own on a sample goes to the composed screen", a
   await page.route('**/api/compose**', route => route.abort())
   await page.goto('/')
   await page.getByRole('button', { name: 'vitejs/vite' }).click()
-  const field = page.getByRole('textbox', { name: 'Your question about vitejs/vite' })
+  const field = page.getByRole('textbox', { name: 'Or ask your own question about vitejs/vite' })
   await page.getByRole('button', { name: 'Ask', exact: true }).click()
   await expect(field).toBeFocused()
   await field.fill('Which plugins changed the most?')
@@ -113,7 +143,7 @@ test('a typed repo resolves with a check and opens step 2 for it, staying on the
   await page.goto('/')
   await page.getByRole('textbox', { name: 'Public GitHub repository' }).fill('github.com/withastro/astro')
   await expect(page.locator('[data-message-line][data-kind="resolved"]:not([aria-hidden])')).toHaveText('Found withastro/astro on GitHub · ready for a question')
-  await expect(page.locator('[data-step="2"]')).toHaveAttribute('data-ready', '')
+  await expect(page.locator('section[data-step="2"]')).toHaveAttribute('data-ready', '')
   await expect(page).toHaveURL(url => url.pathname === '/')
   await expect(page.getByRole('link', { name: 'Is CI getting slower?' })).toHaveAttribute('href', '/r/withastro/astro?q=Is%20CI%20getting%20slower%3F')
 })
@@ -126,14 +156,14 @@ test('a repo GitHub does not have says so and keeps step 2 muted', async ({ page
   await page.getByRole('button', { name: 'Use repo' }).click()
   await expect(field).toHaveAttribute('aria-invalid', 'true')
   await expect(page.locator(`#${await field.getAttribute('aria-describedby')}`)).toHaveText("That repo is private or doesn't exist")
-  await expect(page.locator('[data-step="2"]')).not.toHaveAttribute('data-ready')
+  await expect(page.locator('section[data-step="2"]')).not.toHaveAttribute('data-ready')
 })
 
 test('a sample picked on a phone brings step 2 into view', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/')
   await page.getByRole('button', { name: 'tailwindlabs/tailwindcss' }).click()
-  await expect(page.getByRole('textbox', { name: 'Your question about tailwindlabs/tailwindcss' })).toBeInViewport()
+  await expect(page.getByRole('link', { name: "What's blocking the next release?" })).toBeInViewport()
 })
 
 test('a repo the field cannot read says why in its validation line', async ({ page }) => {
@@ -148,7 +178,7 @@ test('a repo the field cannot read says why in its validation line', async ({ pa
 
   await field.fill('github.com/vitejs/vite')
   await field.press('Enter')
-  await expect(page.locator('[data-step="2"]')).toHaveAttribute('data-ready', '')
+  await expect(page.locator('section[data-step="2"]')).toHaveAttribute('data-ready', '')
   await expect(page).toHaveURL(url => url.pathname === '/')
 })
 
@@ -170,15 +200,10 @@ test('how it works sits inline, and its link scrolls to it', async ({ page }) =>
   await expect(section.locator('[data-callout]')).toHaveCount(3)
 })
 
-test('a second visit shows the last repo under Recent, and picking it chooses it without leaving', async ({ page }) => {
+test('there is no Recent repo: nothing about a visit is kept in the browser', async ({ page }) => {
   await page.goto('/')
-  await expect(page.locator('[data-offer]')).toHaveCount(0)
-  await page.evaluate(() => localStorage.setItem('genui:last-repo', 'vitejs/vite'))
+  await page.getByRole('button', { name: 'vitejs/vite' }).click()
   await page.reload()
-  const offer = page.locator('[data-offer]')
-  await expect(offer).toHaveText('Recentvitejs/vite')
-  await offer.getByRole('button', { name: 'vitejs/vite' }).click()
-  await expect(page).toHaveURL(url => url.pathname === '/')
-  await expect(page.getByRole('textbox', { name: 'Public GitHub repository' })).toHaveValue('vitejs/vite')
-  await expect(page.locator('[data-step="2"]')).toHaveAttribute('data-ready', '')
+  await expect(page.locator('[data-offer]')).toHaveCount(0)
+  expect(await page.evaluate(() => Object.keys(localStorage))).toEqual([])
 })

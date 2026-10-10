@@ -5,7 +5,7 @@ Every settled question, stated as a constraint. Read this before asking the owne
 ## Product
 
 - Name: Generative UI for GitHub Repos. Slug `generative-ui-github`. npm scope `@genui-github`.
-- Public repos only. No OAuth, no private repos, no user accounts. The only visitor state is a `localStorage` last-repo convenience and a day-scoped rate-limit counter keyed on a SHA-256 of IP plus user agent, kept in KV and gone at midnight UTC. No question text, repo name or result is ever stored per visitor.
+- Public repos only. No OAuth, no private repos, no user accounts. The only visitor state is a day-scoped rate-limit counter keyed on a SHA-256 of IP plus user agent, kept in KV and gone at midnight UTC. No question text, repo name or result is ever stored per visitor, in the browser or on the server; the session alone keeps the reader's density choice and whether the first-visit hint was dismissed (the landing's Recent repo and its `localStorage` were removed, owner's landing round three, 2026-10-10).
 - Sample repos: `vercel/next.js`, `facebook/react`, `anthropics/claude-code`, `tailwindlabs/tailwindcss`, `vitejs/vite`. Precomputed and cached forever; refreshed by script.
 - No persona toggle. The composer picks a default density from the question ("quick version" → compact; "walk me through" → spacious; else comfortable). The tray has a segmented density control the reader can override with; the override persists for the session.
 - No chatbot. Help is the inline "How it works" section on the landing plus the question field itself (the owner's polish round, 2026-10-09, replaced the overlay).

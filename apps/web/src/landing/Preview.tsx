@@ -24,7 +24,7 @@ export interface LandingPreview {
 const TARGETS = [
   "[data-region='insight'] [data-piece='Insight']",
   "[data-region='metrics'] [data-hot]",
-  "[data-region='main'] li:nth-child(2)",
+  "[data-region='main'] [data-row]",
 ] as const
 
 interface Box {
