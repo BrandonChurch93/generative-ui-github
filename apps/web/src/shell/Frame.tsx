@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 import type { Density } from '@genui-github/ui'
+import { RepoChip } from '@genui-github/ui'
 import styles from './Frame.module.css'
 
 /** The whole privacy policy (docs/decisions.md, Product). */
@@ -10,10 +11,10 @@ export const GITHUB_URL = 'https://github.com/BrandonChurch93/generative-ui-gith
 
 export const PORTFOLIO_URL = 'https://brandonchurchportfolio.com'
 
-type Section = 'catalog' | 'evals' | 'about'
+type Section = 'components' | 'evals' | 'about'
 
 const LINKS: { href: string; label: string; section: Section }[] = [
-  { href: '/catalog', label: 'Catalog', section: 'catalog' },
+  { href: '/components', label: 'Components', section: 'components' },
   { href: '/evals', label: 'Evals', section: 'evals' },
   { href: '/about', label: 'About', section: 'about' },
 ]
@@ -31,8 +32,10 @@ export function SiteHeader({ current }: { current?: Section }) {
   return (
     <header className={styles.wrap}>
       <div className={styles.top}>
-        <Link className={styles.wordmark} href="/">
-          Generative UI
+        <Link className={styles.wordmark} href="/" aria-label="Generative UI · GitHub, home">
+          <span>Generative UI</span>
+          {/* The wordmark uses a piece of the system it names. */}
+          <RepoChip repo="github" className={styles.wordmarkChip} />
         </Link>
         <nav className={styles.nav} aria-label="Site">
           {LINKS.map(link => (

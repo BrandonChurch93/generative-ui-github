@@ -1,7 +1,7 @@
 import { MotionBench } from './MotionBench'
 import styles from './motion.module.css'
 
-export const metadata = { title: 'Motion · Catalog · Generative UI for GitHub Repos' }
+export const metadata = { title: 'Motion · Components · Generative UI for GitHub Repos' }
 
 export default function MotionPage() {
   return (

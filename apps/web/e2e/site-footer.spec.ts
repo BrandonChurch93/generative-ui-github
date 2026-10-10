@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test'
 
 test('every page carries the portfolio and source links, and About links its byline, all in new tabs', async ({ page }, info) => {
   test.skip(info.project.name === 'unconfigured', 'one project is enough')
-  for (const path of ['/', `/r/vercel/next.js?q=${encodeURIComponent("How's this repo doing?")}`, '/catalog', '/evals', '/about']) {
+  for (const path of ['/', `/r/vercel/next.js?q=${encodeURIComponent("How's this repo doing?")}`, '/components', '/evals', '/about']) {
     await page.goto(path)
     const footer = page.locator('footer')
     await expect(footer.getByRole('link', { name: /Built by Brandon Church/ }), path).toHaveAttribute('href', 'https://brandonchurchportfolio.com')

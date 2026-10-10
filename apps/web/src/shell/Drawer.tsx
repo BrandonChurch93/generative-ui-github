@@ -356,7 +356,7 @@ export function Drawer({ open, onClose, built, tree, question, repo, served, sam
       foot={<JsonFoot json={json} />}
     >
       <Section title="Route" aside={built ? (built.template === 'off-template' ? 'off-template path' : 'template path') : undefined}>
-        <p className={styles.p}>Common questions fill a fixed template with Haiku. Anything else goes to Sonnet, which composes from the whole catalog.</p>
+        <p className={styles.p}>Common questions fill a fixed template with Haiku. Anything else goes to Sonnet, which composes from the whole set of components.</p>
         {built ? (
           <dl className={styles.facts}>
             <dt>route</dt>

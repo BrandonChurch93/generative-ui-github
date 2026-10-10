@@ -5,7 +5,7 @@ const metricSize = (page: import('@playwright/test').Page, density: string) =>
 
 test('each density root resolves its own metric size', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 })
-  await page.goto('/catalog/density')
+  await page.goto('/components/density')
   expect(await metricSize(page, 'compact')).toBe('30px')
   expect(await metricSize(page, 'comfortable')).toBe('38px')
   expect(await metricSize(page, 'spacious')).toBe('46px')
@@ -13,7 +13,7 @@ test('each density root resolves its own metric size', async ({ page }) => {
 
 test('spacious steps down to comfortable under 640px', async ({ page }) => {
   await page.setViewportSize({ width: 600, height: 900 })
-  await page.goto('/catalog/density')
+  await page.goto('/components/density')
   expect(await metricSize(page, 'spacious')).toBe('38px')
   expect(await metricSize(page, 'compact')).toBe('30px')
 })

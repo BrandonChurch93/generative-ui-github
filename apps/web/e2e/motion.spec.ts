@@ -6,7 +6,7 @@ for (const reducedMotion of ['no-preference', 'reduce'] as const) {
     page.on('console', msg => msg.type() === 'error' && errors.push(msg.text()))
     page.on('pageerror', err => errors.push(err.message))
     await page.emulateMedia({ reducedMotion })
-    await page.goto('/catalog/motion')
+    await page.goto('/components/motion')
 
     const moves = ['wipe', 'extend', 'slide', 'draw', 'count', 'bloom', 'rise']
     await expect(page.locator('[data-move]')).toHaveCount(moves.length)

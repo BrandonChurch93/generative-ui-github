@@ -10,7 +10,7 @@ const centre = (page: import('@playwright/test').Page) =>
 
 test('the warmth follows the pointer, and each frame of following costs under 16ms', async ({ page, browser, browserName }) => {
   test.skip(browserName !== 'chromium', 'tracing is Chromium only')
-  await page.goto('/catalog/parts')
+  await page.goto('/components/parts')
 
   // Keep moving until hydration has attached the listener; the first move can arrive before it.
   await expect
@@ -39,7 +39,7 @@ test('the warmth follows the pointer, and each frame of following costs under 16
 
 test('the warmth is off under reduced motion', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.goto('/catalog/parts')
+  await page.goto('/components/parts')
   await page.mouse.move(300, 200)
   await expect(page.locator('[data-cursor-warmth]')).toBeHidden()
 })

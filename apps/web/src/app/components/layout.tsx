@@ -4,7 +4,7 @@ import { SiteFooter, SiteHeader } from '../../shell/Frame'
 import { CatalogNav } from './_viewer/CatalogNav'
 import styles from './catalog.module.css'
 
-export const metadata = { title: 'Catalog · Generative UI for GitHub Repos' }
+export const metadata = { title: 'Components · Generative UI for GitHub Repos' }
 
 function plural(n: number, word: string) {
   return `${n} ${word}${n === 1 ? '' : 's'}`
@@ -14,7 +14,7 @@ export default function CatalogLayout({ children }: { children: ReactNode }) {
   const pickable = CATALOG.filter(e => e.spec?.pickable).length
   return (
     <>
-      <SiteHeader current="catalog" />
+      <SiteHeader current="components" />
       <div className={styles.page} data-ground="bg">
         <header className={styles.intro}>
           <p className={styles.eyebrow}>

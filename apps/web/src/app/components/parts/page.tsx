@@ -1,7 +1,7 @@
 import { PartsGallery } from './PartsGallery'
 import styles from './parts.module.css'
 
-export const metadata = { title: 'Parts · Catalog · Generative UI for GitHub Repos' }
+export const metadata = { title: 'Parts · Components · Generative UI for GitHub Repos' }
 
 export default function PartsPage() {
   return (

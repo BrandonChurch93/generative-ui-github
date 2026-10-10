@@ -152,7 +152,7 @@ test.describe('composed screen', () => {
 
 test('the footer line is on every page', async ({ page }, info) => {
   test.skip(info.project.name === 'unconfigured', 'one project is enough')
-  for (const path of ['/', url('vercel/next.js', GOLDEN[0]!), '/catalog', '/evals', '/about']) {
+  for (const path of ['/', url('vercel/next.js', GOLDEN[0]!), '/components', '/evals', '/about']) {
     await page.goto(path)
     await expect(page.getByText('Nothing you paste is stored. Public repos only. Sample data is marked.'), path).toBeVisible()
   }

@@ -1,7 +1,7 @@
 import { DensityColumn } from './DensityColumn'
 import styles from './density.module.css'
 
-export const metadata = { title: 'Density · Catalog · Generative UI for GitHub Repos' }
+export const metadata = { title: 'Density · Components · Generative UI for GitHub Repos' }
 
 export default function DensityPage() {
   return (

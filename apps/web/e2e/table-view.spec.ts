@@ -4,7 +4,7 @@ const CHARTS = ['LineChart', 'Distribution', 'Comparison', 'ContributorRank', 'H
 
 for (const name of CHARTS) {
   test(`${name} flips to a real table of the same data and back`, async ({ page }) => {
-    const response = await page.goto(`/catalog/${name}?still`)
+    const response = await page.goto(`/components/${name}?still`)
     test.skip(response?.status() === 404, `${name} is not in the catalog yet`)
     const piece = page.getByTestId('catalog-piece')
     const toggle = piece.getByRole('button', { name: 'Table' })

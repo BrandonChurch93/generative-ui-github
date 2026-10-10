@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 test('every interactive element on /catalog/parts shows the focus ring', async ({ page }) => {
-  await page.goto('/catalog/parts')
+  await page.goto('/components/parts')
   const focus = await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--focus').trim())
   const expected = await page.evaluate(hex => {
     const probe = document.createElement('span')
@@ -48,7 +48,7 @@ test('every interactive element on /catalog/parts shows the focus ring', async (
 })
 
 test('the catalog filter and its sidebar links show the focus ring', async ({ page }) => {
-  await page.goto('/catalog/Metric')
+  await page.goto('/components/Metric')
   const focus = await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--focus').trim())
   const expected = await page.evaluate(hex => {
     const probe = document.createElement('span')

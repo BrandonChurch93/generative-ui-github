@@ -6,9 +6,9 @@ import { useEffect, useId, useRef, useState, type MouseEvent } from 'react'
 import styles from '../catalog.module.css'
 
 const FOUNDATIONS = [
-  { href: '/catalog/parts', label: 'Parts' },
-  { href: '/catalog/density', label: 'Density' },
-  { href: '/catalog/motion', label: 'Motion' },
+  { href: '/components/parts', label: 'Parts' },
+  { href: '/components/density', label: 'Density' },
+  { href: '/components/motion', label: 'Motion' },
 ]
 
 const COMPONENT_HREF = /^\/catalog\/[A-Z]/
@@ -42,7 +42,7 @@ export function CatalogNav({ entries }: { entries: { name: string; group: string
   const groups: { name: string; items: Item[] }[] = [
     ...[...new Set(entries.map(e => e.group))].map(group => ({
       name: group,
-      items: entries.filter(e => e.group === group).map(e => ({ href: `/catalog/${e.name}`, label: e.name })),
+      items: entries.filter(e => e.group === group).map(e => ({ href: `/components/${e.name}`, label: e.name })),
     })),
     { name: 'Foundations', items: FOUNDATIONS },
   ]

@@ -21,6 +21,13 @@ const config: NextConfig = {
   turbopack: { root: repoRoot },
   // The styles are small and every page needs them at first paint: inlined, they stop blocking it.
   experimental: { inlineCss: true },
+  // The page was the catalog; old links keep working.
+  async redirects() {
+    return [
+      { source: '/catalog', destination: '/components', permanent: true },
+      { source: '/catalog/:path*', destination: '/components/:path*', permanent: true },
+    ]
+  },
 }
 
 export default config

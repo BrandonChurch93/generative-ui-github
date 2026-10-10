@@ -13,7 +13,7 @@ function collectConsoleErrors(page: Page): string[] {
 }
 
 async function componentNames(page: Page): Promise<string[]> {
-  await page.goto('/catalog')
+  await page.goto('/components')
   const nav = page.getByRole('navigation', { name: 'Catalog' })
   const hrefs = await nav.getByRole('link').evaluateAll(links => links.map(a => a.getAttribute('href') ?? ''))
   return hrefs.filter(h => /^\/catalog\/[A-Z]/.test(h)).map(h => h.split('/').pop()!)
@@ -25,7 +25,7 @@ test('every catalog component renders in every state and density it supports', a
   expect(names.length).toBeGreaterThan(0)
 
   for (const name of names) {
-    await page.goto(`/catalog/${name}`)
+    await page.goto(`/components/${name}`)
     await expect(page.locator('#component-name')).toHaveText(name)
     const stateGroup = page.getByRole('radiogroup', { name: 'State' })
     const skipped = await stateGroup
@@ -35,7 +35,7 @@ test('every catalog component renders in every state and density it supports', a
     for (const density of DENSITIES) {
       for (const state of STATES) {
         if (skipped.some(label => label.toLowerCase().startsWith(state))) continue
-        await page.goto(`/catalog/${name}?density=${density}&state=${state}`)
+        await page.goto(`/components/${name}?density=${density}&state=${state}`)
         const piece = page.getByTestId('catalog-piece')
         await expect(piece).toHaveAttribute('data-state', state)
         await expect(piece.locator(':scope > *').first()).toBeVisible()
@@ -53,7 +53,7 @@ test('a skipped state is a disabled segment that says why', async ({ page }) => 
   const names = await componentNames(page)
   let checked = 0
   for (const name of names) {
-    await page.goto(`/catalog/${name}`)
+    await page.goto(`/components/${name}`)
     const disabled = page.getByRole('radiogroup', { name: 'State' }).locator('[aria-disabled="true"]')
     for (const radio of await disabled.all()) {
       await expect(radio).toContainText('Not available:')
@@ -65,7 +65,7 @@ test('a skipped state is a disabled segment that says why', async ({ page }) => 
 
 test('the catalog opens on its intro, and picking a component swaps the pane in place', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 700 })
-  await page.goto('/catalog')
+  await page.goto('/components')
   const main = page.getByRole('main')
   await expect(main).toContainText('Pick a component. It renders from sample data, then rebuilds each time you switch state or density.')
   await expect(page.getByTestId('catalog-piece')).toHaveCount(0)
@@ -95,7 +95,7 @@ test('the catalog opens on its intro, and picking a component swaps the pane in 
 })
 
 test('the filter narrows the sidebar by name and says when nothing matches', async ({ page }) => {
-  await page.goto('/catalog')
+  await page.goto('/components')
   const nav = page.getByRole('navigation', { name: 'Catalog' })
   const field = page.getByRole('searchbox', { name: 'Filter components' })
   await field.fill('CHART')
@@ -129,7 +129,7 @@ async function opacities(page: Page, ms: number): Promise<{ opacity: number; sta
 for (const reducedMotion of ['no-preference', 'reduce'] as const) {
   test(`a state switch runs the old piece out, then the new one in (${reducedMotion})`, async ({ page }) => {
     await page.emulateMedia({ reducedMotion })
-    await page.goto('/catalog/Metric?state=default')
+    await page.goto('/components/Metric?state=default')
     const piece = page.getByTestId('catalog-piece')
     await expect(piece).toHaveCSS('opacity', '1')
     const watching = opacities(page, 1600)
@@ -146,7 +146,7 @@ for (const reducedMotion of ['no-preference', 'reduce'] as const) {
 }
 
 test('with still, a switch draws the new state at once', async ({ page }) => {
-  await page.goto('/catalog/Metric?state=default&still')
+  await page.goto('/components/Metric?state=default&still')
   const piece = page.getByTestId('catalog-piece')
   await page.getByRole('radiogroup', { name: 'Density' }).getByRole('radio', { name: 'Compact' }).click()
   await page.getByRole('radiogroup', { name: 'State' }).getByRole('radio', { name: 'Skeleton' }).click()
@@ -158,7 +158,7 @@ test('with still, a switch draws the new state at once', async ({ page }) => {
 test('on a phone the sidebar folds to the filter and one row above the pane', async ({ browser }) => {
   const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true })
   const page = await context.newPage()
-  await page.goto('/catalog/Metric?still')
+  await page.goto('/components/Metric?still')
   const nav = page.getByRole('navigation', { name: 'Catalog' })
   expect((await nav.boundingBox())!.height).toBeLessThan(80)
   expect((await page.locator('#component-name').boundingBox())!.y).toBeLessThan(844)

@@ -17,7 +17,7 @@ test('every catalog page and state has no serious accessibility issues @a11y', a
   test.skip(info.project.name === 'unconfigured', 'the catalog does not depend on configuration')
   // Every component in every state: this grows with the catalog.
   test.setTimeout(240_000)
-  await page.goto('/catalog')
+  await page.goto('/components')
   const hrefs = await page
     .getByRole('navigation', { name: 'Catalog' })
     .getByRole('link')

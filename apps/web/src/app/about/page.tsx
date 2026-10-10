@@ -142,10 +142,10 @@ function Flow() {
       </span>
 
       <Node title="Renderer" className={styles.n4}>
-        <p className={styles.d}>Checks each piece against its schema, then draws it from the catalog.</p>
+        <p className={styles.d}>Checks each piece against its schema, then draws it from the components.</p>
         <Picks
           items={[
-            ['Component catalog', 'one Zod schema each, read by the model'],
+            ['Components', 'one Zod schema each, read by the model'],
             ['Design tokens', 'tone, emphasis and density become values'],
           ]}
         />
@@ -268,7 +268,7 @@ export default function AboutPage() {
 
   const layers: [string, string, string][] = [
     [
-      'Component catalog',
+      'Components',
       'packages/ui',
       `${components} components in one registry. Each has a Zod schema the model reads, every state it can reach, three densities, its own motion and a sample JSON.`,
     ],
@@ -296,8 +296,7 @@ export default function AboutPage() {
 
         <Section id="ab-idea" title="The idea">
           <p className={styles.p}>
-            Dashboards are drawn once, for the questions someone expected. This one is drawn for the question you ask. Paste a public GitHub repo, ask what you want to know, and an agent picks components from a fixed
-            catalog and composes an interface around that repo&apos;s data. The model decides what to show and what matters most. Code renders it from the same finished pieces every time, so an answer nobody designed still
+            Dashboards are drawn once, for the questions someone expected. This one is drawn for the question you ask. Paste a public GitHub repo, ask what you want to know, and an agent picks from a fixed set of components and composes an interface around that repo&apos;s data. The model decides what to show and what matters most. Code renders it from the same finished pieces every time, so an answer nobody designed still
             looks designed.
           </p>
         </Section>
@@ -309,7 +308,7 @@ export default function AboutPage() {
           <div className={styles.body}>
             <p className={styles.p}>
               Every question runs the same five steps, left to right, in the order the screen draws. The twelve common questions and three follow-ups match a template, and Haiku fills in its words. Anything else goes to
-              Sonnet, which composes from the whole catalog. Either way the model writes only a composition. Code draws every piece of it.
+              Sonnet, which composes from every component. Either way the model writes only a composition. Code draws every piece of it.
             </p>
             <p className={styles.p}>
               On the five sample repos the twelve answers are precomputed, so they open with no model call.
@@ -348,9 +347,9 @@ export default function AboutPage() {
 
         <Section id="ab-ds" title="The design system">
           <p className={styles.p}>
-            The model can only choose, so every answer is as good as the pieces it chooses from: the catalog is the product. Every color, size and space comes from one token file, density is set once on the screen and
+            The model can only choose, so every answer is as good as the pieces it chooses from: the components are the product. Every color, size and space comes from one token file, density is set once on the screen and
             never per card, and motion is a short list of moves in which every exit is its entrance in reverse.{' '}
-            <TextLink href="/catalog">See every component in every state</TextLink>
+            <TextLink href="/components">See every component in every state</TextLink>
           </p>
           <div className={styles.grid}>
             {PRINCIPLES.map(([title, text]) => (
@@ -394,8 +393,8 @@ export default function AboutPage() {
                 <ExternalArrow />
                 <span className="sr-only">, opens GitHub</span>
               </a>
-              <Link className={styles.link} href="/catalog">
-                <b>Component catalog</b>
+              <Link className={styles.link} href="/components">
+                <b>Components</b>
                 <span>Every component, rendered from its sample JSON.</span>
                 <InternalArrow />
               </Link>
