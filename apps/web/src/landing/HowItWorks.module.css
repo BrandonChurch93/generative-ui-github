@@ -20,10 +20,10 @@
 .title {
   margin: 0;
   padding-inline: var(--edge);
-  font-size: var(--text-section-size);
-  line-height: var(--text-section-leading);
-  font-weight: var(--text-section-weight);
-  letter-spacing: var(--text-section-tracking);
+  font-size: var(--text-step-size);
+  line-height: var(--text-step-leading);
+  font-weight: var(--text-step-weight);
+  letter-spacing: var(--text-step-tracking);
   color: var(--ink);
 }
 
@@ -58,16 +58,16 @@
 
 .step h3 {
   margin: 0;
-  font-size: var(--text-row-title-size);
+  font-size: var(--text-body-lg-size);
   line-height: var(--chip-h);
-  font-weight: var(--text-row-title-weight);
+  font-weight: var(--text-card-title-weight);
   color: var(--ink);
 }
 
 .step p {
   margin: var(--space-1) 0 0;
-  font-size: var(--text-body-size);
-  line-height: var(--text-body-leading);
+  font-size: var(--text-body-lg-size);
+  line-height: var(--text-body-lg-leading);
   color: var(--muted);
 }
 
@@ -220,9 +220,8 @@
   align-items: center;
   block-size: var(--chip-h);
   padding: 0 var(--space-2);
-  border: var(--hairline) solid var(--line);
   border-radius: var(--radius-pill);
-  background: var(--surface);
+  background: color-mix(in srgb, currentColor 8%, transparent);
   font-family: var(--font-mono);
   font-size: var(--text-meta-size);
   line-height: 1;
@@ -309,6 +308,11 @@
   .how {
     margin-block-start: var(--space-7);
     padding-block-start: var(--space-6);
+  }
+
+  .title {
+    font-size: var(--text-lead-size);
+    line-height: var(--text-section-leading);
   }
 
   .shot {

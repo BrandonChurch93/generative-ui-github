@@ -83,6 +83,7 @@
   --label-gap: 64px;
   --band-count: 32px;
   --page-max: 1280px;
+  --landing-max: 1200px;
   --nav-h: 64px;
   --nav-h-narrow: 56px;
   --tray-h: 54px;
@@ -98,6 +99,7 @@
   --overlay-w: 420px;
   --hero-type-min: 32px;
   --hero-type: 52px;
+  --owner-avatar: 32px;
   /* type families */
   --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
@@ -114,12 +116,19 @@
   --text-built-leading: 1;
   --text-built-weight: 700;
   --text-built-tracking: -0.01em;
+  --text-step-size: 28px;
+  --text-step-leading: 1.15;
+  --text-step-weight: 700;
+  --text-step-tracking: -0.015em;
   --text-insight-size: 19px;
   --text-insight-leading: 1.35;
   --text-insight-weight: 500;
   --text-body-size: 14px;
   --text-body-leading: 1.45;
   --text-body-weight: 400;
+  --text-body-lg-size: 16px;
+  --text-body-lg-leading: 1.5;
+  --text-body-lg-weight: 400;
   --text-row-title-size: 13.5px;
   --text-row-title-leading: 1.3;
   --text-row-title-weight: 500;

@@ -232,7 +232,7 @@
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
   color: var(--accent-ink);
   font-family: var(--font-sans);
-  font-size: var(--text-body-size);
+  font-size: var(--text-body-lg-size);
   line-height: 1;
   font-weight: var(--text-label-weight);
   white-space: nowrap;

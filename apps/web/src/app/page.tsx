@@ -1,11 +1,13 @@
 import { connection } from 'next/server'
 import { loadConfig, logger } from '@genui-github/core'
 import { goldenComposition, TEMPLATE_NEEDS } from '@genui-github/composer'
-import { isSample, readSample } from '@genui-github/data/server'
+import type { RepoShape } from '@genui-github/data'
+import { cacheKey, canonicalSample, isSample, readSample, type RepoRef } from '@genui-github/data/server'
 import { configErrorCopy } from '../lib/config-state'
 import { Landing, type LandingPreview } from '../landing/Landing'
 import { GROUPS, PREVIEW, SAMPLE_NAMES, type QuestionGroup } from '../landing/questions'
 import { parseRepo } from '../landing/repoInput'
+import { avatarUrl, type SampleRepo } from '../landing/samples'
 import { Frame } from '../shell/Frame'
 import { day } from '../shell/words'
 import styles from './page.module.css'
@@ -18,24 +20,52 @@ const refOf = (repo: string) => {
 }
 
 const groups: QuestionGroup[] = GROUPS.map(g => ({ label: g.label, draws: g.draws, questions: g.templates.map(id => TEMPLATE_NEEDS[id].question) }))
-const samples = SAMPLE_NAMES.filter(name => {
+const sampleNames = SAMPLE_NAMES.filter(name => {
   const ref = refOf(name)
   return ref !== undefined && isSample(ref)
 })
 
-// The preview's composition and its sample's date are read once per server instance; a sample file is megabytes.
+// A sample file is megabytes, so each is read once per server instance for the little the landing shows of it.
+const read = new Map<string, { refreshedAt?: string; shape?: RepoShape }>()
+function sampleFacts(ref: RepoRef) {
+  const key = `${ref.owner}/${ref.name}`.toLowerCase()
+  let facts = read.get(key)
+  if (facts) return facts
+  try {
+    const file = readSample(ref)
+    const shape = file.entries[cacheKey.shape(canonicalSample(ref), 'repo')]?.value as RepoShape | undefined
+    facts = { refreshedAt: file.refreshedAt, shape }
+  } catch (error) {
+    log.warn('sample file unreadable', { repo: key, error: error instanceof Error ? error.message : String(error) })
+    facts = {}
+  }
+  read.set(key, facts)
+  return facts
+}
+
+let samples: SampleRepo[] | undefined
+function samplesOnce(): SampleRepo[] {
+  samples ??= sampleNames.map(name => {
+    const ref = refOf(name)!
+    const { shape } = sampleFacts(ref)
+    return {
+      name,
+      avatar: avatarUrl(shape?.owner ?? ref.owner),
+      ...(shape?.description ? { description: shape.description } : {}),
+      ...(shape ? { stars: shape.stars } : {}),
+    }
+  })
+  return samples
+}
+
 let preview: LandingPreview | null | undefined
 function previewOnce(): LandingPreview | null {
   if (preview !== undefined) return preview
   const ref = refOf(PREVIEW.repo)!
   const question = TEMPLATE_NEEDS[PREVIEW.template].question
   const composition = goldenComposition(ref, question)
-  let sampleDay: string | undefined
-  try {
-    sampleDay = day(readSample(ref).refreshedAt)
-  } catch {
-    sampleDay = undefined
-  }
+  const { refreshedAt } = sampleFacts(ref)
+  const sampleDay = refreshedAt ? day(refreshedAt) : undefined
   if (!composition) log.warn('landing preview missing', { repo: PREVIEW.repo, template: PREVIEW.template })
   preview = composition ? { repo: PREVIEW.repo, question, composition, sampleDay } : null
   return preview
@@ -57,7 +87,7 @@ export default async function Home() {
     )
   }
 
-  return <Landing samples={samples} groups={groups} preview={previewOnce()} />
+  return <Landing samples={samplesOnce()} groups={groups} preview={previewOnce()} />
 }
 
 function ConfigError({ problems }: { problems: Parameters<typeof configErrorCopy>[0] }) {

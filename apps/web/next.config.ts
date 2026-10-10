@@ -16,6 +16,8 @@ const config: NextConfig = {
   outputFileTracingIncludes: {
     '/api/compose': ['../../packages/data/samples/**', '../../packages/composer/golden/**', '../../packages/composer/fixtures/near-empty/**'],
     '/r/[owner]/[name]': ['../../packages/data/samples/**'],
+    // The landing reads each sample's description, stars and date, and the preview's golden answer.
+    '/': ['../../packages/data/samples/**', '../../packages/composer/golden/**'],
     '/evals': ['../../packages/evals/results/**'],
   },
   turbopack: { root: repoRoot },

@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import { expect, test } from '@playwright/test'
 
 const GROUPS = {
@@ -7,12 +9,22 @@ const GROUPS = {
   'Getting started': ['Where would a new contributor start?', "How's this repo doing?", 'Show me the biggest open PR'],
 }
 
+/** What the committed sample file says of a repo, which is all its landing card may show. */
+function sampleRepo(file: string) {
+  const sample = JSON.parse(readFileSync(fileURLToPath(new URL(`../../../packages/data/samples/${file}.json`, import.meta.url)), 'utf8')) as {
+    entries: Record<string, { value: unknown }>
+  }
+  const [, entry] = Object.entries(sample.entries).find(([key]) => /^repo:[^:]+:repo$/.test(key))!
+  return entry.value as { owner: string; description: string | null; stars: number }
+}
+
 const composedAt = (repo: string, question: string) => (url: URL) => url.pathname === `/r/${repo}` && url.searchParams.get('q') === question
 
 test('step 2 is whole but muted before a repo; touching it asks for a repo first, never leaving the page', async ({ page }) => {
   await page.goto('/')
   const ask = page.locator('[data-step="2"]')
   await expect(ask).not.toHaveAttribute('data-ready')
+  await expect(ask.getByRole('heading', { level: 2 })).toHaveText('2 · Ask it a question')
   await expect(ask.getByRole('textbox')).toBeVisible()
   await expect(ask.locator('button[data-question][aria-disabled="true"]')).toHaveCount(12)
   await expect(page.locator('[data-sample][aria-pressed="true"]')).toHaveCount(0)
@@ -28,6 +40,27 @@ test('step 2 is whole but muted before a repo; touching it asks for a repo first
   await expect(repoField).toBeFocused()
 })
 
+test('step 1 leads with five sample cards whose words come from the sample files, then the field', async ({ page }) => {
+  await page.goto('/')
+  const cards = page.locator('[data-step="1"] [data-sample]')
+  await expect(cards).toHaveCount(5)
+  const names = ['vercel/next.js', 'facebook/react', 'anthropics/claude-code', 'tailwindlabs/tailwindcss', 'vitejs/vite']
+  for (const [i, name] of names.entries()) await expect(cards.nth(i)).toHaveAccessibleName(name)
+
+  const react = sampleRepo('react__react')
+  const card = page.getByRole('button', { name: 'facebook/react' })
+  await expect(card).toContainText(react.description!)
+  await expect(card).toContainText(`${Math.round(react.stars / 1000)}k stars`)
+  await expect(card.locator('img')).toHaveAttribute('src', `https://github.com/${react.owner}.png?size=64`)
+  await expect(card.locator('img')).toHaveAttribute('loading', 'lazy')
+
+  // The field is the fallback, after the cards.
+  const field = page.getByRole('textbox', { name: 'Public GitHub repository' })
+  const below = await Promise.all([cards.first().boundingBox(), field.boundingBox()])
+  expect(below[1]!.y).toBeGreaterThan(below[0]!.y + below[0]!.height)
+  await expect(page.getByText('or paste any public GitHub repo')).toBeVisible()
+})
+
 test('a sample, once picked, fills the field with a check and brings step 2 to life with the twelve questions', async ({ page }) => {
   await page.goto('/')
   await page.getByRole('button', { name: 'vercel/next.js' }).click()
@@ -36,8 +69,11 @@ test('a sample, once picked, fills the field with a check and brings step 2 to l
   await expect(repoField).toHaveValue('vercel/next.js')
   await expect(page.locator('[data-message-line][data-kind="resolved"]:not([aria-hidden])')).toHaveText('Found vercel/next.js on GitHub · ready for a question')
   await expect(page.locator('[data-check]').first()).toBeVisible()
+  await expect(page.getByRole('button', { name: 'vercel/next.js' })).toHaveAttribute('aria-pressed', 'true')
   const ask = page.locator('[data-step="2"]')
   await expect(ask).toHaveAttribute('data-ready', '')
+  await expect(ask.getByRole('heading', { level: 2 })).toHaveText('2 · Ask vercel/next.js a question')
+  await expect(ask.locator('h2 code')).toHaveText('vercel/next.js')
   await expect(ask.locator('a[data-question]')).toHaveCount(12)
   for (const [label, questions] of Object.entries(GROUPS)) {
     const group = page.locator(`[data-group="${label}"]`)
