@@ -137,6 +137,17 @@
   outline-offset: var(--focus-offset);
 }
 
+/* raw-ok: media conditions cannot read custom properties; the narrowest phones cannot fit the wordmark and four links on one line. */
+@media (max-width: 399px) {
+  .top {
+    flex-wrap: wrap;
+    block-size: auto;
+    min-block-size: var(--nav-h-narrow);
+    row-gap: var(--space-2);
+    padding-block: var(--space-3);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .credits a {
     transition: none;
@@ -170,7 +181,7 @@
   }
 
   .nav {
-    gap: var(--space-4);
+    gap: var(--space-3);
   }
 
   .foot {
