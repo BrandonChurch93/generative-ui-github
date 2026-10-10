@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { extractNumbers, validateNumbers } from './numbers'
+import { extractNumbers, seriesFacts, validateNumbers } from './numbers'
 
 describe('extractNumbers', () => {
   it('finds figures, separators, decimals, percents, references and spelled numbers', () => {
@@ -31,8 +31,19 @@ describe('validateNumbers', () => {
     expect(check.checked).toHaveLength(3)
   })
 
-  it('matches a percent against a ratio', () => {
+  it('matches a percent against a share', () => {
     expect(validateNumbers('Failing runs are at 12.5%.', [0.125]).ok).toBe(true)
+  })
+
+  it('never reads a ratio in × as a percent: the closure ratio says 0.6× wherever it appears', () => {
+    // Closed per opened over twelve weeks, the weekly points as the chart and the sparkline draw them, and their facts.
+    const weeks = [0.5, 1.1, 0.9, 1.2, 0, 0.3, 0.7, 0.4, 0.5, 0.3, 0, 0]
+    const facts = [0.5687, ...seriesFacts(weeks)]
+    expect(validateNumbers('Closure ratio fell from 0.5× to 0× over 12 weeks, 0.6× overall.', facts, { ratio: true }).ok).toBe(true)
+    const percent = validateNumbers('Closure ratio fell from 50% to 0% over 12 weeks.', facts, { ratio: true })
+    expect(percent.mismatches.map(n => n.raw)).toEqual(['50%'])
+    expect(validateNumbers('Closure ratio is 57%.', facts, { ratio: true }).ok).toBe(false)
+    expect(validateNumbers('Closure ratio fell 100% in 12 weeks.', facts, { ratio: true }).ok).toBe(true)
   })
 
   it('rejects a figure the data does not contain', () => {

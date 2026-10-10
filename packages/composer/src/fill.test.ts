@@ -54,4 +54,32 @@ describe('fill', () => {
     const silent = await fill(answering({}), ctx, screen, 'x')
     expect(silent.screen).toEqual(screen)
   })
+
+  it('closure ratio: the chart, the metric and the insight name one value in ×, and a percent for it is refused', async () => {
+    const ctx = await nextContext()
+    const screen = TEMPLATES.responsiveness!.compose(ctx, {})
+    const metric = screen.regions.metrics.find(p => p.id === 'metric:closure-ratio')!.bound as { value: number; suffix: string; series: { points: number[] } }
+    const chart = screen.regions.side.find(p => p.component === 'LineChart')!
+    const bound = chart.bound as { unit: string; series: { points: (number | null)[] }[]; finding: string }
+    expect(metric.suffix).toBe('×')
+    expect(bound.unit).toBe('ratio')
+    expect(bound.series[0]!.points).toEqual(metric.series.points)
+    expect(bound.finding).toMatch(/^Closure ratio went from \d\.\d× to \d\.\d× over 12 weeks\.$/)
+
+    const [first, last] = [metric.series.points[0]!, metric.series.points.at(-1)!]
+    const pct = (v: number) => `${Math.round(v * 100)}%`
+    const { kept, refused } = await fill(
+      answering({
+        [`${chart.id}#finding`]: `Closure ratio fell from ${pct(first)} to ${pct(last)} over 12 weeks.`,
+        'insight:answer#sentence': `Maintainers close ${pct(metric.value)} of what opens.`,
+      }),
+      ctx,
+      screen,
+      'How responsive are the maintainers?',
+    )
+    expect(kept).toEqual([])
+    expect(refused.map(r => r.id).sort()).toEqual([`${chart.id}#finding`, 'insight:answer#sentence'].sort())
+    const times = await fill(answering({ [`${chart.id}#finding`]: `Closure ratio slipped from ${first}× to ${last}× over 12 weeks.` }), ctx, screen, 'How responsive are the maintainers?')
+    expect(times.kept).toEqual([`${chart.id}#finding`])
+  })
 })

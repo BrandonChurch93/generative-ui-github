@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { busFactor, closureRatio, coreShare, timeToClose, timeToFirstResponse } from './chaoss'
+import { computeMeasure } from './compute'
 import type { AuthorAssociation, Issue, Person, Pull } from './shapes'
 
 const who = (login: string): Person => ({ login, isBot: login.endsWith('[bot]') })
@@ -44,6 +45,16 @@ describe('CHAOSS metrics, against hand-computed values', () => {
     const result = closureRatio({ weeks: [week('2026-09-07', 4, 1, 2, 2), week('2026-09-14', 0, 0, 0, 0), week('2026-09-21', 1, 2, 1, 1)] })
     expect(result.weeks.map(w => w.ratio)).toEqual([0.5, null, 1.5])
     expect(result.total).toBe(0.75)
+  })
+
+  it('closure ratio measure: a week that opened nothing leaves the weekly series out, never a zero', () => {
+    const week = (weekStart: string, opened: number, closed: number) => ({ weekStart, issuesOpened: opened, issuesClosed: closed, pullsOpened: 0, pullsClosed: 0, pullsMerged: 0 })
+    const weeks = Array.from({ length: 12 }, (_, i) => week(new Date(Date.UTC(2026, 6, 20) + i * 7 * 86_400_000).toISOString(), 4, 2))
+    const measure = (w: typeof weeks) => computeMeasure('closure-ratio', { now: Date.UTC(2026, 9, 9), shapes: { activity: { weeks: w, months: [], open: {} } as never }, cachedAt: {} })
+    expect(measure(weeks)).toMatchObject({ value: 0.5, formatted: { text: '0.5', suffix: '×' }, series12w: Array(12).fill(0.5) })
+    const quiet = measure(weeks.map((w, i) => (i === 4 ? week(w.weekStart, 0, 3) : w)))
+    expect(quiet?.value).toBeCloseTo(25 / 44)
+    expect(quiet).not.toHaveProperty('series12w')
   })
 
   it('bus factor: 40, 30, 20 and 10 commits need two people for half, and the bot never counts', () => {

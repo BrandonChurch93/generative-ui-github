@@ -151,10 +151,10 @@ const WEEKLY: Partial<Record<MeasureId, Weekly>> = {
   },
   'closure-ratio': {
     needs: ['activity'],
-    // A chart has no ratio axis; closed per opened reads the same as a percent.
-    unit: 'percent',
+    // In ×, to the tenth, as the Metric and its sparkline draw it. A week that opened nothing has no ratio: a gap.
+    unit: 'ratio',
     reach: 12,
-    points: (ctx, starts) => ({ points: byStart(closureRatio(ctx.shapes.activity!).weeks, starts, w => (w.ratio === null ? null : round1(w.ratio * 100))) }),
+    points: (ctx, starts) => ({ points: byStart(closureRatio(ctx.shapes.activity!).weeks, starts, w => (w.ratio === null ? null : round1(w.ratio))) }),
   },
   commits: {
     needs: ['stats.commitActivity'],
@@ -307,7 +307,7 @@ function chart(ctx: DataContext, props: LineChartModel): Charted {
   }
 }
 
-const UNIT_AFTER: Record<ChartUnit, string> = { min: ' min', h: ' h', d: ' days', count: '', percent: '%' }
+const UNIT_AFTER: Record<ChartUnit, string> = { min: ' min', h: ' h', d: ' days', count: '', percent: '%', ratio: '×' }
 
 /** A plain sentence about the lead series whose every number passes LineChart's own check. */
 export function systemFinding(ctx: DataContext, props: LineChartModel): string {
@@ -324,7 +324,7 @@ export function systemFinding(ctx: DataContext, props: LineChartModel): string {
   if (!first || !last) return `No ${lower(label)} to chart yet.`
   if (first === last) return `${label} was ${say(first.v)} in the only week with data.`
   const span = first.i === 0 && last.i === points.length - 1 ? `over ${points.length} weeks` : 'across the weeks with data'
-  const move = first.v === last.v ? `held at ${say(last.v)}` : `went from ${unit === 'percent' ? say(first.v) : formatChartValue(first.v, unit)} to ${say(last.v)}`
+  const move = first.v === last.v ? `held at ${say(last.v)}` : `went from ${unit === 'percent' || unit === 'ratio' ? say(first.v) : formatChartValue(first.v, unit)} to ${say(last.v)}`
   return `${label} ${move} ${span}.`
 }
 

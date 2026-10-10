@@ -69,6 +69,12 @@ User: the question, the data context as JSON (under 3,000 tokens, pruned to the 
 
 Rule violations are dropped with a logged reason; the composition still renders.
 
+### Layout: one piece in main, two in side
+
+When `main` holds one piece and `side` holds two, the two columns cannot come out level: the side stack runs past the main card and leaves dead space under it (on vercel/next.js, a 108px CI workflows card beside 711px of chart and comparison). The renderer then drops the split and stacks the side pieces under the main piece, one column at full width, in order: main, then side's first, then side's second. The ActionCard below takes the full width with them, so its edges still line up. The pieces keep their regions, so nothing remounts and rule 4 still counts each column as it was composed. Five golden templates produce the case: `ci-trend`, `contributors`, `new-contributor`, `overview` and `responsiveness`.
+
+The other reading, stretching the lone main card to the row's height, was tried and set aside: it moves the dead space inside the card instead of removing it (the one-row CI workflows card would stand 711px tall with 600px of nothing), and it does so on every sample. Under 1024px the split is one column already, so phones and tablets are unchanged. The rule lives in `packages/renderer/src/react/Renderer.module.css` and reads each region's `data-count`; a free composition that streams its second side piece late reflows to one column when that piece arrives.
+
 ## System sentences
 
 Written by code, never the model, used in the Insight slot:

@@ -74,19 +74,27 @@ export function extractNumbers(text: string): ProseNumber[] {
 
 const round = (v: number, decimals: number) => Math.round(v * 10 ** decimals) / 10 ** decimals
 
-function matches(n: ProseNumber, value: number): boolean {
+export interface NumberOptions {
+  /**
+   * The data is a ratio drawn in × (closed per opened): "57%" must not pass for 0.57×, or the sentence and
+   * the chart beside it would name one value in two units. A percent change ("fell 18%") still matches.
+   */
+  ratio?: boolean
+}
+
+function matches(n: ProseNumber, value: number, options: NumberOptions): boolean {
   const v = Math.abs(value)
   if (round(v, n.decimals) === n.value) return true
-  // "38%" may cite a ratio stored as 0.38.
-  if (n.percent && v <= 1 && round(v * 100, n.decimals) === n.value) return true
+  // "38%" may cite a share stored as 0.38.
+  if (!options.ratio && n.percent && v <= 1 && round(v * 100, n.decimals) === n.value) return true
   return false
 }
 
 /** Checks every number in `text` against the numbers the piece cites. */
-export function validateNumbers(text: string, allowed: Iterable<number>): NumberCheck {
+export function validateNumbers(text: string, allowed: Iterable<number>, options: NumberOptions = {}): NumberCheck {
   const pool = [...allowed].filter(Number.isFinite)
   const checked = extractNumbers(text)
-  const mismatches = checked.filter(n => !pool.some(v => matches(n, v)))
+  const mismatches = checked.filter(n => !pool.some(v => matches(n, v, options)))
   return { ok: mismatches.length === 0, checked, mismatches }
 }
 

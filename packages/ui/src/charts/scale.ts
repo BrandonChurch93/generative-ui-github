@@ -32,9 +32,10 @@ export const isLabeled = (i: number, n: number, every: number) => (n - 1 - i) % 
 const weekFormat = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' })
 export const weekLabel = (iso: string) => weekFormat.format(new Date(iso))
 
-export type ChartUnit = 'min' | 'h' | 'd' | 'count' | 'percent'
+/** `ratio` is closed per opened and similar quotients, drawn with the Metric's own × so the two read alike. */
+export type ChartUnit = 'min' | 'h' | 'd' | 'count' | 'percent' | 'ratio'
 
-export const UNIT_WORDS: Record<ChartUnit, string> = { min: 'min', h: 'h', d: 'd', count: '', percent: '%' }
+export const UNIT_WORDS: Record<ChartUnit, string> = { min: 'min', h: 'h', d: 'd', count: '', percent: '%', ratio: '×' }
 
 const oneDecimal = new Intl.NumberFormat('en-US', { maximumFractionDigits: 1 })
 const whole = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 })

@@ -135,7 +135,7 @@
   list-style: none;
 }
 
-/* A sample repo, named in mono as an identifier, at the follow-up chip's size. */
+/* A sample repo to open instead: interactive, so sans words in a bordered surface like the follow-up chips (rule 4). */
 .repo {
   display: inline-flex;
   align-items: center;
@@ -146,8 +146,8 @@
   border-radius: var(--radius-pill);
   background: var(--surface);
   color: var(--muted);
-  font-family: var(--font-mono);
-  font-size: var(--text-hint-size);
+  font-family: var(--font-sans);
+  font-size: var(--text-label-size);
   line-height: 1;
   font-weight: var(--text-label-weight);
   text-decoration: none;
@@ -155,12 +155,14 @@
   overflow: hidden;
   text-overflow: ellipsis;
   transition:
-    color 250ms cubic-bezier(0.25, 1, 0.5, 1),
-    box-shadow 250ms cubic-bezier(0.25, 1, 0.5, 1),
-    transform 250ms cubic-bezier(0.25, 1, 0.5, 1);
+    color 200ms cubic-bezier(0.25, 1, 0.5, 1),
+    border-color 200ms cubic-bezier(0.25, 1, 0.5, 1),
+    box-shadow 200ms cubic-bezier(0.25, 1, 0.5, 1),
+    transform 150ms cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .repo:hover {
+  border-color: var(--line-strong);
   color: var(--ink);
   box-shadow: var(--card-hover);
   transform: translateY(calc(var(--hairline) * -1));

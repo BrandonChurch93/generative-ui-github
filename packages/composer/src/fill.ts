@@ -4,6 +4,7 @@ import { MODELS } from '@genui-github/core'
 import type { Piece, RegionName } from '@genui-github/renderer/core'
 import { REGION_NAMES } from '@genui-github/renderer/core'
 import { extractNumbers, seriesFacts, validateNumbers } from '@genui-github/ui/schemas'
+import { isMeasureId, MEASURES } from '@genui-github/data'
 import { BarChartFacts, ComparisonReading, Heatmap, HeatmapHeat, type Comparison } from '@genui-github/ui/schemas'
 import type { CallUsage, ModelClient } from './anthropic'
 import { bind } from './templates/build'
@@ -62,6 +63,24 @@ export function allowedFigures(piece: Piece): number[] {
   }
 }
 
+type NumberOptions = NonNullable<Parameters<typeof validateNumbers>[2]>
+
+/** A piece whose figures are a ratio in × is checked so a percent never stands in for it. */
+export function figureOptions(piece: Piece): NumberOptions {
+  const b = record(piece.bound)
+  const ratio = (key: unknown) => typeof key === 'string' && isMeasureId(key) && MEASURES[key].unit === 'ratio'
+  switch (piece.component) {
+    case 'Insight':
+      return { ratio: Object.keys(record(b.sourceMap)).some(ratio) }
+    case 'Metric':
+      return { ratio: ratio(b.measure) }
+    case 'LineChart':
+      return { ratio: b.unit === 'ratio' }
+    default:
+      return {}
+  }
+}
+
 // Built from its code point: the repo's lint bans the character in source, escaped or not.
 const EM_DASH = String.fromCodePoint(8212)
 const CLOCK = /\b(\d{1,2}):00\b/g
@@ -85,13 +104,13 @@ export function proseProblems(text: string, piece: Piece, max: number, data: str
   for (const [, term] of text.matchAll(QUOTED)) {
     // Backticks are for identifiers; a term made of figures is a figure, and is checked as one.
     const figure = /^[\d.,%\s:+-]+$/.test(term!)
-    if (figure ? !validateNumbers(term!, allowedFigures(piece)).ok : !mentions(data, term!)) problems.push(`\`${term}\` is not in the data`)
+    if (figure ? !validateNumbers(term!, allowedFigures(piece), figureOptions(piece)).ok : !mentions(data, term!)) problems.push(`\`${term}\` is not in the data`)
   }
   for (const [version] of text.matchAll(VERSION)) if (!mentions(data, version)) problems.push(`${version} is not in the data`)
   const hours = piece.component === 'Heatmap' ? [...text.matchAll(CLOCK)].map(m => Number(m[1])) : []
   if (hours.some(h => h > 23)) problems.push('an hour past 23')
   const plain = piece.component === 'Heatmap' ? text.replace(CLOCK, t => ' '.repeat(t.length)) : text
-  const check = validateNumbers(plain, allowedFigures(piece))
+  const check = validateNumbers(plain, allowedFigures(piece), figureOptions(piece))
   if (!check.ok) problems.push(`figures not in the data: ${check.mismatches.map(m => m.raw).join(', ')}`)
   return problems
 }

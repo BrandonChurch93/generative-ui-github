@@ -83,6 +83,18 @@
   min-inline-size: 0;
 }
 
+/*
+ * One piece in main and two in side would leave the main card short of the side stack. The side pieces stack
+ * under main instead, one column at full width (docs/composer.md, Layout). The action card follows the column.
+ */
+.split:has(> .main[data-count='1']):has(> .side[data-count='2']) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.split:has(> .main[data-count='1']):has(> .side[data-count='2']) + .action {
+  inline-size: auto;
+}
+
 /* The bloom when the model raises a card's emphasis: the same warmth ActionCard has on arrival. */
 .warmth {
   position: absolute;

@@ -169,7 +169,10 @@ const IMPL: { [Id in MeasureId]: Impl<Id> } = {
     compute: s => {
       if (!s.activity) return null
       const r = closureRatio(s.activity)
-      return r.total === null ? null : { value: r.total, series12w: r.weeks.map(w => w.ratio ?? 0) }
+      if (r.total === null) return null
+      // A week that opened nothing has no ratio, not a zero; a series with a gap is left out, as for every measure.
+      const weeks = r.weeks.map(w => w.ratio)
+      return { value: r.total, ...(weeks.every(w => w !== null) ? { series12w: weeks as number[] } : {}) }
     },
   },
   'ci-p50': {

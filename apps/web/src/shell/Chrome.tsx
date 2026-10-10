@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useId, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import type { gsap } from 'gsap'
 import { RepoChip } from '@genui-github/ui'
 import { count, rise, slide, wipe } from '@genui-github/ui/motion'
@@ -40,6 +40,9 @@ const kill = (tl: gsap.core.Timeline | null) => {
 /** The hint is the chrome's last line, so it wipes in after the follow-up questions have started to slide. */
 const HINT_AT = 0.5
 
+/** The follow-up block's parts in reading order: the "Ask next" eyebrow, then each chip. They slide as one set. */
+const askParts = (nav: HTMLElement): Element[] => [...nav.querySelectorAll('[data-asks-label], [data-ask]')]
+
 /** "asked just now", kept fresh while the screen is open. */
 function useAgo(at: number) {
   const [now, setNow] = useState(at)
@@ -60,6 +63,7 @@ export function Chrome({ repo, question, askedAt, sampleDay, built, pieces, cach
   const receipt = useRef<HTMLButtonElement>(null)
   const figure = useRef<HTMLSpanElement>(null)
   const chips = useRef<HTMLElement>(null)
+  const asksId = useId()
   const noticeRef = useRef<HTMLParagraphElement>(null)
   const [shownQuestion, setShownQuestion] = useState(question)
   const head = useRef<gsap.core.Timeline | null>(null)
@@ -96,7 +100,7 @@ export function Chrome({ repo, question, askedAt, sampleDay, built, pieces, cach
   const asksKey = (asks ?? []).map(a => a.ask).join('\n')
   useLayoutEffect(() => {
     if (!shown || !chips.current || !asksKey) return
-    const tl = slide([...chips.current.children], { reduced, delay: reduced ? 0 : 0.36 })
+    const tl = slide(askParts(chips.current), { reduced, delay: reduced ? 0 : 0.36 })
     return () => kill(tl)
   }, [asksKey, shown, reduced])
 
@@ -109,7 +113,7 @@ export function Chrome({ repo, question, askedAt, sampleDay, built, pieces, cach
   // The exit: chips first, then the receipt, the question and the eyebrow, the entrance run backwards.
   useLayoutEffect(() => {
     if (shown) return
-    const parts = [chips.current ? [...chips.current.children] : [], noticeRef.current, receipt.current, heading.current, eyebrow.current ? [...eyebrow.current.children] : []]
+    const parts = [chips.current ? askParts(chips.current) : [], noticeRef.current, receipt.current, heading.current, eyebrow.current ? [...eyebrow.current.children] : []]
     const tl = slide(parts[0] as Element[], { direction: 'out', reduced })
     if (parts[1]) tl.add(wipe(parts[1] as Element, { direction: 'out', reduced }), reduced ? 0 : 0.08)
     if (parts[2]) tl.add(rise(parts[2] as Element, { direction: 'out', reduced }), reduced ? 0 : 0.08)
@@ -125,7 +129,7 @@ export function Chrome({ repo, question, askedAt, sampleDay, built, pieces, cach
         <div>
           <div className={styles.eyebrow} ref={eyebrow}>
             <RepoChip repo={repo} className={styles.repo} />
-            {sampleDay && <span className={styles.chip}>sample{MIDDOT}read {sampleDay}</span>}
+            {sampleDay && <span className={styles.sample}>sample{MIDDOT}read {sampleDay}</span>}
             <span className={styles.note}>asked {askedWords}</span>
           </div>
           <h1 className={styles.question} ref={heading} data-question="">
@@ -157,12 +161,17 @@ export function Chrome({ repo, question, askedAt, sampleDay, built, pieces, cach
         </p>
       )}
       {asks && asks.length > 0 && (
-        <nav className={styles.asks} aria-label="Ask next" ref={chips}>
-          {asks.map(a => (
-            <button key={a.ask} type="button" className={styles.ask} onClick={() => onAsk?.(a.ask)} data-ask="">
-              {a.ask}
-            </button>
-          ))}
+        <nav className={styles.next} aria-labelledby={asksId} ref={chips}>
+          <p className={styles.eyebrowLabel} id={asksId} data-asks-label="">
+            Ask next
+          </p>
+          <div className={styles.asks}>
+            {asks.map(a => (
+              <button key={a.ask} type="button" className={styles.ask} onClick={() => onAsk?.(a.ask)} data-ask="">
+                {a.ask}
+              </button>
+            ))}
+          </div>
         </nav>
       )}
       <Hint show={Boolean(hint) && shown} reduced={reduced} delay={HINT_AT} />
