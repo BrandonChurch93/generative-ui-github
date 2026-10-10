@@ -38,6 +38,7 @@ A rewrite is a new composition replacing the current one after a click or a new 
 - Survivors morph in place: a metric's number counts from old to new, its delta crossfades, its position moves with a layout transition (Flip), never a remount. A surviving chart re-emphasizes rather than redraws.
 - A new question during a rewrite kills the running timeline and starts the next rewrite from wherever the screen is. Two timelines never run at once.
 - The header follows the same rule: the question wipes out and in; the latency figure resets and counts again.
+- The exits start on the click, not on the new answer's arrival. The clicked piece stays as the anchor (the next answer is about it, so it is the likeliest survivor); everything else leaves in place, hidden once its exit ends, so nothing collapses. An answer that lands within the exit lead plays as one rewrite and no skeleton ever shows. A later one shows the insight's frame in its skeleton state, the only frame the stream has promised, and fills it in place when the answer lands. No spinner.
 
 ## Update
 

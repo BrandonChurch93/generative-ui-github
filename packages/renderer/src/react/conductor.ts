@@ -10,6 +10,10 @@ export const MARKS = {
 
 interface Running {
   finish(): void
+  /** Lets go of the animation where it stands, without jumping it to its end. */
+  close(): void
+  /** The change it counts toward; a carried exit moves to the next one. */
+  generation: number
 }
 
 function mark(name: string, detail?: unknown) {
@@ -23,12 +27,15 @@ function mark(name: string, detail?: unknown) {
  */
 export interface MotionHandle {
   complete(): void
+  /** Stops where it stands; for a leave a returning piece takes back. */
+  cancel(): void
   finished: Promise<void>
 }
 
 export class Conductor {
   generation = 0
   private running = new Set<Running>()
+  private byTarget = new Map<object, Running>()
   private pending = 0
   private insightMarked = false
   private onPhase?: (phase: 'composing' | 'settled', generation: number) => void
@@ -37,12 +44,24 @@ export class Conductor {
     this.onPhase = options.onPhase
   }
 
-  /** Starts a screen change: whatever the last one left running jumps to its end. */
-  begin(): number {
-    for (const r of [...this.running]) r.finish()
-    this.running.clear()
+  /**
+   * Starts a screen change: whatever the last one left running jumps to its end. With `carry`, it keeps
+   * running and counts toward this change instead: the exits a leave started belong to the rewrite that follows.
+   */
+  begin(carry = false): number {
+    if (!carry) {
+      for (const r of [...this.running]) r.finish()
+      this.running.clear()
+      this.byTarget.clear()
+    }
     this.generation += 1
     this.pending = 0
+    if (carry) {
+      for (const r of this.running) {
+        r.generation = this.generation
+        this.pending += 1
+      }
+    }
     this.insightMarked = false
     mark(MARKS.start, { generation: this.generation })
     const generation = this.generation
@@ -54,19 +73,28 @@ export class Conductor {
     return generation
   }
 
-  private track(finish: () => void, done: Promise<unknown>, generation: number, onDone?: () => void, label?: string) {
-    const entry: Running = { finish }
-    this.running.add(entry)
-    if (generation === this.generation) this.pending += 1
-    const close = () => {
-      this.running.delete(entry)
-      if (label && generation === this.generation) mark(`genui:done:${label}`, { generation })
-      onDone?.()
-      if (generation !== this.generation) return
-      this.pending -= 1
-      if (this.pending === 0) this.settle()
+  private track(target: object, finish: () => void, done: Promise<unknown>, generation: number, onDone?: () => void, label?: string): Running {
+    let closed = false
+    const entry: Running = {
+      finish,
+      generation,
+      close: () => {
+        if (closed) return
+        closed = true
+        this.running.delete(entry)
+        if (this.byTarget.get(target) === entry) this.byTarget.delete(target)
+        if (label && entry.generation === this.generation) mark(`genui:done:${label}`, { generation: entry.generation })
+        onDone?.()
+        if (entry.generation !== this.generation) return
+        this.pending -= 1
+        if (this.pending === 0) this.settle()
+      },
     }
-    done.then(close, close)
+    this.running.add(entry)
+    this.byTarget.set(target, entry)
+    if (generation === this.generation) this.pending += 1
+    done.then(entry.close, entry.close)
+    return entry
   }
 
   /** A GSAP timeline the change started. */
@@ -77,6 +105,7 @@ export class Conductor {
     if (tl.duration() === 0) resolve()
     else tl.eventCallback('onComplete', resolve)
     this.track(
+      tl,
       () => {
         tl.progress(1)
         tl.kill()
@@ -86,6 +115,33 @@ export class Conductor {
       generation,
       onDone,
       label,
+    )
+    return tl
+  }
+
+  /** Kills a timeline where it stands: a leave whose piece came back before its exit showed. */
+  drop(tl: gsap.core.Timeline) {
+    tl.kill()
+    this.byTarget.get(tl)?.close()
+  }
+
+  /** Plays a timeline back to its start: a leave whose piece the next answer keeps. */
+  reverse(tl: gsap.core.Timeline, generation = this.generation): gsap.core.Timeline {
+    this.byTarget.get(tl)?.close()
+    let resolve!: () => void
+    const done = new Promise<void>(r => (resolve = r))
+    tl.eventCallback('onComplete', null)
+    tl.eventCallback('onReverseComplete', resolve)
+    tl.reverse()
+    this.track(
+      tl,
+      () => {
+        tl.progress(0)
+        tl.kill()
+        resolve()
+      },
+      done,
+      generation,
     )
     return tl
   }
@@ -102,8 +158,13 @@ export class Conductor {
       controls.complete()
       resolve()
     }
-    this.track(complete, finished, generation, onDone, label)
-    return { complete, finished }
+    const entry = this.track(controls, complete, finished, generation, onDone, label)
+    const cancel = () => {
+      controls.stop()
+      resolve()
+      entry.close()
+    }
+    return { complete, cancel, finished }
   }
 
   /** The insight is readable: its sentence has finished arriving. */
@@ -129,5 +190,6 @@ export class Conductor {
   dispose() {
     for (const r of [...this.running]) r.finish()
     this.running.clear()
+    this.byTarget.clear()
   }
 }

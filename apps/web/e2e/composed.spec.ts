@@ -132,6 +132,46 @@ test.describe('composed screen', () => {
     await expect(page.locator('[data-piece-id] button:has([data-out])')).toHaveCount(0)
   })
 
+  test('a follow-up starts leaving on the click; a slow answer waits as the insight skeleton and fills that frame', async ({ page }) => {
+    await page.goto(url('vercel/next.js', GOLDEN[1]!))
+    await expect(settled(page)).toBeVisible({ timeout: 15_000 })
+    // Holds the answer back 2s, as a live composition would, with no model call.
+    await page.route('**/api/compose', async route => {
+      await new Promise(resolve => setTimeout(resolve, 2000))
+      await route.continue()
+    })
+    const next = page.locator('[data-chrome]').getByRole('button', { name: GOLDEN[3]! })
+    const onClick = await next.evaluate(async el => {
+      ;(el as HTMLElement).click()
+      await new Promise(requestAnimationFrame)
+      return document.querySelector('[data-composition]')?.getAttribute('data-composition')
+    })
+    expect(onClick).toBe('awaiting')
+    const skeleton = page.locator('[data-region="insight"] [data-piece-id][data-state="skeleton"]')
+    await expect(skeleton).toBeVisible({ timeout: 1500 })
+    await skeleton.evaluate(el => ((window as unknown as { frame: Element }).frame = el))
+    await expect(page.locator('[data-built]')).toHaveCount(0)
+    await expect(page.locator('[data-composition^="golden-ci-trend"][data-phase="settled"]')).toBeVisible({ timeout: 15_000 })
+    expect(await page.evaluate(() => document.querySelector('[data-region="insight"] [data-piece-id]') === (window as unknown as { frame: Element }).frame)).toBe(true)
+    await expect(page.locator('[data-region="insight"] [data-piece-id]')).toHaveAttribute('data-state', 'default')
+    await expect(page.locator('[data-left]')).toHaveCount(0)
+  })
+
+  test('a follow-up that arrives in time reads as one rewrite: no skeleton ever shows', async ({ page }) => {
+    await page.goto(url('vercel/next.js', GOLDEN[1]!))
+    await expect(settled(page)).toBeVisible({ timeout: 15_000 })
+    await page.evaluate(() => {
+      const w = window as unknown as { skeletons: number }
+      w.skeletons = 0
+      new MutationObserver(() => {
+        w.skeletons += document.querySelectorAll('[data-piece-id][data-state="skeleton"]').length
+      }).observe(document.body, { childList: true, subtree: true, attributes: true })
+    })
+    await page.locator('[data-chrome]').getByRole('button', { name: GOLDEN[3]! }).click()
+    await expect(page.locator('[data-composition^="golden-ci-trend"][data-phase="settled"]')).toBeVisible({ timeout: 15_000 })
+    expect(await page.evaluate(() => (window as unknown as { skeletons: number }).skeletons)).toBe(0)
+  })
+
   test('every golden question on every sample fits a 390px phone with no horizontal scroll', async ({ browser }) => {
     test.setTimeout(300_000)
     const context = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce', isMobile: true, hasTouch: true })

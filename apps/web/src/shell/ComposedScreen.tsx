@@ -171,8 +171,8 @@ export function ComposedScreen({ owner, name, question: initial, sampleDay, forc
   const timeZone = typeof Intl !== 'undefined' ? Intl.DateTimeFormat().resolvedOptions().timeZone : undefined
   const closedUntil = refusal?.error === 'rate-limit' && refusal.resetAt ? clock(refusal.resetAt, timeZone) : capped ? clock(capped, timeZone) : undefined
   const shown = replay === 'in'
-  // While a new question composes, the last answer stays up to be rewritten, but its receipt is not this question's.
-  const stale = state.phase === 'composing' && tree.done && !state.warming
+  // From the click until the new answer starts to arrive, the tree is the last answer: it leaves, and its receipt is not this question's.
+  const stale = Boolean(tree.id) && state.answered !== ask
   const hasAnswer = Boolean(tree.id) && !refusal && !stale && !handoff
   // Up from the first answer until the first click into one; never over a refusal or a warming screen.
   const hint = !hintDismissed && Boolean(tree.id) && !refusal && !warming && !handoff
@@ -222,6 +222,8 @@ export function ComposedScreen({ owner, name, question: initial, sampleDay, forc
           <div className={screen.answer} aria-busy={state.phase === 'composing' || undefined} onClickCapture={dismissHint}>
             <Renderer
               tree={shown && !handoff ? tree : blank}
+              awaiting={stale}
+              anchor={ask.from?.id}
               density={density}
               reduced={reduced}
               onAsk={onAsk}

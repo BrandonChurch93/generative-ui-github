@@ -89,6 +89,43 @@ describe('Renderer', () => {
   })
 })
 
+describe('Renderer follow-up', () => {
+  const wait = (ms: number) => act(async () => new Promise(r => setTimeout(r, ms)))
+  const frame = (root: HTMLElement, id: string) => root.querySelector(`[data-piece-id="${id}"]`)
+
+  it('starts the exits on the ask, keeps the clicked piece, and lets an answer that arrives in time morph survivors in place', async () => {
+    const { container, rerender } = render(<Renderer composition={one} reduced />)
+    const [kept, chart] = [frame(container, 'metric:failing-checks'), frame(container, 'linechart:ci-p50')]
+    rerender(<Renderer composition={one} reduced awaiting anchor="metric:failing-checks" />)
+    expect(container.querySelector('[data-composition]')?.getAttribute('data-composition')).toBe('awaiting')
+    expect(pieceIds(container)).toHaveLength(8)
+    rerender(<Renderer composition={FIXTURES.checkFailures} reduced />)
+    expect(frame(container, 'metric:failing-checks')).toBe(kept)
+    expect(frame(container, 'linechart:ci-p50')).toBe(chart)
+    await wait(1500)
+    expect(container.querySelector('[data-state="skeleton"]')).toBeNull()
+    expect(frame(container, 'metric:open-prs')).toBeNull()
+    expect(frame(container, 'metric:failing-checks')?.hasAttribute('data-left')).toBe(false)
+    expect(frame(container, 'metric:failing-checks')?.querySelector('[data-number]')?.textContent).toBe('2')
+  })
+
+  it('shows the answer frame as a skeleton once the old answer has gone, and fills that frame when the answer lands', async () => {
+    const { container, rerender } = render(<Renderer composition={one} reduced />)
+    rerender(<Renderer composition={one} reduced awaiting />)
+    await wait(1500)
+    const skeleton = container.querySelector<HTMLElement>('[data-region="insight"] [data-piece-id]')!
+    expect(skeleton.dataset.state).toBe('skeleton')
+    expect(frame(container, 'insight:answer')).toBeNull()
+    expect(frame(container, 'metric:open-prs')?.getAttribute('data-left')).not.toBeNull()
+    rerender(<Renderer composition={FIXTURES.checkFailures} reduced />)
+    expect(frame(container, 'insight:answer')).toBe(skeleton)
+    await wait(1500)
+    expect(skeleton.dataset.state).toBe('default')
+    expect(frame(container, 'metric:open-prs')).toBeNull()
+    expect(container.querySelector('[data-left]')).toBeNull()
+  })
+})
+
 describe('Renderer error boundaries', () => {
   it('draws every other region when a component throws inside one region', () => {
     const real = PIECES.LineChart!.Component

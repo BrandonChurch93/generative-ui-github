@@ -66,6 +66,8 @@ export class PieceBody extends Component<PieceBodyProps> {
   private ref = createRef<HTMLDivElement>()
   /** The plan this piece last entered for: StrictMode mounts a class twice, and a second enter would fight the first. */
   private entered?: Plan
+  /** The exit a leave started, until the next answer says whether this piece stays. */
+  private leaving?: gsap.core.Timeline
 
   /** The component's own root, which every `motion.ts` takes. */
   root(): HTMLElement | null {
@@ -129,7 +131,25 @@ export class PieceBody extends Component<PieceBodyProps> {
       onDone()
       return undefined
     }
-    return this.run(() => later(at, def!.motion.exit(root, node.props, { reduced })), onDone)
+    const tl = this.run(() => later(at, def!.motion.exit(root, node.props, { reduced })), onDone)
+    this.leaving = tl
+    return tl
+  }
+
+  /**
+   * The next answer keeps this piece after its leave began. An exit that has not shown yet is dropped; one
+   * that has plays back to where it started, so the morph after it begins from the piece as it was. A piece
+   * entering again starts its entrance over whatever the exit left.
+   */
+  private recover(cue: Cue) {
+    const tl = this.leaving
+    this.leaving = undefined
+    if (!tl) return
+    const { conductor } = this.props
+    if (cue.action === 'enter' || tl.time() === 0) conductor.drop(tl)
+    // A newer change already jumped this exit to its end; the piece starts again from where it was.
+    else if (tl.progress() === 1) tl.progress(0).kill()
+    else conductor.reverse(tl)
   }
 
   override componentDidMount() {
@@ -154,6 +174,7 @@ export class PieceBody extends Component<PieceBodyProps> {
     if (prev.plan === this.props.plan) return
     const cue = this.cue()
     if (!cue) return
+    if (this.leaving && cue.action !== 'leave' && cue.action !== 'exit') this.recover(cue)
     if (cue.action === 'enter') return this.enter(cue)
     if (cue.action !== 'morph' && cue.action !== 'update') return
     const root = this.root()

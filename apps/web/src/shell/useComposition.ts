@@ -36,6 +36,8 @@ export interface CompositionState {
   served: Served
   /** Set while the answer is the WarmingUp screen. */
   warming?: WarmingStatus
+  /** The question the tree answers. While it is not the one asked, the tree is the last answer, about to be rewritten. */
+  answered?: Question
 }
 
 const emptyTree = (): StreamTree => ({ asks: [], regions: { insight: [], metrics: [], main: [], side: [], action: [] }, done: false })
@@ -105,16 +107,18 @@ export function useComposition(repo: string, ask: Question | null, force?: strin
           if (abort.signal.aborted) return
           if (done) break
           const tree = parser.push(value)
-          // Until a start op arrives, the last screen stays up so the new one can rewrite it.
-          if (tree.id) setState(s => ({ ...s, tree, served }))
+          // Until a start op arrives the tree stays the last answer, which the renderer is already taking down.
+          if (tree.id) setState(s => ({ ...s, tree, served, answered: current }))
         }
       } catch {
         if (abort.signal.aborted) return
       }
       let tree = parser.end()
       if (tree.id && !tree.done) tree = { ...tree, done: true, error: 'the connection closed before the answer finished' }
+      // The last answer has already left the screen, so a stream that never started is shown as the failure it is.
+      if (!tree.id) tree = { ...emptyTree(), id: 'unanswered', done: true, error: 'the connection closed before the answer began' }
       const nextWarming = warmingIn(tree)
-      setState(s => ({ ...s, phase: 'done', tree: tree.id ? tree : s.tree, served, warming: nextWarming }))
+      setState(s => ({ ...s, phase: 'done', tree, served, warming: nextWarming, answered: current }))
       if (nextWarming?.phase === 'warming') timer.current = setTimeout(() => void run(current, nextWarming), Math.max(1000, nextWarming.nextCheckMs))
     },
     [repo, force],
