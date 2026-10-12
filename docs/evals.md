@@ -42,13 +42,13 @@ Paraphrases are real rewordings ("what's holding up 16.2", "release blockers?", 
 
 ## Runs
 
-`pnpm evals:run --model <haiku|sonnet|production> --runs 3` writes `packages/evals/results/<date>-<model>.json` with every case's scores and the aggregates. `production` is the real path (Haiku classify + fill, Sonnet off-template). `sonnet` composes everything with Sonnet off-template style, to show what the decision model saves. `haiku` runs Haiku everywhere, to show where it breaks.
+`pnpm evals:run --model <haiku|sonnet|production> --runs 3` writes `packages/evals/results/<date>-<model>.json` with every case's scores and the aggregates. `production` is the real path (Haiku classify + fill, Sonnet off-template). `sonnet` composes everything with Sonnet off-template style, to show what the decision model saves. `haiku` runs Haiku everywhere, to show where it breaks. `sonnet` skips routing by design, so template and bindings are not scored for it (`NOT_SCORED` in `packages/evals/src/run.ts`; the results file carries the reason and `/evals` prints "not scored · no routing"). `pnpm evals:rescore <file>` reapplies that to a recorded file with no model call.
 
 Three runs each so variance shows. The results page shows mean and spread.
 
 ## Results page
 
-`/evals` in the app: per model, a table of the aggregate scores; a Distribution of latency-to-done; a Comparison of `production` vs `sonnet` on cost and template accuracy; a StatusList of the failing cases with their reasons; the date and the model ids. The page renders catalog components directly with system-bound props (the way the renderer fixtures do), not through the composer's measure schema, so Distribution and Comparison show eval numbers here.
+`/evals` in the app: per model, a table of the aggregate scores; a Distribution of latency-to-done; a Comparison of `production` vs `sonnet` on cost, median time to done, components F1 and rules; the three-model finding in one sentence under the tables, shown only while the runs bear out each clause; a StatusList of the failing cases with their reasons; the date and the model ids. The page renders catalog components directly with system-bound props (the way the renderer fixtures do), not through the composer's measure schema, so Distribution and Comparison show eval numbers here.
 
 ## Regression gate
 

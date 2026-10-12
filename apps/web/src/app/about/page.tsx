@@ -235,7 +235,7 @@ function Finding({ runs }: { runs: Runs }) {
           </div>
         </CardFrame>
         <p className={styles.note}>
-          Production was run {runWhen(production.date)}. Sonnet alone composes every question off-template on purpose, so it is not routed and has no template figure. Haiku alone and production differ only on the {offTemplate} off-template cases. Every case, run by run, is on{' '}
+          Production was run {runWhen(production.date)}. Sonnet alone composes every question off-template on purpose, so it skips routing, and template and bindings are not scored for it. Haiku alone and production differ only on the {offTemplate} off-template cases. Every case, run by run, is on{' '}
           <TextLink href="/evals" size="hint">
             the evals page
           </TextLink>

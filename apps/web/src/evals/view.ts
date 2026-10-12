@@ -92,21 +92,44 @@ export function setWords(file: ResultsFile): string {
 /** The sample repos the golden cases ask about. */
 export const repoCount = (file: ResultsFile) => new Set(file.cases.filter(c => c.kind === 'golden').map(c => c.repo)).size
 
-/**
- * The `sonnet` run routes every question off-template on purpose, so its template score is read over the
- * off-template cases only: elsewhere it fails by design, which says nothing about the model.
- */
-export function offTemplateRate(file: ResultsFile): Rate | null {
-  const runs = [...new Set(file.cases.map(c => c.run))].sort((a, b) => a - b)
-  const scored = (run: number) => file.cases.filter(c => c.run === run && c.kind === 'off-template' && c.scores.template !== null)
-  const rates = runs.map(scored).filter(list => list.length).map(list => list.filter(c => c.scores.template!.pass).length / list.length)
-  if (!rates.length) return null
-  const round = (n: number) => Number(n.toFixed(3))
-  return { mean: round(rates.reduce((a, b) => a + b, 0) / rates.length), min: round(Math.min(...rates)), max: round(Math.max(...rates)), n: scored(runs[0]!).length }
+/** A scorer left out of a run on purpose: "not scored · no routing". Null when it was scored. */
+export function notScoredWords(file: ResultsFile, scorer: ScorerName): string | null {
+  const why = file.notScored?.[scorer]
+  return why ? `not scored${MIDDOT}${why}` : null
 }
 
-/** The template rate a run is judged on: all cases, except the `sonnet` run's off-template cases. */
-export const templateRate = (file: ResultsFile) => (file.model === 'sonnet' ? offTemplateRate(file) : file.aggregate.pass.template)
+const FRACTIONS = ['', '', 'half', 'third', 'quarter', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth']
+
+/** "about a seventh", or null when the ratio has no plain word. */
+export function fractionWords(part: number, whole: number): string | null {
+  if (part <= 0 || whole <= part) return null
+  const word = FRACTIONS[Math.round(whole / part)]
+  return word ? `about a ${word}` : null
+}
+
+/** One scorer's mean pass rate over the cases of one kind, across every run. */
+function kindRate(file: ResultsFile, scorer: ScorerName, off: boolean): number | null {
+  const scored = file.cases.filter(c => (c.kind === 'off-template') === off && c.scores[scorer])
+  return scored.length ? scored.filter(c => c.scores[scorer]!.pass).length / scored.length : null
+}
+
+/**
+ * The three-model finding, in one sentence, shown only while the runs bear out each clause: Haiku alone matches
+ * production on template, bindings and numbers; it misses only off-template, where production hands the case to
+ * Sonnet; and production does better there. Otherwise null, so a later run never leaves a stale claim on the page.
+ */
+export function modelFinding(production: ResultsFile, haiku: ResultsFile): string | null {
+  const [p, h] = [production.aggregate, haiku.aggregate]
+  const same = (['template', 'bindings', 'numbers'] as const).every(k => p.pass[k] && h.pass[k] && pct(p.pass[k].mean) === pct(h.pass[k].mean))
+  const share = fractionWords(h.cost.perCompositionUsd, p.cost.perCompositionUsd)
+  const misses = failingCases(haiku).map(r => haiku.cases.find(c => c.id === r.id)!)
+  const offOnly = misses.length > 0 && misses.every(c => c.kind === 'off-template')
+  const lengthOnly = misses.every(c => SCORER_ORDER.every(s => !c.scores[s] || c.scores[s].pass || s === 'schema' || s === 'rules'))
+  const better = (['schema', 'rules'] as const).some(k => (kindRate(production, k, true) ?? 0) > (kindRate(haiku, k, true) ?? 1))
+  const onTemplateSame = (['schema', 'rules'] as const).every(k => kindRate(production, k, false) === kindRate(haiku, k, false))
+  if (!same || !share || !offOnly || !lengthOnly || !better || !onTemplateSame) return null
+  return `Haiku-only matches production on template, bindings and numbers at ${share} of the cost; its misses are off-template copy-length rules; Sonnet earns its cost only on off-template rule compliance.`
+}
 
 export interface FailingCase {
   id: string

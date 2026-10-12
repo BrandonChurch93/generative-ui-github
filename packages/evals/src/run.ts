@@ -15,6 +15,14 @@ export type RunModel = (typeof RUN_MODELS)[number]
 export const SCORERS = ['template', 'components', 'hot', 'schema', 'bindings', 'numbers', 'rules'] as const
 export type ScorerName = (typeof SCORERS)[number]
 
+/**
+ * Scorers that do not apply to a run model, with why. The `sonnet` run skips routing by design, so template and
+ * bindings (bound from the template's pieces) say nothing about it and are left out rather than counted as misses.
+ */
+export const NOT_SCORED: Partial<Record<RunModel, Partial<Record<ScorerName, string>>>> = {
+  sonnet: { template: 'no routing', bindings: 'no routing' },
+}
+
 export interface CaseResult {
   id: string
   kind: EvalCase['kind']
@@ -63,6 +71,16 @@ function failedScores(c: EvalCase, said: string): Record<ScorerName, Score | nul
 }
 
 export async function runCase(c: EvalCase, model: RunModel, deps: RunDeps, run = 1, now: () => number = Date.now): Promise<CaseResult> {
+  return unscored(model, await scoreCase(c, model, deps, run, now))
+}
+
+/** Clears the scorers that do not apply to `model`. */
+export function unscored(model: RunModel, result: CaseResult): CaseResult {
+  const skip = Object.keys(NOT_SCORED[model] ?? {}) as ScorerName[]
+  return skip.length ? { ...result, scores: { ...result.scores, ...Object.fromEntries(skip.map(s => [s, NA])) } } : result
+}
+
+async function scoreCase(c: EvalCase, model: RunModel, deps: RunDeps, run: number, now: () => number): Promise<CaseResult> {
   let context: DataContext | undefined
   let routed: string | undefined
   let drops: string[] = []
@@ -211,6 +229,8 @@ export interface ResultsFile {
   aggregate: Aggregate
   /** The same, for the 60 golden cases: what the regression gate compares. */
   golden: Aggregate
+  /** Scorers left out for this run model, with why (`NOT_SCORED`). Absent in files written before it existed. */
+  notScored?: Partial<Record<ScorerName, string>>
   cases: CaseResult[]
 }
 
@@ -222,6 +242,7 @@ export function resultsFile(model: RunModel, cases: CaseResult[], date = new Dat
     date,
     aggregate: aggregate(cases),
     golden: aggregate(cases.filter(c => c.kind === 'golden')),
+    notScored: NOT_SCORED[model] ?? {},
     cases,
   }
 }

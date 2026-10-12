@@ -2,7 +2,7 @@ import type { MeasureId } from '@genui-github/data'
 import type { ResultsFile } from '@genui-github/evals'
 import type { Comparison, Metric, StatusList } from '@genui-github/ui/schemas'
 import { MIDDOT } from '../shell/words'
-import { answersWords, failingCases, offTemplateRate, pct, secondsWords, spreadWords, usd } from './view'
+import { answersWords, failingCases, pct, secondsWords, spreadWords, usd } from './view'
 
 // The system binds every prop here from a results file, as the renderer fixtures bind theirs. No model writes
 // any of it. An eval figure is not a repo measure, so the `measure` each piece carries is only its key.
@@ -37,10 +37,14 @@ export function productionMetrics(file: ResultsFile): Metric.MetricProps[] {
 
 const PER = 10_000
 
-/** Production against the sonnet run: cost, template accuracy, median time to done. */
+const tenth = (rate: number) => Number((rate * 100).toFixed(1))
+
+/**
+ * Production against the sonnet run on what both are scored on: cost, median time to done, components F1 and
+ * rules. Template and bindings are left out because the sonnet run skips routing by design.
+ */
 export function versusSonnet(production: ResultsFile, sonnet: ResultsFile): Comparison.ComparisonProps {
-  const prodTemplate = production.aggregate.pass.template
-  const sonnetTemplate = offTemplateRate(sonnet)
+  const [p, s] = [production.aggregate, sonnet.aggregate]
   const pairs: Comparison.ComparisonPair[] = [
     {
       measure: key('eval-cost'),
@@ -49,36 +53,47 @@ export function versusSonnet(production: ResultsFile, sonnet: ResultsFile): Comp
       name: `Cost, ${PER.toLocaleString('en-US')} answers`,
       meta: 'in US dollars',
       unit: 'count',
-      current: production.aggregate.cost.perCompositionUsd * PER,
-      previous: sonnet.aggregate.cost.perCompositionUsd * PER,
+      current: p.cost.perCompositionUsd * PER,
+      previous: s.cost.perCompositionUsd * PER,
+    },
+    {
+      measure: key('eval-done-p50'),
+      direction: 'lower-is-better',
+      notable: true,
+      name: 'Median time to done',
+      meta: 'in milliseconds',
+      unit: 'count',
+      current: p.latency.doneP50,
+      previous: s.latency.doneP50,
     },
   ]
-  if (prodTemplate && sonnetTemplate)
+  if (p.componentsF1 !== null && s.componentsF1 !== null)
     pairs.push({
-      measure: key('eval-template'),
+      measure: key('eval-components'),
       direction: 'higher-is-better',
       notable: true,
-      name: 'Template accuracy',
-      meta: `sonnet: ${sonnetTemplate.n} cases`,
+      name: 'Components F1',
+      meta: 'mean, as a percent',
       unit: 'percent',
-      current: pct(prodTemplate.mean),
-      previous: pct(sonnetTemplate.mean),
+      current: tenth(p.componentsF1),
+      previous: tenth(s.componentsF1),
     })
-  pairs.push({
-    measure: key('eval-done-p50'),
-    direction: 'lower-is-better',
-    notable: true,
-    name: 'Median time to done',
-    meta: 'in milliseconds',
-    unit: 'count',
-    current: production.aggregate.latency.doneP50,
-    previous: sonnet.aggregate.latency.doneP50,
-  })
+  if (p.pass.rules && s.pass.rules)
+    pairs.push({
+      measure: key('eval-rules'),
+      direction: 'higher-is-better',
+      notable: true,
+      name: 'Rules',
+      meta: 'no piece dropped',
+      unit: 'percent',
+      current: tenth(p.pass.rules.mean),
+      previous: tenth(s.pass.rules.mean),
+    })
   const cost = pairs[0]!
   const finding =
     cost.previous > 0 && cost.current < cost.previous
       ? `Production costs ${Math.round(((cost.previous - cost.current) / cost.previous) * 100)}% less per answer than Sonnet alone`
-      : 'Production against Sonnet on cost, routing and speed'
+      : 'Production against Sonnet on cost, speed, components and rules'
   return {
     title: 'Against Sonnet alone',
     window: 'month',

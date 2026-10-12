@@ -6,7 +6,7 @@ Paste a public GitHub repo, ask it a question, and an agent composes an interfac
 
 ## Model decides, code renders
 
-Full-page generation is slow and expensive: minutes per page and hundreds of thousands of tokens (`docs/00-brief.md`). Here the model never writes HTML, CSS or a color. It picks components from a catalog and passes structured arguments, and code draws every piece. A golden question on one of the five sample repos is served from a precomputed composition with no model call (2 ms in a production build). A live question is one Haiku classification and one Haiku fill: in the 2026-10-09 eval run the median live template answer used 2,548 tokens, 904 of them output, the whole set cost $0.0019 per answer, and answers finished at 6.1 s p50. That latency is still above the composer's targets because the fill runs before anything streams. Because the model only chooses, the catalog is the product: 21 designed components plus code-first primitives, each with five states, three densities, a Zod schema and its own motion. When a new answer replaces the old one, the screen rewrites in place: exits reverse entrances and pieces that survive morph instead of remounting.
+Full-page generation is slow and expensive: minutes per page and hundreds of thousands of tokens (`docs/00-brief.md`). Here the model never writes HTML, CSS or a color. It picks components from a catalog and passes structured arguments, and code draws every piece. A golden question on one of the five sample repos is served from a precomputed composition with no model call (2 ms in a production build). A live question is one Haiku classification and one Haiku fill: in the 2026-10-12 eval run the median live template answer used 2,596 uncached tokens, 875 of them output, the whole set cost $0.0021 per answer, and answers finished at 6.2 s p50. That latency is still above the composer's targets because the fill runs before anything streams. Because the model only chooses, the catalog is the product: 21 designed components plus code-first primitives, each with five states, three densities, a Zod schema and its own motion. When a new answer replaces the old one, the screen rewrites in place: exits reverse entrances and pieces that survive morph instead of remounting.
 
 ## Architecture
 
@@ -150,23 +150,23 @@ Claude Desktop setup is in `docs/questions.md`, entry 8.4.
 
 ## Eval results
 
-Baseline from 2026-10-09: 99 cases × 3 runs per model. Every model composed 291 and refused the 6 it should (private and missing repos), with no failures. `production` is the shipped routing (Haiku classifies and fills, Sonnet off-template); `sonnet` composes everything with Sonnet; `haiku` composes everything with Haiku.
+Baseline from 2026-10-12: 99 cases × 3 runs per model. Every model composed 291 and refused the 6 it should (private and missing repos), with no failures. `production` is the shipped routing (Haiku classifies and fills, Sonnet off-template); `sonnet` composes everything with Sonnet; `haiku` composes everything with Haiku. `sonnet` skips routing by design, so template and bindings are not scored for it.
 
 | Scorer | production | sonnet | haiku |
 | --- | --- | --- | --- |
-| template | 0.96 | 0.13 | 0.96 (0.96 to 0.97) |
-| components (mean F1) | 1.00 (0.993) | 0.27 (0.749) | 1.00 (0.993) |
-| hot | 1.00 | 0.33 | 1.00 |
-| schema | 1.00 | 0.91 | 0.997 |
-| bindings | 1.00 | 0.35 | 1.00 |
+| template | 1.00 | not scored · no routing | 1.00 |
+| components (mean F1) | 1.00 (0.993) | 0.25 (0.753) | 1.00 (0.993) |
+| hot | 1.00 | 0.30 | 1.00 |
+| schema | 1.00 | 0.89 | 0.99 (0.98 to 1.00) |
+| bindings | 1.00 | not scored · no routing | 1.00 |
 | numbers | 1.00 | 1.00 | 1.00 |
-| rules | 1.00 | 0.95 | 1.00 |
-| done p50 / p90 | 6.1 s / 8.4 s | 4.7 s / 6.6 s | 6.0 s / 8.6 s |
-| first piece p50 | 6.1 s | 2.6 s | 6.0 s |
-| cost per answer | $0.0019 | $0.0137 | $0.0007 |
-| cost for 297 | $0.56 | $3.99 | $0.20 |
+| rules | 1.00 | 0.91 (0.91 to 0.92) | 0.997 (0.99 to 1.00) |
+| done p50 / p90 | 6.2 s / 8.3 s | 4.8 s / 7.3 s | 6.2 s / 8.6 s |
+| first piece p50 | 6.0 s | 2.6 s | 6.2 s |
+| cost per answer | $0.0021 | $0.0138 | $0.0007 |
+| cost for 297 | $0.62 | $4.01 | $0.20 |
 
-Routing to templates costs about a seventh of composing everything with Sonnet, and every template answer binds the right numbers. `haiku` matches `production` here because the two differ only on the off-template cases, which carry no component expectations yet.
+Haiku-only matches production on template, bindings and numbers at about a third of the cost; its misses are off-template copy-length rules; Sonnet earns its cost only on off-template rule compliance. Against Sonnet composing everything, routing to templates costs about a sixth as much and uses the expected components every time (Sonnet: 0.25).
 
 The full results are at `/evals` in the app and in `packages/evals/results/`. Reproduce with `pnpm evals:run`.
 

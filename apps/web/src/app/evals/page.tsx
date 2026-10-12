@@ -4,7 +4,7 @@ import { Latency } from '../../evals/Latency'
 import { ModelCard } from '../../evals/ModelCard'
 import { Piece } from '../../evals/Piece'
 import { loadResults, MODEL_ORDER } from '../../evals/results'
-import { composedDone, MODEL_TITLE, modelIds, numberWord, repoCount, runWhen, setWords, timesWord } from '../../evals/view'
+import { composedDone, MODEL_TITLE, modelFinding, modelIds, repoCount, runWhen, setWords, timesWord } from '../../evals/view'
 import { Frame } from '../../shell/Frame'
 import { MIDDOT } from '../../shell/words'
 import chrome from '../../shell/Chrome.module.css'
@@ -21,7 +21,9 @@ export default function EvalsPage() {
   const runs = MODEL_ORDER.flatMap(m => (results[m] ? [results[m]] : []))
   const production = results.production
   const sonnet = results.sonnet
+  const haiku = results.haiku
   const lead = runs[0]
+  const finding = production && haiku ? modelFinding(production, haiku) : null
 
   return (
     <Frame current="evals">
@@ -83,9 +85,14 @@ export default function EvalsPage() {
                 <ModelCard key={file.model} file={file} />
               ))}
             </div>
+            {finding && (
+              <p className={styles.finding} data-finding="">
+                {finding}
+              </p>
+            )}
             {sonnet && (
               <p className={styles.note} data-sonnet-note="">
-                The Sonnet run composes every question off-template on purpose, so its template accuracy counts only the {numberWord(offTemplateCount(sonnet))} off-template cases.
+                The Sonnet run composes every question off-template on purpose, so it skips routing, and template and bindings are not scored for it.
               </p>
             )}
           </section>
@@ -108,8 +115,4 @@ export default function EvalsPage() {
       </div>
     </Frame>
   )
-}
-
-function offTemplateCount(file: NonNullable<ReturnType<typeof loadResults>['sonnet']>) {
-  return new Set(file.cases.filter(c => c.kind === 'off-template').map(c => c.id)).size
 }

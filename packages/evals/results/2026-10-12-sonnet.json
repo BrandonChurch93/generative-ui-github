@@ -10,12 +10,7 @@
   "cases": 99,
   "runs": 3,
   "pass": {
-   "template": {
-    "mean": 0.131,
-    "min": 0.131,
-    "max": 0.131,
-    "n": 99
-   },
+   "template": null,
    "components": {
     "mean": 0.249,
     "min": 0.241,
@@ -34,12 +29,7 @@
     "max": 0.887,
     "n": 97
    },
-   "bindings": {
-    "mean": 0.339,
-    "min": 0.327,
-    "max": 0.364,
-    "n": 55
-   },
+   "bindings": null,
    "numbers": {
     "mean": 1,
     "min": 1,
@@ -74,12 +64,7 @@
   "cases": 60,
   "runs": 3,
   "pass": {
-   "template": {
-    "mean": 0,
-    "min": 0,
-    "max": 0,
-    "n": 60
-   },
+   "template": null,
    "components": {
     "mean": 0.211,
     "min": 0.2,
@@ -98,12 +83,7 @@
     "max": 0.9,
     "n": 60
    },
-   "bindings": {
-    "mean": 0.339,
-    "min": 0.327,
-    "max": 0.364,
-    "n": 55
-   },
+   "bindings": null,
    "numbers": {
     "mean": 1,
     "min": 1,
@@ -134,6 +114,10 @@
    "failed": 0
   }
  },
+ "notScored": {
+  "template": "no routing",
+  "bindings": "no routing"
+ },
  "cases": [
   {
    "id": "cannot-01-traffic",
@@ -144,9 +128,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -190,9 +172,7 @@
    "run": 1,
    "outcome": "refused",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": null,
@@ -220,9 +200,7 @@
    "run": 1,
    "outcome": "refused",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": null,
@@ -251,10 +229,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected check-failures"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.857
@@ -302,10 +277,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected pr-detail"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.667,
@@ -355,10 +327,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected person"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.8,
@@ -407,10 +376,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected merged-recent"
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -454,10 +420,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected merged-recent"
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -503,10 +466,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected stale-issues"
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -551,10 +511,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected overview"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -564,11 +521,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.25,
-     "reason": "metric:prs-merged is not on screen · metric:review-wait-median is not on screen · metric:contributors is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -607,10 +560,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected overview"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -620,11 +570,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.5,
-     "reason": "metric:open-prs is not on screen · metric:contributors is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -663,10 +609,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected overview"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.8,
@@ -677,11 +620,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.25,
-     "reason": "metric:open-prs is not on screen · metric:prs-merged is not on screen · metric:contributors is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -720,10 +659,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected overview"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.857
@@ -733,11 +669,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.5,
-     "reason": "metric:prs-merged is not on screen · metric:contributors is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -776,10 +708,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected overview"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.8,
@@ -790,11 +719,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.5,
-     "reason": "metric:open-prs is not on screen · metric:contributors is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -833,10 +758,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-blockers"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.8,
@@ -850,11 +772,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:awaiting-review is not on screen · metric:failing-checks is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -893,10 +811,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-blockers"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -909,11 +824,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0,
-     "reason": "metric:open-prs is not on screen · metric:awaiting-review is not on screen · metric:failing-checks is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -952,10 +863,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-blockers"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -968,11 +876,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:awaiting-review is not on screen · metric:failing-checks is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -1011,10 +915,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-blockers"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -1027,11 +928,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:awaiting-review is not on screen · metric:failing-checks is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -1070,10 +967,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-blockers"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -1086,11 +980,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0,
-     "reason": "metric:awaiting-review is not on screen · metric:failing-checks is not on screen · metric:milestone-issues-open is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -1129,10 +1019,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected contributors"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -1145,10 +1032,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -1187,10 +1071,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected contributors"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -1203,10 +1084,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -1245,10 +1123,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected contributors"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.857
@@ -1261,10 +1136,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -1303,10 +1175,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected contributors"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.857
@@ -1318,11 +1187,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.667,
-     "reason": "metric:core-share is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -1361,10 +1226,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected contributors"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -1378,10 +1240,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -1420,10 +1279,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected ci-trend"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.857
@@ -1433,10 +1289,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -1475,10 +1328,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected ci-trend"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.714,
@@ -1489,11 +1339,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.667,
-     "reason": "metric:slowest-job is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -1532,10 +1378,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected ci-trend"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.857
@@ -1545,11 +1388,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.667,
-     "reason": "metric:slowest-job is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -1588,10 +1427,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected ci-trend"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.923
@@ -1601,11 +1437,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.667,
-     "reason": "metric:ci-p50 is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -1643,10 +1475,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected ci-trend"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.857
@@ -1656,11 +1485,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.667,
-     "reason": "metric:slowest-job is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -1699,10 +1524,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected merged-recent"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -1714,11 +1536,7 @@
      "value": 1,
      "reason": "timeline:4l7qpz props failed the component schema"
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.5,
-     "reason": "metric:contributors is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -1756,10 +1574,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected merged-recent"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -1771,10 +1586,7 @@
      "value": 1,
      "reason": "timeline:1smt7fo props failed the component schema"
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -1812,10 +1624,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected merged-recent"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -1827,10 +1636,7 @@
      "value": 1,
      "reason": "timeline:k9opq2 props failed the component schema"
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -1868,10 +1674,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected merged-recent"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -1883,11 +1686,7 @@
      "value": 1,
      "reason": "timeline:14j69zq props failed the component schema"
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.5,
-     "reason": "metric:contributors is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -1925,10 +1724,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected merged-recent"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -1940,11 +1736,7 @@
      "value": 1,
      "reason": "timeline:1mbr2ul props failed the component schema"
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.5,
-     "reason": "metric:contributors is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -1982,10 +1774,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected stale-issues"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -1996,10 +1785,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -2037,10 +1823,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected stale-issues"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -2051,10 +1834,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -2092,10 +1872,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected stale-issues"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -2106,10 +1883,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -2147,10 +1921,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected stale-issues"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -2161,10 +1932,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -2202,10 +1970,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected stale-issues"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -2216,10 +1981,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -2257,10 +2019,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected biggest-pr"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.833,
@@ -2271,11 +2030,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:pr-size is not on screen · metric:files-changed is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -2312,10 +2067,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected biggest-pr"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -2326,11 +2078,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0,
-     "reason": "metric:pr-size is not on screen · metric:files-changed is not on screen · metric:review-wait-median is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -2366,10 +2114,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected biggest-pr"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.667,
@@ -2380,11 +2125,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:pr-size is not on screen · metric:files-changed is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -2421,10 +2162,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected biggest-pr"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -2435,11 +2173,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:pr-size is not on screen · metric:files-changed is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -2475,10 +2209,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected biggest-pr"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.833,
@@ -2489,11 +2220,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:pr-size is not on screen · metric:files-changed is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -2530,10 +2257,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected new-contributor"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.364,
@@ -2583,10 +2307,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected new-contributor"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.6,
@@ -2635,10 +2356,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected new-contributor"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.545,
@@ -2688,10 +2406,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected new-contributor"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.4,
@@ -2740,10 +2455,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected new-contributor"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.545,
@@ -2793,10 +2505,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected responsiveness"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.571,
@@ -2807,10 +2516,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -2849,10 +2555,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected responsiveness"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.714,
@@ -2863,10 +2566,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -2905,10 +2605,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected responsiveness"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.571,
@@ -2919,10 +2616,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -2961,10 +2655,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected responsiveness"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.714,
@@ -2975,10 +2666,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -3017,10 +2705,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected responsiveness"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.615,
@@ -3031,10 +2716,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -3073,10 +2755,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected month-compare"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -3087,11 +2766,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.5,
-     "reason": "metric:failing-check-rate is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -3129,10 +2804,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected month-compare"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -3143,10 +2815,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -3184,10 +2853,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected month-compare"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -3198,10 +2864,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -3239,10 +2902,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected month-compare"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -3253,11 +2913,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.5,
-     "reason": "metric:failing-check-rate is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -3295,10 +2951,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected month-compare"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -3309,10 +2962,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -3350,10 +3000,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected punch-card"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -3364,11 +3011,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0,
-     "reason": "metric:busiest-hour is not on screen · metric:quietest-day is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -3406,10 +3049,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected punch-card"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.667,
@@ -3420,11 +3060,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0,
-     "reason": "metric:busiest-hour is not on screen · metric:quietest-day is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -3463,10 +3099,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected punch-card"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -3477,11 +3110,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0,
-     "reason": "metric:busiest-hour is not on screen · metric:quietest-day is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -3519,10 +3148,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected punch-card"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.667,
@@ -3533,11 +3159,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0,
-     "reason": "metric:busiest-hour is not on screen · metric:quietest-day is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -3576,10 +3198,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected punch-card"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -3590,11 +3209,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0,
-     "reason": "metric:busiest-hour is not on screen · metric:quietest-day is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -3632,10 +3247,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-diff"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.833,
@@ -3646,11 +3258,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0,
-     "reason": "metric:commits is not on screen · metric:contributors is not on screen · metric:files-changed is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -3688,10 +3296,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-diff"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -3703,11 +3308,7 @@
      "value": 1,
      "reason": "timeline:19lf1yx props failed the component schema"
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:commits is not on screen · metric:files-changed is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -3746,10 +3347,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-diff"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -3760,11 +3358,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:commits is not on screen · metric:files-changed is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -3803,10 +3397,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-diff"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -3817,11 +3408,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:commits is not on screen · metric:files-changed is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -3860,10 +3447,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-diff"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -3874,11 +3458,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0,
-     "reason": "metric:commits is not on screen · metric:contributors is not on screen · metric:files-changed is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -3917,9 +3497,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -3962,9 +3540,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -4009,9 +3585,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -4056,9 +3630,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -4102,9 +3674,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -4150,9 +3720,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -4197,9 +3765,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -4244,9 +3810,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -4290,9 +3854,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -4336,9 +3898,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -4383,10 +3943,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-blockers"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -4435,10 +3992,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-blockers"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -4487,10 +4041,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-blockers"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -4539,10 +4090,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected overview"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -4591,10 +4139,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected overview"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.8,
@@ -4644,10 +4189,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected contributors"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.857
@@ -4696,10 +4238,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected contributors"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.857
@@ -4748,10 +4287,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected ci-trend"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.714,
@@ -4801,10 +4337,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected ci-trend"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.714,
@@ -4854,10 +4387,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected merged-recent"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -4907,10 +4437,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected merged-recent"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -4960,10 +4487,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected stale-issues"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -5012,10 +4536,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected biggest-pr"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -5062,10 +4583,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected new-contributor"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.545,
@@ -5115,10 +4633,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected new-contributor"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.4,
@@ -5167,10 +4682,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected responsiveness"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.615,
@@ -5220,10 +4732,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected responsiveness"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -5272,10 +4781,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected month-compare"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.8,
@@ -5323,10 +4829,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected punch-card"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -5375,10 +4878,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-diff"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.909
@@ -5426,9 +4926,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -5472,9 +4970,7 @@
    "run": 2,
    "outcome": "refused",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": null,
@@ -5502,9 +4998,7 @@
    "run": 2,
    "outcome": "refused",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": null,
@@ -5533,10 +5027,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected check-failures"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -5585,10 +5076,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected pr-detail"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.714,
@@ -5637,10 +5125,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected person"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.8,
@@ -5689,10 +5174,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected merged-recent"
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -5736,10 +5218,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected merged-recent"
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -5786,10 +5265,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected stale-issues"
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -5836,10 +5312,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected overview"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.8,
@@ -5850,11 +5323,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.25,
-     "reason": "metric:prs-merged is not on screen · metric:review-wait-median is not on screen · metric:contributors is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -5893,10 +5362,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected overview"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -5906,11 +5372,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.5,
-     "reason": "metric:open-prs is not on screen · metric:contributors is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -5949,10 +5411,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected overview"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -5962,11 +5421,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.5,
-     "reason": "metric:prs-merged is not on screen · metric:contributors is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -6005,10 +5460,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected overview"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.857
@@ -6018,11 +5470,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.5,
-     "reason": "metric:prs-merged is not on screen · metric:contributors is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -6061,10 +5509,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected overview"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -6074,11 +5519,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.5,
-     "reason": "metric:open-prs is not on screen · metric:contributors is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -6117,10 +5558,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-blockers"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -6133,11 +5571,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:awaiting-review is not on screen · metric:failing-checks is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -6176,10 +5610,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-blockers"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -6192,11 +5623,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0,
-     "reason": "metric:open-prs is not on screen · metric:awaiting-review is not on screen · metric:failing-checks is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -6235,10 +5662,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-blockers"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -6251,11 +5675,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:awaiting-review is not on screen · metric:failing-checks is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -6294,10 +5714,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-blockers"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -6310,11 +5727,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:awaiting-review is not on screen · metric:failing-checks is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -6353,10 +5766,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-blockers"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -6369,11 +5779,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0,
-     "reason": "metric:awaiting-review is not on screen · metric:failing-checks is not on screen · metric:milestone-issues-open is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -6412,10 +5818,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected contributors"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.857
@@ -6427,10 +5830,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -6469,10 +5869,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected contributors"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.857
@@ -6484,10 +5881,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -6526,10 +5920,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected contributors"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.857
@@ -6542,10 +5933,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -6584,10 +5972,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected contributors"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -6600,11 +5985,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.667,
-     "reason": "metric:core-share is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -6643,10 +6024,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected contributors"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -6660,10 +6038,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -6702,10 +6077,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected ci-trend"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.714,
@@ -6716,10 +6088,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -6758,10 +6127,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected ci-trend"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.714,
@@ -6772,11 +6138,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.667,
-     "reason": "metric:slowest-job is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -6815,10 +6177,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected ci-trend"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.714,
@@ -6829,11 +6188,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.667,
-     "reason": "metric:slowest-job is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -6872,10 +6227,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected ci-trend"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.923
@@ -6885,11 +6237,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.667,
-     "reason": "metric:ci-p50 is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -6927,10 +6275,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected ci-trend"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.714,
@@ -6941,11 +6286,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.667,
-     "reason": "metric:slowest-job is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -6984,10 +6325,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected merged-recent"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -6999,11 +6337,7 @@
      "value": 1,
      "reason": "timeline:8apj3w props failed the component schema"
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.5,
-     "reason": "metric:contributors is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -7041,10 +6375,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected merged-recent"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -7056,10 +6387,7 @@
      "value": 1,
      "reason": "timeline:1wx2lkd props failed the component schema"
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -7097,10 +6425,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected merged-recent"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.8,
@@ -7111,11 +6436,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.5,
-     "reason": "metric:contributors is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -7153,10 +6474,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected merged-recent"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -7167,11 +6485,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.5,
-     "reason": "metric:contributors is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -7209,10 +6523,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected merged-recent"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.8,
@@ -7224,11 +6535,7 @@
      "value": 1,
      "reason": "timeline:1mbr2ul props failed the component schema"
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.5,
-     "reason": "metric:contributors is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -7266,10 +6573,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected stale-issues"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -7280,10 +6584,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -7321,10 +6622,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected stale-issues"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -7335,10 +6633,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -7376,10 +6671,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected stale-issues"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -7390,10 +6682,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -7431,10 +6720,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected stale-issues"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -7445,10 +6731,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -7486,10 +6769,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected stale-issues"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -7500,10 +6780,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -7541,10 +6818,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected biggest-pr"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.833,
@@ -7555,11 +6829,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:pr-size is not on screen · metric:files-changed is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -7596,10 +6866,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected biggest-pr"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.667,
@@ -7610,11 +6877,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:files-changed is not on screen · metric:review-wait-median is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -7651,10 +6914,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected biggest-pr"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.667,
@@ -7665,11 +6925,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0,
-     "reason": "metric:pr-size is not on screen · metric:files-changed is not on screen · metric:review-wait-median is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -7706,10 +6962,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected biggest-pr"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.833,
@@ -7720,11 +6973,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:pr-size is not on screen · metric:files-changed is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -7761,10 +7010,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected biggest-pr"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.833,
@@ -7775,11 +7021,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:pr-size is not on screen · metric:files-changed is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -7816,10 +7058,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected new-contributor"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.545,
@@ -7869,10 +7108,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected new-contributor"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.545,
@@ -7922,10 +7158,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected new-contributor"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.6,
@@ -7974,10 +7207,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected new-contributor"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.2,
@@ -8027,10 +7257,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected new-contributor"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.545,
@@ -8080,10 +7307,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected responsiveness"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.571,
@@ -8094,11 +7318,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.667,
-     "reason": "metric:closure-ratio is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -8137,10 +7357,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected responsiveness"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.714,
@@ -8151,11 +7368,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.667,
-     "reason": "metric:closure-ratio is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -8194,10 +7407,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected responsiveness"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.571,
@@ -8208,10 +7418,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -8250,10 +7457,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected responsiveness"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.714,
@@ -8264,10 +7468,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -8306,10 +7507,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected responsiveness"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.615,
@@ -8320,10 +7518,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -8362,10 +7557,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected month-compare"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -8376,11 +7568,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.5,
-     "reason": "metric:failing-check-rate is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -8418,10 +7606,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected month-compare"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -8432,10 +7617,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -8473,10 +7655,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected month-compare"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -8487,10 +7666,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -8528,10 +7704,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected month-compare"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.667,
@@ -8542,11 +7715,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.5,
-     "reason": "metric:failing-check-rate is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -8585,10 +7754,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected month-compare"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -8599,10 +7765,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -8640,10 +7803,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected punch-card"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -8654,11 +7814,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0,
-     "reason": "metric:busiest-hour is not on screen · metric:quietest-day is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -8696,10 +7852,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected punch-card"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.667,
@@ -8710,10 +7863,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -8752,10 +7902,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected punch-card"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -8766,11 +7913,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0,
-     "reason": "metric:busiest-hour is not on screen · metric:quietest-day is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -8808,10 +7951,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected punch-card"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.667,
@@ -8822,11 +7962,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0,
-     "reason": "metric:busiest-hour is not on screen · metric:quietest-day is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -8865,10 +8001,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected punch-card"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -8879,11 +8012,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0,
-     "reason": "metric:busiest-hour is not on screen · metric:quietest-day is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -8921,10 +8050,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-diff"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -8936,11 +8062,7 @@
      "value": 1,
      "reason": "timeline:orgej8 props failed the component schema"
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.667,
-     "reason": "metric:files-changed is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -8979,10 +8101,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-diff"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -8994,11 +8113,7 @@
      "value": 1,
      "reason": "timeline:15b1fnt props failed the component schema"
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:commits is not on screen · metric:files-changed is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -9037,10 +8152,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-diff"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.833,
@@ -9052,11 +8164,7 @@
      "value": 1,
      "reason": "timeline:1j23bor props failed the component schema"
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:commits is not on screen · metric:files-changed is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -9094,10 +8202,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-diff"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -9109,11 +8214,7 @@
      "value": 1,
      "reason": "timeline:11heq48 props failed the component schema"
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:commits is not on screen · metric:files-changed is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -9152,10 +8253,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-diff"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -9166,11 +8264,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:commits is not on screen · metric:files-changed is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -9209,9 +8303,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -9253,9 +8345,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -9300,9 +8390,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -9347,9 +8435,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -9392,9 +8478,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -9440,9 +8524,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -9488,9 +8570,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -9535,9 +8615,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -9581,9 +8659,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -9627,9 +8703,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -9674,10 +8748,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-blockers"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -9726,10 +8797,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-blockers"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -9778,10 +8846,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-blockers"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -9830,10 +8895,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected overview"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -9882,10 +8944,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected overview"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.667,
@@ -9935,10 +8994,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected contributors"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.857
@@ -9987,10 +9043,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected contributors"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -10040,10 +9093,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected ci-trend"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.857
@@ -10092,10 +9142,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected ci-trend"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.714,
@@ -10145,10 +9192,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected merged-recent"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -10198,10 +9242,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected merged-recent"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -10251,10 +9292,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected stale-issues"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -10303,10 +9341,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected biggest-pr"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -10353,10 +9388,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected new-contributor"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.545,
@@ -10406,10 +9438,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected new-contributor"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.4,
@@ -10458,10 +9487,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected responsiveness"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.714,
@@ -10511,10 +9537,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected responsiveness"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -10563,10 +9586,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected month-compare"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -10615,10 +9635,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected punch-card"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -10667,10 +9684,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-diff"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.833,
@@ -10719,9 +9733,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -10765,9 +9777,7 @@
    "run": 3,
    "outcome": "refused",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": null,
@@ -10795,9 +9805,7 @@
    "run": 3,
    "outcome": "refused",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": null,
@@ -10826,10 +9834,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected check-failures"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.857
@@ -10877,10 +9882,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected pr-detail"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.714,
@@ -10929,10 +9931,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected person"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.8,
@@ -10980,10 +9979,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected merged-recent"
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -11026,10 +10022,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected merged-recent"
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -11075,10 +10068,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected stale-issues"
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -11123,10 +10113,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected overview"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.8,
@@ -11137,11 +10124,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.25,
-     "reason": "metric:prs-merged is not on screen · metric:review-wait-median is not on screen · metric:contributors is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -11180,10 +10163,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected overview"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -11193,11 +10173,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.5,
-     "reason": "metric:open-prs is not on screen · metric:contributors is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -11236,10 +10212,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected overview"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.8,
@@ -11250,11 +10223,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.5,
-     "reason": "metric:prs-merged is not on screen · metric:contributors is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -11293,10 +10262,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected overview"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.667,
@@ -11307,11 +10273,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.5,
-     "reason": "metric:prs-merged is not on screen · metric:contributors is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -11350,10 +10312,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected overview"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -11363,11 +10322,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.5,
-     "reason": "metric:open-prs is not on screen · metric:contributors is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -11406,10 +10361,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-blockers"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -11422,11 +10374,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:awaiting-review is not on screen · metric:failing-checks is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -11465,10 +10413,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-blockers"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -11481,11 +10426,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0,
-     "reason": "metric:open-prs is not on screen · metric:awaiting-review is not on screen · metric:failing-checks is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -11524,10 +10465,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-blockers"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -11540,11 +10478,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0,
-     "reason": "metric:open-prs is not on screen · metric:awaiting-review is not on screen · metric:failing-checks is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -11583,10 +10517,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-blockers"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -11599,11 +10530,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:awaiting-review is not on screen · metric:failing-checks is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -11642,10 +10569,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-blockers"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -11658,11 +10582,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0,
-     "reason": "metric:awaiting-review is not on screen · metric:failing-checks is not on screen · metric:milestone-issues-open is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -11701,10 +10621,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected contributors"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.857
@@ -11716,11 +10633,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.667,
-     "reason": "metric:core-share is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -11759,10 +10672,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected contributors"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.857
@@ -11774,10 +10684,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -11816,10 +10723,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected contributors"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -11833,10 +10737,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -11875,10 +10776,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected contributors"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -11891,11 +10789,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.667,
-     "reason": "metric:core-share is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -11934,10 +10828,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected contributors"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -11951,10 +10842,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -11993,10 +10881,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected ci-trend"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.857
@@ -12006,11 +10891,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.667,
-     "reason": "metric:slowest-job is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -12049,10 +10930,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected ci-trend"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.714,
@@ -12063,11 +10941,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.667,
-     "reason": "metric:slowest-job is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -12106,10 +10980,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected ci-trend"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.857
@@ -12119,11 +10990,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.667,
-     "reason": "metric:slowest-job is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -12162,10 +11029,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected ci-trend"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.923
@@ -12175,11 +11039,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.667,
-     "reason": "metric:ci-p50 is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -12217,10 +11077,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected ci-trend"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -12231,11 +11088,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.667,
-     "reason": "metric:slowest-job is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -12273,10 +11126,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected merged-recent"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.8,
@@ -12288,11 +11138,7 @@
      "value": 1,
      "reason": "timeline:7awnan props failed the component schema"
     },
-    "bindings": {
-     "pass": false,
-     "value": 0,
-     "reason": "metric:prs-merged is not on screen · metric:contributors is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -12329,10 +11175,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected merged-recent"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -12344,10 +11187,7 @@
      "value": 1,
      "reason": "timeline:1s7hbuu props failed the component schema"
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -12385,10 +11225,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected merged-recent"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.8,
@@ -12400,10 +11237,7 @@
      "value": 1,
      "reason": "timeline:k9opq2 props failed the component schema"
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -12441,10 +11275,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected merged-recent"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -12455,11 +11286,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.5,
-     "reason": "metric:contributors is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -12497,10 +11324,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected merged-recent"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -12512,10 +11336,7 @@
      "value": 1,
      "reason": "timeline:1mbr2ul props failed the component schema"
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -12553,10 +11374,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected stale-issues"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -12567,10 +11385,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -12608,10 +11423,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected stale-issues"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -12622,10 +11434,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -12663,10 +11472,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected stale-issues"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -12677,10 +11483,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -12718,10 +11521,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected stale-issues"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.615,
@@ -12732,10 +11532,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -12773,10 +11570,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected stale-issues"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -12787,10 +11581,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -12828,10 +11619,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected biggest-pr"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -12842,11 +11630,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:pr-size is not on screen · metric:files-changed is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -12882,10 +11666,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected biggest-pr"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.833,
@@ -12896,11 +11677,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:pr-size is not on screen · metric:files-changed is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -12937,10 +11714,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected biggest-pr"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.667,
@@ -12951,11 +11725,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:pr-size is not on screen · metric:files-changed is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -12992,10 +11762,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected biggest-pr"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -13006,11 +11773,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:pr-size is not on screen · metric:files-changed is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -13046,10 +11809,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected biggest-pr"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.833,
@@ -13060,11 +11820,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:pr-size is not on screen · metric:files-changed is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -13101,10 +11857,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected new-contributor"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.364,
@@ -13154,10 +11907,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected new-contributor"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.4,
@@ -13206,10 +11956,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected new-contributor"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.6,
@@ -13258,10 +12005,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected new-contributor"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.2,
@@ -13311,10 +12055,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected new-contributor"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.2,
@@ -13364,10 +12105,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected responsiveness"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.571,
@@ -13378,11 +12116,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.667,
-     "reason": "metric:closure-ratio is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -13421,10 +12155,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected responsiveness"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.615,
@@ -13435,11 +12166,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.667,
-     "reason": "metric:closure-ratio is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -13478,10 +12205,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected responsiveness"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.571,
@@ -13492,10 +12216,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -13534,10 +12255,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected responsiveness"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.714,
@@ -13548,10 +12266,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -13590,10 +12305,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected responsiveness"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.615,
@@ -13605,10 +12317,7 @@
      "value": 1,
      "reason": "metric:1s52jpk props failed the component schema"
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -13647,10 +12356,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected month-compare"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.667,
@@ -13661,10 +12367,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -13703,10 +12406,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected month-compare"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -13717,10 +12417,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -13758,10 +12455,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected month-compare"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -13772,10 +12466,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -13813,10 +12504,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected month-compare"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -13827,11 +12515,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0,
-     "reason": "metric:prs-merged is not on screen · metric:failing-check-rate is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -13869,10 +12553,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected month-compare"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -13883,10 +12564,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": true,
-     "value": 1
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -13924,10 +12602,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected punch-card"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -13938,11 +12613,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0,
-     "reason": "metric:busiest-hour is not on screen · metric:quietest-day is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -13980,10 +12651,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected punch-card"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.667,
@@ -13994,11 +12662,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.5,
-     "reason": "metric:quietest-day is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -14037,10 +12701,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected punch-card"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -14051,11 +12712,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0,
-     "reason": "metric:busiest-hour is not on screen · metric:quietest-day is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -14093,10 +12750,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected punch-card"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.667,
@@ -14107,11 +12761,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0,
-     "reason": "metric:busiest-hour is not on screen · metric:quietest-day is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -14150,10 +12800,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected punch-card"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -14164,11 +12811,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0,
-     "reason": "metric:busiest-hour is not on screen · metric:quietest-day is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -14206,10 +12849,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-diff"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -14220,11 +12860,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:contributors is not on screen · metric:files-changed is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -14263,10 +12899,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-diff"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -14278,11 +12911,7 @@
      "value": 1,
      "reason": "timeline:19lf1yx props failed the component schema"
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:commits is not on screen · metric:files-changed is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -14321,10 +12950,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-diff"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -14335,11 +12961,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:commits is not on screen · metric:files-changed is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -14378,10 +13000,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-diff"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -14393,11 +13012,7 @@
      "value": 1,
      "reason": "timeline:31vc2j props failed the component schema"
     },
-    "bindings": {
-     "pass": false,
-     "value": 0.333,
-     "reason": "metric:commits is not on screen · metric:files-changed is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -14436,10 +13051,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-diff"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -14450,11 +13062,7 @@
      "pass": true,
      "value": 0
     },
-    "bindings": {
-     "pass": false,
-     "value": 0,
-     "reason": "metric:commits is not on screen · metric:contributors is not on screen · metric:files-changed is not on screen"
-    },
+    "bindings": null,
     "numbers": {
      "pass": true,
      "value": 0
@@ -14493,9 +13101,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -14538,9 +13144,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -14585,9 +13189,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -14632,9 +13234,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -14678,9 +13278,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -14726,9 +13324,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -14773,9 +13369,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -14820,9 +13414,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -14866,9 +13458,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -14912,9 +13502,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": true
-    },
+    "template": null,
     "components": null,
     "hot": null,
     "schema": {
@@ -14960,10 +13548,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-blockers"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -15012,10 +13597,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-blockers"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -15064,10 +13646,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-blockers"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -15116,10 +13695,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected overview"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.933
@@ -15168,10 +13744,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected overview"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.667,
@@ -15221,10 +13794,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected contributors"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.923
@@ -15272,10 +13842,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected contributors"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.857
@@ -15324,10 +13891,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected ci-trend"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.857
@@ -15376,10 +13940,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected ci-trend"
-    },
+    "template": null,
     "components": {
      "pass": true,
      "value": 0.857
@@ -15428,10 +13989,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected merged-recent"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -15481,10 +14039,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected merged-recent"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -15534,10 +14089,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected stale-issues"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -15586,10 +14138,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected biggest-pr"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.833,
@@ -15637,10 +14186,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected new-contributor"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.6,
@@ -15689,10 +14235,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected new-contributor"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.4,
@@ -15741,10 +14284,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected responsiveness"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.714,
@@ -15794,10 +14334,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected responsiveness"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,
@@ -15846,10 +14383,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected month-compare"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -15898,10 +14432,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected punch-card"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.727,
@@ -15950,10 +14481,7 @@
    "outcome": "composed",
    "routed": "off-template",
    "scores": {
-    "template": {
-     "pass": false,
-     "reason": "routed to off-template, expected release-diff"
-    },
+    "template": null,
     "components": {
      "pass": false,
      "value": 0.769,

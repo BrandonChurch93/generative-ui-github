@@ -11,7 +11,8 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
     "evals:run": "tsx scripts/run.ts",
-    "evals:check": "tsx scripts/check.ts"
+    "evals:check": "tsx scripts/check.ts",
+    "evals:rescore": "tsx scripts/rescore.ts"
   },
   "dependencies": {
     "@genui-github/composer": "workspace:*",

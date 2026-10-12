@@ -2,14 +2,12 @@ import { CardFrame } from '@genui-github/ui'
 import type { ResultsFile } from '@genui-github/evals'
 import { MIDDOT } from '../shell/words'
 import styles from './ModelCard.module.css'
-import { MODEL_TITLE, modelsLine, pct, SCORER_ORDER, SCORER_WORDS, secondsWords, spreadWords, templateRate, usd, type Rate } from './view'
-
+import { MODEL_TITLE, modelsLine, notScoredWords, pct, SCORER_ORDER, SCORER_WORDS, secondsWords, spreadWords, usd } from './view'
 
 /** One run model's aggregate: the seven scorers as mean, run spread and n, then speed and cost. */
 export function ModelCard({ file }: { file: ResultsFile }) {
   const a = file.aggregate
   const title = MODEL_TITLE[file.model]
-  const rate = (scorer: (typeof SCORER_ORDER)[number]): Rate | null => (scorer === 'template' ? templateRate(file) : a.pass[scorer])
   const composed = a.outcomes.composed
 
   return (
@@ -41,13 +39,13 @@ export function ModelCard({ file }: { file: ResultsFile }) {
           </thead>
           <tbody>
             {SCORER_ORDER.map(scorer => {
-              const r = rate(scorer)
+              const r = a.pass[scorer]
               const what = scorer === 'components' && a.componentsF1 !== null ? `mean F1 ${a.componentsF1.toFixed(2)}` : SCORER_WORDS[scorer].what
               return (
                 <tr key={scorer} data-scorer={scorer}>
                   <th scope="row">
                     <b>{SCORER_WORDS[scorer].name}</b>
-                    <i>{scorer === 'template' && file.model === 'sonnet' ? 'off-template only' : what}</i>
+                    <i>{what}</i>
                   </th>
                   {r ? (
                     <>
@@ -57,7 +55,7 @@ export function ModelCard({ file }: { file: ResultsFile }) {
                     </>
                   ) : (
                     <td colSpan={3} className={styles.none}>
-                      not scored in this run
+                      {notScoredWords(file, scorer) ?? 'not scored in this run'}
                     </td>
                   )}
                 </tr>

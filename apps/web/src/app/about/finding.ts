@@ -1,7 +1,7 @@
 import type { MeasureId } from '@genui-github/data'
 import type { ResultsFile, RunModel, ScorerName } from '@genui-github/evals'
 import type { Metric } from '@genui-github/ui/schemas'
-import { MODEL_TITLE, secondsWords, usd, type Rate } from '../../evals/view'
+import { fractionWords, MODEL_TITLE, modelFinding, notScoredWords, secondsWords, usd, type Rate } from '../../evals/view'
 import { MIDDOT } from '../../shell/words'
 
 // The About page's figures and the sentences that carry them, all derived from the results files. No model writes
@@ -11,15 +11,6 @@ const key = (id: string) => id as string as MeasureId
 
 /** A pass rate as printed: whole percents stay whole, anything else keeps one decimal, so 99.7% never reads as 100%. */
 export const rateWords = (mean: number) => `${Number((mean * 100).toFixed(1))}%`
-
-const FRACTIONS = ['', '', 'half', 'third', 'quarter', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth']
-
-/** "about a seventh", or null when the ratio has no plain word. */
-export function fractionWords(part: number, whole: number): string | null {
-  if (part <= 0 || whole <= part) return null
-  const word = FRACTIONS[Math.round(whole / part)]
-  return word ? `about a ${word}` : null
-}
 
 export interface Runs {
   production: ResultsFile
@@ -60,12 +51,11 @@ export function findingSentences({ production, sonnet, haiku }: Runs): string[] 
   if (sonnet) {
     const s = sonnet.aggregate
     const comp = [p.pass.components, s.pass.components]
-    const bind = [p.pass.bindings, s.pass.bindings]
     const share = fractionWords(p.cost.perCompositionUsd, s.cost.perCompositionUsd)
     const cost = `${usd(p.cost.perCompositionUsd)} against ${usd(s.cost.perCompositionUsd)} per answer`
-    if (comp[0] && comp[1] && bind[0] && bind[1])
+    if (comp[0] && comp[1])
       out.push(
-        `Production's answers used the expected components in ${rateWords(comp[0].mean)} of cases and bound the right numbers in ${rateWords(bind[0].mean)}, against ${rateWords(comp[1].mean)} and ${rateWords(bind[1].mean)} for Sonnet composing freely from the same catalog${share ? `, at ${share} of the cost (${cost})` : ` (${cost})`}.`,
+        `Production's answers used the expected components in ${rateWords(comp[0].mean)} of cases, against ${rateWords(comp[1].mean)} for Sonnet composing freely from the same catalog${share ? `, at ${share} of the cost (${cost})` : ` (${cost})`}.`,
       )
     const faster = s.latency.doneP50 < p.latency.doneP50
     out.push(
@@ -74,20 +64,9 @@ export function findingSentences({ production, sonnet, haiku }: Runs): string[] 
         : `Production was also faster: ${secondsWords(p.latency.doneP50)} to done at the median against ${secondsWords(s.latency.doneP50)}.`,
     )
   }
-  if (haiku) {
-    const h = haiku.aggregate
-    const gap = Math.max(
-      ...(Object.keys(p.pass) as ScorerName[]).map(k => {
-        const [a, b] = [p.pass[k], h.pass[k]]
-        return a && b ? Math.abs(a.mean - b.mean) : 0
-      }),
-    )
-    out.push(
-      gap <= 0.01
-        ? `Haiku alone scored within a point of production on every check, at ${usd(h.cost.perCompositionUsd)} per answer: the two differ only on the off-template cases, which carry no component expectations yet.`
-        : `Haiku alone cost ${usd(h.cost.perCompositionUsd)} per answer.`,
-    )
-  }
+  const finding = haiku ? modelFinding(production, haiku) : null
+  if (finding) out.push(finding)
+  else if (haiku) out.push(`Haiku alone cost ${usd(haiku.aggregate.cost.perCompositionUsd)} per answer.`)
   return out
 }
 
@@ -97,7 +76,10 @@ export interface Row {
   cells: Partial<Record<RunModel, string>>
 }
 
-const rateCell = (r: Rate | null | undefined) => (r ? rateWords(r.mean) : 'not scored')
+const rateCell = (f: ResultsFile, scorer: ScorerName) => {
+  const r: Rate | null = f.aggregate.pass[scorer]
+  return r ? rateWords(r.mean) : (notScoredWords(f, scorer) ?? 'not scored')
+}
 
 /** The side-by-side table: the checks the finding rests on, then speed and cost. */
 export function tableRows(runs: Runs): Row[] {
@@ -107,11 +89,11 @@ export function tableRows(runs: Runs): Row[] {
     {
       name: 'Template',
       what: 'routed to the expected template',
-      cells: each(f => (f.model === 'sonnet' ? 'not routed' : rateCell(f.aggregate.pass.template))),
+      cells: each(f => rateCell(f, 'template')),
     },
-    { name: 'Components', what: 'F1 at least 0.85', cells: each(f => rateCell(f.aggregate.pass.components)) },
-    { name: 'Bindings', what: 'props match the data', cells: each(f => rateCell(f.aggregate.pass.bindings)) },
-    { name: 'Schema', what: 'every piece valid', cells: each(f => rateCell(f.aggregate.pass.schema)) },
+    { name: 'Components', what: 'F1 at least 0.85', cells: each(f => rateCell(f, 'components')) },
+    { name: 'Bindings', what: 'props match the data', cells: each(f => rateCell(f, 'bindings')) },
+    { name: 'Schema', what: 'every piece valid', cells: each(f => rateCell(f, 'schema')) },
     { name: 'Time to done', what: 'median', cells: each(f => secondsWords(f.aggregate.latency.doneP50)) },
     {
       name: 'First piece',

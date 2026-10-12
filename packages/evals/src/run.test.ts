@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { noNetwork, type CallUsage, type ModelClient } from '@genui-github/composer'
 import { MODELS } from '@genui-github/core'
 import { memoryCache } from '@genui-github/data/server'
-import { aggregate, runCase } from './run'
+import { aggregate, resultsFile, runCase } from './run'
 import { loadSet } from './set'
 
 const usage: CallUsage = { model: MODELS.haiku, inputTokens: 900, cachedTokens: 600, cacheWriteTokens: 0, outputTokens: 40, costUsd: 0.0001, latencyMs: 5 }
@@ -55,5 +55,16 @@ describe('the runner', () => {
     const failed = await runCase(c, 'production', { models: broken, github: gh.client, cache: memoryCache() })
     expect(failed.outcome).toBe('failed')
     expect([failed.scores.template?.pass, failed.scores.components?.pass, failed.scores.bindings?.pass]).toEqual([false, false, false])
+  })
+
+  it('leaves template and bindings unscored on the sonnet run, which skips routing, and says why in the file', async () => {
+    const c = set.find(x => x.id === 'golden-04-nextjs')!
+    const r = await runCase(c, 'sonnet', { models: model(c.expect.template).client, github: noNetwork().client, cache: memoryCache() })
+    expect(r.outcome).toBe('failed')
+    expect([r.scores.template, r.scores.bindings]).toEqual([null, null])
+    expect(r.scores.components?.pass).toBe(false)
+    const file = resultsFile('sonnet', [r])
+    expect(file.notScored).toEqual({ template: 'no routing', bindings: 'no routing' })
+    expect([file.aggregate.pass.template, file.aggregate.pass.bindings]).toEqual([null, null])
   })
 })

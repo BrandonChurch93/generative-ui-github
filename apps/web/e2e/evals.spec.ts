@@ -33,6 +33,10 @@ test('the eval results page shows the recorded runs', async ({ page }) => {
     const table = page.getByRole('region', { name: `${TITLES[model]} pass rates` })
     await expect(table.locator('[data-scorer]')).toHaveCount(7)
   }
+  if (recorded.includes('sonnet')) {
+    const sonnet = page.getByRole('region', { name: 'Sonnet alone pass rates' })
+    for (const scorer of ['template', 'bindings']) await expect(sonnet.locator(`[data-scorer="${scorer}"]`)).toContainText('not scored · no routing')
+  }
 
   const strip = page.locator('[data-evals-strip]')
   await expect(strip).toBeVisible()
