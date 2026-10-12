@@ -18,14 +18,16 @@ if [ -f .env.local ]; then
   set +a
 fi
 
-PATTERNS='ghp_[A-Za-z0-9]{30,}|gho_[A-Za-z0-9]{30,}|ghs_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{40,}|sk-ant-[A-Za-z0-9_-]{30,}'
+# Built from pieces so this file never holds a key prefix whole: a grep of the repo for one finds only a real key.
+gh='gh' pat='github''_pat_' ant='sk''-ant-'
+PATTERNS="${gh}p_[A-Za-z0-9]{30,}|${gh}o_[A-Za-z0-9]{30,}|${gh}s_[A-Za-z0-9]{30,}|${pat}[A-Za-z0-9_]{40,}|${ant}[A-Za-z0-9_-]{30,}"
 found=0
 scan() {
   local label=$1
   shift
   local files
   # dev/ is the dev server's own build; cache/ holds the build's private caches; neither is served.
-  files=$(grep -rlE --exclude-dir=dev --exclude-dir=cache "$@" "${TARGETS[@]}" 2>/dev/null || true)
+  files=$(grep -rlE --exclude-dir=dev --exclude-dir=cache --exclude=check-secrets.sh "$@" "${TARGETS[@]}" 2>/dev/null || true)
   if [ -n "$files" ]; then
     echo "FAIL $label in:"
     echo "$files" | sed 's/^/  /'
