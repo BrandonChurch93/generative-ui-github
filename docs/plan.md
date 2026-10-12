@@ -199,7 +199,7 @@ Prompt: `prompts/08-mcp.md`
 
 Prompt: `prompts/09-hardening.md`
 
-- [ ] 9.0 (skipped 2026-10-09: no dark values in tokens.json yet; `docs/questions.md` 9.0) Dark theme, when the owner has added it to `design-system/tokens.json`: `pnpm tokens:build` emits the `[data-theme="dark"]` block and the `prefers-color-scheme` default; every component checked on `/catalog` in dark; the MCP frame follows the host theme. Done when `pnpm a11y` on `/catalog` in dark reports zero contrast failures. If the tokens have not arrived, skip, note in `docs/questions.md`, and continue.
+- [ ] 9.0 (out of v1: the owner ships light only, 2026-10-12, `docs/decisions.md` Product; the brief stays queued) Dark theme, when the owner has added it to `design-system/tokens.json`: `pnpm tokens:build` emits the `[data-theme="dark"]` block and the `prefers-color-scheme` default; every component checked on `/catalog` in dark; the MCP frame follows the host theme. Done when `pnpm a11y` on `/catalog` in dark reports zero contrast failures. If the tokens have not arrived, skip, note in `docs/questions.md`, and continue.
 - [x] 9.1 Error boundaries per region. Done when a test throws inside one region's component and the other regions render.
 - [x] 9.2 `/api/health`: cache hit rate, model calls today, spend today, GitHub rate remaining. Done when `curl` returns the four fields.
 - [x] 9.3 Cost controls under load with `DAILY_CAP_USD=0.50` in the test env: a script fires 500 compositions at the samples and asserts zero model calls; a second fires 50 live questions from 5 visitors and asserts the visitor limit trips and then the cap trips. Done when both scripts pass.

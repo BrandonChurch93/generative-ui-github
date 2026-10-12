@@ -10,7 +10,7 @@ Every settled question, stated as a constraint. Read this before asking the owne
 - No persona toggle. The composer picks a default density from the question ("quick version" → compact; "walk me through" → spacious; else comfortable). The tray has a segmented density control the reader can override with; the override persists for the session.
 - No chatbot. Help is the inline "How it works" section on the landing plus the question field itself (the owner's polish round, 2026-10-09, replaced the overlay).
 - The footer is the whole privacy policy: "Nothing you paste is stored. Public repos only. Sample data is marked."
-- Everything in the plan is v1. Nothing is deferred.
+- Everything in the plan is v1, except the dark theme: v1 ships light only (owner, 2026-10-12). `docs/dark-theme-brief.md` stays queued for design; the token build already emits a dark block once dark values are in `tokens.json`, so the theme ships later with no component changes.
 
 ## Stack
 
