@@ -36,11 +36,16 @@ test('the eval results page shows the recorded runs', async ({ page }) => {
   if (recorded.includes('sonnet')) {
     const sonnet = page.getByRole('region', { name: 'Sonnet alone pass rates' })
     for (const scorer of ['template', 'bindings']) await expect(sonnet.locator(`[data-scorer="${scorer}"]`)).toContainText('not scored · no routing')
-    // Regression: the Comparison once showed mean F1 beside the table's pass rate. Both read the pass rate now.
-    const newest = readdirSync(RESULTS).filter(name => name.endsWith('-sonnet.json')).sort().at(-1)!
-    const rate = (JSON.parse(readFileSync(`${RESULTS}${newest}`, 'utf8')) as { aggregate: { pass: { components: { mean: number } } } }).aggregate.pass.components.mean
-    await expect(sonnet.locator('[data-scorer="components"]')).toContainText(`${Math.round(rate * 100)}%`)
-    await expect(page.locator('[data-card]', { hasText: 'Against Sonnet alone' })).toContainText(`${Number((rate * 100).toFixed(1))}%`)
+    // Regression: the Comparison once showed mean F1 where the table showed the pass rate. Both now print both
+    // figures from the same aggregate, in the same words, read here from the results file.
+    const words = (model: 'production' | 'sonnet') => {
+      const newest = readdirSync(RESULTS).filter(name => name.endsWith(`-${model}.json`)).sort().at(-1)!
+      const { aggregate } = JSON.parse(readFileSync(`${RESULTS}${newest}`, 'utf8')) as { aggregate: { pass: { components: { mean: number } }; componentsF1: number } }
+      return `${Math.round(aggregate.pass.components.mean * 100)}% pass · ${aggregate.componentsF1.toFixed(2)} mean F1`
+    }
+    await expect(sonnet.locator('[data-components]')).toHaveText(words('sonnet'))
+    const versus = page.locator('[data-card]', { hasText: 'Against Sonnet alone' }).locator('[data-row="eval-components"]')
+    for (const model of ['production', 'sonnet'] as const) await expect(versus).toContainText(words(model))
   }
 
   const strip = page.locator('[data-evals-strip]')

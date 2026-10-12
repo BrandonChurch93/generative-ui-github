@@ -2,7 +2,7 @@ import type { MeasureId } from '@genui-github/data'
 import type { ResultsFile } from '@genui-github/evals'
 import type { Comparison, Metric, StatusList } from '@genui-github/ui/schemas'
 import { MIDDOT } from '../shell/words'
-import { answersWords, failingCases, pct, SCORER_WORDS, secondsWords, spreadWords, usd } from './view'
+import { answersWords, componentsFigures, failingCases, pct, SCORER_WORDS, secondsWords, spreadWords, usd } from './view'
 
 // The system binds every prop here from a results file, as the renderer fixtures bind theirs. No model writes
 // any of it. An eval figure is not a repo measure, so the `measure` each piece carries is only its key.
@@ -37,11 +37,9 @@ export function productionMetrics(file: ResultsFile): Metric.MetricProps[] {
 
 const PER = 10_000
 
-const tenth = (rate: number) => Number((rate * 100).toFixed(1))
-
 /**
  * Production against the sonnet run on what both are scored on: cost, median time to done, components and
- * rules, the last two from the same pass rates as the per-model tables. Template and bindings are left out because the sonnet run skips routing by design.
+ * rules, the last two in the same whole percents and words as the per-model tables. Template and bindings are left out because the sonnet run skips routing by design.
  */
 export function versusSonnet(production: ResultsFile, sonnet: ResultsFile): Comparison.ComparisonProps {
   const [p, s] = [production.aggregate, sonnet.aggregate]
@@ -67,8 +65,9 @@ export function versusSonnet(production: ResultsFile, sonnet: ResultsFile): Comp
       previous: s.latency.doneP50,
     },
   ]
-  // The same aggregate as the per-model tables' Components row, so the two never disagree.
-  if (p.pass.components && s.pass.components)
+  // The same figures and words as the per-model tables' Components row, so the two never disagree.
+  const [pc, sc] = [componentsFigures(production), componentsFigures(sonnet)]
+  if (pc && sc)
     pairs.push({
       measure: key('eval-components'),
       direction: 'higher-is-better',
@@ -76,8 +75,9 @@ export function versusSonnet(production: ResultsFile, sonnet: ResultsFile): Comp
       name: SCORER_WORDS.components.name,
       meta: SCORER_WORDS.components.what,
       unit: 'percent',
-      current: tenth(p.pass.components.mean),
-      previous: tenth(s.pass.components.mean),
+      current: pc.percent,
+      previous: sc.percent,
+      note: { current: pc.note, previous: sc.note },
     })
   if (p.pass.rules && s.pass.rules)
     pairs.push({
@@ -87,8 +87,8 @@ export function versusSonnet(production: ResultsFile, sonnet: ResultsFile): Comp
       name: SCORER_WORDS.rules.name,
       meta: SCORER_WORDS.rules.what,
       unit: 'percent',
-      current: tenth(p.pass.rules.mean),
-      previous: tenth(s.pass.rules.mean),
+      current: pct(p.pass.rules.mean),
+      previous: pct(s.pass.rules.mean),
     })
   const cost = pairs[0]!
   const finding =

@@ -54,6 +54,8 @@ export interface ComparisonPair {
   current: number
   /** System: the value in the window before it, same unit. */
   previous: number
+  /** System: words after each value, for a pair that carries a second figure ("pass · 0.75 mean F1"). */
+  note?: { current: string; previous: string }
 }
 
 /** System: the two windows in words. Long for the legend and the row sentence, short for the tooltip. */

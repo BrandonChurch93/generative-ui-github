@@ -97,6 +97,15 @@
   font-weight: var(--text-value-weight);
 }
 
+.figureNote {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta-size);
+  line-height: var(--text-meta-leading);
+  font-weight: var(--text-meta-weight);
+  white-space: nowrap;
+}
+
 .subhead {
   padding: var(--card-y) 0 var(--space-1);
   border-block-start: var(--hairline) solid var(--line-soft);

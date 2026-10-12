@@ -22,12 +22,13 @@ import styles from './Comparison.module.css'
 const k = (share: number) => ({ '--k': share }) as CSSProperties
 
 /** `line` marks the bar's own tip value for motion; the tooltip's copy carries none. */
-function Value({ value, unit, line }: { value: number; unit: PairUnit; line?: 'current' | 'previous' }) {
+function Value({ value, unit, line, note }: { value: number; unit: PairUnit; line?: 'current' | 'previous'; note?: string }) {
   return (
     <span className={styles.value}>
       <span data-value={line}>{formatPairValue(value, unit)}</span>
       {unit === 'percent' && '%'}
       {UNIT_SUFFIX[unit] && <small className={styles.unit}>{UNIT_SUFFIX[unit]}</small>}
+      {note && <small className={styles.note}> {note}</small>}
     </span>
   )
 }
@@ -50,14 +51,14 @@ function Tooltip({ pair, periods, share }: { pair: ComparisonPair; periods: Comp
   return (
     <span ref={ref} className={styles.tip} data-verdict={verdict} data-tooltip="" style={k(share)} aria-hidden="true">
       <span className={styles.tipKey} data-line="current" />
-      <Value value={pair.current} unit={pair.unit} />
+      <Value value={pair.current} unit={pair.unit} note={pair.note?.current} />
       <span className={styles.tipPeriod}>{periods.currentShort}</span>
       <span className={styles.tipChange}>
         {change.figure}
         {change.unit && <small className={styles.unit}>{change.unit}</small>}
       </span>
       <span className={styles.tipKey} data-line="previous" />
-      <Value value={pair.previous} unit={pair.unit} />
+      <Value value={pair.previous} unit={pair.unit} note={pair.note?.previous} />
       <span className={styles.tipPeriod}>{periods.previousShort}</span>
       <span className={styles.tipVerdict}>{verdict}</span>
     </span>
@@ -87,11 +88,11 @@ function PairRow({ pair, periods, hovered, onHover, onAsk }: RowProps) {
         <span className={styles.lines} aria-hidden="true">
           <span className={styles.line} data-line="current">
             <span className={styles.bar} data-bar="current" data-flip-id={`${pair.measure}:${periods.current}`} style={k(shares.current)} />
-            <Value value={pair.current} unit={pair.unit} line="current" />
+            <Value value={pair.current} unit={pair.unit} line="current" note={pair.note?.current} />
           </span>
           <span className={styles.line} data-line="previous">
             <span className={styles.bar} data-bar="previous" data-flip-id={`${pair.measure}:${periods.previous}`} style={k(shares.previous)} />
-            <Value value={pair.previous} unit={pair.unit} line="previous" />
+            <Value value={pair.previous} unit={pair.unit} line="previous" note={pair.note?.previous} />
           </span>
         </span>
         {hovered && <Tooltip pair={pair} periods={periods} share={shares.current} />}
@@ -113,7 +114,7 @@ function PairRow({ pair, periods, hovered, onHover, onAsk }: RowProps) {
     onPointerLeave: () => onHover(false),
   }
   return (
-    <li className={styles.item} data-row={pair.measure} data-hover={hovered || undefined}>
+    <li className={styles.item} data-row={pair.measure} data-hover={hovered || undefined} data-noted={pair.note ? '' : undefined}>
       <span className={styles.hairline} data-hairline="" aria-hidden="true" />
       {interactive ? (
         <button
@@ -266,8 +267,8 @@ export function Comparison({ props, state, error, warming, onAsk, onRetry }: Pie
                 return (
                   <tr key={pair.measure}>
                     <th scope="row">{pair.name}</th>
-                    <td>{`${formatPairValue(pair.previous, pair.unit)}${suffix}`}</td>
-                    <td>{`${formatPairValue(pair.current, pair.unit)}${suffix}`}</td>
+                    <td>{`${formatPairValue(pair.previous, pair.unit)}${suffix}${pair.note ? ` ${pair.note.previous}` : ''}`}</td>
+                    <td>{`${formatPairValue(pair.current, pair.unit)}${suffix}${pair.note ? ` ${pair.note.current}` : ''}`}</td>
                     <td>{`${deltaWords(deltaFor(pair))}, ${verdictFor(pair)}`}</td>
                   </tr>
                 )

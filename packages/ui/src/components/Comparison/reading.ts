@@ -104,7 +104,8 @@ export function barShares(pair: ComparisonPair): { current: number; previous: nu
 
 /** What a row reads as text: "19.6 hours in September, 14.2 in August." */
 export function rowValues(pair: ComparisonPair, periods: ComparisonPeriods): string {
-  return `${spoken(pair.current, pair.unit)} in ${periods.current}, ${spoken(pair.previous, pair.unit, false)} in ${periods.previous}.`
+  const [now, then] = pair.note ? [` ${pair.note.current}`, ` ${pair.note.previous}`] : ['', '']
+  return `${spoken(pair.current, pair.unit)}${now} in ${periods.current}, ${spoken(pair.previous, pair.unit, false)}${then} in ${periods.previous}.`
 }
 
 /** The whole row as one sentence, for a row that is a button. */

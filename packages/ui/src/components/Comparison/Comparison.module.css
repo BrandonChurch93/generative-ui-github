@@ -208,6 +208,19 @@ button.row:focus-visible::after {
   font-variant-numeric: tabular-nums;
 }
 
+/* A pair with a second figure keeps room for its words at the tip, so the longer bar never runs into them. */
+.item[data-noted] {
+  --cmp-tip: calc(var(--space-8) * 2 + var(--space-7));
+}
+
+.note {
+  font-family: var(--font-mono);
+  font-size: var(--text-tag-size);
+  font-weight: var(--text-label-weight);
+  line-height: 1;
+  color: var(--muted);
+}
+
 .line[data-line="previous"] .value {
   color: var(--muted);
   font-weight: var(--text-label-weight);

@@ -2,7 +2,7 @@ import { CardFrame } from '@genui-github/ui'
 import type { ResultsFile } from '@genui-github/evals'
 import { MIDDOT } from '../shell/words'
 import styles from './ModelCard.module.css'
-import { MODEL_TITLE, modelsLine, notScoredWords, pct, SCORER_ORDER, SCORER_WORDS, secondsWords, spreadWords, usd } from './view'
+import { componentsFigures, MODEL_TITLE, modelsLine, notScoredWords, pct, SCORER_ORDER, SCORER_WORDS, secondsWords, spreadWords, usd } from './view'
 
 /** One run model's aggregate: the seven scorers as mean, run spread and n, then speed and cost. */
 export function ModelCard({ file }: { file: ResultsFile }) {
@@ -40,13 +40,25 @@ export function ModelCard({ file }: { file: ResultsFile }) {
           <tbody>
             {SCORER_ORDER.map(scorer => {
               const r = a.pass[scorer]
+              // Components carries both its figures in one cell, so its spread moves under the check's name.
+              const both = scorer === 'components' ? componentsFigures(file) : null
               return (
                 <tr key={scorer} data-scorer={scorer}>
                   <th scope="row">
                     <b>{SCORER_WORDS[scorer].name}</b>
-                    <i>{SCORER_WORDS[scorer].what}</i>
+                    <i>
+                      {SCORER_WORDS[scorer].what}
+                      {both && r && `${MIDDOT}${spreadWords(r)}`}
+                    </i>
                   </th>
-                  {r ? (
+                  {both && r ? (
+                    <>
+                      <td className={styles.figure} colSpan={2} data-components="">
+                        {both.percent}% <small className={styles.figureNote}>{both.note}</small>
+                      </td>
+                      <td className={styles.num}>{r.n}</td>
+                    </>
+                  ) : r ? (
                     <>
                       <td className={styles.figure}>{pct(r.mean)}%</td>
                       <td className={styles.num}>{spreadWords(r)}</td>

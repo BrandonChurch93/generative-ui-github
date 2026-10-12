@@ -92,6 +92,18 @@ export function setWords(file: ResultsFile): string {
 /** The sample repos the golden cases ask about. */
 export const repoCount = (file: ResultsFile) => new Set(file.cases.filter(c => c.kind === 'golden').map(c => c.repo)).size
 
+/**
+ * The components check in both its figures, from the one aggregate: the share of cases at F1 0.85 or more, and
+ * the mean F1 over them ("25% pass · 0.75 mean F1"). The tables and the Comparison both print this.
+ */
+export function componentsFigures(file: ResultsFile): { percent: number; note: string; words: string } | null {
+  const rate = file.aggregate.pass.components
+  const f1 = file.aggregate.componentsF1
+  if (!rate || f1 === null) return null
+  const note = `pass${MIDDOT}${f1.toFixed(2)} mean F1`
+  return { percent: pct(rate.mean), note, words: `${pct(rate.mean)}% ${note}` }
+}
+
 /** A scorer left out of a run on purpose: "not scored · no routing". Null when it was scored. */
 export function notScoredWords(file: ResultsFile, scorer: ScorerName): string | null {
   const why = file.notScored?.[scorer]
