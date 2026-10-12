@@ -128,7 +128,7 @@ export function modelFinding(production: ResultsFile, haiku: ResultsFile): strin
   const better = (['schema', 'rules'] as const).some(k => (kindRate(production, k, true) ?? 0) > (kindRate(haiku, k, true) ?? 1))
   const onTemplateSame = (['schema', 'rules'] as const).every(k => kindRate(production, k, false) === kindRate(haiku, k, false))
   if (!same || !share || !offOnly || !lengthOnly || !better || !onTemplateSame) return null
-  return `Haiku-only matches production on template, bindings and numbers at ${share} of the cost; its misses are off-template copy-length rules; Sonnet earns its cost only on off-template rule compliance.`
+  return `Haiku-only matches production on template, bindings and numbers at ${share} of the cost; its misses are off-template copy-length and layout rules; Sonnet earns its cost only on off-template rule compliance.`
 }
 
 export interface FailingCase {

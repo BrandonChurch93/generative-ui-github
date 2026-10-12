@@ -166,7 +166,7 @@ Baseline from 2026-10-12: 99 cases × 3 runs per model. Every model composed 291
 | cost per answer | $0.0021 | $0.0138 | $0.0007 |
 | cost for 297 | $0.62 | $4.01 | $0.20 |
 
-Haiku-only matches production on template, bindings and numbers at about a third of the cost; its misses are off-template copy-length rules; Sonnet earns its cost only on off-template rule compliance. Against Sonnet composing everything, routing to templates costs about a sixth as much and uses the expected components every time (Sonnet: 0.25).
+Haiku-only matches production on template, bindings and numbers at about a third of the cost; its misses are off-template copy-length and layout rules; Sonnet earns its cost only on off-template rule compliance. Against Sonnet composing everything, routing to templates costs about a sixth as much and uses the expected components every time (Sonnet: 0.25).
 
 The full results are at `/evals` in the app and in `packages/evals/results/`. Reproduce with `pnpm evals:run`.
 
