@@ -225,7 +225,7 @@ export function DiffView({ props, state, error, onRetry }: PieceRenderProps<Diff
       const meta = kind === 'limit' ? DIFF_WORDS.overLimit(changed) : kind === 'omitted' ? DIFF_WORDS.omitted(changed) : DIFF_WORDS.binaryMeta
       return (
         <div className={styles.message} data-message="">
-          <Mark kind="neutral" className={styles.messageMark} />
+          <span className={styles.messageMark}><Mark kind="neutral" /></span>
           <div className={styles.messageText}>
             <div className={styles.messageLine}>
               <span className={styles.messageTitle}>{kind === 'binary' ? DIFF_WORDS.binary : DIFF_WORDS.tooLarge}</span>

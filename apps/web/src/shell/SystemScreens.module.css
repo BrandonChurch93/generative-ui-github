@@ -14,7 +14,9 @@
   padding-inline-start: var(--edge);
 }
 
-.lead > .leadMark {
+.leadMark {
+  display: inline-flex;
+  flex-shrink: 0;
   position: absolute;
   left: 0;
   top: calc((var(--insight-size) * var(--text-lead-leading) - var(--mark)) / 2);

@@ -168,6 +168,8 @@
 }
 
 .resultMark {
+  display: inline-flex;
+  flex-shrink: 0;
   align-self: flex-start;
   margin-top: calc((var(--text-body-size) * var(--text-row-title-leading) - var(--mark)) / 2);
 }

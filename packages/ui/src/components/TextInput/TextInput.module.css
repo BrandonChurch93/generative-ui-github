@@ -113,6 +113,8 @@
 }
 
 .messageMark {
+  display: inline-flex;
+  flex-shrink: 0;
   margin-top: calc((var(--text-hint-size) * var(--text-hint-leading) - var(--mark)) / 2);
 }
 

@@ -1,6 +1,10 @@
+/*
+ * A mark has no position of its own: a host places it by wrapping it in a slot, never by styling the mark, so no
+ * two stylesheets ever compete over one element. Its strokes and dots are grid items laid over the circle.
+ */
 .mark {
-  position: relative;
-  display: inline-block;
+  display: inline-grid;
+  place-items: center;
   flex-shrink: 0;
   box-sizing: border-box;
   inline-size: var(--mark);
@@ -24,13 +28,15 @@
   border-color: var(--muted);
 }
 
+.mark::before,
+.mark::after {
+  grid-area: 1 / 1;
+}
+
 .mark[data-kind="unavailable"]::after {
   content: "";
-  position: absolute;
-  inset-block: calc(var(--stroke) * -1);
-  left: 50%;
   inline-size: var(--stroke);
-  margin-left: calc(var(--stroke) / -2);
+  block-size: var(--mark);
   background: var(--muted);
   transform: rotate(45deg);
 }
@@ -41,8 +47,9 @@
 
 .mark[data-kind="warming"]::after {
   content: "";
-  position: absolute;
-  inset: calc(var(--stroke) * -1);
+  box-sizing: border-box;
+  inline-size: var(--mark);
+  block-size: var(--mark);
   border: var(--stroke) solid transparent;
   border-top-color: var(--accent);
   border-right-color: var(--accent);
@@ -58,13 +65,9 @@
 .mark[data-kind="node"]::before,
 .mark[data-kind="endpoint"]::before {
   content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
   border-radius: 50%;
   /* The ring parts the line beneath; a host on a tinted ground (a hovered row) sets --mark-ring. */
   box-shadow: 0 0 0 var(--ring) var(--mark-ring, var(--surface));
-  transform: translate(-50%, -50%);
 }
 
 .mark[data-kind="node"]::before {

@@ -91,7 +91,7 @@ export function Metric({ props, state, error, warming, ask, onAsk, onRetry }: Pi
       {live && hot && (
         <>
           <span className="sr-only">Blocking.</span>
-          <Mark kind="crit" className={styles.hotMark} />
+          <span className={styles.hotMark}><Mark kind="crit" /></span>
         </>
       )}
       <span className={styles.label}>{state === 'skeleton' ? <Skeleton text="label" width="60%" /> : label}</span>

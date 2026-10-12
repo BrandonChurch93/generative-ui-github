@@ -185,7 +185,7 @@ export function ActionCard({ props, state, error, onAsk, onRetry, onOpenDrawer }
 
         {(working || phase === 'done' || phase === 'failed') && (
           <div className={styles.result} ref={resultRef} role="status" tabIndex={-1}>
-            <Mark kind={working ? 'warming' : phase === 'done' ? 'good' : 'unavailable'} className={styles.resultMark} />
+            <span className={styles.resultMark}><Mark kind={working ? 'warming' : phase === 'done' ? 'good' : 'unavailable'} /></span>
             <div className={styles.resultText}>
               <span className={styles.resultTitle} data-quiet={working || undefined} data-result-title="">
                 {working

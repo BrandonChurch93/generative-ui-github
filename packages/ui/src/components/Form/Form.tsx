@@ -221,7 +221,7 @@ export function Form({ props, state, error, onRetry }: PieceRenderProps<FormProp
           <div ref={effectRef} className={styles.effectSlot} role="status">
             {failed ? (
               <p className={styles.failure}>
-                <Mark kind="unavailable" className={styles.failureMark} />
+                <span className={styles.failureMark}><Mark kind="unavailable" /></span>
                 <span className={styles.failureText}>
                   <span className={styles.ink}>{error?.failed ?? formWords.failed}</span>
                   {error?.cause && <span className={styles.fact}> · {error.cause}</span>}

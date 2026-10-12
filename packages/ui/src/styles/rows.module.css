@@ -70,6 +70,8 @@
 
 /* Marks sit on the title line, whatever else the row centers. */
 .mark {
+  display: inline-flex;
+  flex-shrink: 0;
   align-self: flex-start;
   margin-top: calc((var(--text-row-title-size) * var(--text-row-title-leading) - var(--mark)) / 2);
 }

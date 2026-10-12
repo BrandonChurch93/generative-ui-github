@@ -16,7 +16,7 @@ export function StateRow({ kind, emptyTone = 'neutral', title, meta, action }: S
   const mark: MarkKind = kind === 'error' ? 'unavailable' : kind === 'warming' ? 'warming' : emptyTone
   return (
     <div className={styles.row} data-state={kind} data-state-row="">
-      <Mark kind={mark} className={styles.mark} />
+      <span className={styles.mark}><Mark kind={mark} /></span>
       <div className={styles.text}>
         <div className={styles.titleLine}>
           <span className={styles.title}>{title}</span>

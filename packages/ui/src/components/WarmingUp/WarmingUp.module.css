@@ -20,7 +20,9 @@
   padding-inline-start: calc(var(--inset) + var(--hairline));
 }
 
-.lead > .leadMark {
+.leadMark {
+  display: inline-flex;
+  flex-shrink: 0;
   position: absolute;
   left: 0;
   top: calc((var(--insight-size) * var(--text-lead-leading) - var(--mark)) / 2);
@@ -173,11 +175,14 @@
 }
 
 /* The head is filled with surface, so the line ends under it. */
-.lane > .head {
+.head {
+  display: inline-flex;
+  flex-shrink: 0;
   position: absolute;
   top: 0;
   left: calc(var(--end) / var(--max) * 100%);
   margin-left: calc(var(--mark) / -2);
+  border-radius: 50%;
   background: var(--surface);
 }
 

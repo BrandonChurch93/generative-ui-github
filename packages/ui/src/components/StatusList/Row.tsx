@@ -24,7 +24,7 @@ export interface StatusRowProps {
 export function StatusRow({ id, mark, title, meta, children, ask, onAsk, url, name, className }: StatusRowProps) {
   const body = (
     <>
-      <Mark kind={mark} className={rows.mark} />
+      <span className={rows.mark}><Mark kind={mark} /></span>
       <span className={rows.text}>
         <span className={rows.title}>{title}</span>
         {meta !== undefined && <span className={rows.meta}>{meta}</span>}

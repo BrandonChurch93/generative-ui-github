@@ -45,6 +45,8 @@
 
 /* The node sits in the mark column, centered on the title line, above the row's tint. */
 .node {
+  display: inline-flex;
+  flex-shrink: 0;
   position: absolute;
   z-index: 1;
   left: var(--inset);

@@ -98,7 +98,7 @@ function useEntrance(root: RefObject<HTMLDivElement | null>, key: string, reduce
 function Lead({ say, why, when, children }: { say: string; why?: ReactNode; when?: ReactNode; children?: ReactNode }) {
   return (
     <section className={styles.lead} data-lead="" aria-labelledby="system-say">
-      <Mark kind="unavailable" className={styles.leadMark} />
+      <span className={styles.leadMark}><Mark kind="unavailable" /></span>
       <p className={styles.say} id="system-say" role="status" data-say="">
         {say}
       </p>

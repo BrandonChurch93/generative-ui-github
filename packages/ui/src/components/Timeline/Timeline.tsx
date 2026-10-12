@@ -48,7 +48,7 @@ function Row({ item, newest, now, kind, onAsk }: { item: TimelineItem; newest: b
   )
   return (
     <li className={styles.item} data-row={item.id}>
-      <Mark kind={newest ? 'endpoint' : 'node'} className={styles.node} />
+      <span className={styles.node}><Mark kind={newest ? 'endpoint' : 'node'} /></span>
       {item.ask && onAsk ? (
         <button type="button" className={styles.row} onClick={() => onAsk(item.ask!)}>
           {body}

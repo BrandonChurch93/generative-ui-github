@@ -51,7 +51,7 @@ function Row({ stat, status }: { stat: Stat; status: WarmingUpProps }) {
             style={{ '--a': a, '--b': b ?? undefined } as CSSProperties}
           />
         ))}
-        <Mark kind={lane.settled ? ROW_MARK[stat.state] : 'warming'} className={styles.head} />
+        <span className={styles.head}><Mark kind={lane.settled ? ROW_MARK[stat.state] : 'warming'} /></span>
       </span>
       <span className={styles.status} data-status="">
         {words.tag ? <Tag tone={words.tag}>{words.words}</Tag> : <span className={styles.now}>{words.words}</span>}
@@ -125,7 +125,7 @@ function Live({ props, onRetry }: { props: WarmingUpProps; onRetry?: () => void 
         {spoken}
       </p>
       <div className={styles.lead} data-lead="">
-        <Mark kind={warming ? 'warming' : 'unavailable'} className={styles.leadMark} />
+        <span className={styles.leadMark}><Mark kind={warming ? 'warming' : 'unavailable'} /></span>
         <p className={styles.say} data-say="">
           {withRepo(lead.say)}
         </p>

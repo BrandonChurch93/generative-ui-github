@@ -58,7 +58,7 @@ export function Callout({ props, state, error, ask, onAsk, onRetry }: PieceRende
       <CardFrame as="div">
         <span className={styles.rule} data-rule="" data-tone="quiet" aria-hidden="true" />
         <span className={styles.row}>
-          <Mark kind="unavailable" className={styles.mark} />
+          <span className={styles.mark}><Mark kind="unavailable" /></span>
           <span className={styles.text}>
             <span className={styles.sentence} data-sentence="">
               {error?.failed ?? CALLOUT_WORDS.failed}
@@ -82,7 +82,7 @@ export function Callout({ props, state, error, ask, onAsk, onRetry }: PieceRende
     <CardFrame as="div" onClick={interactive ? () => onAsk(ask) : undefined}>
       <span className={styles.rule} data-rule="" data-tone={replaced ? 'quiet' : tone} aria-hidden="true" />
       <span className={styles.row} role="note">
-        <Mark kind={MARK_FOR_TONE[tone]} className={styles.mark} />
+        <span className={styles.mark}><Mark kind={MARK_FOR_TONE[tone]} /></span>
         <span className={styles.text}>
           <span className={styles.sentence} data-sentence="" data-quiet={replaced || undefined}>
             <span className="sr-only">{CALLOUT_WORDS.tone[tone]} </span>

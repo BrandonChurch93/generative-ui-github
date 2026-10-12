@@ -11,6 +11,8 @@
 
 /* Centered on the sentence's first line, whatever the density. */
 .mark {
+  display: inline-flex;
+  flex-shrink: 0;
   margin-top: calc((var(--text-action-size) * var(--text-body-leading) - var(--mark)) / 2);
 }
 
