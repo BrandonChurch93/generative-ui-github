@@ -1,0 +1,77 @@
+/* The still is a fixed canvas: the screenshot is taken at exactly its size. */
+.canvas {
+  --nw: var(--page-max);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  inline-size: var(--thumb-w);
+  block-size: var(--thumb-h);
+  padding: var(--space-7) var(--space-7) 0;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.canvas[data-size='og'] {
+  block-size: var(--og-h);
+}
+
+.canvas[data-size='og'] .card {
+  margin-block-start: calc(var(--space-7) + var(--space-2));
+}
+
+/* The pointer glow is not part of the picture. */
+:global(body):has(.canvas) :global([data-cursor-warmth]) {
+  display: none;
+}
+
+.wordmark {
+  align-self: flex-start;
+}
+
+.headline {
+  display: flex;
+  flex-direction: column;
+  margin: var(--space-8) 0 0;
+  font-size: var(--text-question-size);
+  line-height: var(--text-question-leading);
+  font-weight: var(--text-question-weight);
+  letter-spacing: var(--text-question-tracking);
+  color: var(--ink);
+}
+
+.headline span {
+  white-space: nowrap;
+}
+
+.lead {
+  color: var(--muted);
+}
+
+/*
+ * The card runs past the bottom edge, so the frame crops it and no band of page shows under it. Its top is set so
+ * the edge falls between lines of the answer; `pnpm thumbnails` fails if any text crosses it.
+ */
+.card {
+  position: relative;
+  flex: 1 0 auto;
+  container-type: inline-size;
+  margin-block-start: var(--space-8);
+  margin-block-end: calc(var(--radius-lg) * -2);
+  overflow: hidden;
+  background: var(--surface);
+  border: var(--hairline) solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--card);
+}
+
+/* The answer is laid out at the composed screen's own width, then scaled to the card. */
+.screen {
+  --edge: calc(var(--inset) + var(--hairline));
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inline-size: var(--nw);
+  padding: var(--space-7);
+  transform-origin: 0 0;
+  transform: scale(tan(atan2(100cqw, var(--nw))));
+}

@@ -20,9 +20,16 @@ const mono = JetBrains_Mono({
   display: 'swap',
 })
 
+const TITLE = 'Generative UI for GitHub Repos'
+const DESCRIPTION = 'Paste a public GitHub repo, ask it a question, and an agent composes an interface around its data.'
+// Drawn by `pnpm thumbnails` from /thumbnail?size=og. On Vercel, Next resolves it against the deployment's URL.
+const OG_IMAGE = { url: '/og.png', width: 2400, height: 1260, alt: 'An agent that composes UIs from GitHub repo data' }
+
 export const metadata: Metadata = {
-  title: 'Generative UI for GitHub Repos',
-  description: 'Paste a public GitHub repo, ask it a question, and an agent composes an interface around its data.',
+  title: TITLE,
+  description: DESCRIPTION,
+  openGraph: { type: 'website', siteName: TITLE, title: 'Generative UI · GitHub', description: DESCRIPTION, images: [OG_IMAGE] },
+  twitter: { card: 'summary_large_image', title: TITLE, description: DESCRIPTION, images: [OG_IMAGE] },
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {

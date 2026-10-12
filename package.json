@@ -21,6 +21,7 @@
     "evals:run": "pnpm --filter @genui-github/evals evals:run",
     "evals:check": "pnpm --filter @genui-github/evals evals:check",
     "evals:rescore": "pnpm --filter @genui-github/evals evals:rescore",
+    "thumbnails": "pnpm --filter @genui-github/web thumbnails",
     "check:secrets": "bash scripts/check-secrets.sh"
   },
   "devDependencies": {

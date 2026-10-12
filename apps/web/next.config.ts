@@ -19,6 +19,7 @@ const config: NextConfig = {
     // The landing reads each sample's description, stars and date, and the preview's golden answer.
     '/': ['../../packages/data/samples/**', '../../packages/composer/golden/**'],
     '/evals': ['../../packages/evals/results/**'],
+    '/thumbnail': ['../../packages/composer/golden/**'],
   },
   turbopack: { root: repoRoot },
   // The styles are small and every page needs them at first paint: inlined, they stop blocking it.

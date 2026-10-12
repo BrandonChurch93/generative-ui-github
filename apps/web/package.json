@@ -11,7 +11,8 @@
     "test": "vitest run",
     "e2e": "next build && playwright test --grep-invert @a11y",
     "a11y": "next build && playwright test --grep @a11y",
-    "lighthouse": "next build && lhci autorun"
+    "lighthouse": "next build && lhci autorun",
+    "thumbnails": "next build && node scripts/thumbnails.mjs"
   },
   "dependencies": {
     "@genui-github/composer": "workspace:*",

@@ -100,6 +100,9 @@
   --hero-type-min: 32px;
   --hero-type: 52px;
   --owner-avatar: 32px;
+  --thumb-w: 1200px;
+  --thumb-h: 800px;
+  --og-h: 630px;
   /* type families */
   --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
