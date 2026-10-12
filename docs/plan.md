@@ -245,10 +245,10 @@ Checks the owner put off to one sitting before launch. Each one names the gate i
 
 Prompt: `prompts/10-launch.md`. Spec: `docs/launch.md`.
 
-- [ ] 10.1 `OWNER` Deploy to Vercel with env vars and KV. The executor prepares `vercel.json` and a deploy checklist in `docs/status.md`. Done (executor side) when `vercel.json` exists, `pnpm build` passes in production mode, and the checklist is in `docs/status.md`.
-- [ ] 10.2 Prepare the npm tarballs and verify them in a scratch project; `OWNER` runs `npm publish`. Done (executor side) when `npm pack` output installs and renders fixture 1.
+- [x] 10.1 (executor side, 2026-10-12: `vercel.json` in place, `NODE_ENV=production pnpm build` 8 of 8, the checklist in `docs/status.md`; the deploy itself stays `OWNER`) `OWNER` Deploy to Vercel with env vars and KV. The executor prepares `vercel.json` and a deploy checklist in `docs/status.md`. Done (executor side) when `vercel.json` exists, `pnpm build` passes in production mode, and the checklist is in `docs/status.md`.
+- [x] 10.2 (executor side, 2026-10-12: today's tarballs install in a clean Vite app, typecheck, build and settle fixture 1's 8 pieces with no console errors; `npm publish` stays `OWNER`) Prepare the npm tarballs and verify them in a scratch project; `OWNER` runs `npm publish`. Done (executor side) when `npm pack` output installs and renders fixture 1.
 - [ ] 10.3 `OWNER` Record the 60-second video from the shot list in `docs/launch.md`.
-- [ ] 10.4 About page in the app (`screens/About.html`), portfolio page copy and the LinkedIn post drafted in `docs/launch.md` for `OWNER` approval. Done (executor side) when the About page renders and the drafts are in the doc.
+- [x] 10.4 (executor side, 2026-10-12: `/about` renders, both drafts in `docs/launch.md`; approval stays `OWNER`) About page in the app (`screens/About.html`), portfolio page copy and the LinkedIn post drafted in `docs/launch.md` for `OWNER` approval. Done (executor side) when the About page renders and the drafts are in the doc.
 - [ ] 10.5 Final checks from `docs/launch.md`, run against production once the owner has deployed. Done when every item is true; `docs/status.md` says done.
 
 `GATE 6` · ship.

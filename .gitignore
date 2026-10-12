@@ -7,8 +7,9 @@ dist
 *.tsbuildinfo
 packages/evals/results/*.json
 !packages/evals/results/.gitkeep
-# The first baseline (7.5) is committed; later runs stay local until a new baseline is chosen.
+# Chosen baselines are committed: the first (7.5) and the release run; other runs stay local.
 !packages/evals/results/2026-10-09-*.json
+!packages/evals/results/2026-10-12-*.json
 .DS_Store
 playwright-report
 test-results
