@@ -115,7 +115,8 @@
   transform: scaleX(var(--progress, 0));
 }
 
-.hotMark {
+/* Two classes deep so it outranks Mark's own position whatever order the bundles load in (production flips it). */
+.card > .hotMark {
   position: absolute;
   top: calc(var(--card-y) + (var(--text-label-size) * var(--text-label-leading) - var(--mark)) / 2);
   right: var(--inset);
