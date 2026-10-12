@@ -37,8 +37,8 @@ const ANSWERABLE: RegExp[] = [
 export const isAnswerable = (ask: string) => ANSWERABLE.some(re => re.test(ask.trim()))
 
 /** Rule 5: the words a ContributorRank's band and a Comparison's verdicts already say. */
-const RANK_WORDS = /\b(carr(y|ies)|at risk)\b/i
-const VERDICT_WORDS = /\b(better|worse|steady|no change)\b/i
+export const RANK_WORDS = /\b(carr(y|ies)|at risk)\b/i
+export const VERDICT_WORDS = /\b(better|worse|steady|no change)\b/i
 
 const record = (v: unknown): Record<string, unknown> => (v && typeof v === 'object' && !Array.isArray(v) ? (v as Record<string, unknown>) : {})
 

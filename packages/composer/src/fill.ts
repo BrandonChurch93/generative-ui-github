@@ -9,6 +9,7 @@ import { BarChartFacts, ComparisonReading, Heatmap, HeatmapHeat, type Comparison
 import type { CallUsage, ModelClient } from './anthropic'
 import { bind } from './templates/build'
 import type { DataContext } from './bind/types'
+import { RANK_WORDS, VERDICT_WORDS } from './rules'
 import type { ComposedScreen, ProseSlot } from './templates/template'
 
 // The fill step (docs/composer.md): one Haiku call rewrites a template's prose slots in plain words. A rewrite is
@@ -123,6 +124,18 @@ function findPiece(screen: ComposedScreen, id: string): { region: RegionName; in
   return undefined
 }
 
+/**
+ * Rule 5 at the source: a metric's delta that would repeat the rank band's words or a comparison's verdict is
+ * refused here, so the system's delta stays, rather than written and then stripped by the rules.
+ */
+function repeats(screen: ComposedScreen, kind: string, text: string): string[] {
+  if (kind !== 'delta') return []
+  const has = (component: string) => REGION_NAMES.some(r => screen.regions[r].some(p => p.component === component))
+  if (has('ContributorRank') && RANK_WORDS.test(text)) return ["repeats the rank band's words"]
+  if (has('Comparison') && VERDICT_WORDS.test(text)) return ["repeats the comparison's verdict"]
+  return []
+}
+
 export interface FillResult {
   screen: ComposedScreen
   usage: CallUsage | null
@@ -169,7 +182,7 @@ export async function fill(client: ModelClient, ctx: DataContext, screen: Compos
     else delete props[s.field]
     const { ask, emphasis, tone } = at.piece
     const candidate = bind(ctx, at.piece.component, props, { ask, emphasis, tone })
-    const problems = candidate.state ? ['the rewrite does not bind'] : text ? proseProblems(text, candidate, s.max, `${data} ${JSON.stringify(at.piece.bound)}`) : []
+    const problems = candidate.state ? ['the rewrite does not bind'] : text ? [...proseProblems(text, candidate, s.max, `${data} ${JSON.stringify(at.piece.bound)}`), ...repeats(next, s.kind, text)] : []
     if (problems.length) {
       refused.push({ id: slotId(s), problems })
       log.info('fill sentence refused; the system sentence stays', { id: slotId(s), problems })

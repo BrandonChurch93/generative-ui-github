@@ -35,6 +35,8 @@ const SYSTEM = [
   '- A question about one specific pull request number is pr-detail; about one person or handle is person; about which checks fail on a branch is check-failures.',
   '- A question about a specific day or hour of merges is merged-recent, with the day or hour in params.',
   '- Pick the template whose answer the question is asking for, even when worded casually.',
+  '- A template is right only when its screen answers the measure the question asks about. A question about the same topic but a different cut is off-template: a breakdown no template draws (by kind or area of pull request, by reviewer, by weekday for one workflow, an average per pull request), or a measure a template does not show. Sharing a topic is not enough.',
+  '- A request to see or list open pull requests or issues (often a click on a figure in an answer, such as "Show me the N open PRs") is stale-issues, the open-list screen.',
   '- Return off-template when no template answers the question, including anything about traffic, views, clones or stars over time, and give your confidence honestly. Under 0.6 means off-template.',
   '- params: fill only what the question names (a PR number, a handle, a branch, a window like 7d or 30d, a day, a weekday, an hour 0 to 23). Leave the rest null.',
 ].join('\n')

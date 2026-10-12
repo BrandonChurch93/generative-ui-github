@@ -16,7 +16,8 @@
       "ActionCard"
     ],
     "hot": [
-      "metric:awaiting-review"
+      "metric:awaiting-review",
+      "metric:failing-checks"
     ],
     "bindings": [
       {

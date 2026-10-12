@@ -14,7 +14,9 @@
       "LineChart",
       "Heatmap"
     ],
-    "hot": [],
+    "hot": [
+      "metric:bus-factor"
+    ],
     "bindings": [
       {
         "id": "metric:contributors",

@@ -136,7 +136,8 @@ export function rendererFindings(composition: Composition): RendererFindings {
   const log = {
     warn(message: string, fields?: Record<string, unknown>) {
       const id = String(fields?.id ?? '')
-      if (SCHEMA_WARNINGS.includes(message)) found.schema.push(`${id} ${message}`)
+      // The failing path and issue ride along, so a model's one-off slip can be read from the results file.
+      if (SCHEMA_WARNINGS.includes(message)) found.schema.push([`${id} ${message}`, fields?.path && `at ${String(fields.path)}`, fields?.issue && String(fields.issue)].filter(Boolean).join(' · '))
       else if (message === 'prose number did not match the cited data') found.numbers.push(`${id} ${JSON.stringify(fields?.mismatches ?? [])}`)
       else if (message === 'piece dropped by a composition rule') found.rules.push(`${id} ${String(fields?.rule ?? '')}`)
     },

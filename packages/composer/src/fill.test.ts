@@ -46,6 +46,14 @@ describe('fill', () => {
     expect(unvalidatedFigures(filled, ctx)).toEqual([])
   })
 
+  it("refuses a delta that repeats the rank band's words, so rule 5 never has to strip one", async () => {
+    const ctx = await nextContext()
+    const screen = TEMPLATES.contributors!.compose(ctx, {})
+    const bus = screen.regions.metrics.find(p => p.id === 'metric:bus-factor')!
+    const { refused } = await fill(answering({ [`${bus.id}#delta`]: 'A few people carry the repo' }), ctx, screen, "Who's carrying this repo?")
+    expect(refused).toEqual([{ id: `${bus.id}#delta`, problems: ["repeats the rank band's words"] }])
+  })
+
   it('takes an empty delta as no delta, and leaves a screen with no answer from the model as it was', async () => {
     const { ctx, screen } = await releaseBlockers()
     const metric = screen.regions.metrics[0]!
