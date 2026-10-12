@@ -48,7 +48,7 @@ Three runs each so variance shows. The results page shows mean and spread.
 
 ## Results page
 
-`/evals` in the app: per model, a table of the aggregate scores; a Distribution of latency-to-done; a Comparison of `production` vs `sonnet` on cost, median time to done, components F1 and rules; the three-model finding in one sentence under the tables, shown only while the runs bear out each clause; a StatusList of the failing cases with their reasons; the date and the model ids. The page renders catalog components directly with system-bound props (the way the renderer fixtures do), not through the composer's measure schema, so Distribution and Comparison show eval numbers here.
+`/evals` in the app: per model, a table of the aggregate scores; a Distribution of latency-to-done; a Comparison of `production` vs `sonnet` on cost, median time to done, components and rules (the components and rules pass rates are the same aggregates as the per-model tables); the three-model finding in one sentence under the tables, shown only while the runs bear out each clause; a StatusList of the failing cases with their reasons; the date and the model ids. The page renders catalog components directly with system-bound props (the way the renderer fixtures do), not through the composer's measure schema, so Distribution and Comparison show eval numbers here.
 
 ## Regression gate
 

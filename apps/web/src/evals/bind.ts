@@ -2,7 +2,7 @@ import type { MeasureId } from '@genui-github/data'
 import type { ResultsFile } from '@genui-github/evals'
 import type { Comparison, Metric, StatusList } from '@genui-github/ui/schemas'
 import { MIDDOT } from '../shell/words'
-import { answersWords, failingCases, pct, secondsWords, spreadWords, usd } from './view'
+import { answersWords, failingCases, pct, SCORER_WORDS, secondsWords, spreadWords, usd } from './view'
 
 // The system binds every prop here from a results file, as the renderer fixtures bind theirs. No model writes
 // any of it. An eval figure is not a repo measure, so the `measure` each piece carries is only its key.
@@ -40,8 +40,8 @@ const PER = 10_000
 const tenth = (rate: number) => Number((rate * 100).toFixed(1))
 
 /**
- * Production against the sonnet run on what both are scored on: cost, median time to done, components F1 and
- * rules. Template and bindings are left out because the sonnet run skips routing by design.
+ * Production against the sonnet run on what both are scored on: cost, median time to done, components and
+ * rules, the last two from the same pass rates as the per-model tables. Template and bindings are left out because the sonnet run skips routing by design.
  */
 export function versusSonnet(production: ResultsFile, sonnet: ResultsFile): Comparison.ComparisonProps {
   const [p, s] = [production.aggregate, sonnet.aggregate]
@@ -67,24 +67,25 @@ export function versusSonnet(production: ResultsFile, sonnet: ResultsFile): Comp
       previous: s.latency.doneP50,
     },
   ]
-  if (p.componentsF1 !== null && s.componentsF1 !== null)
+  // The same aggregate as the per-model tables' Components row, so the two never disagree.
+  if (p.pass.components && s.pass.components)
     pairs.push({
       measure: key('eval-components'),
       direction: 'higher-is-better',
       notable: true,
-      name: 'Components F1',
-      meta: 'mean, as a percent',
+      name: SCORER_WORDS.components.name,
+      meta: SCORER_WORDS.components.what,
       unit: 'percent',
-      current: tenth(p.componentsF1),
-      previous: tenth(s.componentsF1),
+      current: tenth(p.pass.components.mean),
+      previous: tenth(s.pass.components.mean),
     })
   if (p.pass.rules && s.pass.rules)
     pairs.push({
       measure: key('eval-rules'),
       direction: 'higher-is-better',
       notable: true,
-      name: 'Rules',
-      meta: 'no piece dropped',
+      name: SCORER_WORDS.rules.name,
+      meta: SCORER_WORDS.rules.what,
       unit: 'percent',
       current: tenth(p.pass.rules.mean),
       previous: tenth(s.pass.rules.mean),

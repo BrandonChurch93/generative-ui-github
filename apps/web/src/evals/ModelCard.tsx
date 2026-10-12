@@ -40,12 +40,11 @@ export function ModelCard({ file }: { file: ResultsFile }) {
           <tbody>
             {SCORER_ORDER.map(scorer => {
               const r = a.pass[scorer]
-              const what = scorer === 'components' && a.componentsF1 !== null ? `mean F1 ${a.componentsF1.toFixed(2)}` : SCORER_WORDS[scorer].what
               return (
                 <tr key={scorer} data-scorer={scorer}>
                   <th scope="row">
                     <b>{SCORER_WORDS[scorer].name}</b>
-                    <i>{what}</i>
+                    <i>{SCORER_WORDS[scorer].what}</i>
                   </th>
                   {r ? (
                     <>

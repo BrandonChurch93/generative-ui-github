@@ -1,4 +1,4 @@
-import { readdirSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { expect, test } from '@playwright/test'
 
@@ -36,6 +36,11 @@ test('the eval results page shows the recorded runs', async ({ page }) => {
   if (recorded.includes('sonnet')) {
     const sonnet = page.getByRole('region', { name: 'Sonnet alone pass rates' })
     for (const scorer of ['template', 'bindings']) await expect(sonnet.locator(`[data-scorer="${scorer}"]`)).toContainText('not scored · no routing')
+    // Regression: the Comparison once showed mean F1 beside the table's pass rate. Both read the pass rate now.
+    const newest = readdirSync(RESULTS).filter(name => name.endsWith('-sonnet.json')).sort().at(-1)!
+    const rate = (JSON.parse(readFileSync(`${RESULTS}${newest}`, 'utf8')) as { aggregate: { pass: { components: { mean: number } } } }).aggregate.pass.components.mean
+    await expect(sonnet.locator('[data-scorer="components"]')).toContainText(`${Math.round(rate * 100)}%`)
+    await expect(page.locator('[data-card]', { hasText: 'Against Sonnet alone' })).toContainText(`${Number((rate * 100).toFixed(1))}%`)
   }
 
   const strip = page.locator('[data-evals-strip]')
